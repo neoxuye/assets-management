@@ -2,16 +2,16 @@
  * Walk-Forward 时序复利回测引擎
  *
  * 基准策略:
- * - P1 纯打�? 历史回放口径，保留历�?override
+ * - P1 纯打分: 历史回放口径，保留历史 override
  * - P1-Smooth: 历史回放 + 独立换手约束
- * - P1+BL: 历史回放 + BL 风控�?
+ * - P1+BL: 历史回放 + BL 风控层
  *
  * 新增策略:
- * - P1-LiveFull: 按当�?live 主链路重�?
+ * - P1-LiveFull: 按当前 live 主链路重放
  *   1) 关闭历史 override
- *   2) 启用子资�?smart scan
+ *   2) 启用子资产 smart scan
  *   3) 使用当前 allocationStyle / riskPref
- *   4) 应用真实�?applyWeightStability()
+ *   4) 应用真实的 applyWeightStability()
  */
 if (typeof window !== "undefined" && !window.__consoleLogGateInstalled) {
     window.__consoleLogGateInstalled = true;
@@ -28,7 +28,7 @@ function runWalkForwardSimulation() {
 
     const snapshots = window.historicalSnapshots;
     if (!snapshots) {
-        alert('未找�?historicalSnapshots 数据');
+        alert('未找到 historicalSnapshots 数据');
         return;
     }
 
@@ -44,7 +44,7 @@ function runWalkForwardSimulation() {
         if (!match) {
             match = period.match(/(\d{4})/);
             if (match) year = parseInt(match[1], 10);
-            const monthMatch = period.match(/(\d{1,2})�?);
+            const monthMatch = period.match(/(\d{1,2})月/);
             if (monthMatch) quarter = Math.ceil(parseInt(monthMatch[1], 10) / 3);
         }
         if (!year && window.snapshotYears && window.snapshotYears[key]) {
@@ -54,7 +54,7 @@ function runWalkForwardSimulation() {
     }).sort((a, b) => a.sortKey - b.sortKey);
 
     if (!scenarioList.length) {
-        alert('未找到可用历史场�?);
+        alert('未找到可用历史场景');
         return;
     }
 
@@ -306,15 +306,15 @@ function runWalkForwardSimulation() {
     function normalizePeriodLabel(period) {
         return String(period || '')
             .replace(/\s+/g, '')
-            .replace(/�?g, '-')
-            .replace(/�?g, '')
+            .replace(/年/g, '-')
+            .replace(/月/g, '')
             .replace(/季度/g, 'Q')
-            .replace(/—|�?g, '-')
+            .replace(/—|–/g, '-')
             .toLowerCase();
     }
 
     const reviewTargets = [
-        { key: '2020-03-covid', label: '2020-03 COVID', match: /2020.*3.*covid|2020-q1|2020�?�?i },
+        { key: '2020-03-covid', label: '2020-03 COVID', match: /2020.*3.*covid|2020-q1|2020年3月/i },
         { key: '2020-q2', label: '2020-Q2', match: /2020-q2|2020年q2/i },
         { key: '2024-q4', label: '2024-Q4', match: /2024-q4|2024年q4|2024.*降息/i },
         { key: '2023-03-svb', label: '2023-03 硅谷银行危机', match: /2023.*3.*银行|2023.*svb|2023-q1/i },
@@ -354,18 +354,18 @@ function runWalkForwardSimulation() {
             (year === 2000 && topScore?.asset === 'cnStock') ||
             (year === 2015 && topScore?.asset === 'crypto')
         ) {
-            return '这是历史 override 的预期后�?;
+            return '这是历史 override 的预期后果';
         }
 
         if (topScoreAbs >= 35 && topWeightAbs <= 0.03 && Math.abs(returnGap) <= 0.01) {
-            return '这是执行层放�?缩小后的结果';
+            return '这是执行层放大/缩小后的结果';
         }
 
         if (topScoreAbs >= 35) {
             return '这是 live 口径信号缺陷';
         }
 
-        return '这是执行层放�?缩小后的结果';
+        return '这是执行层放大/缩小后的结果';
     }
 
     const capitals = {
@@ -841,10 +841,10 @@ function runWalkForwardSimulation() {
         return { label, cagr, maxDD, sharpe, finalCapital, n };
     }
 
-    const p1Stats = calcStats(returns.p1, capitals.p1, 'P1 纯打�?);
+    const p1Stats = calcStats(returns.p1, capitals.p1, 'P1 纯打分');
     const p1sStats = calcStats(returns.p1s, capitals.p1s, 'P1-Smooth(25%)');
     const liveStats = calcStats(returns.live, capitals.live, `P1-LiveFull (${executionProfile.allocationStyle}/${executionProfile.riskPref})`);
-    const p1blStats = calcStats(returns.p1bl, capitals.p1bl, 'P1+BL 风控�?);
+    const p1blStats = calcStats(returns.p1bl, capitals.p1bl, 'P1+BL 风控层');
     const eqStats = calcStats(returns.eq, capitals.eq, '等权基准');
     const bm6040Stats = calcStats(returns.bm6040, capitals.bm6040, '60/40 基准');
 
@@ -863,22 +863,22 @@ function runWalkForwardSimulation() {
     const sharpeGate = 0.3;
     const bestSharpePass = bestSharpe >= sharpeGate;
     const sharpeGateCard = `<div style="margin-bottom:16px;padding:12px 14px;background:${bestSharpePass ? '#f0fdf4' : '#fef3c7'};border:1px solid ${bestSharpePass ? '#86efac' : '#fbbf24'};border-radius:8px;font-size:12px;line-height:1.7;">
-        <div style="font-weight:800;color:${bestSharpePass ? '#15803d' : '#b45309'};margin-bottom:4px;">📏 可用门槛检�?/div>
-        <div>当前最强策�?Sharpe = <strong>${bestSharpe.toFixed(3)}</strong>，门槛为 <strong>${sharpeGate.toFixed(1)}</strong>�?/div>
-        <div style="color:#475569;">${bestSharpePass ? '已进入可用讨论区，可以继续比较收益与稳定性�? : '尚未进入可用讨论区，当前结果更适合作为参考或继续排查路径�?}</div>
+        <div style="font-weight:800;color:${bestSharpePass ? '#15803d' : '#b45309'};margin-bottom:4px;">📏 可用门槛检查</div>
+        <div>当前最强策略 Sharpe = <strong>${bestSharpe.toFixed(3)}</strong>，门槛为 <strong>${sharpeGate.toFixed(1)}</strong>。</div>
+        <div style="color:#475569;">${bestSharpePass ? '已进入可用讨论区，可以继续比较收益与稳定性。' : '尚未进入可用讨论区，当前结果更适合作为参考或继续排查路径。'}</div>
     </div>`;
     const avgTurnover = (stat) => stat && stat.periods ? stat.turnover / stat.periods : 0;
     const costSummaryCard = `<div style="margin-bottom:16px;padding:12px 14px;background:#fff7ed;border:1px solid #fdba74;border-radius:8px;font-size:12px;line-height:1.7;color:#9a3412;">
         <div style="font-weight:800;margin-bottom:4px;">🧾 成本摘要</div>
         <div>平均换手：P1 <strong>${fmtPct(avgTurnover(turnoverStats.p1))}</strong>，P1-LiveFull <strong>${fmtPct(avgTurnover(turnoverStats.live))}</strong>，P1+BL <strong>${fmtPct(avgTurnover(turnoverStats.p1bl))}</strong>，P1-Smooth <strong>${fmtPct(avgTurnover(turnoverStats.p1s))}</strong></div>
         <div>累计成本扣减：P1 <strong>${fmtPct(turnoverStats.p1.cost)}</strong>，P1-LiveFull <strong>${fmtPct(turnoverStats.live.cost)}</strong>，P1+BL <strong>${fmtPct(turnoverStats.p1bl.cost)}</strong>，P1-Smooth <strong>${fmtPct(turnoverStats.p1s.cost)}</strong></div>
-        <div style="color:#57534e;">这块先看 live 路径是不是因为更频繁换手、或更高成本假设，被稳定器和执行摩擦压住了�?/div>
+        <div style="color:#57534e;">这块先看 live 路径是不是因为更频繁换手、或更高成本假设，被稳定器和执行摩擦压住了。</div>
     </div>`;
     const stabilitySummaryCard = `<div style="margin-bottom:16px;padding:12px 14px;background:#eef2ff;border:1px solid #a5b4fc;border-radius:8px;font-size:12px;line-height:1.7;color:#3730a3;">
-        <div style="font-weight:800;margin-bottom:4px;">🧭 稳定器摘�?/div>
-        <div>稳定器前平均换手�?strong>${fmtPct(stabilityStats.periods ? stabilityStats.totalPreTurnover / stabilityStats.periods : 0)}</strong>；稳定器后平均换手：<strong>${fmtPct(stabilityStats.periods ? stabilityStats.totalPostTurnover / stabilityStats.periods : 0)}</strong></div>
-        <div>稳定器绕过次数：<strong>${stabilityStats.bypassed}</strong> / ${stabilityStats.periods} 期�?/div>
-        <div style="color:#475569;">如果这里前后差很多，说明 live 结果主要是被稳定器“磨平”了；如果差不多，压收益的主因就不在这里�?/div>
+        <div style="font-weight:800;margin-bottom:4px;">🧭 稳定器摘要</div>
+        <div>稳定器前平均换手：<strong>${fmtPct(stabilityStats.periods ? stabilityStats.totalPreTurnover / stabilityStats.periods : 0)}</strong>；稳定器后平均换手：<strong>${fmtPct(stabilityStats.periods ? stabilityStats.totalPostTurnover / stabilityStats.periods : 0)}</strong></div>
+        <div>稳定器绕过次数：<strong>${stabilityStats.bypassed}</strong> / ${stabilityStats.periods} 期。</div>
+        <div style="color:#475569;">如果这里前后差很多，说明 live 结果主要是被稳定器“磨平”了；如果差不多，压收益的主因就不在这里。</div>
     </div>`;
     const scoreDiffCard = (() => {
         const toList = (bucket, asc = true) =>
@@ -895,7 +895,7 @@ function runWalkForwardSimulation() {
         const higherList = toList(scoreDiffStats.liveHigher, false);
         const topAbsRows = (scoreDiffStats.topAbsDiffs || [])
             .slice(0, 6)
-            .map((item) => `<div>${item.period} / ${item.asset}: <strong>${item.diff >= 0 ? '+' : ''}${item.diff.toFixed(1)}</strong>ï¼ˆhist ${item.histScore.toFixed(1)} â†�?live ${item.liveScore.toFixed(1)}ï¼�?/div>`)
+            .map((item) => `<div>${item.period} / ${item.asset}: <strong>${item.diff >= 0 ? '+' : ''}${item.diff.toFixed(1)}</strong>ï¼ˆhist ${item.histScore.toFixed(1)} â†’ live ${item.liveScore.toFixed(1)}ï¼‰</div>`)
             .join('');
         const periodRows = (scoreDiffStats.periodSummaries || [])
             .slice(0, 5)
@@ -906,13 +906,13 @@ function runWalkForwardSimulation() {
                 return `<div>${item.period}: <strong>${item.largestAsset} ${item.largestDiff >= 0 ? '+' : ''}${item.largestDiff.toFixed(1)}</strong>${top3 ? `ï¼›Top3: ${top3}` : ''}</div>`;
             })
             .join('');
-        const fmtLine = (item, sign) => `<div>${item.key}: <strong>${sign}${Math.abs(item.avg).toFixed(1)}</strong>（max ${item.max.toFixed(1)}, min ${item.min.toFixed(1)}�?/div>`;
+        const fmtLine = (item, sign) => `<div>${item.key}: <strong>${sign}${Math.abs(item.avg).toFixed(1)}</strong>（max ${item.max.toFixed(1)}, min ${item.min.toFixed(1)}）</div>`;
         return `<div style="margin-bottom:16px;padding:12px 14px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;font-size:12px;line-height:1.7;color:#334155;">
             <div style="font-weight:800;margin-bottom:4px;">📉 评分差异摘要</div>
             <div style="margin-bottom:6px;">live 比历史明显更低的前几项：</div>
-            ${lowerList.length ? lowerList.map(item => fmtLine(item, '�?)).join('') : '<div>暂无明显下调�?/div>'}
+            ${lowerList.length ? lowerList.map(item => fmtLine(item, '−')).join('') : '<div>暂无明显下调项</div>'}
             <div style="margin-top:8px;margin-bottom:6px;">live 比历史明显更高的前几项：</div>
-            ${higherList.length ? higherList.map(item => fmtLine(item, '+')).join('') : '<div>暂无明显上调�?/div>'}
+            ${higherList.length ? higherList.map(item => fmtLine(item, '+')).join('') : '<div>暂无明显上调项</div>'}
         </div>`;
     })();
     const signalAuditDetailCard = (() => {
@@ -1009,13 +1009,13 @@ function runWalkForwardSimulation() {
         const renderList = (list) => list.map(item => `<div>${item.key}: <strong>${(item.avg * 100).toFixed(1)}%</strong></div>`).join('');
         return `<div style="margin-bottom:16px;padding:12px 14px;background:#ecfeff;border:1px solid #67e8f9;border-radius:8px;font-size:12px;line-height:1.7;color:#155e75;">
             <div style="font-weight:800;margin-bottom:4px;">📊 平均权重摘要</div>
-            <div style="margin-bottom:6px;">P1 Top3 合计�?strong>${(p1Top3 * 100).toFixed(1)}%</strong></div>
+            <div style="margin-bottom:6px;">P1 Top3 合计：<strong>${(p1Top3 * 100).toFixed(1)}%</strong></div>
             ${renderList(p1Top)}
-            <div style="margin-top:8px;margin-bottom:6px;">P1-LiveFull Top3 合计�?strong>${(liveTop3 * 100).toFixed(1)}%</strong></div>
+            <div style="margin-top:8px;margin-bottom:6px;">P1-LiveFull Top3 合计：<strong>${(liveTop3 * 100).toFixed(1)}%</strong></div>
             ${renderList(liveTop)}
             <div style="margin-top:8px;margin-bottom:6px;">权重差异最大的前几项（live - P1）：</div>
             ${weightGap.map(item => `<div>${item.key}: <strong>${item.gap >= 0 ? '+' : ''}${(item.gap * 100).toFixed(1)}%</strong></div>`).join('')}
-            <div style="margin-top:6px;color:#0f172a;">如果 live �?Top3 合计更低，说明它确实更分散；如果差不多，那问题就不在“分散太多”�?/div>
+            <div style="margin-top:6px;color:#0f172a;">如果 live 的 Top3 合计更低，说明它确实更分散；如果差不多，那问题就不在“分散太多”。</div>
         </div>`;
     })();
 
@@ -1032,9 +1032,9 @@ function runWalkForwardSimulation() {
         ...findWorstItems(curves.live, 'P1-LiveFull')
     ];
     const worstSummaryCard = worstItems.length ? `<div style="margin-bottom:16px;padding:12px 14px;background:#fff7ed;border:1px solid #fdba74;border-radius:8px;font-size:12px;line-height:1.7;">
-        <div style="font-weight:800;color:#c2410c;margin-bottom:4px;">🧭 最差场景摘�?/div>
-        <div style="color:#475569;margin-bottom:6px;">先看跌得最狠的时期，判断拖累是出在 P1、BL 还是 LiveFull 约束层�?/div>
-        <div>${worstItems.join('�?')}</div>
+        <div style="font-weight:800;color:#c2410c;margin-bottom:4px;">🧭 最差场景摘要</div>
+        <div style="color:#475569;margin-bottom:6px;">先看跌得最狠的时期，判断拖累是出在 P1、BL 还是 LiveFull 约束层。</div>
+        <div>${worstItems.join('； ')}</div>
     </div>` : '';
 
     function statRow(stat, color, options = {}) {
@@ -1053,18 +1053,18 @@ function runWalkForwardSimulation() {
     }
 
     const liveParityRows = [
-        { item: 'historicalOverrideMode', live: 'false', livefull: 'false', status: '已一�?, note: '均关闭历史年份特�? },
-        { item: 'allocationStyle / riskPref', live: `${executionProfile.allocationStyle} / ${executionProfile.riskPref}`, livefull: `${executionProfile.allocationStyle} / ${executionProfile.riskPref}`, status: '已一�?, note: `当前风格�?{executionProfile.allocationStyle === 'riskParity' ? '风险平价' : executionProfile.allocationStyle === 'balanced' ? '平衡' : executionProfile.allocationStyle === 'concentrated' ? '集中' : executionProfile.allocationStyle === 'scoreWeighted' ? '评分加权' : executionProfile.allocationStyle} / ${executionProfile.riskPref}` },
-        { item: '子资�?Smart Scan', live: '开�?, livefull: '开�?, status: '已一�?, note: '均使�?live smart score 流程' },
-        { item: 'applyWeightStability()', live: '开�?, livefull: '开�?, status: '已一�?, note: '均经过稳定器和平�? },
-        { item: '换手成本', live: '实盘估算展示', livefull: `${(TURNOVER_COST * 100).toFixed(1)}%/次回测扣减`, status: '故意保留差异', note: '回测需要统一成本参数，前台展示更�? },
-        { item: '交易成交细节', live: '分层提示', livefull: '未完整仿�?, status: '未一�?, note: '仍缺分批成交/最小交易单�?折溢�? },
+        { item: 'historicalOverrideMode', live: 'false', livefull: 'false', status: '已一致', note: '均关闭历史年份特化' },
+        { item: 'allocationStyle / riskPref', live: `${executionProfile.allocationStyle} / ${executionProfile.riskPref}`, livefull: `${executionProfile.allocationStyle} / ${executionProfile.riskPref}`, status: '已一致', note: `当前风格：${executionProfile.allocationStyle === 'riskParity' ? '风险平价' : executionProfile.allocationStyle === 'balanced' ? '平衡' : executionProfile.allocationStyle === 'concentrated' ? '集中' : executionProfile.allocationStyle === 'scoreWeighted' ? '评分加权' : executionProfile.allocationStyle} / ${executionProfile.riskPref}` },
+        { item: '子资产 Smart Scan', live: '开启', livefull: '开启', status: '已一致', note: '均使用 live smart score 流程' },
+        { item: 'applyWeightStability()', live: '开启', livefull: '开启', status: '已一致', note: '均经过稳定器和平滑' },
+        { item: '换手成本', live: '实盘估算展示', livefull: `${(TURNOVER_COST * 100).toFixed(1)}%/次回测扣减`, status: '故意保留差异', note: '回测需要统一成本参数，前台展示更细' },
+        { item: '交易成交细节', live: '分层提示', livefull: '未完整仿真', status: '未一致', note: '仍缺分批成交/最小交易单位/折溢价' },
     ];
     const liveParityTable = liveParityRows.map((row) => {
         const statusColor =
-            row.status === '已一�? ? '#166534' : row.status === '故意保留差异' ? '#92400e' : '#991b1b';
+            row.status === '已一致' ? '#166534' : row.status === '故意保留差异' ? '#92400e' : '#991b1b';
         const statusBg =
-            row.status === '已一�? ? '#dcfce7' : row.status === '故意保留差异' ? '#fef3c7' : '#fee2e2';
+            row.status === '已一致' ? '#dcfce7' : row.status === '故意保留差异' ? '#fef3c7' : '#fee2e2';
         return `<tr>
             <td style="padding:8px;border:1px solid #e5e7eb;font-weight:600;">${row.item}</td>
             <td style="padding:8px;border:1px solid #e5e7eb;">${row.live}</td>
@@ -1115,11 +1115,11 @@ function runWalkForwardSimulation() {
 
     const styleLabel =
       executionProfile.allocationStyle === 'riskParity'
-        ? '偏防�?均衡'
+        ? '偏防御/均衡'
         : executionProfile.allocationStyle === 'balanced'
           ? '均衡'
           : executionProfile.allocationStyle === 'concentrated'
-            ? '偏进�?集中'
+            ? '偏进攻/集中'
             : executionProfile.allocationStyle === 'scoreWeighted'
               ? '评分驱动'
               : executionProfile.allocationStyle;
@@ -1133,76 +1133,76 @@ function runWalkForwardSimulation() {
             : executionProfile.riskPref;
     const styleConclusion = `<div style="margin-bottom:16px;padding:12px 14px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;font-size:12px;line-height:1.7;">
         <div style="font-weight:800;color:#0f766e;margin-bottom:4px;">🧭 当前风格结论</div>
-        <div>这次 Walk-Forward 使用的是 <strong>${styleLabel}</strong> 风格，风险偏好为 <strong>${riskLabel}</strong>�?/div>
-        <div style="color:#475569;">它会同时影响 P1-LiveFull、回测重放和 Live 主链路的口径，所以这条摘要等于在告诉你：系统这次是按什么“性格”在跑�?/div>
+        <div>这次 Walk-Forward 使用的是 <strong>${styleLabel}</strong> 风格，风险偏好为 <strong>${riskLabel}</strong>。</div>
+        <div style="color:#475569;">它会同时影响 P1-LiveFull、回测重放和 Live 主链路的口径，所以这条摘要等于在告诉你：系统这次是按什么“性格”在跑。</div>
     </div>`;
     const logSummary = `<div style="margin-bottom:16px;padding:12px 14px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;font-size:12px;line-height:1.7;">
         <div style="font-weight:800;color:#3730a3;margin-bottom:4px;">🧾 日志摘要</div>
-        <div>LiveFull 口径�?strong>${executionProfile.allocationStyle} / ${executionProfile.riskPref}</strong>�?/div>
-        <div style="color:#475569;">BL 生效�?{totalValidPeriods - blFallbackCount}/${totalValidPeriods} 次；回退�?P1�?{blFallbackCount} 次�?/div>
+        <div>LiveFull 口径：<strong>${executionProfile.allocationStyle} / ${executionProfile.riskPref}</strong>。</div>
+        <div style="color:#475569;">BL 生效：${totalValidPeriods - blFallbackCount}/${totalValidPeriods} 次；回退纯 P1：${blFallbackCount} 次。</div>
     </div>`;
 
     const pathCompareTable = `<div style="margin-bottom:16px;padding:12px 14px;background:#f8fbff;border:1px solid #dbeafe;border-radius:8px;font-size:12px;line-height:1.7;">
-        <div style="font-weight:800;color:#0f766e;margin-bottom:8px;">🧭 路径对照�?/div>
+        <div style="font-weight:800;color:#0f766e;margin-bottom:8px;">🧭 路径对照表</div>
         <table style="width:100%;border-collapse:collapse;font-size:12px;">
             <tr style="background:#eff6ff;">
                 <th style="padding:8px;border:1px solid #dbeafe;text-align:left;">路径</th>
-                <th style="padding:8px;border:1px solid #dbeafe;text-align:left;">它是什�?/th>
+                <th style="padding:8px;border:1px solid #dbeafe;text-align:left;">它是什么</th>
                 <th style="padding:8px;border:1px solid #dbeafe;text-align:left;">BL 是否参与</th>
-                <th style="padding:8px;border:1px solid #dbeafe;text-align:left;">用户该怎么�?/th>
+                <th style="padding:8px;border:1px solid #dbeafe;text-align:left;">用户该怎么用</th>
             </tr>
             <tr>
                 <td style="padding:8px;border:1px solid #dbeafe;"><b>P1</b></td>
-                <td style="padding:8px;border:1px solid #dbeafe;">基线策略，代表系统主干配置�?/td>
-                <td style="padding:8px;border:1px solid #dbeafe;">�?/td>
-                <td style="padding:8px;border:1px solid #dbeafe;">看纯主链路的基础能力�?/td>
+                <td style="padding:8px;border:1px solid #dbeafe;">基线策略，代表系统主干配置。</td>
+                <td style="padding:8px;border:1px solid #dbeafe;">否</td>
+                <td style="padding:8px;border:1px solid #dbeafe;">看纯主链路的基础能力。</td>
             </tr>
             <tr>
                 <td style="padding:8px;border:1px solid #dbeafe;"><b>P1 + BL</b></td>
-                <td style="padding:8px;border:1px solid #dbeafe;">�?P1 基线上叠�?BL 的增强结果�?/td>
-                <td style="padding:8px;border:1px solid #dbeafe;">�?/td>
-                <td style="padding:8px;border:1px solid #dbeafe;">判断 BL 是否真的带来增益�?/td>
+                <td style="padding:8px;border:1px solid #dbeafe;">在 P1 基线上叠加 BL 的增强结果。</td>
+                <td style="padding:8px;border:1px solid #dbeafe;">是</td>
+                <td style="padding:8px;border:1px solid #dbeafe;">判断 BL 是否真的带来增益。</td>
             </tr>
             <tr>
                 <td style="padding:8px;border:1px solid #dbeafe;"><b>P1-LiveFull</b></td>
-                <td style="padding:8px;border:1px solid #dbeafe;">当前实盘代理主链路，含风格、稳定器和执行约束�?/td>
-                <td style="padding:8px;border:1px solid #dbeafe;">是，且不�?BL</td>
-                <td style="padding:8px;border:1px solid #dbeafe;">作为最接近日常使用的参考口径�?/td>
+                <td style="padding:8px;border:1px solid #dbeafe;">当前实盘代理主链路，含风格、稳定器和执行约束。</td>
+                <td style="padding:8px;border:1px solid #dbeafe;">是，且不只 BL</td>
+                <td style="padding:8px;border:1px solid #dbeafe;">作为最接近日常使用的参考口径。</td>
             </tr>
             <tr>
                 <td style="padding:8px;border:1px solid #dbeafe;"><b>Equal Weight</b></td>
-                <td style="padding:8px;border:1px solid #dbeafe;">等权基准，用来做最朴素的对照�?/td>
-                <td style="padding:8px;border:1px solid #dbeafe;">�?/td>
-                <td style="padding:8px;border:1px solid #dbeafe;">只作为基准，不当实际方案�?/td>
+                <td style="padding:8px;border:1px solid #dbeafe;">等权基准，用来做最朴素的对照。</td>
+                <td style="padding:8px;border:1px solid #dbeafe;">否</td>
+                <td style="padding:8px;border:1px solid #dbeafe;">只作为基准，不当实际方案。</td>
             </tr>
         </table>
-        <div style="margin-top:8px;color:#475569;">直接结论：默认优先看 P1-LiveFull，因为它最接近当前实际使用链路；如果你想单独验�?BL 是否有增益，再看 P1 + BL �?P1 的变化；P1 用来做纯基线对照，Equal Weight 只做最朴素基准�?/div>
-        <div style="margin-top:6px;color:#475569;">看结果时的顺序建议：先看 <b>P1-LiveFull</b> 是否代表当前实盘代理口径，再�?<b>P1 + BL</b> 是否相对 <b>P1</b> 提升，最后再�?<b>Equal Weight</b> 判断系统有没有明显优于平均分配�?/div>
+        <div style="margin-top:8px;color:#475569;">直接结论：默认优先看 P1-LiveFull，因为它最接近当前实际使用链路；如果你想单独验证 BL 是否有增益，再看 P1 + BL 对 P1 的变化；P1 用来做纯基线对照，Equal Weight 只做最朴素基准。</div>
+        <div style="margin-top:6px;color:#475569;">看结果时的顺序建议：先看 <b>P1-LiveFull</b> 是否代表当前实盘代理口径，再看 <b>P1 + BL</b> 是否相对 <b>P1</b> 提升，最后再用 <b>Equal Weight</b> 判断系统有没有明显优于平均分配。</div>
     </div>`;
 
     let conclusion = '';
     if (bestActive.cagr > eqStats.cagr && bestActive.cagr > bm6040Stats.cagr) {
         conclusion = `<div style="background:#f0fdf4;border:2px solid #059669;padding:16px;border-radius:8px;margin-top:16px;">
-            <div style="font-size:16px;font-weight:700;color:#059669;">当前主动策略组在时序复利中胜�?/div>
+            <div style="font-size:16px;font-weight:700;color:#059669;">当前主动策略组在时序复利中胜出</div>
             <div style="font-size:13px;color:#065f46;margin-top:6px;">
-                最优策�? ${bestActive.label}，年�?${fmtPct(bestActive.cagr)}�?br>
-                跑赢等权的策�? ${outperformEq.length ? outperformEq.join('�?) : '�?}�?br>
-                跑赢 60/40 的策�? ${outperform6040.length ? outperform6040.join('�?) : '�?}�?
+                最优策略: ${bestActive.label}，年化 ${fmtPct(bestActive.cagr)}。<br>
+                跑赢等权的策略: ${outperformEq.length ? outperformEq.join('、') : '无'}。<br>
+                跑赢 60/40 的策略: ${outperform6040.length ? outperform6040.join('、') : '无'}。
             </div>
         </div>`;
     } else if (eqStats.cagr >= bestActive.cagr) {
         conclusion = `<div style="background:#fef2f2;border:2px solid #dc2626;padding:16px;border-radius:8px;margin-top:16px;">
             <div style="font-size:16px;font-weight:700;color:#dc2626;">主动策略组未跑赢等权基准</div>
             <div style="font-size:13px;color:#991b1b;margin-top:6px;">
-                最优主动策略为 ${bestActive.label}，年�?${fmtPct(bestActive.cagr)}；等权为 ${fmtPct(eqStats.cagr)}�?br>
-                当前 LiveFull 口径�?${executionProfile.allocationStyle}/${executionProfile.riskPref}，年�?${fmtPct(liveStats.cagr)}�?
+                最优主动策略为 ${bestActive.label}，年化 ${fmtPct(bestActive.cagr)}；等权为 ${fmtPct(eqStats.cagr)}。<br>
+                当前 LiveFull 口径为 ${executionProfile.allocationStyle}/${executionProfile.riskPref}，年化 ${fmtPct(liveStats.cagr)}。
             </div>
         </div>`;
     } else {
         conclusion = `<div style="background:#fffbeb;border:2px solid #f59e0b;padding:16px;border-radius:8px;margin-top:16px;">
-            <div style="font-size:16px;font-weight:700;color:#b45309;">主动策略优于 60/40，但未全面跑赢等�?/div>
+            <div style="font-size:16px;font-weight:700;color:#b45309;">主动策略优于 60/40，但未全面跑赢等权</div>
             <div style="font-size:13px;color:#78350f;margin-top:6px;">
-                最优主动策略为 ${bestActive.label}，年�?${fmtPct(bestActive.cagr)}；等权为 ${fmtPct(eqStats.cagr)}�?0/40 �?${fmtPct(bm6040Stats.cagr)}�?
+                最优主动策略为 ${bestActive.label}，年化 ${fmtPct(bestActive.cagr)}；等权为 ${fmtPct(eqStats.cagr)}；60/40 为 ${fmtPct(bm6040Stats.cagr)}。
             </div>
         </div>`;
     }
@@ -1235,14 +1235,14 @@ function runWalkForwardSimulation() {
             <button id="wfCloseBtn" style="background:#f3f4f6;border:1px solid #d1d5db;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;">关闭</button>
         </div>
         <div style="font-size:12px;color:#6b7280;margin-bottom:16px;">
-            起始资金: ¥1,000,000 | 场景�? ${p1Stats.n} | 时间跨度: �?{totalYears}�?(${startYear}-${endYear}) | 换手成本: ${TURNOVER_COST * 100}%/�?| 平滑换手上限: ${MAX_TURNOVER * 100}%/�?br>
+            起始资金: ¥1,000,000 | 场景数: ${p1Stats.n} | 时间跨度: 约${totalYears}年 (${startYear}-${endYear}) | 换手成本: ${TURNOVER_COST * 100}%/次 | 平滑换手上限: ${MAX_TURNOVER * 100}%/期<br>
             LiveFull 口径: ${executionProfile.allocationStyle} / ${executionProfile.riskPref}
         </div>
         <div style="margin-bottom:16px;font-size:12px;color:#4b5563;background:#f8fafc;padding:8px;border-radius:6px;border:1px dashed #cbd5e1;">
-            <b>BL 生效情况</b>: 有效检验期 ${totalValidPeriods} 次，其中 BL 成功生效 ${totalValidPeriods - blFallbackCount} 次，回退�?P1 ${blFallbackCount} 次�?
+            <b>BL 生效情况</b>: 有效检验期 ${totalValidPeriods} 次，其中 BL 成功生效 ${totalValidPeriods - blFallbackCount} 次，回退纯 P1 ${blFallbackCount} 次。
         </div>
         <div style="margin-bottom:16px;padding:10px 12px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;font-size:12px;color:#3730a3;">
-            <strong>当前配置风格摘要�?/strong>${executionProfile.allocationStyle} / ${executionProfile.riskPref}。这�?Walk-Forward �?LiveFull 与主链路都按同一套风格口径重放�?
+            <strong>当前配置风格摘要：</strong>${executionProfile.allocationStyle} / ${executionProfile.riskPref}。这次 Walk-Forward 的 LiveFull 与主链路都按同一套风格口径重放。
         </div>
         ${styleConclusion}
         ${logSummary}
@@ -1255,43 +1255,43 @@ function runWalkForwardSimulation() {
         ${weightSummaryCard}
         ${worstSummaryCard}
         <div style="margin-bottom:16px;padding:10px 12px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;font-size:12px;color:#475569;line-height:1.7;">
-            <strong>BL 使用建议�?/strong>如果你想判断 BL 是否值得启用，不要只看这条总报表；请把 <b>P1</b>�?b>P1 + BL</b>�?b>P1-LiveFull</b> 放在一起看，先确认 BL 相对基线到底有没有增加收益，再决定要不要把它当成默认增强层�?
+            <strong>BL 使用建议：</strong>如果你想判断 BL 是否值得启用，不要只看这条总报表；请把 <b>P1</b>、<b>P1 + BL</b>、<b>P1-LiveFull</b> 放在一起看，先确认 BL 相对基线到底有没有增加收益，再决定要不要把它当成默认增强层。
         </div>
         ${pathCompareTable}
         <div style="margin-bottom:12px;padding:10px 12px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;font-size:12px;line-height:1.7;color:#475569;">
-            <strong>链路说明�?/strong><b>P1 + BL</b> 走的是历史评�?+ <b>runBlackLitterman()</b>�?b>P1-LiveFull</b> 走的是实时评�?+ <b>allocationStyle / riskPref</b> + <b>applyRiskPreferenceLimits()</b> + <b>applyWeightStability()</b>。两条链路不是同一条计算路径，所以结果不同是正常的，后续验证要看它们各自对应的口径是否稳定�?
+            <strong>链路说明：</strong><b>P1 + BL</b> 走的是历史评分 + <b>runBlackLitterman()</b>；<b>P1-LiveFull</b> 走的是实时评分 + <b>allocationStyle / riskPref</b> + <b>applyRiskPreferenceLimits()</b> + <b>applyWeightStability()</b>。两条链路不是同一条计算路径，所以结果不同是正常的，后续验证要看它们各自对应的口径是否稳定。
         </div>
         <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
             <tr style="background:#f3f4f6;">
                 <th style="padding:10px;text-align:left;border:1px solid #e5e7eb;">策略</th>
                 <th style="padding:10px;text-align:right;border:1px solid #e5e7eb;">CAGR</th>
-                <th style="padding:10px;text-align:right;border:1px solid #e5e7eb;">终�?/th>
-                <th style="padding:10px;text-align:right;border:1px solid #e5e7eb;">最大回�?/th>
+                <th style="padding:10px;text-align:right;border:1px solid #e5e7eb;">终值</th>
+                <th style="padding:10px;text-align:right;border:1px solid #e5e7eb;">最大回撤</th>
                 <th style="padding:10px;text-align:right;border:1px solid #e5e7eb;">Sharpe</th>
             </tr>
-            ${statRow(p1Stats, '#2563eb', { note: '历史解释口径：保�?override，用于理解规则上�? })}
+            ${statRow(p1Stats, '#2563eb', { note: '历史解释口径：保留 override，用于理解规则上限' })}
             ${statRow(p1sStats, '#0891b2', { note: '历史解释 + 独立平滑换手约束' })}
-            ${statRow(liveStats, '#0f766e', { isLiveProxy: true, note: '实盘代理基准：无历史 override，按 live 主链路重�? })}
+            ${statRow(liveStats, '#0f766e', { isLiveProxy: true, note: '实盘代理基准：无历史 override，按 live 主链路重放' })}
             ${statRow(p1blStats, '#7c3aed')}
             ${statRow(eqStats, '#6b7280')}
             ${statRow(bm6040Stats, '#f59e0b')}
         </table>
         <div style="margin-bottom:16px;padding:12px;background:#ecfeff;border:1px solid #99f6e4;border-radius:8px;font-size:12px;color:#134e4a;">
-            <strong>实盘代理主参考：</strong>P1-LiveFull 是当前最接近前台真实使用链路的回测口径。P1 继续保留，但仅作为历史解�?理论上限参考，不应直接当作真实执行基准�?
+            <strong>实盘代理主参考：</strong>P1-LiveFull 是当前最接近前台真实使用链路的回测口径。P1 继续保留，但仅作为历史解释/理论上限参考，不应直接当作真实执行基准。
         </div>
-        <h3 style="margin-top:20px;color:#374151;border-bottom:1px solid #e5e7eb;padding-bottom:8px;">Live 主链�?vs P1-LiveFull 对照</h3>
+        <h3 style="margin-top:20px;color:#374151;border-bottom:1px solid #e5e7eb;padding-bottom:8px;">Live 主链路 vs P1-LiveFull 对照</h3>
         <table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:11px;">
             <tr style="background:#f3f4f6;">
                 <th style="padding:8px;text-align:left;border:1px solid #e5e7eb;">检查项</th>
-                <th style="padding:8px;text-align:left;border:1px solid #e5e7eb;">Live 主链�?/th>
+                <th style="padding:8px;text-align:left;border:1px solid #e5e7eb;">Live 主链路</th>
                 <th style="padding:8px;text-align:left;border:1px solid #e5e7eb;">P1-LiveFull</th>
-                <th style="padding:8px;text-align:left;border:1px solid #e5e7eb;">状�?/th>
+                <th style="padding:8px;text-align:left;border:1px solid #e5e7eb;">状态</th>
                 <th style="padding:8px;text-align:left;border:1px solid #e5e7eb;">说明</th>
             </tr>
         <div style="margin-bottom:16px;padding:12px 14px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;font-size:12px;line-height:1.7;">
             <div style="font-weight:800;color:#0f766e;margin-bottom:4px;">🔎 对比结论</div>
-            <div>已对齐：<strong>historicalOverrideMode / allocationStyle / riskPref / Smart Scan / applyWeightStability</strong>�?/div>
-            <div style="color:#475569;">故意保留差异�?strong>换手成本</strong> �?<strong>交易成交细节</strong>。这些还没完全仿真，所以回测会保持简化口径�?/div>
+            <div>已对齐：<strong>historicalOverrideMode / allocationStyle / riskPref / Smart Scan / applyWeightStability</strong>。</div>
+            <div style="color:#475569;">故意保留差异：<strong>换手成本</strong> 与 <strong>交易成交细节</strong>。这些还没完全仿真，所以回测会保持简化口径。</div>
         </div>
         ${liveParityTable}
         </table>
@@ -1335,12 +1335,12 @@ function runWalkForwardSimulation() {
 
 // ============================================================
 // 📥 导出回测报告功能
-// �?window.__WF_LAST_RESULT__ 序列化为可读 JSON 并触发下�?
+// 把 window.__WF_LAST_RESULT__ 序列化为可读 JSON 并触发下载
 // ============================================================
 window.exportWalkForwardReport = function exportWalkForwardReport() {
     const raw = window.__WF_LAST_RESULT__;
     if (!raw) {
-        alert('请先运行 Walk-Forward 回测，再导出报告�?);
+        alert('请先运行 Walk-Forward 回测，再导出报告。');
         return;
     }
 
@@ -1377,4 +1377,3 @@ window.exportWalkForwardReport = function exportWalkForwardReport() {
     URL.revokeObjectURL(url);
     console.log('[WF Export] Report downloaded:', a.download);
 };
-

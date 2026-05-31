@@ -23,7 +23,8 @@ const DOMCache = {
         this.elements.clear();
     },
 
-    // 批量预加�?    preload(ids) {
+    // 批量预加载
+    preload(ids) {
         ids.forEach(id => this.get(id));
     }
 };
@@ -37,7 +38,8 @@ const SCORING_CONSTANTS = {
     MAX_SCORE: 100,
     BASE_SCORE: 60,
 
-    // VIX阈�?    VIX_PANIC_THRESHOLD: 40,
+    // VIX阈值
+    VIX_PANIC_THRESHOLD: 40,
     VIX_EXTREME_PANIC: 55,
     VIX_LOW_THRESHOLD: 13,
 
@@ -47,7 +49,8 @@ const SCORING_CONSTANTS = {
     BUBBLE_PENALTY: 40,
     SATURATION_LIMIT: 25,
 
-    // PE阈�?    PE_HIGH_THRESHOLD: 25,
+    // PE阈值
+    PE_HIGH_THRESHOLD: 25,
     PE_EXTREME_THRESHOLD: 28,
 
     // 信贷利差
@@ -55,17 +58,19 @@ const SCORING_CONSTANTS = {
     CREDIT_SPREAD_EM_PENALTY: 30,
     CREDIT_SPREAD_CN_PENALTY: 25,
 
-    // 估值调�?    VALUATION_CRASH_BONUS: 15,
+    // 估值调整
+    VALUATION_CRASH_BONUS: 15,
     VALUATION_CRASH_BONUS_FULL: 40,
     VALUATION_BUBBLE_PENALTY: 40,
     VALUATION_HIGH_PENALTY: 10,
 
-    // 动量阈�?    MOMENTUM_OVERHEAT: 30,
+    // 动量阈值
+    MOMENTUM_OVERHEAT: 30,
     MOMENTUM_OVERHEAT_PENALTY: 15
 };
 
 /**
- * 调试开�?- 生产环境应设为false
+ * 调试开关 - 生产环境应设为false
  */
 const DEBUG_MODE = false;
 
@@ -96,18 +101,18 @@ if (typeof window !== "undefined" && !window.__consoleLogGateInstalled) {
  */
 const MACRO_PARAM_LIMITS = {
     fedRate: { min: -2.0, max: 10.0, warn: 7.0, name: '联邦基金利率', unit: '%' },
-    realYield: { min: -5.0, max: 6.0, warn: 5.0, name: '实际收益�?, unit: '%' },
+    realYield: { min: -5.0, max: 6.0, warn: 5.0, name: '实际收益率', unit: '%' },
     usd: { min: 50, max: 160, warn: 130, name: '美元指数', unit: '' },
     vix: { min: 0, max: 150, warn: 100, name: 'VIX恐慌指数', unit: '' },
     creditSpread: { min: 0, max: 12.0, warn: 10.0, name: '信用利差', unit: '%' },
     globalGrowth: { min: -8.0, max: 10.0, warn: 6.0, name: '全球增长', unit: '%' },
-    inflation: { min: -3.0, max: 20.0, warn: 15.0, name: '通胀�?, unit: '%' },
+    inflation: { min: -3.0, max: 20.0, warn: 15.0, name: '通胀率', unit: '%' },
     cnPolicy: { min: -1.0, max: 1.0, strict: true, name: '中国政策力度', unit: '' },
     cnPolicyTrend: { min: -1.0, max: 1.0, strict: true, name: '中国政策趋势', unit: '' },
     momentum: { min: -1.0, max: 1.0, strict: true, name: '市场动量', unit: '' },
     sofrOisSpread: { min: -20, max: 150, warn: 100, name: 'SOFR-OIS利差', unit: 'bp' },
     pmiDelta: { min: -15, max: 15, warn: 10.0, name: 'PMI变化', unit: '' },
-    fedDotsGap: { min: -100, max: 100, warn: 75, name: '利率预期�?, unit: 'bp' }
+    fedDotsGap: { min: -100, max: 100, warn: 75, name: '利率预期差', unit: 'bp' }
 };
 
 /**
@@ -122,28 +127,31 @@ function validateMacroParams(params) {
         const value = params[key];
         if (value === undefined || value === null) return;
 
-        // 检查物理边�?        if (value < limits.min) {
+        // 检查物理边界
+        if (value < limits.min) {
             if (limits.strict) {
                 result.isValid = false;
-                result.errors.push(`�?${limits.name} (${value}) 低于允许下限 (${limits.min})，计算终止`);
+                result.errors.push(`❌ ${limits.name} (${value}) 低于允许下限 (${limits.min})，计算终止`);
             } else {
-                result.warnings.push(`⚠️ ${limits.name} (${value}${limits.unit}) 低于历史极�?(${limits.min})，请确认输入`);
+                result.warnings.push(`⚠️ ${limits.name} (${value}${limits.unit}) 低于历史极值 (${limits.min})，请确认输入`);
             }
         }
         if (value > limits.max) {
             if (limits.strict) {
                 result.isValid = false;
-                result.errors.push(`�?${limits.name} (${value}) 超出允许上限 (${limits.max})，计算终止`);
+                result.errors.push(`❌ ${limits.name} (${value}) 超出允许上限 (${limits.max})，计算终止`);
             } else {
-                result.warnings.push(`⚠️ ${limits.name} (${value}${limits.unit}) 超出历史极�?(${limits.max})，请确认输入`);
+                result.warnings.push(`⚠️ ${limits.name} (${value}${limits.unit}) 超出历史极值 (${limits.max})，请确认输入`);
             }
         }
-        // 检查警告区�?        if (limits.warn && !limits.strict && value > limits.warn) {
+        // 检查警告区间
+        if (limits.warn && !limits.strict && value > limits.warn) {
             result.warnings.push(`⚠️ ${limits.name} (${value}${limits.unit}) 处于历史罕见区间 (>${limits.warn})，数据可能有误`);
         }
     });
 
-    // 逻辑一致性检�?    if (params.globalGrowth < 0 && params.creditSpread < 1.0) {
+    // 逻辑一致性检查
+    if (params.globalGrowth < 0 && params.creditSpread < 1.0) {
         result.warnings.push('⚠️ 衰退环境下通常信用利差会扩大，当前利差可能偏低');
     }
     if (params.vix > 50 && params.creditSpread < 1.5) {
@@ -155,10 +163,11 @@ function validateMacroParams(params) {
 
 // ===============================================
 // v11.42: 风险偏好上限配置
-// 设计原则: 风险偏好是用户对风险资产的上限约�?// ===============================================
+// 设计原则: 风险偏好是用户对风险资产的上限约束
+// ===============================================
 const RISK_PREFERENCE_LIMITS = {
-    conservative: { riskMax: 0.30, safeMin: 0.50, label: '保守�? },
-    balanced: { riskMax: 0.55, safeMin: 0.20, label: '平衡�? },
+    conservative: { riskMax: 0.30, safeMin: 0.50, label: '保守型' },
+    balanced: { riskMax: 0.55, safeMin: 0.20, label: '平衡型' },
     aggressive: { riskMax: 0.75, safeMin: 0.10, label: '激进型' }
 };
 
@@ -173,10 +182,12 @@ function applyRiskPreferenceLimits(weights, riskPref) {
     const warnings = [];
     let adjustedWeights = { ...weights }; // Clone
 
-    // 定义资产池分�?    const riskAssets = ['usStock', 'cnStock', 'hkStock', 'devStock', 'emStock', 'crypto'];
+    // 定义资产池分类
+    const riskAssets = ['usStock', 'cnStock', 'hkStock', 'devStock', 'emStock', 'crypto'];
     const safeAssets = ['bonds_us', 'bonds_china', 'bonds_global', 'precious', 'hedges'];
 
-    // 计算当前各池总权�?    let riskTotal = 0, safeTotal = 0;
+    // 计算当前各池总权重
+    let riskTotal = 0, safeTotal = 0;
     Object.entries(weights).forEach(([key, w]) => {
         if (riskAssets.includes(key)) riskTotal += w;
         else if (safeAssets.includes(key)) safeTotal += w;
@@ -198,24 +209,26 @@ function applyRiskPreferenceLimits(weights, riskPref) {
             if (adjustedWeights[key]) adjustedWeights[key] *= scaleFactor;
         });
 
-        // 2. 也是最重要�? 将释放出的权重分配给安全资产
-        // 释放出的份额 = 原风险总权�?- 新风险总权�?(�?riskTotal * (1 - scaleFactor))
+        // 2. 也是最重要的: 将释放出的权重分配给安全资产
+        // 释放出的份额 = 原风险总权重 - 新风险总权重 (即 riskTotal * (1 - scaleFactor))
         const releasedWeight = riskTotal * (1 - scaleFactor);
 
         if (safeTotal > 0.001) {
-            // 按比例分配给已有的安全资�?            safeAssets.forEach(key => {
+            // 按比例分配给已有的安全资产
+            safeAssets.forEach(key => {
                 if (adjustedWeights[key]) {
-                    // 分配比例 = 该资产权�?/ 安全资产总权�?                    const share = adjustedWeights[key] / safeTotal;
+                    // 分配比例 = 该资产权重 / 安全资产总权重
+                    const share = adjustedWeights[key] / safeTotal;
                     adjustedWeights[key] += releasedWeight * share;
                 }
             });
         } else {
-            // 如果没有安全资产，无法重新分配，总仓位降�?(相当于保留现�?
+            // 如果没有安全资产，无法重新分配，总仓位降低 (相当于保留现金)
             warnings.push(`⚠️ 无法重新分配释放的权重（未选安全资产），建议手动添加债券或黄金`);
         }
     }
 
-    // 场景2: 安全资产低于下限 (只警�?
+    // 场景2: 安全资产低于下限 (只警告)
     const newSafeTotal = safeAssets.reduce((sum, key) => sum + (adjustedWeights[key] || 0), 0);
     const newTotal = Object.values(adjustedWeights).reduce((a, b) => a + b, 0);
     const newSafeRatio = newSafeTotal / newTotal;
@@ -223,14 +236,14 @@ function applyRiskPreferenceLimits(weights, riskPref) {
     if (newSafeRatio < limits.safeMin && newSafeTotal > 0.01) {
         warnings.push(`⚠️ 安全资产占比 ${(newSafeRatio * 100).toFixed(0)}% 低于${limits.label}建议 ${(limits.safeMin * 100).toFixed(0)}%`);
     } else if (newSafeTotal < 0.001 && riskPref === 'conservative') {
-        warnings.push(`⚠️ 您选择�?${limits.label}"但未配置任何避险资产`);
+        warnings.push(`⚠️ 您选择了"${limits.label}"但未配置任何避险资产`);
     }
 
     return { adjustedWeights, warnings };
 }
 
 /**
- * v11.14优化: 获取宏观参数�?(使用DOM缓存 + 输入验证)
+ * v11.14优化: 获取宏观参数值 (使用DOM缓存 + 输入验证)
  */
 function validateInput(key, value) {
     const config = macroIndics[key];
@@ -262,24 +275,25 @@ function getMacroValues() {
 
     const vals = {};
 
-    // v11.10 FIX: 基准值使用默认current�?    Object.keys(macroIndics).forEach(k => {
+    // v11.10 FIX: 基准值使用默认current值
+    Object.keys(macroIndics).forEach(k => {
         vals[k] = macroIndics[k].current;
     });
 
     // v11.14优化: 应用DOM输入值（用户手动修改的优先级最高）- 使用缓存
     Object.keys(macroIndics).forEach(k => {
-        const el = DOMCache.get(`macro_${k}`);  // �?使用DOM缓存
+        const el = DOMCache.get(`macro_${k}`);  // ✅ 使用DOM缓存
         if (el) {
             const domVal = parseFloat(el.value);
             if (!isNaN(domVal)) {
-                vals[k] = validateInput(k, domVal);  // �?添加输入验证
+                vals[k] = validateInput(k, domVal);  // ✅ 添加输入验证
             }
         }
     });
 
     // FIX: 显式读取解释性指标（如果它们不在macroIndics中）
     ['rateChangeReason', 'inflationReason', 'vixReason', 'usdReason', 'growthTrend', 'cnPolicyTrend', 'fedTrend'].forEach(k => {
-        const el = DOMCache.get(`macro_${k}`);  // �?使用DOM缓存
+        const el = DOMCache.get(`macro_${k}`);  // ✅ 使用DOM缓存
         if (el) {
             const val = parseFloat(el.value);
             if (!isNaN(val)) {
@@ -288,8 +302,10 @@ function getMacroValues() {
         }
     });
 
-    // v16.41: DOM扫描补充 —�?捕获所�?macro_* 输入框中的参�?    // 解决模板保存丢失估�?趋势/区域参数的BUG (48�?8 问题)
-    // 设计：补充式，不覆盖已有值，仅填�?macroIndics 之外的遗漏参�?    document.querySelectorAll('[id^="macro_"]').forEach(el => {
+    // v16.41: DOM扫描补充 —— 捕获所有 macro_* 输入框中的参数
+    // 解决模板保存丢失估值/趋势/区域参数的BUG (48→28 问题)
+    // 设计：补充式，不覆盖已有值，仅填充 macroIndics 之外的遗漏参数
+    document.querySelectorAll('[id^="macro_"]').forEach(el => {
         const key = el.id.replace('macro_', '');
         if (!vals.hasOwnProperty(key)) {
             const val = parseFloat(el.value);
@@ -315,27 +331,28 @@ function detectMacroRegime(macroVals) {
     const growthTrend = macroVals.growthTrend || 0;
     const inflTrend = macroVals.inflationTrend || 0;
 
-    // v8.29: 劳动力市场指�?    const unemployment = macroVals.usUnemployment || 5.0;
+    // v8.29: 劳动力市场指标
+    const unemployment = macroVals.usUnemployment || 5.0;
 
     const regime = {
-        // 2022模式：极速加�?(rateReason极低但非衰退�? �?(预期加息明显且高通胀)
-        // FIX: 排除 -1.0 (衰退型降�?，只针对 -0.8 (极速加�? �?-0.5 (恐慌加息)
+        // 2022模式：极速加息 (rateReason极低但非衰退型) 或 (预期加息明显且高通胀)
+        // FIX: 排除 -1.0 (衰退型降息)，只针对 -0.8 (极速加息) 和 -0.5 (恐慌加息)
         isLiquidityShock: ((rateReason <= -0.7 && rateReason > -0.9) || (fedTrend <= -0.5 && (macroVals.inflation > 5 || inflReason <= -0.5))),
 
-        // 2015模式：动量极�?&& (VIX异常�?�?市场过度乐观)
+        // 2015模式：动量极高 && (VIX异常低 或 市场过度乐观)
         isBubblePeak: (momentum >= 0.7 && (vixReason >= 0.5 || macroVals.vix < 13)),
 
         // 2011/2008模式：经济衰退趋势 && 系统恐慌
         isDemandCollapse: (growthTrend <= -0.6 && vixReason <= -0.6),
 
-        // v8.29: 2023模式：早期复�?(危机信号 + 就业健康 + momentum回正)
+        // v8.29: 2023模式：早期复苏 (危机信号 + 就业健康 + momentum回正)
         isEarlyRecovery: (vixReason <= -0.5 && unemployment < 4.5 && momentum > 0.2 && growth > 1.5),
 
-        // v8.30 �?v9.7.3: 滞胀识别 (高通胀 + 低增�?+ 供给冲击)
+        // v8.30 → v9.7.3: 滞胀识别 (高通胀 + 低增长 + 供给冲击)
         isStagflation: (() => {
             const check1 = macroVals.inflation > 5;
-            const check2 = growth < 4.0;  // v9.7.3: 放宽�?.0以捕�?022 (growth=3.4)
-            const check3 = inflReason < -0.8;  // 放宽�?0.8以捕�?1（供给冲击）
+            const check2 = growth < 4.0;  // v9.7.3: 放宽至4.0以捕捉2022 (growth=3.4)
+            const check3 = inflReason < -0.8;  // 放宽到-0.8以捕捉-1（供给冲击）
             const result = check1 && check2 && check3;
             console.log(`[DEBUG Stagflation v9.7.3] inflation:${macroVals.inflation}>5? ${check1} | growth:${growth}<4.0? ${check2} | inflReason:${inflReason}<-0.8? ${check3} | Result: ${result}`);
             return result;
@@ -348,9 +365,9 @@ function detectMacroRegime(macroVals) {
     console.log(`[DEBUG Regime] rateChangeReason=${rateReason}, isLiquidityShock=${regime.isLiquidityShock}`);
     console.log(`[DEBUG Regime] growthTrend=${growthTrend}, vixReason=${vixReason}, isDemandCollapse=${regime.isDemandCollapse}`);
 
-    if (regime.isLiquidityShock) regime.notes.push("🚨 流动性冲�?(Liquidity Shock)");
+    if (regime.isLiquidityShock) regime.notes.push("🚨 流动性冲击 (Liquidity Shock)");
     if (regime.isBubblePeak) regime.notes.push("🎈 泡沫见顶 (Bubble Peak)");
-    if (regime.isDemandCollapse) regime.notes.push("📉 需求崩�?(Demand Collapse)");
+    if (regime.isDemandCollapse) regime.notes.push("📉 需求崩塌 (Demand Collapse)");
     if (regime.isEarlyRecovery) regime.notes.push("🌱 早期复苏 (Early Recovery)");
     if (regime.isStagflation) regime.notes.push("🔥 滞胀 (Stagflation)");
 
@@ -358,7 +375,8 @@ function detectMacroRegime(macroVals) {
 }
 
 // v8.25: 场景识别 + 条件逻辑（系统性重新设计）
-// v9.0: 获取估值指标�?// v16.1 FIX: Support Headless and Scenario Overrides
+// v9.0: 获取估值指标值
+// v16.1 FIX: Support Headless and Scenario Overrides
 function getValuationValues() {
     // 1. Priority: Batch Test Override (v16.5 Robust)
     if ((window._isBatchTesting || window.currentScenarioYear) && window._batchValuationVals) {
@@ -402,73 +420,82 @@ function applyValuationAdjustment(majorKey, score, valVals, macroVals) {
     }
 
     // =============================================
-    // v16.37: 2008 信用危机美债避险溢�?(第一性原�?
-    // 当系统性危机发生时 (VIX>55 + 信用利差>4%), 美债是唯一真正的避险资�?    // =============================================
+    // v16.37: 2008 信用危机美债避险溢价 (第一性原理)
+    // 当系统性危机发生时 (VIX>55 + 信用利差>4%), 美债是唯一真正的避险资产
+    // =============================================
     if (['bonds_us', 'bonds'].includes(majorKey)) {
         const vixLevel = macroVals.vix || 18;
         const creditSpread = macroVals.creditSpread || 2.0;
 
         if (vixLevel > 55 && creditSpread > 4.0) {
             adj += 60;
-            notes.push("🛡�?信用危机避险溢价(2008)");
+            notes.push("🛡️ 信用危机避险溢价(2008)");
             console.log(`[v16.37] ${majorKey}: 2008 Credit Crisis Boost +60`);
         }
     }
 
     // =============================================
-    // v16.37: pePercentile 股票估值因子整�?(温和调节)
-    // 原则：估值是调节项，不是决定项。只在极端情况触发�?    // =============================================
+    // v16.37: pePercentile 股票估值因子整合 (温和调节)
+    // 原则：估值是调节项，不是决定项。只在极端情况触发。
+    // =============================================
     if (['usStock', 'cnStock', 'devStock', 'emStock'].includes(majorKey)) {
         // Robustly get percentile (handle conflict between spPercentile and pePercentile, and 0-1 vs 0-100 scale)
         let rawPercentile = macroVals.spPercentile !== undefined ? macroVals.spPercentile : (macroVals.pePercentile || 0.5);
         const pePercentile = rawPercentile > 1.0 ? rawPercentile / 100 : rawPercentile;
 
-        // 极端高估 (>85%分位) �?温和惩罚
+        // 极端高估 (>85%分位) → 温和惩罚
         if (pePercentile > 0.85) {
             const penalty = (pePercentile - 0.85) * 30;
             adj -= penalty;
-            notes.push(`估值偏�?${(pePercentile * 100).toFixed(0)}%分位)`);
+            notes.push(`估值偏高(${(pePercentile * 100).toFixed(0)}%分位)`);
         }
-        // 极端低估 (<15%分位) �?温和奖励
+        // 极端低估 (<15%分位) → 温和奖励
         else if (pePercentile < 0.15) {
-            const bonus = (0.15 - pePercentile) * 30; // 最�?+6�?            adj += bonus;
-            notes.push(`估值偏�?${(pePercentile * 100).toFixed(0)}%分位)`);
+            const bonus = (0.15 - pePercentile) * 30; // 最多 +6分
+            adj += bonus;
+            notes.push(`估值偏低(${(pePercentile * 100).toFixed(0)}%分位)`);
         }
     }
 
-    // 1. 股票估值调�?(基于第一性原理：达里奥风�?+ 巴菲特价�?
+    // 1. 股票估值调节 (基于第一性原理：Lumi风控 + 巴菲特价值)
     // v9.1: 修复2008过度推荐股票问题
     if (['usStock', 'cnStock', 'devStock', 'emStock'].includes(majorKey)) {
-        // 获取VIX恐慌指数（用于区分泡沫和底部�?        const vixLevel = macroVals.vix || 18;
+        // 获取VIX恐慌指数（用于区分泡沫和底部）
+        const vixLevel = macroVals.vix || 18;
         const creditSpread = macroVals.creditSpread || 1.5;
 
-        // 场景A：利润崩溃式恐慌底（2008模式：PE=27.22, 跌幅=-30%, VIX=59.89�?        // v9.1修复：哲学更�?- 极端恐慌时应该防守优先，不是抄底
+        // 场景A：利润崩溃式恐慌底（2008模式：PE=27.22, 跌幅=-30%, VIX=59.89）
+        // v9.1修复：哲学更新 - 极端恐慌时应该防守优先，不是抄底
         if (valVals.spPE > 25 && valVals.sp6mReturn < -20 && vixLevel > 40) {
             if (vixLevel > 55) {
                 // VIX>55：极端恐慌（2008模式），大幅减少奖励
                 if (majorKey === 'usStock') {
-                    adj += 15;  // �?0减到15
-                    notes.push("极端恐慌底部（谨�? + "�?);
+                    adj += 15;  // 从40减到15
+                    notes.push("极端恐慌底部（谨慎" + "）");
                 } else if (majorKey === 'cnStock' || majorKey === 'emStock') {
-                    adj += 0;   // 新兴市场零奖�?                    notes.push("新兴市场信贷风险");
+                    adj += 0;   // 新兴市场零奖励
+                    notes.push("新兴市场信贷风险");
                 } else if (majorKey === 'devStock') {
                     adj += 5;   // 发达市场少量奖励
-                    notes.push("发达市场恐慌�?);
+                    notes.push("发达市场恐慌底");
                 }
             } else {
-                // VIX 40-55：普通底�?                adj += 40;
-                notes.push("利润崩溃底部�?008模式�?);
+                // VIX 40-55：普通底部
+                adj += 40;
+                notes.push("利润崩溃底部（2008模式）");
             }
         }
-        // 场景B：估值泡沫顶�?000模式：PE=27.49, 涨幅=+16.83%, VIX=24.11�?        // 哲学：极端泡沫应该被严厉警告，即使宏观环境看起来还好
+        // 场景B：估值泡沫顶（2000模式：PE=27.49, 涨幅=+16.83%, VIX=24.11）
+        // 哲学：极端泡沫应该被严厉警告，即使宏观环境看起来还好
         // v16.8: Increase Penalty -40 -> -80 (2000 Dotcom Lesson: Gravity kills Momentum)
         else if (valVals.spPE > 25 && valVals.sp6mReturn > 15 && valVals.spPercentile > 80) {
             adj -= 80;
-            notes.push("�?极度泡沫(PE>25)");
+            notes.push("⛔ 极度泡沫(PE>25)");
         }
-        // 场景C：正常估值偏高但无极端动�?        else if (valVals.spPE > 28) {
+        // 场景C：正常估值偏高但无极端动量
+        else if (valVals.spPE > 28) {
             adj -= 10;
-            notes.push("估值偏高修�?);
+            notes.push("估值偏高修正");
         }
 
         // v9.1新增：信贷危机时新兴市场额外惩罚
@@ -489,8 +516,9 @@ function applyValuationAdjustment(majorKey, score, valVals, macroVals) {
         }
     }
 
-    // 2. 债券估值调�?    if (majorKey === 'bonds') {
-        // 利率急升�?(1994/2022案例)
+    // 2. 债券估值调节
+    if (majorKey === 'bonds') {
+        // 利率急升期 (1994/2022案例)
         if (valVals.bondYieldTrend > 50) {
             adj -= 20;
             notes.push("利率急升惩罚");
@@ -503,7 +531,8 @@ function applyValuationAdjustment(majorKey, score, valVals, macroVals) {
         }
     }
 
-    // 3. 商品估值调�?    if (['precious', 'energy', 'industrial', 'agriculture'].includes(majorKey)) {
+    // 3. 商品估值调节
+    if (['precious', 'energy', 'industrial', 'agriculture'].includes(majorKey)) {
         // 黄金超买
         if (majorKey === 'precious' && valVals.goldPriceMA200 > 1.15) {
             adj -= 10;
@@ -521,13 +550,15 @@ function applyValuationAdjustment(majorKey, score, valVals, macroVals) {
         }
     }
     // NOTE: F3(趋势跟踪)已验证失败并回滚。季度频率动量噪声太大，
-    //       2009Q1时前期暴跌触�?10惩罚，在最佳抄底时机反而减仓�?    //       如需趋势信号，应由用户通过 momentum 参数手动判断�?
+    //       2009Q1时前期暴跌触发-10惩罚，在最佳抄底时机反而减仓。
+    //       如需趋势信号，应由用户通过 momentum 参数手动判断。
+
     return { adj, notes };
 }
 
 function applyReasonBonus(majorKey, baseScore, macroVals) {
     // v13.3 DEBUG: 追踪函数调用
-    console.log(`[v13.3 DEBUG] applyReasonBonus 被调�? majorKey=${majorKey}, baseScore=${baseScore}, realYield=${macroVals?.realYield}`);
+    console.log(`[v13.3 DEBUG] applyReasonBonus 被调用: majorKey=${majorKey}, baseScore=${baseScore}, realYield=${macroVals?.realYield}`);
 
     const factorPolicyScale = {
         momentum: 0.7,
@@ -596,7 +627,7 @@ function applyReasonBonus(majorKey, baseScore, macroVals) {
         // Simplified check: Year 2000 OR (High Fed Rate + Low Correlation)
         if ((allowHistoricalOverride && SCENARIO_YEAR_CTX === 2000) || (fedRateVal > 6.0 && rateReason > -0.2)) {
             // v16.16: Boosted to 85 to ensure ranking > Bonds/US (Nuclear Override)
-            addReason('🇨🇳 高息环境下的独立避风�?2000)', 85, 'china_decoupling_2000');
+            addReason('🇨🇳 高息环境下的独立避风港(2000)', 85, 'china_decoupling_2000');
         }
     }
 
@@ -611,7 +642,7 @@ function applyReasonBonus(majorKey, baseScore, macroVals) {
             addReason('🏭 再通胀交易(QE)', 80, 'reflation_trade');
         } else if (majorKey.startsWith('bonds')) {
             // v16.16: Penalized to -80 (Yields Bottoming Risk)
-                        addReason('⚠️ 再通胀风险(收益率见�?', majorKey === 'bonds_us' ? -80 : majorKey === 'bonds_global' ? -45 : -20, 'reflation_bond_penalty_' + majorKey);
+                        addReason('⚠️ 再通胀风险(收益率见底)', majorKey === 'bonds_us' ? -80 : majorKey === 'bonds_global' ? -45 : -20, 'reflation_bond_penalty_' + majorKey);
         }
     }
 
@@ -623,17 +654,18 @@ function applyReasonBonus(majorKey, baseScore, macroVals) {
         const fedRateVal = parseFloat(macroVals.fedRate) || 0;
         if ((allowHistoricalOverride && SCENARIO_YEAR_CTX === 2015) || (cnPolicy < -0.8 && fedRateVal < 1.0)) {
             // v16.16: Boosted to 100 to beat Global Bonds (Nuclear Override)
-            addReason('💎 数字黄金/资本外�?2015)', 100, 'crypto_capital_flight');
+            addReason('💎 数字黄金/资本外逃(2015)', 100, 'crypto_capital_flight');
         }
     } else if (majorKey === 'precious') {
         // v16.15.3 FIX: Gold Bear Market in 2015 (USD Strength + Rate Hike Fears)
         if (allowHistoricalOverride && SCENARIO_YEAR_CTX === 2015) {
-            addReason('📉 强美元抑�?加息预期(2015)', -70, 'gold_bear_2015');
+            addReason('📉 强美元抑制/加息预期(2015)', -70, 'gold_bear_2015');
         }
     }
 
 
-    // v9.0 Phase 2: 应用估值调节引�?    const valAdj = applyValuationAdjustment(majorKey, baseScore, valVals, macroVals);
+    // v9.0 Phase 2: 应用估值调节引擎
+    const valAdj = applyValuationAdjustment(majorKey, baseScore, valVals, macroVals);
     if (valAdj.adj !== 0) {
         addReason(valAdj.notes.join(" | "), valAdj.adj);
     }
@@ -645,7 +677,7 @@ function applyReasonBonus(majorKey, baseScore, macroVals) {
     const pmiDelta = macroVals.pmiDelta || 0;
     const fedDotsGap = macroVals.fedDotsGap || 0;  // bp
 
-    // SOFR-OIS Spread: 银行间信用风险预�?(替代TED)
+    // SOFR-OIS Spread: 银行间信用风险预警 (替代TED)
     if (sofrOisSpread > 20) {
         const sofrSeverity = Math.min((sofrOisSpread - 20) / 50, 1);  // 20->0, 70->1
         if (isRiskAsset) {
@@ -658,44 +690,49 @@ function applyReasonBonus(majorKey, baseScore, macroVals) {
     // PMI Delta: 增长趋势预警
     if (Math.abs(pmiDelta) > 1.5) {
         if (pmiDelta < -1.5) {
-            // PMI下降：风险资产承�?            if (isRiskAsset || isCommodity) {
+            // PMI下降：风险资产承压
+            if (isRiskAsset || isCommodity) {
                 addReason(`📊领先:PMI放缓(${pmiDelta.toFixed(1)})`, pmiDelta * 5);
             } else if (isSafeAsset) {
                 addReason(`📊领先:PMI放缓避险(${pmiDelta.toFixed(1)})`, -pmiDelta * 3);
             }
         } else if (pmiDelta > 1.5) {
-            // PMI上升：风险资产受�?            if (isRiskAsset || isCommodity) {
-                addReason(`📊领先:PMI加�?+${pmiDelta.toFixed(1)})`, pmiDelta * 5);
+            // PMI上升：风险资产受益
+            if (isRiskAsset || isCommodity) {
+                addReason(`📊领先:PMI加速(+${pmiDelta.toFixed(1)})`, pmiDelta * 5);
             }
         }
     }
 
-    // Fed Dots Gap: 政策预期�?    if (Math.abs(fedDotsGap) > 25) {
+    // Fed Dots Gap: 政策预期差
+    if (Math.abs(fedDotsGap) > 25) {
         if (fedDotsGap > 25) {
-            // 市场比Fed更鸽：利好风险资�?            const gapBonus = Math.min(fedDotsGap / 100, 0.5) * 15;
+            // 市场比Fed更鸽：利好风险资产
+            const gapBonus = Math.min(fedDotsGap / 100, 0.5) * 15;
             if (isRiskAsset) {
                 addReason(`📊领先:Fed预期更鸽(+${fedDotsGap}bp)`, gapBonus);
             }
         } else if (fedDotsGap < -25) {
-            // 市场比Fed更鹰：利空风险资�?            const gapPenalty = Math.min(-fedDotsGap / 100, 0.5) * 15;
+            // 市场比Fed更鹰：利空风险资产
+            const gapPenalty = Math.min(-fedDotsGap / 100, 0.5) * 15;
             if (isRiskAsset) {
                 addReason(`📊领先:Fed预期更鹰(${fedDotsGap}bp)`, -gapPenalty);
             }
         }
     }
 
-    // 1. 制度性调�?(Regime Adjustments)
+    // 1. 制度性调整 (Regime Adjustments)
     if (regime.isLiquidityShock) {
         if (majorKey === 'precious') {
             addReason("高利率压制贵金属", -35);
         } else if (majorKey === 'crypto') {
-            addReason("流动性冲击压制加�?, -20);
+            addReason("流动性冲击压制加密", -20);
         } else if (['cnStock', 'emStock'].includes(majorKey)) {
-            addReason("流动性冲击压制新兴市�?, -25);
+            addReason("流动性冲击压制新兴市场", -25);
         } else if (isRiskAsset) {
-            addReason("流动性冲击压制风险资�?, -15);
+            addReason("流动性冲击压制风险资产", -15);
         } else if (isSafeAsset) {
-            addReason("流动性收紧压�?, -20);
+            addReason("流动性收紧压制", -20);
         }
     }
 
@@ -708,7 +745,7 @@ function applyReasonBonus(majorKey, baseScore, macroVals) {
 
     if (regime.isDemandCollapse) {
         if (['energy', 'industrial', 'agriculture'].includes(majorKey)) {
-            addReason("需求崩塌风�?, -25);
+            addReason("需求崩塌风险", -25);
         }
     }
 
@@ -716,18 +753,20 @@ function applyReasonBonus(majorKey, baseScore, macroVals) {
         if (isRiskAsset) {
             addReason("复苏早期利好", 20);
         } else if (isSafeAsset || majorKey === 'precious') {
-            addReason("复苏降低避险需�?, -15);
+            addReason("复苏降低避险需求", -15);
         }
     }
 
     if (regime.isStagflation) {
         if (['energy', 'agriculture'].includes(majorKey)) {
-            addReason("滞胀期商品受�?, 30);
+            addReason("滞胀期商品受益", 30);
         } else if (isRiskAsset) {
             addReason("滞胀压制股票", -25);
         } else if (majorKey === 'bonds' || majorKey === 'bonds_us' || majorKey === 'bonds_china' || majorKey === 'bonds_global') {
-            // �?Fix #2: 强化滞胀惩罚,基于通胀幅度动态调�?            const inflationLevel = macroVals.inflation || 2.3;
-            const stagflationPenalty = inflationLevel > 7 ? -40 : -30;  // 高通胀→重�?            addReason("滞胀压制债券", stagflationPenalty);
+            // ✅ Fix #2: 强化滞胀惩罚,基于通胀幅度动态调整
+            const inflationLevel = macroVals.inflation || 2.3;
+            const stagflationPenalty = inflationLevel > 7 ? -40 : -30;  // 高通胀→重罚
+            addReason("滞胀压制债券", stagflationPenalty);
         }
     }
 
@@ -738,38 +777,41 @@ function applyReasonBonus(majorKey, baseScore, macroVals) {
 
         // =============================================
         // v13.3 新增：realYield 独立加分逻辑
-        // 解决专家指出�?美债被低配"问题
-        // �?realYield > 1.5% 时，债券具有实质收益吸引�?        // =============================================
+        // 解决专家指出的"美债被低配"问题
+        // 当 realYield > 1.5% 时，债券具有实质收益吸引力
+        // =============================================
         const realYieldVal = macroVals.realYield || 0;
         console.log(`[v13.3 DEBUG] realYieldVal=${realYieldVal}, 是否>1.5: ${realYieldVal > 1.5}`);
 
         if (realYieldVal > 1.5) {
-            const yieldBonus = (realYieldVal - 1.5) * 12;  // 收口：保留方向性，避免单因子主�?            addReason(`实际收益率吸引力(${realYieldVal.toFixed(1)}%)`, yieldBonus);
-            console.log(`[v13.3] ${majorKey}: realYield=${realYieldVal} �?+${yieldBonus.toFixed(1)}�?✅已添加`);
+            const yieldBonus = (realYieldVal - 1.5) * 12;  // 收口：保留方向性，避免单因子主导
+            addReason(`实际收益率吸引力(${realYieldVal.toFixed(1)}%)`, yieldBonus);
+            console.log(`[v13.3] ${majorKey}: realYield=${realYieldVal} → +${yieldBonus.toFixed(1)}分 ✅已添加`);
         } else {
-            console.log(`[v13.3] ${majorKey}: realYield=${realYieldVal} 未达�?.5%阈值，跳过加分`);
+            console.log(`[v13.3] ${majorKey}: realYield=${realYieldVal} 未达到1.5%阈值，跳过加分`);
         }
 
         // v11.28 P0 Fix: VIX 50-60 中间恐慌档位 - 补偿z-score截断
         if (vixLevel >= 50 && vixLevel < 60) {
-            addReason("高恐慌避�?（VIX>50�?, 10);
+            addReason("高恐慌避险+（VIX>50）", 10);
         }
         // 原有逻辑：VIX>60 极端恐慌
         if (vixReasonVal < -0.7) {
             // 极端避险: 利好债券
             addReason("避险溢价+", vixLevel * 0.50 + rateReason * 10);
         } else if (rateReason <= -0.5) {
-            // �?Fix #1b: 宽松政策 �?加分 (修复QE3回归bug)
-            // rateReason=-0.8 �?-(-0.8)*70 = +56分奖�?            const easingBonus = -rateReason * 40;  // 负号转正，但避免过度主导
+            // ✅ Fix #1b: 宽松政策 → 加分 (修复QE3回归bug)
+            // rateReason=-0.8 → -(-0.8)*70 = +56分奖励
+            const easingBonus = -rateReason * 40;  // 负号转正，但避免过度主导
             const vixBonus = vixLevel * 0.12;  // 降低VIX权重避免过度
             const val = easingBonus + vixBonus;
             addReason("宽松利好债券", val);
         } else if (rateReason > 0.3) {
-            // �?Fix #1: 紧缩政策 �?减分 (修复2022加息bug)
+            // ✅ Fix #1: 紧缩政策 → 减分 (修复2022加息bug)
             const tighteningPenalty = -Math.abs(rateReason) * 28;  // 对称设计: 宽松+40 vs 紧缩-28
             addReason("加息压制债券", tighteningPenalty);
         } else {
-            // 中性区�? 仅考虑市场因素
+            // 中性区间: 仅考虑市场因素
             const val = (vixLevel * 0.15);
             addReason("市场因素", val);
         }
@@ -836,17 +878,19 @@ function applyReasonBonus(majorKey, baseScore, macroVals) {
 }
 
 //=================================================================
-// v16.41: 权重稳定性控制模�?(Weight Stability Control)
+// v16.41: 权重稳定性控制模块 (Weight Stability Control)
 // 目标: 防止宏观参数微调导致配置剧烈变化
-// 参数: 每季度单资产最大变�?±20%, EMA 平滑系数 0.3
+// 参数: 每季度单资产最大变化 ±20%, EMA 平滑系数 0.3
 //=================================================================
 
 window.WEIGHT_STABILITY_CONFIG = {
-    maxTurnoverPerAsset: 0.25,  // 单资产每季度最大变�?±25%
+    maxTurnoverPerAsset: 0.25,  // 单资产每季度最大变化 ±25%
     smoothingAlpha: 0.4,        // EMA平滑系数 (0.4 = 新权重占40%)
     profile: 'default',
-    regimeChangeBypass: true,   // 制度切换时绕过约�?    vixRegimeThresholds: { calm: 18, caution: 30, panic: 50 },
-    // H-stability: 默认�?WF 回测中也用这些�?    _note: 'exp_mild 已从 0.12/0.28 放宽�?0.18/0.38'
+    regimeChangeBypass: true,   // 制度切换时绕过约束
+    vixRegimeThresholds: { calm: 18, caution: 30, panic: 50 },
+    // H-stability: 默认在 WF 回测中也用这些值
+    _note: 'exp_mild 已从 0.12/0.28 放宽到 0.18/0.38'
 };
 
 window.captureLiveTuningPresetState = function captureLiveTuningPresetState() {
@@ -913,19 +957,19 @@ window.applySearchBestPreset = function applySearchBestPreset() {
         smoothingAlpha: 0.35,
         turnoverCost: 0.0025
     });
-    alert('已切换到 Search Best 预设。接下来请点击「一键AI推荐」重新生成组合�?);
+    alert('已切换到 Search Best 预设。接下来请点击「一键AI推荐」重新生成组合。');
 };
 
 window.restorePreviousLiveTuningPreset = function restorePreviousLiveTuningPreset() {
     const stack = window.__LIVE_TUNING_PRESET_STACK || [];
     const snapshot = stack.pop();
     if (!snapshot) {
-        alert('没有可恢复的上一个预设�?);
+        alert('没有可恢复的上一个预设。');
         return false;
     }
     const ok = window.restoreLiveTuningPresetState ? window.restoreLiveTuningPresetState(snapshot) : false;
     if (ok) {
-        alert('已恢复到切换 Search Best 之前的预设�?);
+        alert('已恢复到切换 Search Best 之前的预设。');
     }
     return ok;
 };
@@ -959,7 +1003,7 @@ window.applyLiveTuningPreset = function applyLiveTuningPreset(presetName) {
             turnoverCost: 0.0020
         },
         // ========================================
-        // [P1-EXP] 最小实验矩�? 仅调整稳定器参数
+        // [P1-EXP] 最小实验矩阵: 仅调整稳定器参数
         // 目标: 找到 Sharpe 最优的 turnover/alpha 组合
         // ========================================
         exp_mild: {
@@ -997,7 +1041,7 @@ window.applyLiveTuningPreset = function applyLiveTuningPreset(presetName) {
     window.WF_COST_CONFIG.turnoverCost = Number(preset.turnoverCost ?? window.WF_COST_CONFIG.turnoverCost ?? 0.003);
     const infoBox = document.getElementById('liveTuningInfo');
     if (infoBox) {
-        infoBox.textContent = `当前预设�?{presetName} | riskPref=${preset.riskPref} | stability=${preset.stability.maxTurnoverPerAsset.toFixed(2)}/${preset.stability.smoothingAlpha.toFixed(2)} | turnoverCost=${Number(window.WF_COST_CONFIG.turnoverCost).toFixed(4)}`;
+        infoBox.textContent = `当前预设：${presetName} | riskPref=${preset.riskPref} | stability=${preset.stability.maxTurnoverPerAsset.toFixed(2)}/${preset.stability.smoothingAlpha.toFixed(2)} | turnoverCost=${Number(window.WF_COST_CONFIG.turnoverCost).toFixed(4)}`;
     }
     const styleTag = document.getElementById('liveTuningStyleTag');
     if (styleTag) styleTag.textContent = presetName;
@@ -1005,7 +1049,7 @@ window.applyLiveTuningPreset = function applyLiveTuningPreset(presetName) {
 };
 
 /**
- * 检测制度是否发生重大切�?(VIX 跨越区间边界)
+ * 检测制度是否发生重大切换 (VIX 跨越区间边界)
  * @param {Object} prevMacro - 上期宏观参数
  * @param {Object} currMacro - 当期宏观参数
  * @returns {boolean} 是否制度切换
@@ -1025,21 +1069,22 @@ function detectVixRegimeChange(prevMacro, currMacro) {
 
     const changed = getRegime(prevVix) !== getRegime(currVix);
     if (changed) {
-        console.log(`[WeightStability] VIX 制度切换: ${getRegime(prevVix)}(${prevVix}) �?${getRegime(currVix)}(${currVix})`);
+        console.log(`[WeightStability] VIX 制度切换: ${getRegime(prevVix)}(${prevVix}) → ${getRegime(currVix)}(${currVix})`);
     }
     return changed;
 }
 
 /**
- * 应用权重稳定性约�? * @param {Object} newWeights - 新推荐权�?{assetKey: weight}
+ * 应用权重稳定性约束
+ * @param {Object} newWeights - 新推荐权重 {assetKey: weight}
  * @param {Object|null} prevWeights - 上期权重 (null = 首次，不约束)
  * @param {Object|null} prevMacro - 上期宏观参数
  * @param {Object} currMacro - 当期宏观参数
- * @returns {Object} { weights: 稳定化后的权�? bypassed: 是否因制度切换绕�?}
+ * @returns {Object} { weights: 稳定化后的权重, bypassed: 是否因制度切换绕过 }
  */
 function applyWeightStability(newWeights, prevWeights, prevMacro, currMacro) {
     if (!prevWeights) {
-        console.log('[WeightStability] 首次运行，无上期权重，跳过约�?);
+        console.log('[WeightStability] 首次运行，无上期权重，跳过约束');
         return { weights: newWeights, bypassed: false };
     }
 
@@ -1049,15 +1094,18 @@ function applyWeightStability(newWeights, prevWeights, prevMacro, currMacro) {
     const wdThresholds = cfg.vixRegimeThresholds || { calm: 18, caution: 30, panic: 50 };
     const isModerateGrowth = cfg.profile === 'moderateGrowth';
 
-    // 制度切换时绕过约束。实测显示关闭普通绕过会错过关键防御切换，导致回撤恶化�?    const shouldBypassRegimeChange = cfg.regimeChangeBypass
+    // 制度切换时绕过约束。实测显示关闭普通绕过会错过关键防御切换，导致回撤恶化。
+    const shouldBypassRegimeChange = cfg.regimeChangeBypass
         && detectVixRegimeChange(prevMacro, currMacro);
     if (shouldBypassRegimeChange) {
-        console.log('[WeightStability] 制度切换检测到，绕过稳定性约�?);
+        console.log('[WeightStability] 制度切换检测到，绕过稳定性约束');
         return { weights: newWeights, bypassed: true };
     }
 
-    // [P2-DIVERGENCE] 权重离散度门控：强信�?平静市场时动态放宽约�?    // 原理：当推荐权重与上期权重差距显著（L1距离>30%）且VIX处于平静�?    //       说明评分引擎识别到了一次有把握的方向性切换，应该允许更快跟进
-    // 典型场景�?023 AI爆发�?024 降息交易�?015-Q4 反弹
+    // [P2-DIVERGENCE] 权重离散度门控：强信号+平静市场时动态放宽约束
+    // 原理：当推荐权重与上期权重差距显著（L1距离>30%）且VIX处于平静区
+    //       说明评分引擎识别到了一次有把握的方向性切换，应该允许更快跟进
+    // 典型场景：2023 AI爆发、2024 降息交易、2015-Q4 反弹
     const l1Distance = Object.keys(newWeights).reduce((sum, key) => {
         return sum + Math.abs((newWeights[key] || 0) - (prevWeights[key] || 0));
     }, 0);
@@ -1087,17 +1135,18 @@ function applyWeightStability(newWeights, prevWeights, prevMacro, currMacro) {
         };
 
     if (highDivergence && wdVix <= wdThresholds.calm) {
-        // 强信�?+ VIX平静 �?大幅放宽
+        // 强信号 + VIX平静 → 大幅放宽
         effectiveAlpha    = Math.min(profileLimits.alphaCapCalm, cfg.smoothingAlpha * profileLimits.alphaMultiplierCalm);
         effectiveTurnover = Math.min(profileLimits.turnoverCapCalm, cfg.maxTurnoverPerAsset * profileLimits.turnoverMultiplierCalm);
-        console.log(`[P2-DIV] 强信号放�? L1=${l1Distance.toFixed(2)} VIX=${wdVix} �?alpha=${effectiveAlpha.toFixed(2)} turn=${effectiveTurnover.toFixed(2)}`);
+        console.log(`[P2-DIV] 强信号放宽: L1=${l1Distance.toFixed(2)} VIX=${wdVix} → alpha=${effectiveAlpha.toFixed(2)} turn=${effectiveTurnover.toFixed(2)}`);
     } else if (highDivergence && wdVix <= wdThresholds.caution) {
-        // 强信�?+ VIX警戒 �?适度放宽
+        // 强信号 + VIX警戒 → 适度放宽
         effectiveAlpha    = Math.min(profileLimits.alphaCapCaution, cfg.smoothingAlpha * profileLimits.alphaMultiplierCaution);
         effectiveTurnover = Math.min(profileLimits.turnoverCapCaution, cfg.maxTurnoverPerAsset * profileLimits.turnoverMultiplierCaution);
-        console.log(`[P2-DIV] 中等放宽: L1=${l1Distance.toFixed(2)} VIX=${wdVix} �?alpha=${effectiveAlpha.toFixed(2)} turn=${effectiveTurnover.toFixed(2)}`);
+        console.log(`[P2-DIV] 中等放宽: L1=${l1Distance.toFixed(2)} VIX=${wdVix} → alpha=${effectiveAlpha.toFixed(2)} turn=${effectiveTurnover.toFixed(2)}`);
     }
-    // 低离散度或panic区：使用配置原值（panic已由regimeChangeBypass处理�?    const stable = {};
+    // 低离散度或panic区：使用配置原值（panic已由regimeChangeBypass处理）
+    const stable = {};
     const allKeys = new Set([...Object.keys(newWeights), ...Object.keys(prevWeights)]);
     const changes = [];
 
@@ -1112,13 +1161,13 @@ function applyWeightStability(newWeights, prevWeights, prevMacro, currMacro) {
         const change = smoothed - prevW;
         if (Math.abs(change) > effectiveTurnover) {
             smoothed = prevW + Math.sign(change) * effectiveTurnover;
-            changes.push(`${key}: ${(prevW * 100).toFixed(1)}% �?${(smoothed * 100).toFixed(1)}% (capped from ${(newW * 100).toFixed(1)}%)`);
+            changes.push(`${key}: ${(prevW * 100).toFixed(1)}% → ${(smoothed * 100).toFixed(1)}% (capped from ${(newW * 100).toFixed(1)}%)`);
         }
 
         stable[key] = Math.max(0, smoothed);
     });
 
-    // 3. 归一�?(保证总权�?1)
+    // 3. 归一化 (保证总权重=1)
     const total = Object.values(stable).reduce((s, v) => s + v, 0);
     if (total > 0.01) {
         Object.keys(stable).forEach(k => { stable[k] /= total; });
@@ -1132,7 +1181,7 @@ function applyWeightStability(newWeights, prevWeights, prevMacro, currMacro) {
 }
 
 /**
- * 持久化上期权重和宏观数据�?localStorage
+ * 持久化上期权重和宏观数据到 localStorage
  */
 function savePreviousWeights(weights, macroVals) {
     const snapshot = {
@@ -1141,12 +1190,12 @@ function savePreviousWeights(weights, macroVals) {
         timestamp: new Date().toISOString()
     };
     localStorage.setItem('lumi_prev_weights', JSON.stringify(snapshot));
-    console.log('[WeightStability] 上期权重已保�?);
+    console.log('[WeightStability] 上期权重已保存');
 }
 
 /**
  * 读取上期权重
- * @returns {Object|null} { weights, macro, timestamp } �?null
+ * @returns {Object|null} { weights, macro, timestamp } 或 null
  */
 function loadPreviousWeights() {
     try {
@@ -1158,7 +1207,7 @@ function loadPreviousWeights() {
     }
 }
 
-// 全局暴露 (�?algo_v16.19.js 中的 generateRecommendation 调用)
+// 全局暴露 (供 algo_v16.19.js 中的 generateRecommendation 调用)
 window.applyWeightStability = applyWeightStability;
 window.savePreviousWeights = savePreviousWeights;
 window.loadPreviousWeights = loadPreviousWeights;
@@ -1167,7 +1216,7 @@ window.detectVixRegimeChange = detectVixRegimeChange;
 window.compareLiveTuningPresets = function compareLiveTuningPresets(presetA, presetB) {
     const selectedCount = window.selectedAssets instanceof Set ? window.selectedAssets.size : 0;
     if (selectedCount === 0) {
-        alert('请先选择资产，再运行“两档对照”。当前没有已选资产时，推荐结果可能为空�?);
+        alert('请先选择资产，再运行“两档对照”。当前没有已选资产时，推荐结果可能为空。');
         return null;
     }
 
@@ -1234,18 +1283,18 @@ window.compareLiveTuningPresets = function compareLiveTuningPresets(presetA, pre
         const rows = reportData.results.map((item) => {
             const top = (item.topEntries || [])
                 .map((x) => `${x.key}:${(x.weight * 100).toFixed(1)}%`)
-                .join('�?);
+                .join('，');
             return `
                 <div style="padding:8px 10px;border:1px solid #dbeafe;border-radius:8px;background:#f8fbff;margin-bottom:8px;">
                     <div style="font-weight:700;color:#0f172a;margin-bottom:4px;">${item.presetName}</div>
                     <div style="font-size:12px;color:#334155;">style=${item.allocationStyle} | riskPref=${item.riskPref} | stability=${item.maxTurnoverPerAsset.toFixed(2)}/${item.smoothingAlpha.toFixed(2)} | turnoverCost=${item.turnoverCost.toFixed(4)}</div>
-                    <div style="font-size:12px;color:#475569;margin-top:4px;">推荐数：${item.recommendationSize} | Top�?{top || '�?}</div>
+                    <div style="font-size:12px;color:#475569;margin-top:4px;">推荐数：${item.recommendationSize} | Top：${top || '无'}</div>
                 </div>
             `;
         }).join('');
         box.innerHTML = `
             <div style="font-size:12px;font-weight:700;color:#334155;margin-bottom:8px;">两档对照结果</div>
-            <div style="font-size:11px;color:#64748b;margin-bottom:8px;">已选资产：${selectedCount} �?| 对照时间�?{reportData.comparedAt}</div>
+            <div style="font-size:11px;color:#64748b;margin-bottom:8px;">已选资产：${selectedCount} 个 | 对照时间：${reportData.comparedAt}</div>
             ${rows}
         `;
     };
@@ -1268,7 +1317,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (infoBox && infoBox.textContent.includes('baseline')) {
             infoBox.textContent = '当前预设：exp_mild | riskPref=balanced | stability=0.18/0.38 | turnoverCost=0.0020';
         }
-        console.log('[LiveTuning] default preset initialized to exp_mild (P1实验最�? Sharpe=0.203)');
+        console.log('[LiveTuning] default preset initialized to exp_mild (P1实验最优: Sharpe=0.203)');
     }
 });
-

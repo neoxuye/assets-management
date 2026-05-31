@@ -265,7 +265,7 @@
       container.innerHTML = `
         <div style="background:#fff7ed;border:1px solid #fdba74;border-radius:10px;padding:14px;color:#9a3412;">
           <div style="font-weight:700;margin-bottom:6px;">D3 预测文件还没生成</div>
-          <div style="margin-bottom:8px;">只有在你更新季度历史数据时才需要跑这条命令，平时直接打开页面就行�?/div>
+          <div style="margin-bottom:8px;">只有在你更新季度历史数据时才需要跑这条命令，平时直接打开页面就行：</div>
           <code style="display:block;background:#fff;border:1px solid #fed7aa;border-radius:8px;padding:10px;white-space:pre-wrap;">start_lumi.bat</code>
         </div>`;
       return;
@@ -287,15 +287,15 @@
           <span style="font-size:11px;color:#888;">${data.engine_version || ''} | ${data.quarters_used || 0}Q</span>
         </div>
         <div style="background:${snapshotState.changed ? 'rgba(245,158,11,0.14)' : 'rgba(34,197,94,0.12)'};border:1px solid ${snapshotState.changed ? '#f59e0b' : '#22c55e'};border-radius:10px;padding:12px;margin-bottom:14px;color:${snapshotState.changed ? '#fde68a' : '#bbf7d0'};font-size:12px;line-height:1.6;">
-          <div style="font-weight:700;margin-bottom:4px;">历史数据状�?/div>
-          <div>${snapshotState.changed ? '历史文件已经变了，建议先重跑 D3�? : '历史文件没有变，可以直接用当前结果�?}</div>
+          <div style="font-weight:700;margin-bottom:4px;">历史数据状态</div>
+          <div>${snapshotState.changed ? '历史文件已经变了，建议先重跑 D3。' : '历史文件没有变，可以直接用当前结果。'}</div>
           <code style="display:block;margin:6px 0 8px 0;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:8px;color:#fff;white-space:pre-wrap;">start_lumi.bat</code>
         </div>
         <div style="background:${sameDay ? 'rgba(34,197,94,0.12)' : 'rgba(245,158,11,0.14)'};border:1px solid ${sameDay ? '#22c55e' : '#f59e0b'};border-radius:10px;padding:12px;margin-bottom:14px;color:${sameDay ? '#bbf7d0' : '#fde68a'};font-size:12px;line-height:1.6;">
           <div style="font-weight:700;margin-bottom:4px;">D3 更新提醒</div>
           <div>这个文件是手工更新的，不会自己重算。只有历史数据变了才需要先跑：</div>
           <code style="display:block;margin:6px 0 8px 0;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:8px;color:#fff;white-space:pre-wrap;">start_lumi.bat</code>
-          <div>${sameDay ? '今天已经更新过�? : '今天还没有看到新生成的文件，建议先更新一次�?}</div>
+          <div>${sameDay ? '今天已经更新过。' : '今天还没有看到新生成的文件，建议先更新一次。'}</div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;">
     `;
@@ -303,7 +303,7 @@
     for (const [factor, pred] of Object.entries(prediction.predictions || {})) {
       const cal = calibration[factor] || {};
       const dirAcc = cal.direction_accuracy != null ? `${(cal.direction_accuracy * 100).toFixed(0)}%` : 'N/A';
-      const arrow = pred.delta > 0 ? '�? : pred.delta < 0 ? '�? : '�?;
+      const arrow = pred.delta > 0 ? '↑' : pred.delta < 0 ? '↓' : '→';
       const arrowColor = pred.delta > 0 ? '#ef4444' : pred.delta < 0 ? '#22c55e' : '#888';
       const confColor = pred.confidence === 'high' ? '#22c55e' : pred.confidence === 'medium' ? '#f59e0b' : '#ef4444';
       html += `
@@ -360,7 +360,7 @@
     const predictions = getPredictions();
     const tilt = computeD3MacroTilt(predictions);
 
-    // G4: Confidence gate �?dampen tilts when prediction confidence is low
+    // G4: Confidence gate — dampen tilts when prediction confidence is low
     const predEntries = predictions ? Object.values(predictions) : [];
     const aboveRandom = predEntries.filter(p => {
       const acc = p.historical_direction_accuracy || 0.5;
@@ -371,7 +371,7 @@
       : 0.5;
     const confidenceScore = (aboveRandom.length / Math.max(predEntries.length, 1)) * ((avgAcc - 0.5) * 4);
     const tiltDamper = Math.max(0.15, Math.min(1.0, 0.3 + confidenceScore * 2.5));
-    // tiltDamper: 0.15 (all factors random) �?1.0 (most factors accurate)
+    // tiltDamper: 0.15 (all factors random) → 1.0 (most factors accurate)
 
     const assetSensitivityMap = buildAssetSensitivityMap();
     const entries = Object.entries(assetScores || {});
@@ -471,4 +471,3 @@
     });
   }
 })();
-

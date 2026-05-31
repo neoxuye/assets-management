@@ -1,8 +1,11 @@
 /**
- * v16.36 Z-Score 计算指标偏离度（共用逻辑�? * 使用历史标准�?macroStdDev)实现统计学正规化的偏离度计算
- * @param {number} current - 当前�? * @param {number} neutral - 中性�? * @param {string} indicator - 指标名称
+ * v16.36 Z-Score 计算指标偏离度（共用逻辑）
+ * 使用历史标准差(macroStdDev)实现统计学正规化的偏离度计算
+ * @param {number} current - 当前值
+ * @param {number} neutral - 中性值
+ * @param {string} indicator - 指标名称
  * @param {string} majorKey - 资产类别（用于特殊处理）
- * @return {number} 偏离�?(z-score, 截断到�?)
+ * @return {number} 偏离度 (z-score, 截断到±3)
  */
 function calculateDeviation(current, neutral, indicator, majorKey) {
     let dev = 0;
@@ -11,26 +14,30 @@ function calculateDeviation(current, neutral, indicator, majorKey) {
     const stdDev = (typeof macroStdDev !== 'undefined' && macroStdDev[indicator]) ? macroStdDev[indicator] : null;
 
     if (stdDev && stdDev > 0.001) {
-        // Z-Score = (当前�?- 中性�? / 历史标准�?        dev = (current - neutral) / stdDev;
+        // Z-Score = (当前值 - 中性值) / 历史标准差
+        dev = (current - neutral) / stdDev;
         console.log(`[v16.36 Z-Score] ${indicator}: curr=${current.toFixed(2)}, neutral=${neutral}, stdDev=${stdDev}, z=${dev.toFixed(2)}`);
     } else if (Math.abs(neutral) < 0.01) {
-        // 降级1：中性值接�?时，使用符号判断
+        // 降级1：中性值接近0时，使用符号判断
         dev = current < neutral ? -1 : (current > neutral ? 1 : 0);
     } else {
         // 降级2：无stdDev时，使用百分比法
         dev = (current - neutral) / Math.abs(neutral);
     }
 
-    // 特殊处理：限制realYield极端偏离（避�?022场景bug�?    if (indicator === 'realYield' &&
+    // 特殊处理：限制realYield极端偏离（避免2022场景bug）
+    if (indicator === 'realYield' &&
         ['bonds', 'bonds_us', 'bonds_china', 'bonds_global'].includes(majorKey)) {
         dev = Math.max(-2, Math.min(2, dev));
     }
 
-    return Math.max(-3, Math.min(3, dev)); // Z-Score截断到�?σ
+    return Math.max(-3, Math.min(3, dev)); // Z-Score截断到±3σ
 }
 
 /**
- * 计算利率敏感度调整（共用逻辑�? * @param {number} baseSens - 基础敏感�? * @param {number} rateReason - 利率变化原因
+ * 计算利率敏感度调整（共用逻辑）
+ * @param {number} baseSens - 基础敏感度
+ * @param {number} rateReason - 利率变化原因
  * @param {string} majorKey - 资产类别
  * @return {object} {adjustedSens, reasonNote}
  */
@@ -43,7 +50,7 @@ function adjustRateSensitivity(baseSens, rateReason, majorKey) {
     if (rateReason > 0) {
         return {
             adjustedSens: -Math.abs(baseSens) * rateReason * 1.5,
-            reasonNote: '🟢预防�?
+            reasonNote: '🟢预防型'
         };
     } else if (rateReason < 0) {
         return {
@@ -55,8 +62,10 @@ function adjustRateSensitivity(baseSens, rateReason, majorKey) {
 }
 
 /**
- * 计算因子贡献（共用逻辑�? * @param {number} sensitivity - 调整后敏感度
- * @param {number} deviation - 偏离�? * @param {string} indicator - 指标名称
+ * 计算因子贡献（共用逻辑）
+ * @param {number} sensitivity - 调整后敏感度
+ * @param {number} deviation - 偏离度
+ * @param {string} indicator - 指标名称
  * @param {object} factorLimits - 因子上限配置
  * @return {object} {contribution, isSaturated}
  */
@@ -79,11 +88,12 @@ function calculateContribution(sensitivity, deviation, indicator, factorLimits) 
 function generateScenarioMacro(baseMacro, scenarioName) {
     const template = scenarioTemplates[scenarioName];
     if (!template) {
-        console.warn(`[Phase16] 未找到情景模�? ${scenarioName}`);
+        console.warn(`[Phase16] 未找到情景模板: ${scenarioName}`);
         return baseMacro;
     }
 
-    // 复制基础参数并应用覆�?    const scenarioMacro = { ...baseMacro };
+    // 复制基础参数并应用覆盖
+    const scenarioMacro = { ...baseMacro };
     Object.entries(template.overrides).forEach(([key, value]) => {
         scenarioMacro[key] = value;
     });
@@ -93,12 +103,15 @@ function generateScenarioMacro(baseMacro, scenarioName) {
 }
 
 /**
- * 计算多情景加权配�? * @param {array} scenarios - 情景列表 [{name, prob, weights}, ...]
- * @returns {object} 最终加权配�? */
+ * 计算多情景加权配置
+ * @param {array} scenarios - 情景列表 [{name, prob, weights}, ...]
+ * @returns {object} 最终加权配置
+ */
 function calculateMultiScenarioAllocation(scenarios) {
     const finalAllocation = {};
 
-    // 收集所有资产键�?    const allAssetKeys = new Set();
+    // 收集所有资产键名
+    const allAssetKeys = new Set();
     scenarios.forEach(s => {
         if (s.weights) {
             Object.keys(s.weights).forEach(k => allAssetKeys.add(k));
@@ -120,7 +133,7 @@ function calculateMultiScenarioAllocation(scenarios) {
         finalAllocation[assetKey] = totalProb > 0 ? weightedSum / totalProb : 0;
     });
 
-    // 归一化确保总和�?
+    // 归一化确保总和为1
     const total = Object.values(finalAllocation).reduce((a, b) => a + b, 0);
     if (total > 0) {
         Object.keys(finalAllocation).forEach(k => {
@@ -135,7 +148,8 @@ function calculateMultiScenarioAllocation(scenarios) {
  * 执行完整的多情景分析
  * @param {object} baseMacroVals - 基础宏观参数
  * @param {object} probConfig - 情景概率配置
- * @returns {object} 多情景分析结�? */
+ * @returns {object} 多情景分析结果
+ */
 function runMultiScenarioAnalysis(baseMacroVals, probConfig) {
     const results = [];
 
@@ -164,7 +178,8 @@ function runMultiScenarioAnalysis(baseMacroVals, probConfig) {
         }
     });
 
-    // 如果有结果，计算最终配�?    let finalAllocation = {};
+    // 如果有结果，计算最终配置
+    let finalAllocation = {};
     if (results.length > 0) {
         finalAllocation = calculateMultiScenarioAllocation(results);
     }
@@ -176,7 +191,7 @@ function runMultiScenarioAnalysis(baseMacroVals, probConfig) {
     };
 }
 
-console.log('[v11.36] Phase 16 多情景对冲系统加载完�?);
+console.log('[v11.36] Phase 16 多情景对冲系统加载完成');
 
 
 function calcAssetScore(majorKey, macroVals) {
@@ -189,7 +204,9 @@ function calcAssetScore(majorKey, macroVals) {
     // 注意：VIX对股票是负向因子，放开上限会增加负贡献
     const keyFactorLimits = {
         cnPolicy: 35,   // 原始raw可达48，提高到35保留更多信息
-        creditSpread: 28  // 原始raw可达24，稍微提�?        // vix保持默认25（不提高，因为是负向因子�?    };
+        creditSpread: 28  // 原始raw可达24，稍微提高
+        // vix保持默认25（不提高，因为是负向因子）
+    };
     const defaultSaturationLimit = 25;
 
     Object.entries(cat.sens).forEach(([ind, baseSens]) => {
@@ -212,7 +229,7 @@ function calcAssetScore(majorKey, macroVals) {
             dev = curr < neutral ? -1 : (curr > neutral ? 1 : 0);
         } else {
             dev = (curr - neutral) / Math.abs(neutral);
-            // �?Fix #3: 限制realYield极端偏离 (避免2022场景+99分bug)
+            // ✅ Fix #3: 限制realYield极端偏离 (避免2022场景+99分bug)
             if (ind === 'realYield' && (majorKey === 'bonds' || majorKey === 'bonds_us' || majorKey === 'bonds_china' || majorKey === 'bonds_global')) {
                 dev = Math.max(-2, Math.min(2, dev));
             }
@@ -238,7 +255,8 @@ function calcAssetScore(majorKey, macroVals) {
 
         let contribRaw = adjustedSens * dev * 20;
 
-        // v11.28.1: 使用因子特定的饱和上�?        const saturationLimit = keyFactorLimits[ind] || defaultSaturationLimit;
+        // v11.28.1: 使用因子特定的饱和上限
+        const saturationLimit = keyFactorLimits[ind] || defaultSaturationLimit;
         let contribution = Math.max(-saturationLimit, Math.min(saturationLimit, contribRaw));
         score += contribution;
 
@@ -253,12 +271,12 @@ function calcAssetScore(majorKey, macroVals) {
     score = Math.max(10, score);
 
     // v13.3 DEBUG: 追踪调用
-    console.log(`[v14.0 DEBUG] calcAssetScore(原始) 调用�? majorKey=${majorKey}, score=${score}, macroVals.realYield=${macroVals.realYield}`);
+    console.log(`[v14.0 DEBUG] calcAssetScore(原始) 调用前: majorKey=${majorKey}, score=${score}, macroVals.realYield=${macroVals.realYield}`);
 
     const bonusRes = applyReasonBonus(majorKey, score, macroVals);
     const finalScore = bonusRes.score;
 
-    console.log(`[v13.3 DEBUG] calcAssetScore(原始) 调用�? majorKey=${majorKey}, finalScore=${finalScore}`);
+    console.log(`[v13.3 DEBUG] calcAssetScore(原始) 调用后: majorKey=${majorKey}, finalScore=${finalScore}`);
 
     // Optional: Add regime reasons to factors if needed
     if (bonusRes.reasons) {
@@ -276,16 +294,16 @@ function calcAssetScore(majorKey, macroVals) {
 }
 
 // ========================================
-// [P0-CLEANUP] v9.7 wrapper (�?L302-1168, ~860�? 已在 2026-03-26 删除
-// 原因: window.calcAssetScore 已被末尾覆盖�?calcAssetScore_v98,
-//       �?_useV98Scoring=true, wrapper 从未被执�? 属于死代�?
+// [P0-CLEANUP] v9.7 wrapper (原 L302-1168, ~860行) 已在 2026-03-26 删除
+// 原因: window.calcAssetScore 已被末尾覆盖为 calcAssetScore_v98,
+//       且 _useV98Scoring=true, wrapper 从未被执行, 属于死代码.
 // 备份: js/algo_v16.19_backup_20260326_before-p0-dedup.js
 // ========================================
 
 // ========================================
 // v9.8: 统一评分引擎
 // 目标: 单一权威评分 = 最终推荐度
-// 原则: 第一性原�?> 历史规律
+// 原则: 第一性原理 > 历史规律
 // ========================================
 
 /**
@@ -326,7 +344,8 @@ function calcAssetScore_v98(majorKey, macroVals) {
         cnPolicy: 0
     };
 
-    // 合并用户输入，用户提供的值覆盖默认�?    macroVals = { ...defaultMacros, ...macroVals };
+    // 合并用户输入，用户提供的值覆盖默认值
+    macroVals = { ...defaultMacros, ...macroVals };
 
     // v16.14.4 FIX: Explicitly Extract Variables for Scope Safety (Fixes ReferenceError)
     const fedRateVal = parseFloat(macroVals.fedRate) || 0;
@@ -342,7 +361,8 @@ function calcAssetScore_v98(majorKey, macroVals) {
 
     const callId = Math.random().toString(36).substring(2, 8);
     const cat = assetLibrary[majorKey];
-    let score = 60;  // v9.2起始�?    let factors = [];
+    let score = 60;  // v9.2起始分
+    let factors = [];
 
     console.log(`[v9.8 START] ${majorKey} 开始计算`);
 
@@ -370,19 +390,23 @@ function calcAssetScore_v98(majorKey, macroVals) {
 
         const neutral = indConfig.neutral;
 
-        // v16.36 Z-Score 偏离度计�?        // 优先使用历史标准差，否则降级到百分比�?        let dev = 0;
+        // v16.36 Z-Score 偏离度计算
+        // 优先使用历史标准差，否则降级到百分比法
+        let dev = 0;
         const stdDev = (typeof macroStdDev !== 'undefined' && macroStdDev[ind]) ? macroStdDev[ind] : null;
 
         if (stdDev && stdDev > 0.001) {
-            // Z-Score = (当前�?- 中性�? / 历史标准�?            dev = (curr - neutral) / stdDev;
+            // Z-Score = (当前值 - 中性值) / 历史标准差
+            dev = (curr - neutral) / stdDev;
         } else if (Math.abs(neutral) < 0.01) {
-            // 降级1：中性值接�?
+            // 降级1：中性值接近0
             dev = curr < neutral ? -1 : (curr > neutral ? 1 : 0);
         } else {
-            // 降级2：百分比�?            dev = (curr - neutral) / Math.abs(neutral);
+            // 降级2：百分比法
+            dev = (curr - neutral) / Math.abs(neutral);
         }
 
-        // 截断到�?σ（极端事件）
+        // 截断到±3σ（极端事件）
         dev = Math.max(-3, Math.min(3, dev));
 
         // 动态敏感度调整
@@ -394,7 +418,7 @@ function calcAssetScore_v98(majorKey, macroVals) {
             if (rateReason > 0) {
                 if (['usStock', 'cnStock', 'devStock', 'emStock', 'crypto'].includes(majorKey)) {
                     adjustedSens = -Math.abs(baseSens) * rateReason * 1.1;
-                    reasonNote = '🟢预防�?;
+                    reasonNote = '🟢预防型';
                 }
             } else if (rateReason < 0) {
                 if (['usStock', 'cnStock', 'devStock', 'emStock', 'crypto'].includes(majorKey)) {
@@ -412,14 +436,16 @@ function calcAssetScore_v98(majorKey, macroVals) {
             if (cnPol > 0) {
                 // 政策宽松
                 if (growth > 2.5) {
-                    // 预防型宽�? 经济仍健康时的政策支�?                    adjustedSens = baseSens * 1.2;
-                    reasonNote = ' 🟢预防型宽�?;
+                    // 预防型宽松: 经济仍健康时的政策支持
+                    adjustedSens = baseSens * 1.2;
+                    reasonNote = ' 🟢预防型宽松';
                 } else if (growth < 2.0) {
-                    // 被迫型宽�? 经济疲软时的政策宽松
+                    // 被迫型宽松: 经济疲软时的政策宽松
                     adjustedSens = baseSens * 0.6;
-                    reasonNote = ' ⚠️被迫型宽�?;
+                    reasonNote = ' ⚠️被迫型宽松';
                 } else {
-                    // 中性宽�?                    reasonNote = ' 🟡政策宽松';
+                    // 中性宽松
+                    reasonNote = ' 🟡政策宽松';
                 }
             } else if (cnPol < -0.3) {
                 // 政策紧缩
@@ -433,24 +459,27 @@ function calcAssetScore_v98(majorKey, macroVals) {
             const growth = macroVals.globalGrowth || 3.0;
 
             if (inflReason >= 0.8) {
-                // 需求拉动型通胀 �?利好能源
+                // 需求拉动型通胀 → 利好能源
                 adjustedSens = 0.90;
-                reasonNote = ' 🟢需求拉�?;
+                reasonNote = ' 🟢需求拉动';
             } else if (inflReason <= -0.8) {
-                // 供给冲击�?(如油价飙升导致的通胀)
+                // 供给冲击型 (如油价飙升导致的通胀)
                 if (growth < 1.5) {
-                    // 需求萎�?�?利空能源 (顶背�? 2022�?月案�?
+                    // 需求萎缩 → 利空能源 (顶背离: 2022年8月案例)
                     adjustedSens = -0.30;
-                    reasonNote = ' 🔴需求萎缩抑�?;
+                    reasonNote = ' 🔴需求萎缩抑制';
                 } else {
-                    // 增长仍健�?�?中�?                    adjustedSens = 0.40;
+                    // 增长仍健康 → 中性
+                    adjustedSens = 0.40;
                     reasonNote = ' ⚠️供给冲击';
                 }
             }
-            // 使用调整后的敏感�?            // 否则使用基础敏感�?-0.85
+            // 使用调整后的敏感度
+            // 否则使用基础敏感度 -0.85
         }
 
-        // Issue #2 Fix: 美债实际利率敏感度非线性调�?        if (ind === 'realYield' && majorKey === 'bonds_us') {
+        // Issue #2 Fix: 美债实际利率敏感度非线性调整
+        if (ind === 'realYield' && majorKey === 'bonds_us') {
             const realYld = macroVals.realYield || 1.5;
 
             // 当实际利率从负转正时，避险溢价消退，敏感度递减
@@ -458,13 +487,13 @@ function calcAssetScore_v98(majorKey, macroVals) {
                 // 实际利率为正: 避险溢价已消退
                 // 敏感度从-0.93收至-0.45~-0.62范围，避免单因子主导
                 adjustedSens = -0.45 - (realYld / 4.0) * 0.17;
-                // realYld=0.5 �?-0.471
-                // realYld=1.5 �?-0.514
-                // realYld=3.0 �?-0.577
+                // realYld=0.5 → -0.471
+                // realYld=1.5 → -0.514
+                // realYld=3.0 → -0.577
                 reasonNote = realYld > 1.0 ? ' 🔴实际利率压制' : ' ⚠️避险溢价消退';
             } else {
                 // 实际利率为负: 保持高敏感度
-                reasonNote = ' 🟢负利率避�?;
+                reasonNote = ' 🟢负利率避险';
             }
         }
 
@@ -484,7 +513,8 @@ function calcAssetScore_v98(majorKey, macroVals) {
     console.log(`[v9.8阶段1] ${majorKey}: 基础评分=${score.toFixed(1)}`);
 
     // ========================================
-    // 阶段2: 宏观环境调整（整合applyReasonBonus�?    // ========================================
+    // 阶段2: 宏观环境调整（整合applyReasonBonus）
+    // ========================================
     const regime = detectMacroRegime(macroVals);
     const valVals = getValuationValues();
 
@@ -503,32 +533,35 @@ function calcAssetScore_v98(majorKey, macroVals) {
     let envAdjustment = 0;
 
     // [P0-DEDUP] 移除: applyValuationAdjustment() 在此处的调用
-    // 原因: PE分位/Gold MA200/Oil MA200 已在后面 v16.37 估值因子整合块 (L1050+) 中更精确地双向实�?    //       此处的调用会�?v16.37 块产生双重计�?(惩罚叠加)
-    // 保留 core_v16.18.js 中的函数定义 (�?applyReasonBonus 内部使用)
+    // 原因: PE分位/Gold MA200/Oil MA200 已在后面 v16.37 估值因子整合块 (L1050+) 中更精确地双向实现
+    //       此处的调用会与 v16.37 块产生双重计算 (惩罚叠加)
+    // 保留 core_v16.18.js 中的函数定义 (供 applyReasonBonus 内部使用)
 
-    // 流动性冲击（v9.8.1: 减半惩罚�?    if (regime.isLiquidityShock) {
+    // 流动性冲击（v9.8.1: 减半惩罚）
+    if (regime.isLiquidityShock) {
         if (majorKey === 'precious') {
             envAdjustment -= 20;
             factors.push({ label: '高利率压制贵金属', contribution: '-20' });
         } else if (majorKey === 'crypto') {
             envAdjustment -= 15;
-            factors.push({ label: '流动性冲击压制加�?, contribution: '-15' });
+            factors.push({ label: '流动性冲击压制加密', contribution: '-15' });
         } else if (['cnStock', 'emStock'].includes(majorKey)) {
             envAdjustment -= 15;
-            factors.push({ label: '流动性冲击压制新兴市�?, contribution: '-15' });
+            factors.push({ label: '流动性冲击压制新兴市场', contribution: '-15' });
         } else if (isRiskAsset) {
             envAdjustment -= 10;
-            factors.push({ label: '流动性冲击压制风险资�?, contribution: '-10' });
+            factors.push({ label: '流动性冲击压制风险资产', contribution: '-10' });
         }
     }
 
-    // [G3 REMOVED] Bank crisis text-matching debug log �?not a macro signal
+    // [G3 REMOVED] Bank crisis text-matching debug log — not a macro signal
     // Original: scenarioName.includes('银行') check for debug output
 
     // [D1-1 REMOVED] 银行危机 Crypto +80: 文本匹配('银行')不是宏观信号，且与L1140叠加形成双重override
     // 原始代码: if (regime.isLiquidityShock && scenarioName.includes('银行')) { crypto +80 }
 
-    // 泡沫见顶（v9.8.1: 减半惩罚�?    if (regime.isBubblePeak) {
+    // 泡沫见顶（v9.8.1: 减半惩罚）
+    if (regime.isBubblePeak) {
         if (majorKey === 'cnStock' || (isRiskAsset && momentum > 0.6)) {
             const bubblePenalty = momentum > 0.7 ? -20 : -10;
             envAdjustment += bubblePenalty;
@@ -536,27 +569,30 @@ function calcAssetScore_v98(majorKey, macroVals) {
         }
     }
 
-    // 需求崩塌（applyReasonBonus中的逻辑�?    if (regime.isDemandCollapse) {
+    // 需求崩塌（applyReasonBonus中的逻辑）
+    if (regime.isDemandCollapse) {
         if (['energy', 'industrial', 'agriculture'].includes(majorKey)) {
             envAdjustment -= 25;
-            factors.push({ label: '需求崩塌风�?, contribution: '-25' });
+            factors.push({ label: '需求崩塌风险', contribution: '-25' });
         }
     }
 
-    // 早期复苏（v9.8.1: 温和调整�?    if (regime.isEarlyRecovery) {
+    // 早期复苏（v9.8.1: 温和调整）
+    if (regime.isEarlyRecovery) {
         if (isRiskAsset) {
             envAdjustment += 15;
             factors.push({ label: '复苏早期利好', contribution: '+15' });
         } else if (isSafeAsset || majorKey === 'precious') {
             envAdjustment -= 10;
-            factors.push({ label: '复苏降低避险需�?, contribution: '-10' });
+            factors.push({ label: '复苏降低避险需求', contribution: '-10' });
         }
     }
 
-    // 滞胀逻辑（v9.8.1: 减半调整，第一性原理在阶段3�?    if (regime.isStagflation) {
+    // 滞胀逻辑（v9.8.1: 减半调整，第一性原理在阶段3）
+    if (regime.isStagflation) {
         if (['energy', 'agriculture'].includes(majorKey)) {
             envAdjustment += 20;
-            factors.push({ label: '滞胀期商品受�?, contribution: '+20' });
+            factors.push({ label: '滞胀期商品受益', contribution: '+20' });
         } else if (isRiskAsset) {
             envAdjustment -= 15;
             factors.push({ label: '滞胀压制股票', contribution: '-15' });
@@ -566,21 +602,25 @@ function calcAssetScore_v98(majorKey, macroVals) {
         }
     }
 
-    // v10.0: 三种债券的独特调�?    if (majorKey === 'bonds_us') {
-        // 美债：受Fed利率和VIX影响最�?        if (vixReason < -0.7) {
+    // v10.0: 三种债券的独特调整
+    if (majorKey === 'bonds_us') {
+        // 美债：受Fed利率和VIX影响最大
+        if (vixReason < -0.7) {
             envAdjustment += vixLevel * 0.60 + rateReason * 10;
-            factors.push({ label: '美债避险溢�?, contribution: (vixLevel * 0.60 + rateReason * 10).toFixed(1) });
+            factors.push({ label: '美债避险溢价', contribution: (vixLevel * 0.60 + rateReason * 10).toFixed(1) });
         } else if (rateReason <= -0.5 || regime.isLiquidityShock) {
             envAdjustment -= vixLevel * 0.25;
             envAdjustment += rateReason * 50;
-            factors.push({ label: '美债利率压�?, contribution: (rateReason * 50 - vixLevel * 0.25).toFixed(1) });
+            factors.push({ label: '美债利率压制', contribution: (rateReason * 50 - vixLevel * 0.25).toFixed(1) });
         } else {
             envAdjustment += vixLevel * 0.35 + rateReason * 18;
         }
 
-        // USD强势利好美�?        const usd = macroVals.usd || 100;
+        // USD强势利好美债
+        const usd = macroVals.usd || 100;
         if (usd > 115) {
-            const usdBonus = (usd - 115) * 0.3;  // USD每高�?15一个点，加0.3�?            envAdjustment += usdBonus;
+            const usdBonus = (usd - 115) * 0.3;  // USD每高于115一个点，加0.3分
+            envAdjustment += usdBonus;
             factors.push({ label: '美元强势利好', contribution: '+' + usdBonus.toFixed(1) });
         }
     }
@@ -593,12 +633,15 @@ function calcAssetScore_v98(majorKey, macroVals) {
             factors.push({ label: '中国宽松政策', contribution: '+' + policyBonus.toFixed(1) });
         } else if (cnPolicy < -0.3) {
             const policyPenalty = cnPolicy * 15;  // 紧缩政策不利
-            envAdjustment += policyPenalty;  // cnPolicy是负�?            factors.push({ label: '中国紧缩政策', contribution: policyPenalty.toFixed(1) });
+            envAdjustment += policyPenalty;  // cnPolicy是负数
+            factors.push({ label: '中国紧缩政策', contribution: policyPenalty.toFixed(1) });
         }
 
-        // USD强势不利中国债（资本外流�?        const usd = macroVals.usd || 100;
+        // USD强势不利中国债（资本外流）
+        const usd = macroVals.usd || 100;
         if (usd > 110) {
-            const usdPenalty = -(usd - 110) * 0.4;  // USD每高�?10一个点，减0.4�?            envAdjustment += usdPenalty;
+            const usdPenalty = -(usd - 110) * 0.4;  // USD每高于110一个点，减0.4分
+            envAdjustment += usdPenalty;
             factors.push({ label: '美元强势资本外流', contribution: usdPenalty.toFixed(1) });
         }
 
@@ -606,8 +649,9 @@ function calcAssetScore_v98(majorKey, macroVals) {
         envAdjustment += rateReason * 6;  // Fed影响较小
     }
     else if (majorKey === 'bonds_global') {
-        // 全球�?欧债：受全球利率环境和欧洲危机影响
-        // 基础调整（类似美债但系数更小�?        if (vixReason < -0.7) {
+        // 全球债/欧债：受全球利率环境和欧洲危机影响
+        // 基础调整（类似美债但系数更小）
+        if (vixReason < -0.7) {
             envAdjustment += vixLevel * 0.40 + rateReason * 8;
         } else if (rateReason <= -0.5) {
             envAdjustment += rateReason * 28;  // 利率影响较弱
@@ -623,7 +667,9 @@ function calcAssetScore_v98(majorKey, macroVals) {
             factors.push({ label: '美元强势压制', contribution: usdPenalty.toFixed(1) });
         }
 
-        // [G3 REMOVED] 欧债危机文本匹�? scenarioName.includes('欧�?) 是文本匹配不是宏观信�?        // 如需检测类似场景，应通过 creditSpread > 5.0 + 全球增长 < 1.0 的宏观条�?    }
+        // [G3 REMOVED] 欧债危机文本匹配: scenarioName.includes('欧债') 是文本匹配不是宏观信号
+        // 如需检测类似场景，应通过 creditSpread > 5.0 + 全球增长 < 1.0 的宏观条件
+    }
 
     // 对冲工具VIX调整
     if (majorKey === 'hedges' && vixLevel > 50) {
@@ -666,21 +712,23 @@ function calcAssetScore_v98(majorKey, macroVals) {
 
     // v14.5 Fix: Completely remove intermediate caps (was maxCap 100/150)
     // to allow true uncapped scoring flow into the Hybrid Refinement phase.
-    score = Math.max(0, score);  // 仅保留非负限�?
-    // v9.8.1: Regime封顶（放宽以确保最�?5分）
+    score = Math.max(0, score);  // 仅保留非负限制
+
+    // v9.8.1: Regime封顶（放宽以确保最低25分）
     if (regime.isBubblePeak && majorKey === 'cnStock') {
-        score = Math.min(20, score);  // �?改为20
+        score = Math.min(20, score);  // 从5改为20
         factors.push({ label: '⚠️ 泡沫封顶', contribution: 'cap@20' });
     }
     if (regime.isLiquidityShock) {
         if (majorKey === 'precious') {
-            score = Math.min(25, score);  // �?0改为25
-            factors.push({ label: '⚠️ 流动性冲击封�?, contribution: 'cap@25' });
+            score = Math.min(25, score);  // 从10改为25
+            factors.push({ label: '⚠️ 流动性冲击封顶', contribution: 'cap@25' });
         } else if (majorKey === 'crypto') {
-            // [G3 SIMPLIFIED] 流动性冲击时 crypto 一律封�?�?移除银行危机文本匹配例外
-            // 原逻辑: 如果 scenarioName.includes('银行') 则绕过封�?            // 问题: 文本匹配不是宏观信号，且 SVB 是单一历史事件
+            // [G3 SIMPLIFIED] 流动性冲击时 crypto 一律封顶 — 移除银行危机文本匹配例外
+            // 原逻辑: 如果 scenarioName.includes('银行') 则绕过封顶
+            // 问题: 文本匹配不是宏观信号，且 SVB 是单一历史事件
             score = Math.min(20, score);
-            factors.push({ label: '⚠️ 流动性冲击封�?, contribution: 'cap@20' });
+            factors.push({ label: '⚠️ 流动性冲击封顶', contribution: 'cap@20' });
         }
     }
 
@@ -697,43 +745,47 @@ function calcAssetScore_v98(majorKey, macroVals) {
             // v13.7: 能源强力加成 (Force Top 3)
             const originalScore = score;
             const boostedScore = score * 1.5; // 提升幅度 1.2 -> 1.5
-            score = Math.min(98, Math.max(score + 15, boostedScore));  // 至少+15�?            factors.push({
-                label: '�?滞胀能源受益(核心)',
+            score = Math.min(98, Math.max(score + 15, boostedScore));  // 至少+15分
+            factors.push({
+                label: '⭐ 滞胀能源受益(核心)',
                 contribution: '×1.5 thrust',
-                principle: '供给驱动通胀唯一受益�?
+                principle: '供给驱动通胀唯一受益者'
             });
-            console.log(`[v13.7 滞胀] ${majorKey}: 能源强力加成: ${originalScore.toFixed(1)}�?{score.toFixed(1)}`);
+            console.log(`[v13.7 滞胀] ${majorKey}: 能源强力加成: ${originalScore.toFixed(1)}→${score.toFixed(1)}`);
         }
         else if (['usStock', 'cnStock', 'devStock', 'emStock'].includes(majorKey)) {
-            // v13.7: 滞胀期股票强力压�?(防止2022推荐股票)
-            score = Math.min(40, score * 0.6); // 强制压到40分以�?            factors.push({
-                label: '⚠️ 滞胀杀估�?,
+            // v13.7: 滞胀期股票强力压制 (防止2022推荐股票)
+            score = Math.min(40, score * 0.6); // 强制压到40分以下
+            factors.push({
+                label: '⚠️ 滞胀杀估值',
                 contribution: 'Force<40',
                 principle: '高通胀+加息=股债双杀'
             });
         }
         else if (majorKey === 'industrial' || majorKey === 'agriculture') {
-            // v9.8.1: 需求驱�?5%压制（不�?5%�?            const originalScore = score;
+            // v9.8.1: 需求驱动65%压制（不是95%）
+            const originalScore = score;
             score = score * 0.35;
             score = Math.max(25, score);  // floor@25
             factors.push({
-                label: '⚠️ 滞胀需求压�?,
+                label: '⚠️ 滞胀需求压制',
                 contribution: '×35% floor@25',
                 principle: '需求崩塌但保留基本配置'
             });
-            console.log(`[v9.8第一性原理] ${majorKey}: 需求敏感型65%压制: ${originalScore.toFixed(1)}�?{score.toFixed(1)}`);
+            console.log(`[v9.8第一性原理] ${majorKey}: 需求敏感型65%压制: ${originalScore.toFixed(1)}→${score.toFixed(1)}`);
         }
 
         else if (majorKey === 'precious') {
-            // v9.8.1: 贵金�?0%压制（不�?0%�?            const originalScore = score;
+            // v9.8.1: 贵金属50%压制（不是70%）
+            const originalScore = score;
             score = score * 0.50;
             score = Math.max(20, score);  // floor@20
             factors.push({
-                label: '⚠️ 滞胀贵金属压�?,
+                label: '⚠️ 滞胀贵金属压制',
                 contribution: '×50% floor@20',
-                principle: '高利率压制避�?
+                principle: '高利率压制避险'
             });
-            console.log(`[v9.8第一性原理] ${majorKey}: 贵金�?0%压制: ${originalScore.toFixed(1)}�?{score.toFixed(1)}`);
+            console.log(`[v9.8第一性原理] ${majorKey}: 贵金属50%压制: ${originalScore.toFixed(1)}→${score.toFixed(1)}`);
         }
     }
 
@@ -752,21 +804,21 @@ function calcAssetScore_v98(majorKey, macroVals) {
                 label: '🔴 区域危机压制',
                 contribution: `×${((1 - regionalRisk.severity) * 100).toFixed(0)}% floor@20`
             });
-            console.log(`[v9.8区域风险] ${majorKey}: 风险修正: ${originalScore.toFixed(1)}�?{score.toFixed(1)}`);
+            console.log(`[v9.8区域风险] ${majorKey}: 风险修正: ${originalScore.toFixed(1)}→${score.toFixed(1)}`);
         }
     }
 
-    // v9.8.1: 最终验�?- 全局最�?5�?(放开100分上限，支持 110/120 分以区分Top assets)
+    // v9.8.1: 最终验证 - 全局最低25分 (放开100分上限，支持 110/120 分以区分Top assets)
     score = Math.max(25, score);
 
 
     // ========================================
     // v13.7.2: 2023年AI/科技牛市逻辑 (High Rates + Disinflation + Tech Boom)
     // ========================================
-    // 定义 "去通胀+高利�? 环境 (Disinflation)
+    // 定义 "去通胀+高利率" 环境 (Disinflation)
     // 宽松条件: 利率>3.0% (Restrictive) + 通胀<4.0% (Falling) + 增长>1.5%
     // ========================================
-    // v13.7.5: 2023�?"高息去通胀" (High Rates + Disinflation)
+    // v13.7.5: 2023年 "高息去通胀" (High Rates + Disinflation)
     // ========================================
     // Logic: Fed > 5.0 is the unique signature for 2023/2024 (NOT 2000!)
     // 强制打压商品，扶持科技/Crypto
@@ -780,20 +832,22 @@ function calcAssetScore_v98(majorKey, macroVals) {
         console.log(`[v16.14 DEBUG] AI Boom Check: Year=${SCENARIO_YEAR_CTX} | Fed=${fedRateVal} | Trigger=${fedRateVal >= 5.0 || SCENARIO_YEAR_CTX === 2023}`);
     }
 
-    // [P0-DECOUPLE] 纯宏观触�? Fed>=5.0 即为限制性利率环�?    // 移除 SCENARIO_YEAR_CTX===2023 硬编�? 让宏观信号驱�?    // [D1-3 REDUCED] Fed>5% 幅度: 方向正确但原始幅度过�?�?023-2024样本), 减半
+    // [P0-DECOUPLE] 纯宏观触发: Fed>=5.0 即为限制性利率环境
+    // 移除 SCENARIO_YEAR_CTX===2023 硬编码, 让宏观信号驱动
+    // [D1-3 REDUCED] Fed>5% 幅度: 方向正确但原始幅度过大(仅2023-2024样本), 减半
     if (fedRateVal >= 5.0) {
         if (['energy', 'industrial', 'agriculture'].includes(majorKey)) {
-            score -= 15; // G3: -60 -> -30 -> -15 (再减�? �?023-2024触发)
+            score -= 15; // G3: -60 -> -30 -> -15 (再减半, 仅2023-2024触发)
             factors.push({
-                label: '💰 高息限制性利�?Fed>5%)',
+                label: '💰 高息限制性利率(Fed>5%)',
                 contribution: '-30',
                 principle: 'High rates crush demand'
             });
         }
         else if (['usStock', 'devStock', 'crypto'].includes(majorKey)) {
-            score += 18; // G3: +70 -> +35 -> +18 (再减�? �?023-2024触发)
+            score += 18; // G3: +70 -> +35 -> +18 (再减半, 仅2023-2024触发)
             factors.push({
-                label: '💰 软着陆预�?AI/Tech)',
+                label: '💰 软着陆预期(AI/Tech)',
                 contribution: '+35',
                 principle: 'Rate cut anticipation'
             });
@@ -801,39 +855,39 @@ function calcAssetScore_v98(majorKey, macroVals) {
     }
 
     // ========================================
-    // v13.7.5: 2021�?"法币泛滥" (Deep Negative Real Yield)
+    // v13.7.5: 2021年 "法币泛滥" (Deep Negative Real Yield)
     // ========================================
     // Logic: Real Yield < -0.5 triggers fiat debasement trades
     // ========================================
     // v16.14: COVID Stimulus (2020)
     // ========================================
     // Logic: Deep Recession (Growth < -1.0) + Industrial -> Stimulus Proxy
-    // [D1-2 REMOVED] COVID工业金属+50: 深度衰退利好工业金属是逻辑悖反, 这是为拟�?020刺激反弹
+    // [D1-2 REMOVED] COVID工业金属+50: 深度衰退利好工业金属是逻辑悖反, 这是为拟合2020刺激反弹
     // 原始代码: if (growth < -1.0 && majorKey === 'industrial') { score += 50 }
 
-    // [D1-4 REDUCED] 深度负利�? 法币贬值逻辑正确但幅度来�?021单一样本, 减半
+    // [D1-4 REDUCED] 深度负利率: 法币贬值逻辑正确但幅度来自2021单一样本, 减半
     const isDeepNegativeRealYield = (parseFloat(macroVals.realYield) < -0.5);
 
     if (isDeepNegativeRealYield) {
         if (majorKey === 'crypto') {
-            score += 12; // G3: +50 -> +25 -> +12 (�?021触发)
+            score += 12; // G3: +50 -> +25 -> +12 (仅2021触发)
             factors.push({
-                label: '🔥 深度负利�?法币贬�?',
+                label: '🔥 深度负利率(法币贬值)',
                 contribution: '+25',
                 principle: 'Fiat Debasement Hedge'
             });
         }
         else if (majorKey === 'energy') {
-            score += 8; // G3: +30 -> +15 -> +8 (�?021触发)
+            score += 8; // G3: +30 -> +15 -> +8 (仅2021触发)
             factors.push({
-                label: '🔥 负利率商�?,
+                label: '🔥 负利率商品',
                 contribution: '+15',
             });
         }
     }
 
     // ========================================
-    // v13.7.5: 2018�?"贸易�?加息尾声" (Trade War)
+    // v13.7.5: 2018年 "贸易战/加息尾声" (Trade War)
     // ========================================
     // Logic: Fed > 2.0 (Hiking) BUT RateReason < 0 (Pivot Anticipation/Headwinds)
     // This captures 2018 specifically (Fed was ~2.4, Market crashing)
@@ -842,14 +896,14 @@ function calcAssetScore_v98(majorKey, macroVals) {
     // const rateReasonVal = parseFloat(macroVals.rateChangeReason) || 0; // Hoisted
     const isTradeWarProxy_Local = (fedRateVal > 2.0 && fedRateVal < 3.0 && rateReasonVal < 0);
 
-    // [D1-5 TIGHTENED] 危机触发: 原条�?growth<1.0 覆盖~40%季度太宽, 收紧�?VIX>30 �?增长显著恶化
+    // [D1-5 TIGHTENED] 危机触发: 原条件 growth<1.0 覆盖~40%季度太宽, 收紧为 VIX>30 或 增长显著恶化
     const isCrisis = (vix > 30) || (growth < 0.5 && vix > 20) || (isTradeWarProxy_Local && vix > 20);
 
     if (isCrisis) {
         if (majorKey === 'precious') {
             score += 30; // D1: +50 -> +30
             factors.push({
-                label: '🛡�?危机避险/贸易�?,
+                label: '🛡️ 危机避险/贸易战',
                 contribution: '+30',
                 principle: 'Safe Haven Override'
             });
@@ -871,9 +925,10 @@ function calcAssetScore_v98(majorKey, macroVals) {
     // We handle this by adjusting the 'totalAdjustment' if it comes from RealYield
     // Since we can't easily parse 'reasons' text here without being messy, 
     // we will apply a negative correction if majorKey is Consolidated Bonds and Score is massive.
-    // [G3 REMOVED] 债券>150 ×0.8: 已有 D1-9 全局封顶 120, 此条件永远不会触�?    // 原代�? if (bonds && score > 150) score *= 0.8
+    // [G3 REMOVED] 债券>150 ×0.8: 已有 D1-9 全局封顶 120, 此条件永远不会触发
+    // 原代码: if (bonds && score > 150) score *= 0.8
 
-    // [D1-6 REMOVED] 区域危机对冲+45: regionalRisk 是快照元数据属�? 不是宏观信号
+    // [D1-6 REMOVED] 区域危机对冲+45: regionalRisk 是快照元数据属性, 不是宏观信号
     // 原始代码: if (window._currentScenario.regionalRisk) { hedges +45 }
 
     // 3. 2017 Crypto Boom (Halving Cycle)
@@ -882,8 +937,8 @@ function calcAssetScore_v98(majorKey, macroVals) {
     if (majorKey === 'crypto') {
         const btcCycle = parseFloat(macroVals.btcCycle) || 0;
         if (btcCycle > 0.6) {
-            score += 15; // G3: +60 -> +30 -> +15 (叙事驱动, 再减�?
-            factors.push({ label: '🚀 比特币减半周�?, contribution: '+30' });
+            score += 15; // G3: +60 -> +30 -> +15 (叙事驱动, 再减半)
+            factors.push({ label: '🚀 比特币减半周期', contribution: '+30' });
         }
         if (parseFloat(macroVals.momentum) > 0.8) {
             score += 10; // D1: +20 -> +10
@@ -908,10 +963,11 @@ function calcAssetScore_v98(majorKey, macroVals) {
         // Debug Log
         console.log(`[v15.0 Debug] Gold Divergence Check: ry=${ry}, trend=${goldTrend.toFixed(2)}, isRestr=${isRestrictiveRates}, isBull=${isMarketBullish}`);
 
-        // [P0-DECOUPLE] 移除 SCENARIO_YEAR_CTX!==2015 排除, 让宏观条件自行判�?        // [D1-8 REDUCED] 黄金背离奖励: 方向正确但原始幅度导致分数膨胀�?80+, 封顶�?0
+        // [P0-DECOUPLE] 移除 SCENARIO_YEAR_CTX!==2015 排除, 让宏观条件自行判断
+        // [D1-8 REDUCED] 黄金背离奖励: 方向正确但原始幅度导致分数膨胀到180+, 封顶至30
         if (isRestrictiveRates && isMarketBullish) {
             let divergenceBonus = 12; // G3: 50 -> 25 -> 12 (2024单一样本)
-            if (goldTrend > 1.15) divergenceBonus += 3; // G3: 总计最�?5
+            if (goldTrend > 1.15) divergenceBonus += 3; // G3: 总计最高15
 
             score += divergenceBonus;
 
@@ -924,45 +980,45 @@ function calcAssetScore_v98(majorKey, macroVals) {
     }
 
     // ========================================
-    // v16.37: 全资产类别估值因子整�?(Valuation Factor Integration)
+    // v16.37: 全资产类别估值因子整合 (Valuation Factor Integration)
     // 正确位置：在 FINAL 评分输出之前
     // ========================================
     console.log(`[v16.37 DEBUG] Valuation Factor Check for ${majorKey}`);
     const valVals_v37 = typeof getValuationValues === 'function' ? getValuationValues() : {};
 
-    // 1. 股票类资�? pePercentile 整合
+    // 1. 股票类资产: pePercentile 整合
     if (['usStock', 'cnStock', 'devStock', 'emStock'].includes(majorKey)) {
         const pePercentile = parseFloat(macroVals.pePercentile || (valVals_v37.spPercentile / 100) || 0.5);
 
-        // 极端高估 (>85%分位) �?温和惩罚
+        // 极端高估 (>85%分位) → 温和惩罚
         if (pePercentile > 0.85) {
             const penalty = (pePercentile - 0.85) * 30;
             score -= penalty;
             factors.push({
                 indicator: 'pe_valuation',
-                label: `📊 估值偏�?${(pePercentile * 100).toFixed(0)}%分位)`,
+                label: `📊 估值偏高(${(pePercentile * 100).toFixed(0)}%分位)`,
                 contribution: `-${penalty.toFixed(1)}`
             });
             console.log(`[v16.37] ${majorKey}: PE Percentile ${(pePercentile * 100).toFixed(0)}% -> Penalty -${penalty.toFixed(1)}`);
         }
-        // 极端低估 (<15%分位) �?温和奖励
+        // 极端低估 (<15%分位) → 温和奖励
         else if (pePercentile < 0.15) {
             const bonus = (0.15 - pePercentile) * 30;
             score += bonus;
             factors.push({
                 indicator: 'pe_valuation',
-                label: `📊 估值偏�?${(pePercentile * 100).toFixed(0)}%分位)`,
+                label: `📊 估值偏低(${(pePercentile * 100).toFixed(0)}%分位)`,
                 contribution: `+${bonus.toFixed(1)}`
             });
             console.log(`[v16.37] ${majorKey}: PE Percentile ${(pePercentile * 100).toFixed(0)}% -> Bonus +${bonus.toFixed(1)}`);
         }
     }
 
-    // 2. 贵金�? goldPriceMA200 整合
+    // 2. 贵金属: goldPriceMA200 整合
     if (majorKey === 'precious') {
         const goldMA200 = parseFloat(valVals_v37.goldPriceMA200) || 1.0;
 
-        // 超买 (>1.15) �?惩罚
+        // 超买 (>1.15) → 惩罚
         if (goldMA200 > 1.15) {
             const penalty = (goldMA200 - 1.15) * 20;
             score -= penalty;
@@ -973,7 +1029,7 @@ function calcAssetScore_v98(majorKey, macroVals) {
             });
             console.log(`[v16.37] precious: Gold MA200=${goldMA200.toFixed(2)} -> Penalty -${penalty.toFixed(1)}`);
         }
-        // 超卖 (<0.85) �?奖励
+        // 超卖 (<0.85) → 奖励
         else if (goldMA200 < 0.85) {
             const bonus = (0.85 - goldMA200) * 20;
             score += bonus;
@@ -990,24 +1046,24 @@ function calcAssetScore_v98(majorKey, macroVals) {
     if (majorKey === 'energy') {
         const oilMA200 = parseFloat(valVals_v37.oilPriceMA200) || 1.0;
 
-        // 超买 (>1.30) �?惩罚 (原油波动更大)
+        // 超买 (>1.30) → 惩罚 (原油波动更大)
         if (oilMA200 > 1.30) {
             const penalty = (oilMA200 - 1.30) * 25;
             score -= penalty;
             factors.push({
                 indicator: 'oil_ma200',
-                label: `🛢�?原油超买(MA200×${oilMA200.toFixed(2)})`,
+                label: `🛢️ 原油超买(MA200×${oilMA200.toFixed(2)})`,
                 contribution: `-${penalty.toFixed(1)}`
             });
             console.log(`[v16.37] energy: Oil MA200=${oilMA200.toFixed(2)} -> Penalty -${penalty.toFixed(1)}`);
         }
-        // 超卖 (<0.70) �?奖励
+        // 超卖 (<0.70) → 奖励
         else if (oilMA200 < 0.70) {
             const bonus = (0.70 - oilMA200) * 25;
             score += bonus;
             factors.push({
                 indicator: 'oil_ma200',
-                label: `🛢�?原油超卖(MA200×${oilMA200.toFixed(2)})`,
+                label: `🛢️ 原油超卖(MA200×${oilMA200.toFixed(2)})`,
                 contribution: `+${bonus.toFixed(1)}`
             });
             console.log(`[v16.37] energy: Oil MA200=${oilMA200.toFixed(2)} -> Bonus +${bonus.toFixed(1)}`);
@@ -1019,8 +1075,9 @@ function calcAssetScore_v98(majorKey, macroVals) {
         const rateReasonVal = parseFloat(macroVals.rateChangeReason) || 0;
         const vixVal = parseFloat(macroVals.vix) || 15;
 
-        // [P0-DECOUPLE] 纯宏观触�? VIX极高 + 激进降�?= QE环境
-        // 移除 SCENARIO_YEAR_CTX===2020 硬编�?        if (rateReasonVal < -0.8 && vixVal > 40) {
+        // [P0-DECOUPLE] 纯宏观触发: VIX极高 + 激进降息 = QE环境
+        // 移除 SCENARIO_YEAR_CTX===2020 硬编码
+        if (rateReasonVal < -0.8 && vixVal > 40) {
             score += 45; // 确保进入Top3
             factors.push({
                 indicator: 'qe_recovery',
@@ -1033,13 +1090,13 @@ function calcAssetScore_v98(majorKey, macroVals) {
 
     // v9.8.1: 全局评分约束
     score = Math.max(25, score);
-    score = Math.min(120, score); // [D1-9] 全局评分封顶120, 防止叠加规则膨胀�?80+
+    score = Math.min(120, score); // [D1-9] 全局评分封顶120, 防止叠加规则膨胀到180+
 
 
-    console.log(`[v9.8 FINAL] ${majorKey}: 最终评�?${score.toFixed(1)}`);
+    console.log(`[v9.8 FINAL] ${majorKey}: 最终评分=${score.toFixed(1)}`);
 
-    // [D1-1b REMOVED] 银行危机双重 Override 第二�? Math.max(145, score+60) �?Math.min(130, score) 逻辑矛盾
-    // 专为2023 SVB单一场景硬编码文本匹�? 已有D1-9全局封顶120保护
+    // [D1-1b REMOVED] 银行危机双重 Override 第二处: Math.max(145, score+60) 再 Math.min(130, score) 逻辑矛盾
+    // 专为2023 SVB单一场景硬编码文本匹配, 已有D1-9全局封顶120保护
 
     // v16.18 FIX: FORCE OVERRIDE (Nuclear Option)
     // Historical replay keeps context notes only; it should not hard-force major scores.
@@ -1062,7 +1119,7 @@ function calcAssetScore_v98(majorKey, macroVals) {
         }
     } catch (e) { console.warn("[v16.18] Override Error", e); }
 
-    // console.log(`[v9.8 FINAL] ${majorKey}: 最终评�?${score.toFixed(1)}`); // Commented out as it's already above
+    // console.log(`[v9.8 FINAL] ${majorKey}: 最终评分=${score.toFixed(1)}`); // Commented out as it's already above
     return {
         score: score.toFixed(1), // Changed from finalScore to score
         factors: factors, // Changed reasons to factors
@@ -1072,19 +1129,21 @@ function calcAssetScore_v98(majorKey, macroVals) {
     };
 }
 
-// v9.8: 版本控制开�?window._useV98Scoring = true;  // v14.1 Fixed: Enabled high-accuracy engine (>75% accuracy)
+// v9.8: 版本控制开关
+window._useV98Scoring = true;  // v14.1 Fixed: Enabled high-accuracy engine (>75% accuracy)
 
-console.log('�?v14.1: v9.8 Expert Scoring Engine Enabled (Crisis Tuning active)');
+console.log('✅ v14.1: v9.8 Expert Scoring Engine Enabled (Crisis Tuning active)');
 
 function generateRecommendation(isBatch = false, isSilent = false) {
     if (selectedAssets.size === 0) {
-        if (!isBatch) alert('请至少选择一个资�?');
+        if (!isBatch) alert('请至少选择一个资产!');
         window.assetScores = {};
     }
 
     const macroVals = getMacroValues();
 
-    // v11.43: 参数验证UI集成 - 读取原始DOM值进行验证（避免被getMacroValues静默调整�?    if (!isBatch) {
+    // v11.43: 参数验证UI集成 - 读取原始DOM值进行验证（避免被getMacroValues静默调整）
+    if (!isBatch) {
         const rawParams = {};
         Object.keys(MACRO_PARAM_LIMITS).forEach(k => {
             const el = document.getElementById(`macro_${k}`);
@@ -1096,13 +1155,15 @@ function generateRecommendation(isBatch = false, isSilent = false) {
 
         const validation = validateMacroParams(rawParams);
 
-        // 错误：阻止计�?        if (!validation.isValid) {
-            alert('�?参数验证错误:\n\n' + validation.errors.join('\n\n') + '\n\n请修正后重试�?);
+        // 错误：阻止计算
+        if (!validation.isValid) {
+            alert('❌ 参数验证错误:\n\n' + validation.errors.join('\n\n') + '\n\n请修正后重试。');
             return;
         }
 
-        // 警告：需要用户确�?        if (validation.warnings.length > 0) {
-            const proceed = confirm('⚠️ 参数警告:\n\n' + validation.warnings.join('\n\n') + '\n\n是否继续计算�?);
+        // 警告：需要用户确认
+        if (validation.warnings.length > 0) {
+            const proceed = confirm('⚠️ 参数警告:\n\n' + validation.warnings.join('\n\n') + '\n\n是否继续计算？');
             if (!proceed) return;
         }
 
@@ -1114,34 +1175,37 @@ function generateRecommendation(isBatch = false, isSilent = false) {
 
     window.assetScores = {};
 
-    // v9.8: 双版本并行运行对�?    if (window._useV98Scoring) {
+    // v9.8: 双版本并行运行对比
+    if (window._useV98Scoring) {
         console.log('🔄 [v9.8对比] 开始双版本并行计算...');
 
         Object.keys(assetLibrary).forEach(majorKey => {
-            // 计算v9.7版本（旧�?            const scoreV97 = calcAssetScore(majorKey, macroVals);
+            // 计算v9.7版本（旧）
+            const scoreV97 = calcAssetScore(majorKey, macroVals);
 
-            // 计算v9.8版本（新�?            const scoreV98 = calcAssetScore_v98(majorKey, macroVals);
+            // 计算v9.8版本（新）
+            const scoreV98 = calcAssetScore_v98(majorKey, macroVals);
 
             // 对比日志
-            console.log(`📊 [v9.8对比] ${majorKey}: v9.7=${scoreV97.score}�?| v9.8=${scoreV98.score}�?| 差异=${(parseFloat(scoreV98.score) - parseFloat(scoreV97.score)).toFixed(1)}分`);
+            console.log(`📊 [v9.8对比] ${majorKey}: v9.7=${scoreV97.score}分 | v9.8=${scoreV98.score}分 | 差异=${(parseFloat(scoreV98.score) - parseFloat(scoreV97.score)).toFixed(1)}分`);
 
             // 使用v9.8版本
             // 使用v9.8版本
             let finalScoreObj = scoreV98;
 
-            // v10.0: 第一性原理修�?(Bottom-Up Adjustment)
+            // v10.0: 第一性原理修正 (Bottom-Up Adjustment)
             // (Max Score Override logic MOVED OUT to support both versions)
 
             window.assetScores[majorKey] = scoreV98;
         });
 
-        console.log('�?[v9.8对比] 使用v9.8评分 (v14.1 Enhanced)');
+        console.log('✅ [v9.8对比] 使用v9.8评分 (v14.1 Enhanced)');
     } else {
         // 使用v9.7版本
         Object.keys(assetLibrary).forEach(majorKey => {
             window.assetScores[majorKey] = calcAssetScore(majorKey, macroVals);
         });
-        console.log('�?使用v9.7评分');
+        console.log('✅ 使用v9.7评分');
     }
 
     // Freeze a pure major-level score pool before any user-selected sub-asset
@@ -1194,16 +1258,18 @@ function generateRecommendation(isBatch = false, isSilent = false) {
                 const finalScoreObj = window.assetScores[majorKey];
                 if (finalScoreObj) {
                     const oldScore = parseFloat(finalScoreObj.score);
-                    // console.log(`🚀 [v14.1 MaxOverride] ${majorKey}: 大类(${oldScore}) -> 子资产最�?${maxSubScore}, ${bestSubName})`);
+                    // console.log(`🚀 [v14.1 MaxOverride] ${majorKey}: 大类(${oldScore}) -> 子资产最优(${maxSubScore}, ${bestSubName})`);
 
                     finalScoreObj.score = maxSubScore.toFixed(1);
-                    // 如果是简单的v9.7对象，可能没有factors数组，需要确�?                    if (!finalScoreObj.factors) finalScoreObj.factors = [];
+                    // 如果是简单的v9.7对象，可能没有factors数组，需要确保
+                    if (!finalScoreObj.factors) finalScoreObj.factors = [];
 
                     finalScoreObj.factors = bestSubResult.factors; // 使用子资产的因子解释
                     finalScoreObj.isSpecific = true;
-                    // 在因子列表中置顶一个说�?                    finalScoreObj.factors.unshift({
+                    // 在因子列表中置顶一个说明
+                    finalScoreObj.factors.unshift({
                         indicator: 'override',
-                        label: '�?子资产锁�?,
+                        label: '⭐ 子资产锁定',
                         contribution: '覆盖',
                         currValue: bestSubName
                     });
@@ -1214,16 +1280,16 @@ function generateRecommendation(isBatch = false, isSilent = false) {
 
     // v8.31: 打印识别到的制度
     if (regime.notes.length > 0) {
-        console.log("🛠�?v8.31 制度识别生效:", regime.notes.join(", "));
+        console.log("🛠️ v8.31 制度识别生效:", regime.notes.join(", "));
     }
 
     // ============================================
     // v14.1 Smart Scan for Global Best (AI Radar)
     // ============================================
-    // 即使可以基于 assetScores 生成右侧结果，左侧的"全局最�?需要更主动
-    // 它应该假�?"如果我选了各赛道最好的马，我的组合会是怎样"
+    // 即使可以基于 assetScores 生成右侧结果，左侧的"全局最优"需要更主动
+    // 它应该假设 "如果我选了各赛道最好的马，我的组合会是怎样"
 
-    // 1. 构建 Smart Scores (虚拟�?
+    // 1. 构建 Smart Scores (虚拟的)
     const smartScores = JSON.parse(JSON.stringify(pureGlobalScores));
     const subassetPromotionLimits = {
         bonds_us: 15,
@@ -1261,13 +1327,13 @@ function generateRecommendation(isBatch = false, isSilent = false) {
                 });
             });
 
-            // 如果找到更好的子资产，且比当前大类分高显�?(>2.5�?，则在Global Radar中使用它
+            // 如果找到更好的子资产，且比当前大类分高显著 (>2.5分)，则在Global Radar中使用它
             // v16.4 FIX: Safety check for smartScores[majorKey]
             const majorEntry = smartScores[majorKey];
             if (majorEntry && majorEntry.score) {
                 const currentMajorScore = parseFloat(majorEntry.score);
                 if (bestScore > -900 && bestScore > currentMajorScore + 2.5) {
-                    console.log(`📡 [AI Radar] ${majorKey}: 发现潜在的更优资�?${bestName} (${bestScore} > ${currentMajorScore})`);
+                    console.log(`📡 [AI Radar] ${majorKey}: 发现潜在的更优资产 ${bestName} (${bestScore} > ${currentMajorScore})`);
                     const cappedScore = Math.min(bestScore, currentMajorScore + getSubassetPromotionLimit(majorKey));
                     majorEntry.score = cappedScore.toFixed(1);
                     // 标记一下，以便UI显示
@@ -1298,7 +1364,10 @@ function generateRecommendation(isBatch = false, isSilent = false) {
     );
     // 3. 为全局配置添加 "由XX驱动" 的元数据 (用于UI显示)
     // P1 返回的是 权重对象 {cnStock: 0.2 ...}
-    // 我们需要把 _bestSubName 挂载�?_globalOptimalRec 上吗�?    // _globalOptimalRec 是简单的 key-value�?    // 我们把元数据存到 window._globalRadarInfo map �?    window._blRecommendation = null;
+    // 我们需要把 _bestSubName 挂载到 _globalOptimalRec 上吗？
+    // _globalOptimalRec 是简单的 key-value。
+    // 我们把元数据存到 window._globalRadarInfo map 中
+    window._blRecommendation = null;
     if (typeof window.runBlackLitterman === "function") {
         try {
             const blResult = window.runBlackLitterman(
@@ -1352,12 +1421,12 @@ function generateRecommendation(isBatch = false, isSilent = false) {
     window.__repeatabilityCheck = {
         sameInput,
         sameOutput,
-        status: sameInput ? (sameOutput ? "一�? : "警告") : "首次/变更",
+        status: sameInput ? (sameOutput ? "一致" : "警告") : "首次/变更",
         message: sameInput
             ? (sameOutput
-                ? "同输入重复运行时输出一致�?
-                : "同输入重复运行时输出不一致，需排查隐藏状态�?)
-            : "当前输入与上次记录不同，已更新基线�?
+                ? "同输入重复运行时输出一致。"
+                : "同输入重复运行时输出不一致，需排查隐藏状态。")
+            : "当前输入与上次记录不同，已更新基线。"
     };
     localStorage.setItem("lumi_last_reco_fingerprint", repeatabilityFingerprint);
     localStorage.setItem("lumi_last_reco_output", repeatabilityOutput);
@@ -1374,12 +1443,13 @@ function generateRecommendation(isBatch = false, isSilent = false) {
 
     // [v11.27] Batch Mode: Skip UI interactions
     if (!isBatch && !window._isBatchTesting && !isSilent) {
-        // v14.0b Hotfix: 只有当不�?loadMacroTemplate 触发的批量更新时才弹�?        // Check removed, assuming loadMacroTemplate now calls this correctly ONCE.
+        // v14.0b Hotfix: 只有当不是 loadMacroTemplate 触发的批量更新时才弹窗
+        // Check removed, assuming loadMacroTemplate now calls this correctly ONCE.
 
         // 渲染一次UI以显示最新的Global Radar
         renderRecommendation(); // Ensure Global Table updates
 
-        alert('�?AI推荐已生成！请查看推荐表格�?);
+        alert('✅ AI推荐已生成！请查看推荐表格。');
     }
 }
 
@@ -1403,7 +1473,7 @@ function saveMacroTemplate() {
     templates[templateName] = macroVals;
 
     localStorage.setItem('lumi_macro_templates', JSON.stringify(templates));
-    alert('�?宏观场景已保存！');
+    alert('✅ 宏观场景已保存！');
 
     // Trigger UI refresh
     if (typeof renderUserMacroTemplates === 'function') {
@@ -1429,23 +1499,23 @@ function loadCustomAssets() {
 function openMacroWizard(key) {
     let score = 0;
     if (key === 'cnPolicy') {
-        if (confirm('问卷向导 (中国政策)：\n\nQ1: 最近政治局会议/央行是否有明确的"宽松/刺激"表态？\n(点击"确定"为是�?取消"为否)')) score += 0.5;
+        if (confirm('问卷向导 (中国政策)：\n\nQ1: 最近政治局会议/央行是否有明确的"宽松/刺激"表态？\n(点击"确定"为是，"取消"为否)')) score += 0.5;
         if (confirm('Q2: 最近是否实施了降准或降息？')) score += 0.3;
-        if (confirm('Q3: 是否有具体的财政刺激计划落地（如特别国债）�?)) score += 0.2;
+        if (confirm('Q3: 是否有具体的财政刺激计划落地（如特别国债）？')) score += 0.2;
         if (score === 0) {
-            if (confirm('Q: 总体政策基调是否�?紧缩/去杠�?�?)) score = -0.5;
+            if (confirm('Q: 总体政策基调是否为"紧缩/去杠杆"？')) score = -0.5;
         }
     } else if (key === 'momentum') {
-        if (confirm('问卷向导 (市场动量)：\n\nQ1: 标普500指数是否�?00日均线之上？')) score += 0.5;
+        if (confirm('问卷向导 (市场动量)：\n\nQ1: 标普500指数是否在200日均线之上？')) score += 0.5;
         if (confirm('Q2: 最近是否创出新高或更高的高点？')) score += 0.3;
-        if (confirm('Q3: 市场情绪是否普遍看涨 (贪婪)�?)) score += 0.2;
+        if (confirm('Q3: 市场情绪是否普遍看涨 (贪婪)？')) score += 0.2;
         if (score === 0) {
-            if (confirm('Q: 市场是否明显处于下跌趋势 (低点更低)�?)) score = -0.5;
+            if (confirm('Q: 市场是否明显处于下跌趋势 (低点更低)？')) score = -0.5;
         }
     } else if (key === 'adoption') {
-        if (confirm('问卷向导 (机构认可�?：\n\nQ1: 是否有主流ETF (如现货ETF) 获批或预期极高？')) score += 0.5;
-        if (confirm('Q2: 是否有大型机�?(如Blackrock, 养老金) 公开入场�?)) score += 0.3;
-        if (confirm('Q3: 监管环境是否变得清晰/友好�?)) score += 0.2;
+        if (confirm('问卷向导 (机构认可度)：\n\nQ1: 是否有主流ETF (如现货ETF) 获批或预期极高？')) score += 0.5;
+        if (confirm('Q2: 是否有大型机构 (如Blackrock, 养老金) 公开入场？')) score += 0.3;
+        if (confirm('Q3: 监管环境是否变得清晰/友好？')) score += 0.2;
     }
 
     document.getElementById('macro_' + key).value = score.toFixed(2);
@@ -1453,13 +1523,13 @@ function openMacroWizard(key) {
 }
 
 function addCustomCrypto() {
-    const name = prompt('请输入代币名�?(�? Pepe Coin):');
+    const name = prompt('请输入代币名称 (如: Pepe Coin):');
     if (!name) return;
-    const ticker = prompt('请输入代币代�?(�? PEPE):').toUpperCase();
+    const ticker = prompt('请输入代币代码 (如: PEPE):').toUpperCase();
     if (!ticker) return;
 
     if (assetLibrary.crypto.subcategories.altcoins.assets[ticker]) {
-        alert('该代币已存在�?);
+        alert('该代币已存在！');
         return;
     }
 
@@ -1470,7 +1540,7 @@ function addCustomCrypto() {
     custom.push({ name, ticker });
     localStorage.setItem('customCryptoAssets', JSON.stringify(custom));
 
-    alert('�?已添�?' + name + ' (' + ticker + ')');
+    alert('✅ 已添加 ' + name + ' (' + ticker + ')');
     // Refresh grid
     selectSubCategory('crypto', 'altcoins');
 }
@@ -1491,7 +1561,7 @@ function renderMacroDisplay() {
     Object.entries(macroIndics).forEach(([k, v]) => {
         let wizardHtml = '';
         if (['cnPolicy', 'momentum', 'adoption'].includes(k)) {
-            wizardHtml = '<button class="btn-xs-autofill" style="margin-left:4px; background:#fef3c7; color:#92400e; border-color:#fcd34d;" onclick="openMacroWizard(\'' + k + '\')">🧙‍♂�?智能打分</button>';
+            wizardHtml = '<button class="btn-xs-autofill" style="margin-left:4px; background:#fef3c7; color:#92400e; border-color:#fcd34d;" onclick="openMacroWizard(\'' + k + '\')">🧙‍♂️ 智能打分</button>';
         }
         let sourceHtml = '';
         if (v.sourceUrl) {
@@ -1503,7 +1573,7 @@ function renderMacroDisplay() {
         let autoFillHtml = '';
         if (v.hardToFind) {
             autoFillHtml = `<div style="display:flex; align-items:center;">
-                <button class="btn-xs-autofill" onclick="document.getElementById('macro_${k}').value = ${v.defaultVal}; updateMacroAndScore();">�?默认�?(${v.defaultDesc})</button>
+                <button class="btn-xs-autofill" onclick="document.getElementById('macro_${k}').value = ${v.defaultVal}; updateMacroAndScore();">⚡ 默认值 (${v.defaultDesc})</button>
                 ${wizardHtml}
             </div>`;
         } else {
@@ -1531,7 +1601,7 @@ function renderMacroDisplay() {
                     ${autoFillHtml}
                 </div>
                 <div style="text-align:center;">
-                    <div style="font-size: 10px; color: #666;">中�?/div>
+                    <div style="font-size: 10px; color: #666;">中性</div>
                     <div style="font-weight: 600; color: #666; font-size: 11px;">${v.neutral.toFixed(2)}</div>
                 </div>
                 <div style="font-size: 10px; color: #666; line-height:1.4;">
@@ -1612,10 +1682,10 @@ function calcSubAssetScore(majorKey, subKey, macroVals) {
 
         if (momentum > 0.6 && liquidity > 0) {
             subScore += 15;
-            factors.push({ label: '🧩 山寨�?高波动加�?', contribution: '+15' });
+            factors.push({ label: '🧩 山寨季(高波动加成)', contribution: '+15' });
         } else if (momentum < 0.4) {
             subScore -= 20; // Dump harder
-            factors.push({ label: '⚠️ 流动性枯�?山寨暴跌)', contribution: '-20' });
+            factors.push({ label: '⚠️ 流动性枯竭(山寨暴跌)', contribution: '-20' });
         }
     }
 
@@ -1642,7 +1712,7 @@ function calcSubAssetScore(majorKey, subKey, macroVals) {
 
         if (inflation > 4.0 || industrial > 3.0) {
             subScore += 10; // Silver has industrial beta
-            factors.push({ label: '🏭 工业需求复�?白银)', contribution: '+10' });
+            factors.push({ label: '🏭 工业需求复苏(白银)', contribution: '+10' });
         }
     }
 
@@ -1662,4 +1732,3 @@ function calcSubAssetScore(majorKey, subKey, macroVals) {
 window.calcAssetScore = calcAssetScore_v98;
 window.calcSubAssetScore = calcSubAssetScore;
 window.isAssetAvailable = isAssetAvailable;
-

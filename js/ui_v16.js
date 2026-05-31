@@ -16,12 +16,12 @@ if (
   window.top !== window.self
 ) {
   console.warn(
-    "[LocalFileMode] Ò³ÃæÒÔ file: Ğ­ÒéÔÚ frame ÖĞÔËĞĞ£¬ä¯ÀÀÆ÷¿ÉÄÜ×èÖ¹¿ç frame ¼ÓÔØ¡£½¨ÒéÖ±½Ó´ò¿ª index.html »ò¸ÄÓÃ±¾µØ HTTP ·şÎñ¡£",
+    "[LocalFileMode] é¡µé¢ä»¥ file: åè®®åœ¨ frame ä¸­è¿è¡Œï¼Œæµè§ˆå™¨å¯èƒ½é˜»æ­¢è·¨ frame åŠ è½½ã€‚å»ºè®®ç›´æ¥æ‰“å¼€ index.html æˆ–æ”¹ç”¨æœ¬åœ° HTTP æœåŠ¡ã€‚",
   );
 }
 // v15.1 FIX: Define Asset Groups globally at the top to avoid TDZ
 const P1_assetGroups = {
-  risk: ["cnStock", "hkStock", "usStock", "devStock", "emStock"], // P2: ÒÆ³ıenergy
+  risk: ["cnStock", "hkStock", "usStock", "devStock", "emStock"], // P2: ç§»é™¤energy
   safe: ["bonds_us", "bonds_china", "bonds_global", "precious", "hedges"],
   cross: [
     "crypto",
@@ -32,7 +32,7 @@ const P1_assetGroups = {
     "forex_safe",
     "forex_cny",
     "forex_commodity",
-  ], // P2: ĞÂÔöenergy
+  ], // P2: æ–°å¢energy
 };
 
 function escapeHtml(value) {
@@ -56,7 +56,7 @@ function parseFlexibleDate(value) {
 
 function getDateStalenessInfo(value) {
   var date = parseFlexibleDate(value);
-  if (!date) return { label: "Î´±ê×¢", stale: false, days: null };
+  if (!date) return { label: "æœªæ ‡æ³¨", stale: false, days: null };
   var diffDays = Math.floor((Date.now() - date.getTime()) / 86400000);
   return {
     label: date.toLocaleDateString("zh-CN"),
@@ -136,8 +136,8 @@ function bindTemplateActionDelegation(container) {
   });
 }
 
-// v16.41: »¬¸Ëµ÷²ÎÓÃ debounce + ¾²Ä¬Ä£Ê½£¬±ÜÃâÃ¿´ÎÍÏ¶¯¶¼µ¯ alert/Ìø×ª
-// 500ms ·À¶¶ºó²Å´¥·¢ÍÆ¼ö¼ÆËã£¬Ê¹ÓÃ isSilent=true ²»µ¯´°²»Ìø×ª
+// v16.41: æ»‘æ†è°ƒå‚ç”¨ debounce + é™é»˜æ¨¡å¼ï¼Œé¿å…æ¯æ¬¡æ‹–åŠ¨éƒ½å¼¹ alert/è·³è½¬
+// 500ms é˜²æŠ–åæ‰è§¦å‘æ¨èè®¡ç®—ï¼Œä½¿ç”¨ isSilent=true ä¸å¼¹çª—ä¸è·³è½¬
 window._debouncedGenRec = (() => {
   let timer = null;
   return function () {
@@ -183,11 +183,11 @@ window.copyDiagnosticData = function () {
   try {
     document.execCommand("copy");
     alert(
-      "? Õï¶ÏÊı¾İÒÑ¸´ÖÆµ½¼ôÌù°å£¡\n\nÇë½«ÄÚÈİÕ³Ìù¸ø AI ÖúÊÖ£¬ÎÒ½«ÎªÄú·ÖÎöÊäÈëÓë½á¹ûµÄÆ¥Åä¶È¡£",
+      "âœ… è¯Šæ–­æ•°æ®å·²å¤åˆ¶åˆ°å‰ªè´´æ¿ï¼\n\nè¯·å°†å†…å®¹ç²˜è´´ç»™ AI åŠ©æ‰‹ï¼Œæˆ‘å°†ä¸ºæ‚¨åˆ†æè¾“å…¥ä¸ç»“æœçš„åŒ¹é…åº¦ã€‚",
     );
   } catch (err) {
     console.error("Copy failed", err);
-    alert("? ¸´ÖÆÊ§°Ü£¬ÇëÊÖ¶¯½ØÍ¼¿ØÖÆÌ¨Êä³ö¡£");
+    alert("âŒ å¤åˆ¶å¤±è´¥ï¼Œè¯·æ‰‹åŠ¨æˆªå›¾æ§åˆ¶å°è¾“å‡ºã€‚");
     debugLog(jsonStr);
   }
   document.body.removeChild(textArea);
@@ -251,36 +251,36 @@ window.downloadDiagnosticData = function () {
     const normalizedScore = (totalScore / maxScore) * 100;
     if (normalizedScore > 30)
       return {
-        icon: "??",
-        type: "Ç¿¾¢¿´¶à",
-        desc: "ºê¹Û»·¾³Ã÷ÏÔÀûºÃ·çÏÕ×Ê²ú£¬¿É¿¼ÂÇÔöÅä¹ÉÆ±¡¢ĞÂĞËÊĞ³¡",
+        icon: "ğŸš€",
+        type: "å¼ºåŠ²çœ‹å¤š",
+        desc: "å®è§‚ç¯å¢ƒæ˜æ˜¾åˆ©å¥½é£é™©èµ„äº§ï¼Œå¯è€ƒè™‘å¢é…è‚¡ç¥¨ã€æ–°å…´å¸‚åœº",
         score: normalizedScore,
       };
     if (normalizedScore > 10)
       return {
-        icon: "??",
-        type: "ÎÂºÍ¿´¶à",
-        desc: "ºê¹Û»·¾³ÂÔÎ¢Æ«Ïò·çÏÕ×Ê²ú£¬±£³Ö¾ùºâÅäÖÃÆ«½ø¹¥",
+        icon: "ğŸ“ˆ",
+        type: "æ¸©å’Œçœ‹å¤š",
+        desc: "å®è§‚ç¯å¢ƒç•¥å¾®åå‘é£é™©èµ„äº§ï¼Œä¿æŒå‡è¡¡é…ç½®åè¿›æ”»",
         score: normalizedScore,
       };
     if (normalizedScore > -10)
       return {
-        icon: "??",
-        type: "ÖĞĞÔÆ½ºâ",
-        desc: "ºê¹Û»·¾³Ã»ÓĞÃ÷ÏÔÆ«Ïò£¬·ÖÉ¢ÅäÖÃÊÇºÏÀí²ßÂÔ",
+        icon: "âš–ï¸",
+        type: "ä¸­æ€§å¹³è¡¡",
+        desc: "å®è§‚ç¯å¢ƒæ²¡æœ‰æ˜æ˜¾åå‘ï¼Œåˆ†æ•£é…ç½®æ˜¯åˆç†ç­–ç•¥",
         score: normalizedScore,
       };
     if (normalizedScore > -30)
       return {
-        icon: "??",
-        type: "ÎÂºÍ½÷É÷",
-        desc: "ºê¹Û»·¾³ÂÔÎ¢Æ«Ïò·ÀÓù£¬¿É¿¼ÂÇÔöÅäÕ®È¯¡¢½µµÍ·çÏÕ³¨¿Ú",
+        icon: "âš ï¸",
+        type: "æ¸©å’Œè°¨æ…",
+        desc: "å®è§‚ç¯å¢ƒç•¥å¾®åå‘é˜²å¾¡ï¼Œå¯è€ƒè™‘å¢é…å€ºåˆ¸ã€é™ä½é£é™©æ•å£",
         score: normalizedScore,
       };
     return {
-      icon: "???",
-      type: "¸ß¶È·ÀÓù",
-      desc: "ºê¹Û»·¾³Ã÷ÏÔÀû¿Õ·çÏÕ×Ê²ú£¬½¨Òé´ó·ùÔöÅäÕ®È¯ºÍ¶Ô³å¹¤¾ß",
+      icon: "ğŸ›¡ï¸",
+      type: "é«˜åº¦é˜²å¾¡",
+      desc: "å®è§‚ç¯å¢ƒæ˜æ˜¾åˆ©ç©ºé£é™©èµ„äº§ï¼Œå»ºè®®å¤§å¹…å¢é…å€ºåˆ¸å’Œå¯¹å†²å·¥å…·",
       score: normalizedScore,
     };
   }
@@ -288,19 +288,19 @@ window.downloadDiagnosticData = function () {
   const aiEval = getAIAssessment(data.macro);
 
   // 3. Generate Markdown Content
-  let md = `# ?? Lumi Õï¶Ï±¨¸æ\n`;
+  let md = `# ğŸ©º Lumi è¯Šæ–­æŠ¥å‘Š\n`;
   md += `Generated: ${data.meta.timestamp}\n`;
   md += `Version: ${data.meta.version}\n\n`;
 
-  md += `## ?? AI ÆÀ¹ÀÓë»·¾³Õï¶Ï\n`;
-  md += `### ×´Ì¬£º${aiEval.icon} ${aiEval.type} (µÃ·Ö: ${aiEval.score.toFixed(0)})\n`;
-  md += `> **ÆÀ¹À½¨Òé**: ${aiEval.desc}\n\n`;
+  md += `## ğŸ¤– AI è¯„ä¼°ä¸ç¯å¢ƒè¯Šæ–­\n`;
+  md += `### çŠ¶æ€ï¼š${aiEval.icon} ${aiEval.type} (å¾—åˆ†: ${aiEval.score.toFixed(0)})\n`;
+  md += `> **è¯„ä¼°å»ºè®®**: ${aiEval.desc}\n\n`;
 
-  md += `## 1. ÊäÈëÅäÖÃ\n`;
-  md += `- **·ç¸ñ**: ${data.inputs.allocationStyle}\n`;
-  md += `- **Æ«ºÃ**: ${data.inputs.riskPref}\n\n`;
+  md += `## 1. è¾“å…¥é…ç½®\n`;
+  md += `- **é£æ ¼**: ${data.inputs.allocationStyle}\n`;
+  md += `- **åå¥½**: ${data.inputs.riskPref}\n\n`;
 
-  md += `## 2. ºËĞÄ×Ê²úÍÆ¼ö Top 5\n`;
+  md += `## 2. æ ¸å¿ƒèµ„äº§æ¨è Top 5\n`;
   const sortedRec = Object.entries(data.outputs.recommendation)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5);
@@ -312,13 +312,13 @@ window.downloadDiagnosticData = function () {
       const er = data.intermediate.predictiveExpectedReturns[k];
       const erText =
         er === null || er === undefined ? "N/A" : `${(er * 100).toFixed(2)}%`;
-      md += `- **${k}**: ${(v * 100).toFixed(1)}% (Ô¤²âÊÕÒæ: ${erText}, ÆÀ·Ö: ${score})\n`;
+      md += `- **${k}**: ${(v * 100).toFixed(1)}% (é¢„æµ‹æ”¶ç›Š: ${erText}, è¯„åˆ†: ${score})\n`;
     } else {
-      md += `- **${k}**: ${(v * 100).toFixed(1)}% (ÆÀ·Ö: ${score})\n`;
+      md += `- **${k}**: ${(v * 100).toFixed(1)}% (è¯„åˆ†: ${score})\n`;
     }
   });
 
-  md += `\n## 3. ÍêÕûÔ­Ê¼Êı¾İ (JSON)\n`;
+  md += `\n## 3. å®Œæ•´åŸå§‹æ•°æ® (JSON)\n`;
   md += "```json\n";
   md += JSON.stringify(data, null, 2);
   md += "\n```";
@@ -339,9 +339,9 @@ window.downloadDiagnosticData = function () {
 // ===============================================
 
 /**
- * µ¼³öµ±Ç°ºê¹Û²ÎÊıÅäÖÃÎª JSON ÎÄ¼ş
- * ÓÃÍ¾£º·¢ËÍ¸ø AI »ò×¨¼Ò½øĞĞ·ÖÎöÑéÖ¤
- * v13.2b: ÔöÇ¿°æ - Ã¿¸ö²ÎÊı°üº¬ÖĞÎÄÃû³Æ¡¢ËµÃ÷¡¢È¡Öµ·¶Î§
+ * å¯¼å‡ºå½“å‰å®è§‚å‚æ•°é…ç½®ä¸º JSON æ–‡ä»¶
+ * ç”¨é€”ï¼šå‘é€ç»™ AI æˆ–ä¸“å®¶è¿›è¡Œåˆ†æéªŒè¯
+ * v13.2b: å¢å¼ºç‰ˆ - æ¯ä¸ªå‚æ•°åŒ…å«ä¸­æ–‡åç§°ã€è¯´æ˜ã€å–å€¼èŒƒå›´
  */
 window.exportMacroParams = function () {
   const macroVals =
@@ -350,14 +350,14 @@ window.exportMacroParams = function () {
   const data = {
     version: "v13.2",
     timestamp: new Date().toISOString(),
-    description: "Lumi ºê¹Û²ÎÊıÅäÖÃµ¼³ö - °üº¬²ÎÊı¶¨Òå£¬¿ÉÖ±½Ó·¢ËÍ¸ø AI ·ÖÎö",
+    description: "Lumi å®è§‚å‚æ•°é…ç½®å¯¼å‡º - åŒ…å«å‚æ•°å®šä¹‰ï¼Œå¯ç›´æ¥å‘é€ç»™ AI åˆ†æ",
     usage_guide:
-      "µ¼ÈëÊ±Ö»Ğè±£Áô macro_params ºÍ reason_params µÄ value ×Ö¶Î£¬»òÖ±½ÓÊ¹ÓÃÍêÕû¸ñÊ½",
+      "å¯¼å…¥æ—¶åªéœ€ä¿ç•™ macro_params å’Œ reason_params çš„ value å­—æ®µï¼Œæˆ–ç›´æ¥ä½¿ç”¨å®Œæ•´æ ¼å¼",
     macro_params: {},
     reason_params: {},
   };
 
-  // Ô­Òò²ÎÊı¼üÃûÁĞ±í
+  // åŸå› å‚æ•°é”®ååˆ—è¡¨
   const reasonKeys = [
     "rateChangeReason",
     "inflationReason",
@@ -365,7 +365,7 @@ window.exportMacroParams = function () {
     "usdReason",
   ];
 
-  // ±éÀúËùÓĞ²ÎÊı£¬¸½¼ÓÔªÊı¾İ
+  // éå†æ‰€æœ‰å‚æ•°ï¼Œé™„åŠ å…ƒæ•°æ®
   Object.entries(macroVals).forEach(([key, value]) => {
     const config = typeof macroIndics !== "undefined" ? macroIndics[key] : null;
 
@@ -379,7 +379,7 @@ window.exportMacroParams = function () {
     };
 
     if (reasonKeys.includes(key)) {
-      // Ô­Òò²ÎÊıÌØÊâ´¦Àí - Ìí¼ÓÑ¡ÏîËµÃ÷
+      // åŸå› å‚æ•°ç‰¹æ®Šå¤„ç† - æ·»åŠ é€‰é¡¹è¯´æ˜
       if (config?.options) {
         paramInfo.options = config.options.map(
           (opt) => `${opt.value}: ${opt.label}`,
@@ -391,7 +391,7 @@ window.exportMacroParams = function () {
     }
   });
 
-  // ´¥·¢ÏÂÔØ
+  // è§¦å‘ä¸‹è½½
   const jsonStr = JSON.stringify(data, null, 2);
   const blob = new Blob([jsonStr], { type: "application/json" });
   const url = URL.createObjectURL(blob);
@@ -404,24 +404,24 @@ window.exportMacroParams = function () {
   URL.revokeObjectURL(url);
 
   alert(
-    "? ºê¹Û²ÎÊıÒÑµ¼³ö£¨º¬²ÎÊı¶¨Òå£©£¡\n\nÎÄ¼ş°üº¬Ã¿¸ö²ÎÊıµÄÖĞÎÄÃû³Æ¡¢ËµÃ÷ºÍÈ¡Öµ·¶Î§£¬¿ÉÖ±½Ó·¢ËÍ¸ø AI »ò×¨¼Ò¡£",
+    "âœ… å®è§‚å‚æ•°å·²å¯¼å‡ºï¼ˆå«å‚æ•°å®šä¹‰ï¼‰ï¼\n\næ–‡ä»¶åŒ…å«æ¯ä¸ªå‚æ•°çš„ä¸­æ–‡åç§°ã€è¯´æ˜å’Œå–å€¼èŒƒå›´ï¼Œå¯ç›´æ¥å‘é€ç»™ AI æˆ–ä¸“å®¶ã€‚",
   );
 };
 
 /**
- * ´Ó JSON ×Ö·û´®µ¼Èëºê¹Û²ÎÊıÅäÖÃ
- * ÓÃÍ¾£ºÒ»¼üµ¼Èë AI Éú³ÉµÄ²ÎÊı½¨Òé
+ * ä» JSON å­—ç¬¦ä¸²å¯¼å…¥å®è§‚å‚æ•°é…ç½®
+ * ç”¨é€”ï¼šä¸€é”®å¯¼å…¥ AI ç”Ÿæˆçš„å‚æ•°å»ºè®®
  */
 window.importMacroParams = function () {
   const jsonStr = prompt(
-    "ÇëÕ³Ìù JSON ¸ñÊ½µÄºê¹Û²ÎÊıÅäÖÃ£º\n\n£¨Ö§³Ö AI Éú³ÉµÄ²ÎÊı»òÖ®Ç°µ¼³öµÄÅäÖÃ£©",
+    "è¯·ç²˜è´´ JSON æ ¼å¼çš„å®è§‚å‚æ•°é…ç½®ï¼š\n\nï¼ˆæ”¯æŒ AI ç”Ÿæˆçš„å‚æ•°æˆ–ä¹‹å‰å¯¼å‡ºçš„é…ç½®ï¼‰",
   );
   if (!jsonStr) return;
   processMacroImport(jsonStr);
 };
 
 /**
- * v14.0: ´ÓÎÄ¼şµ¼Èëºê¹Û²ÎÊıÅäÖÃ
+ * v14.0: ä»æ–‡ä»¶å¯¼å…¥å®è§‚å‚æ•°é…ç½®
  */
 window.importMacroFromFile = function (input) {
   const file = input.files[0];
@@ -430,33 +430,33 @@ window.importMacroFromFile = function (input) {
   const reader = new FileReader();
   reader.onload = function (e) {
     processMacroImport(e.target.result);
-    // Çå¿ÕÑ¡Ôñ£¬·½±ãÏÂ´ÎÑ¡ÔñÍ¬Ò»ÎÄ¼ş
+    // æ¸…ç©ºé€‰æ‹©ï¼Œæ–¹ä¾¿ä¸‹æ¬¡é€‰æ‹©åŒä¸€æ–‡ä»¶
     input.value = "";
   };
   reader.onerror = function () {
-    alert("? ¶ÁÈ¡ÎÄ¼şÊ§°Ü");
+    alert("âŒ è¯»å–æ–‡ä»¶å¤±è´¥");
   };
   reader.readAsText(file);
 };
 
 /**
- * ÄÚ²¿Í³Ò»´¦ÀíÂß¼­
+ * å†…éƒ¨ç»Ÿä¸€å¤„ç†é€»è¾‘
  */
 function processMacroImport(jsonStr) {
   try {
     const data = JSON.parse(jsonStr);
 
-    // ÑéÖ¤¸ñÊ½
+    // éªŒè¯æ ¼å¼
     if (!data.macro_params && !data.reason_params && !data.valuation_params) {
       throw new Error(
-        "ÎŞĞ§µÄ²ÎÊı¸ñÊ½£ºÈ±ÉÙ macro_params, reason_params »ò valuation_params ×Ö¶Î",
+        "æ— æ•ˆçš„å‚æ•°æ ¼å¼ï¼šç¼ºå°‘ macro_params, reason_params æˆ– valuation_params å­—æ®µ",
       );
     }
 
     let importedCount = 0;
     let failedKeys = [];
 
-    // ¸¨Öúº¯Êı£º´Ó²ÎÊıÖµÖĞÌáÈ¡Êµ¼ÊÊıÖµ
+    // è¾…åŠ©å‡½æ•°ï¼šä»å‚æ•°å€¼ä¸­æå–å®é™…æ•°å€¼
     function extractValue(paramData) {
       if (
         typeof paramData === "object" &&
@@ -468,40 +468,40 @@ function processMacroImport(jsonStr) {
       return paramData;
     }
 
-    // v16.37: ¸¨Öúº¯Êı - ³¢ÊÔ¶àÖÖIDÄ£Ê½²éÕÒÔªËØ
+    // v16.37: è¾…åŠ©å‡½æ•° - å°è¯•å¤šç§IDæ¨¡å¼æŸ¥æ‰¾å…ƒç´ 
     function findElementByKey(key) {
-      // 1. ÓÅÏÈ³¢ÊÔ macro_ Ç°×º (±ê×¼ºê¹Û²ÎÊı)
+      // 1. ä¼˜å…ˆå°è¯• macro_ å‰ç¼€ (æ ‡å‡†å®è§‚å‚æ•°)
       let el = document.getElementById(`macro_${key}`);
       if (el) return el;
 
-      // 2. ³¢ÊÔÖ±½ÓÊ¹ÓÃ key (Tab 5 ¹ÀÖµ²ÎÊıÈç goldPriceMA200)
+      // 2. å°è¯•ç›´æ¥ä½¿ç”¨ key (Tab 5 ä¼°å€¼å‚æ•°å¦‚ goldPriceMA200)
       el = document.getElementById(key);
       if (el) return el;
 
-      // 3. ³¢ÊÔ slider_ Ç°×º
+      // 3. å°è¯• slider_ å‰ç¼€
       el = document.getElementById(`slider_${key}`);
       if (el) return el;
 
       return null;
     }
 
-    // µ¼Èëºê¹Û²ÎÊı
+    // å¯¼å…¥å®è§‚å‚æ•°
     if (data.macro_params) {
       Object.entries(data.macro_params).forEach(([key, paramData]) => {
         const val = extractValue(paramData);
 
-        // [v14.0b Fix] Í¬²½¸üĞÂÈ«¾ÖÄÚ´æÖĞµÄÅäÖÃ£¬È·±£ Custom Option ÄÜ±»äÖÈ¾
+        // [v14.0b Fix] åŒæ­¥æ›´æ–°å…¨å±€å†…å­˜ä¸­çš„é…ç½®ï¼Œç¡®ä¿ Custom Option èƒ½è¢«æ¸²æŸ“
         if (macroIndics[key]) {
           macroIndics[key].current = val;
         }
 
-        // v16.37: Ê¹ÓÃÔöÇ¿²éÕÒº¯Êı
+        // v16.37: ä½¿ç”¨å¢å¼ºæŸ¥æ‰¾å‡½æ•°
         const el = findElementByKey(key);
         if (el) {
           el.value = val;
         }
 
-        // È·±£¼ÆÊı×¼È· (¼´Ê¹ DOM ²»´æÔÚ£¬Ö»ÒªÄÚ´æ¸üĞÂÁËÒ²Ëãµ¼Èë³É¹¦)
+        // ç¡®ä¿è®¡æ•°å‡†ç¡® (å³ä½¿ DOM ä¸å­˜åœ¨ï¼Œåªè¦å†…å­˜æ›´æ–°äº†ä¹Ÿç®—å¯¼å…¥æˆåŠŸ)
         if (macroIndics[key] || el) {
           importedCount++;
         } else {
@@ -509,13 +509,13 @@ function processMacroImport(jsonStr) {
         }
       });
 
-      // [v14.0b Fix] µ¼ÈëºóÇ¿ÖÆÖØ»æ UI ÒÔÏÔÊ¾×Ô¶¨ÒåÑ¡Ïî
+      // [v14.0b Fix] å¯¼å…¥åå¼ºåˆ¶é‡ç»˜ UI ä»¥æ˜¾ç¤ºè‡ªå®šä¹‰é€‰é¡¹
       if (typeof renderMacroDisplay === "function") {
         renderMacroDisplay();
       }
     }
 
-    // µ¼ÈëÔ­Òò²ÎÊı
+    // å¯¼å…¥åŸå› å‚æ•°
     if (data.reason_params) {
       Object.entries(data.reason_params).forEach(([key, paramData]) => {
         const el = findElementByKey(key);
@@ -528,7 +528,7 @@ function processMacroImport(jsonStr) {
       });
     }
 
-    // v16.37: µ¼Èë¹ÀÖµ²ÎÊı (Tab 5 ×¨ÓÃ)
+    // v16.37: å¯¼å…¥ä¼°å€¼å‚æ•° (Tab 5 ä¸“ç”¨)
     if (data.valuation_params) {
     debugLog("[v16.37] Importing valuation_params...");
       Object.entries(data.valuation_params).forEach(([key, paramData]) => {
@@ -547,35 +547,35 @@ function processMacroImport(jsonStr) {
     const importedAt = new Date().toISOString();
     setMacroImportedAt(importedAt);
 
-    let msg = `? ³É¹¦µ¼Èë ${importedCount} ¸ö²ÎÊı£¡`;
+    let msg = `âœ… æˆåŠŸå¯¼å…¥ ${importedCount} ä¸ªå‚æ•°ï¼`;
     if (failedKeys.length > 0) {
-      msg += `\n\n?? ÒÔÏÂ²ÎÊıÎ´ÕÒµ½¶ÔÓ¦ÊäÈë¿ò (Ìø¹ı)£º${failedKeys.join(", ")}`;
+      msg += `\n\nâš ï¸ ä»¥ä¸‹å‚æ•°æœªæ‰¾åˆ°å¯¹åº”è¾“å…¥æ¡† (è·³è¿‡)ï¼š${failedKeys.join(", ")}`;
     }
-    if (data.version) msg += `\n\n?? Êı¾İ°æ±¾: ${data.version}`;
-    if (data.timestamp) msg += `\n? µ¼³öÊ±¼ä: ${data.timestamp}`;
+    if (data.version) msg += `\n\nğŸ“‹ æ•°æ®ç‰ˆæœ¬: ${data.version}`;
+    if (data.timestamp) msg += `\nâ° å¯¼å‡ºæ—¶é—´: ${data.timestamp}`;
 
     alert(msg);
 
-    // v14.1: µ¼Èëºó×Ô¶¯´¥·¢±íµ¥¸üĞÂ£¨Èç¹û UI ÓĞÏìÓ¦Ê½Âß¼­£©
+    // v14.1: å¯¼å…¥åè‡ªåŠ¨è§¦å‘è¡¨å•æ›´æ–°ï¼ˆå¦‚æœ UI æœ‰å“åº”å¼é€»è¾‘ï¼‰
     if (typeof updateMacroDisplay === "function") updateMacroDisplay();
   } catch (e) {
-    alert("? JSON ½âÎöÊ§°Ü£º\n\n" + e.message + "\n\nÇë¼ì²é¸ñÊ½ÊÇ·ñÕıÈ·¡£");
+    alert("âŒ JSON è§£æå¤±è´¥ï¼š\n\n" + e.message + "\n\nè¯·æ£€æŸ¥æ ¼å¼æ˜¯å¦æ­£ç¡®ã€‚");
     console.error("[processMacroImport] Error:", e);
   }
 }
 
 // ===============================================
-// v11.14 P0ÓÅ»¯: DOM»º´æÏµÍ³ + ³£Á¿¶¨Òå
+// v11.14 P0ä¼˜åŒ–: DOMç¼“å­˜ç³»ç»Ÿ + å¸¸é‡å®šä¹‰
 // ===============================================
 
 /**
- * ¸üĞÂÇé¾°¸ÅÂÊ»¬¿éÖµ²¢Í¬²½µ½È«¾ÖÅäÖÃ
+ * æ›´æ–°æƒ…æ™¯æ¦‚ç‡æ»‘å—å€¼å¹¶åŒæ­¥åˆ°å…¨å±€é…ç½®
  */
 function updateScenarioProb(scenarioGroup, scenarioName, value) {
   const prob = parseInt(value) / 100;
   scenarioProbabilities[scenarioGroup][scenarioName] = prob;
 
-  // v11.36b: ĞŞ¸´IDÆ¥ÅäÎÊÌâ£¬Ö§³Ö group_name ×éºÏ ID
+  // v11.36b: ä¿®å¤IDåŒ¹é…é—®é¢˜ï¼Œæ”¯æŒ group_name ç»„åˆ ID
   let labelId = "prob_" + scenarioName + "_label";
   if (!document.getElementById(labelId)) {
     labelId =
@@ -589,15 +589,15 @@ function updateScenarioProb(scenarioGroup, scenarioName, value) {
   const label = document.getElementById(labelId);
   if (label) label.textContent = value + "%";
 
-  // ÑéÖ¤×ÜºÍÊÇ·ñÎª100%
+  // éªŒè¯æ€»å’Œæ˜¯å¦ä¸º100%
   validateScenarioGroup(scenarioGroup);
 
-  // v11.41: ×Ô¶¯±£´æµ½ LocalStorage
+  // v11.41: è‡ªåŠ¨ä¿å­˜åˆ° LocalStorage
   saveScenarioConfigs();
 }
 
 /**
- * ÑéÖ¤Çé¾°×é¸ÅÂÊ×ÜºÍ
+ * éªŒè¯æƒ…æ™¯ç»„æ¦‚ç‡æ€»å’Œ
  */
 function validateScenarioGroup(scenarioGroup) {
   const probs = scenarioProbabilities[scenarioGroup];
@@ -608,25 +608,25 @@ function validateScenarioGroup(scenarioGroup) {
   if (validation) {
     if (Math.abs(total - 1.0) < 0.01) {
       validation.innerHTML =
-        '<span style="color:#16a34a;">? ×ÜºÍ: ' +
+        '<span style="color:#16a34a;">âœ… æ€»å’Œ: ' +
         (total * 100).toFixed(0) +
         "%</span>";
     } else {
       validation.innerHTML =
-        '<span style="color:#dc2626;">?? ×ÜºÍ: ' +
+        '<span style="color:#dc2626;">âš ï¸ æ€»å’Œ: ' +
         (total * 100).toFixed(0) +
-        "% (Ğèµ÷ÕûÎª100%)</span>";
+        "% (éœ€è°ƒæ•´ä¸º100%)</span>";
     }
   }
 }
 
 // ===============================================
-// v11.41: ¶àÇé¾°¸ÅÂÊ³Ö¾Ã»¯ (LocalStorage)
+// v11.41: å¤šæƒ…æ™¯æ¦‚ç‡æŒä¹…åŒ– (LocalStorage)
 // ===============================================
 const SCENARIO_CONFIG_KEY = "lumi_scenario_probabilities_v1";
 
 /**
- * ±£´æµ±Ç°Çé¾°¸ÅÂÊÅäÖÃµ½ LocalStorage
+ * ä¿å­˜å½“å‰æƒ…æ™¯æ¦‚ç‡é…ç½®åˆ° LocalStorage
  */
 function saveScenarioConfigs() {
   try {
@@ -636,15 +636,15 @@ function saveScenarioConfigs() {
       probabilities: scenarioProbabilities,
     };
     localStorage.setItem(SCENARIO_CONFIG_KEY, JSON.stringify(configToSave));
-  debugLog("[v11.41] Çé¾°¸ÅÂÊÒÑ×Ô¶¯±£´æ");
+  debugLog("[v11.41] æƒ…æ™¯æ¦‚ç‡å·²è‡ªåŠ¨ä¿å­˜");
   } catch (e) {
-    console.warn("[v11.41] ±£´æÊ§°Ü:", e);
+    console.warn("[v11.41] ä¿å­˜å¤±è´¥:", e);
   }
 }
 
 /**
- * ´Ó LocalStorage ¼ÓÔØÇé¾°¸ÅÂÊÅäÖÃ
- * @returns {boolean} ÊÇ·ñ³É¹¦¼ÓÔØ
+ * ä» LocalStorage åŠ è½½æƒ…æ™¯æ¦‚ç‡é…ç½®
+ * @returns {boolean} æ˜¯å¦æˆåŠŸåŠ è½½
  */
 function loadScenarioConfigs() {
   try {
@@ -653,7 +653,7 @@ function loadScenarioConfigs() {
 
     const config = JSON.parse(saved);
     if (config.probabilities) {
-      // ºÏ²¢ÒÑ±£´æµÄÅäÖÃ£¨±£ÁôÄ¬ÈÏ½á¹¹£¬¸²¸ÇÒÑ±£´æÖµ£©
+      // åˆå¹¶å·²ä¿å­˜çš„é…ç½®ï¼ˆä¿ç•™é»˜è®¤ç»“æ„ï¼Œè¦†ç›–å·²ä¿å­˜å€¼ï¼‰
       Object.keys(config.probabilities).forEach((group) => {
         if (scenarioProbabilities[group]) {
           Object.assign(
@@ -663,23 +663,23 @@ function loadScenarioConfigs() {
         }
       });
       console.log(
-        "[v11.41] ÒÑ»Ö¸´Çé¾°¸ÅÂÊÅäÖÃ (±£´æÓÚ:",
+        "[v11.41] å·²æ¢å¤æƒ…æ™¯æ¦‚ç‡é…ç½® (ä¿å­˜äº:",
         config.timestamp,
         ")",
       );
       return true;
     }
   } catch (e) {
-    console.warn("[v11.41] ¼ÓÔØÅäÖÃÊ§°Ü:", e);
+    console.warn("[v11.41] åŠ è½½é…ç½®å¤±è´¥:", e);
   }
   return false;
 }
 
 /**
- * Í¬²½ UI »¬¿éÏÔÊ¾ÓëÄÚ´æÖĞµÄ¸ÅÂÊÖµ
+ * åŒæ­¥ UI æ»‘å—æ˜¾ç¤ºä¸å†…å­˜ä¸­çš„æ¦‚ç‡å€¼
  */
 function syncScenarioSlidersFromMemory() {
-  // ÀûÂÊÇé¾°
+  // åˆ©ç‡æƒ…æ™¯
   ["recession", "prevention", "tightening", "neutral"].forEach((name) => {
     const prob = scenarioProbabilities.rateScenario[name] || 0;
     const slider = document.getElementById("prob_" + name);
@@ -692,7 +692,7 @@ function syncScenarioSlidersFromMemory() {
     if (label) label.textContent = Math.round(prob * 100) + "%";
   });
 
-  // Ôö³¤Çé¾°
+  // å¢é•¿æƒ…æ™¯
   ["softLanding", "hardLanding", "reacceleration"].forEach((name) => {
     const prob = scenarioProbabilities.growthScenario[name] || 0;
     const slider = document.getElementById("prob_" + name);
@@ -701,66 +701,66 @@ function syncScenarioSlidersFromMemory() {
     if (label) label.textContent = Math.round(prob * 100) + "%";
   });
 
-  // ÑéÖ¤×ÜºÍ
+  // éªŒè¯æ€»å’Œ
   validateScenarioGroup("rateScenario");
   validateScenarioGroup("growthScenario");
 }
 
-// ×Ô¶¯¼ÓÔØ£¨Ò³Ãæ¼ÓÔØÊ±´¥·¢£©
+// è‡ªåŠ¨åŠ è½½ï¼ˆé¡µé¢åŠ è½½æ—¶è§¦å‘ï¼‰
 document.addEventListener("DOMContentLoaded", function () {
   if (loadScenarioConfigs()) {
-    // ÑÓ³ÙÍ¬²½ UI£¨µÈ´ı DOM ÍêÈ«äÖÈ¾£©
+    // å»¶è¿ŸåŒæ­¥ UIï¼ˆç­‰å¾… DOM å®Œå…¨æ¸²æŸ“ï¼‰
     setTimeout(syncScenarioSlidersFromMemory, 500);
   }
 });
 
 /**
- * Ö´ĞĞ²¢ÏÔÊ¾¶àÇé¾°·ÖÎö½á¹û
+ * æ‰§è¡Œå¹¶æ˜¾ç¤ºå¤šæƒ…æ™¯åˆ†æç»“æœ
  */
 function runAndDisplayMultiScenarioAnalysis() {
-  debugLog("[Phase16] ¿ªÊ¼¶àÇé¾°·ÖÎö...");
+  debugLog("[Phase16] å¼€å§‹å¤šæƒ…æ™¯åˆ†æ...");
 
-  // »ñÈ¡µ±Ç°ºê¹Û²ÎÊı
+  // è·å–å½“å‰å®è§‚å‚æ•°
   const macroVals = getMacroValues();
 
-  // Ö´ĞĞ·ÖÎö
+  // æ‰§è¡Œåˆ†æ
   const result = runMultiScenarioAnalysis(macroVals, scenarioProbabilities);
   lastMultiScenarioResult = result;
 
-  // äÖÈ¾½á¹û
+  // æ¸²æŸ“ç»“æœ
   renderMultiScenarioResult(result);
   renderScenarioComparisonTable(result);
 
-  // ÏÔÊ¾²Ù×÷°´Å¥
+  // æ˜¾ç¤ºæ“ä½œæŒ‰é’®
   const actionBox = document.getElementById("multiScenarioActions");
   if (actionBox) actionBox.style.display = "block";
 
-  debugLog("[Phase16] ¶àÇé¾°·ÖÎöÍê³É:", result);
+  debugLog("[Phase16] å¤šæƒ…æ™¯åˆ†æå®Œæˆ:", result);
 }
 
 /**
- * ½«¶Ô³å½á¹ûÍ¬²½µ½ÏµÍ³Ö÷ÅäÖÃ£¨¸²¸Çµ±Ç°È¨ÖØ£©
+ * å°†å¯¹å†²ç»“æœåŒæ­¥åˆ°ç³»ç»Ÿä¸»é…ç½®ï¼ˆè¦†ç›–å½“å‰æƒé‡ï¼‰
  */
 function applyHedgedToSystem() {
   if (!lastMultiScenarioResult || !lastMultiScenarioResult.finalAllocation) {
-    alert("ÇëÏÈÖ´ĞĞ¼ÆËã£¡");
+    alert("è¯·å…ˆæ‰§è¡Œè®¡ç®—ï¼");
     return;
   }
 
   if (
     !confirm(
-      'È·¶¨Òª½«¶àÇé¾°¶Ô³åºóµÄÈ¨ÖØÓ¦ÓÃµ½Ö÷ÏµÍ³Âğ£¿\n\nÉúĞ§ºó£º\n1. "ÄúµÄÑ¡ÔñÍÆ¼ö" ½«ÏÔÊ¾¶Ô³åºóµÄÈ¨ÖØ\n2. µ¼³ö±¨¸æ½«Ê¹ÓÃ´ËÈ¨ÖØ\n3. ¶¥²¿×´Ì¬À¸½«±ê¼Ç [¶Ô³åÖĞ]',
+      'ç¡®å®šè¦å°†å¤šæƒ…æ™¯å¯¹å†²åçš„æƒé‡åº”ç”¨åˆ°ä¸»ç³»ç»Ÿå—ï¼Ÿ\n\nç”Ÿæ•ˆåï¼š\n1. "æ‚¨çš„é€‰æ‹©æ¨è" å°†æ˜¾ç¤ºå¯¹å†²åçš„æƒé‡\n2. å¯¼å‡ºæŠ¥å‘Šå°†ä½¿ç”¨æ­¤æƒé‡\n3. é¡¶éƒ¨çŠ¶æ€æ å°†æ ‡è®° [å¯¹å†²ä¸­]',
     )
   ) {
     return;
   }
 
-  // ºËĞÄÂß¼­£ºÉèÖÃÈ«¾Ö¸²¸Ç¹³×Ó
+  // æ ¸å¿ƒé€»è¾‘ï¼šè®¾ç½®å…¨å±€è¦†ç›–é’©å­
   window.GLOBAL_HEDGED_OVERRIDE = lastMultiScenarioResult.finalAllocation;
 
-  // Ë¢ĞÂÖ÷ÏµÍ³ÏÔÊ¾
+  // åˆ·æ–°ä¸»ç³»ç»Ÿæ˜¾ç¤º
   if (typeof recalculateWeightsForSelectedAssets === "function") {
-    debugLog("?? [v11.40] Ç¿ÖÆ´¥·¢ÏµÍ³È¨ÖØÖØËãÒÔÍ¬²½¶Ô³åÅäÖÃ");
+    debugLog("ğŸ”„ [v11.40] å¼ºåˆ¶è§¦å‘ç³»ç»Ÿæƒé‡é‡ç®—ä»¥åŒæ­¥å¯¹å†²é…ç½®");
     recalculateWeightsForSelectedAssets();
   } else if (typeof updateDisplay === "function") {
     updateDisplay();
@@ -768,38 +768,38 @@ function applyHedgedToSystem() {
       renderRecommendation();
     }
   }
-  // ×Ô¶¯ÇĞ»»µ½ AI ÍÆ¼ö Tab
+  // è‡ªåŠ¨åˆ‡æ¢åˆ° AI æ¨è Tab
   if (typeof switchTab === "function") switchTab(1);
 
-  // ÔÚ×´Ì¬À¸Ôö¼Ó±ê¼Ç
+  // åœ¨çŠ¶æ€æ å¢åŠ æ ‡è®°
   const badge = document.getElementById("hedgedBadge");
   if (badge) {
     badge.style.display = "inline-block";
-    badge.innerHTML = "??? ¶Ô³åÅäÖÃÒÑÉúĞ§ (µã»÷ÖØÖÃ)";
+    badge.innerHTML = "ğŸ›¡ï¸ å¯¹å†²é…ç½®å·²ç”Ÿæ•ˆ (ç‚¹å‡»é‡ç½®)";
     badge.style.cursor = "pointer";
-    badge.title = "µã»÷´Ë´¦Çå³ı¶Ô³åÈ¨ÖØ¸²¸Ç";
+    badge.title = "ç‚¹å‡»æ­¤å¤„æ¸…é™¤å¯¹å†²æƒé‡è¦†ç›–";
     badge.onclick = function () {
-      if (confirm("ÊÇ·ñÇå³ı¶Ô³åÈ¨ÖØ£¬»Ö¸´ÏµÍ³×Ô¶¯¼ÆËã£¿")) {
+      if (confirm("æ˜¯å¦æ¸…é™¤å¯¹å†²æƒé‡ï¼Œæ¢å¤ç³»ç»Ÿè‡ªåŠ¨è®¡ç®—ï¼Ÿ")) {
         window.GLOBAL_HEDGED_OVERRIDE = null;
         updateDisplay();
         if (typeof recalculateWeightsForSelectedAssets === "function") {
           recalculateWeightsForSelectedAssets();
         }
-        alert("? ÒÑ»Ö¸´ÏµÍ³×Ô¶¯È¨ÖØ");
+        alert("âœ… å·²æ¢å¤ç³»ç»Ÿè‡ªåŠ¨æƒé‡");
       }
     };
   }
 
-  alert('? ¶Ô³åÅäÖÃÒÑÈ«¾ÖÓ¦ÓÃ£¡ÇëÔÚ "AIÍÆ¼ö" »ò "³Ö²Ö¶Ô±È" ÖĞ²é¿´½á¹û¡£');
+  alert('âœ… å¯¹å†²é…ç½®å·²å…¨å±€åº”ç”¨ï¼è¯·åœ¨ "AIæ¨è" æˆ– "æŒä»“å¯¹æ¯”" ä¸­æŸ¥çœ‹ç»“æœã€‚');
 }
 
 /**
- * µ¼³öµ±Ç°¶Ô³å½á¹û
+ * å¯¼å‡ºå½“å‰å¯¹å†²ç»“æœ
  */
 function exportHedgedResults() {
   if (!lastMultiScenarioResult) return;
 
-  let csv = "\uFEFF×Ê²ú,¶Ô³åÈ¨ÖØ,½ğ¶î\n";
+  let csv = "\uFEFFèµ„äº§,å¯¹å†²æƒé‡,é‡‘é¢\n";
   const total = parseFloat(document.getElementById("totalAmount").value) || 100;
 
   Object.entries(lastMultiScenarioResult.finalAllocation).forEach(([k, v]) => {
@@ -821,7 +821,7 @@ function exportHedgedResults() {
 }
 
 /**
- * äÖÈ¾¶àÇé¾°¶Ô³åÍÆ¼ö½á¹û
+ * æ¸²æŸ“å¤šæƒ…æ™¯å¯¹å†²æ¨èç»“æœ
  */
 function renderMultiScenarioResult(result) {
   const container = document.getElementById("multiScenarioResult");
@@ -829,7 +829,7 @@ function renderMultiScenarioResult(result) {
 
   if (!result.scenarios || result.scenarios.length === 0) {
     container.innerHTML =
-      '<div style="text-align:center;color:#f59e0b;padding:20px;">?? Î´ÕÒµ½ÓĞĞ§Çé¾°£¬Çë¼ì²é¸ÅÂÊÉèÖÃ</div>';
+      '<div style="text-align:center;color:#f59e0b;padding:20px;">âš ï¸ æœªæ‰¾åˆ°æœ‰æ•ˆæƒ…æ™¯ï¼Œè¯·æ£€æŸ¥æ¦‚ç‡è®¾ç½®</div>';
     return;
   }
 
@@ -841,11 +841,11 @@ function renderMultiScenarioResult(result) {
   let html =
     '<table style="width:100%;border-collapse:collapse;font-size:11px;">';
   html +=
-    '<tr><th style="padding:8px;background:linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);color:white;border:1px solid #ddd;">×Ê²ú</th>';
+    '<tr><th style="padding:8px;background:linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);color:white;border:1px solid #ddd;">èµ„äº§</th>';
   html +=
-    '<th style="padding:8px;background:linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);color:white;border:1px solid #ddd;">¶Ô³åÈ¨ÖØ</th>';
+    '<th style="padding:8px;background:linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);color:white;border:1px solid #ddd;">å¯¹å†²æƒé‡</th>';
   html +=
-    '<th style="padding:8px;background:linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);color:white;border:1px solid #ddd;">½ğ¶î(Íò)</th></tr>';
+    '<th style="padding:8px;background:linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);color:white;border:1px solid #ddd;">é‡‘é¢(ä¸‡)</th></tr>';
 
   sorted.forEach(([key, weight]) => {
     const asset = assetLibrary[key];
@@ -868,10 +868,10 @@ function renderMultiScenarioResult(result) {
 
   html += "</table>";
 
-  // Ìí¼ÓÇé¾°¸ÅÂÊÕªÒª
+  // æ·»åŠ æƒ…æ™¯æ¦‚ç‡æ‘˜è¦
   html +=
     '<div style="margin-top:12px;padding:10px;background:#f3e8ff;border-radius:6px;font-size:10px;">';
-  html += "<strong>»ùÓÚ¸ÅÂÊÅäÖÃ£º</strong> ";
+  html += "<strong>åŸºäºæ¦‚ç‡é…ç½®ï¼š</strong> ";
   result.scenarios.forEach((s) => {
     html += s.displayName + " " + (s.prob * 100).toFixed(0) + "% | ";
   });
@@ -894,12 +894,12 @@ function renderMultiScenarioResult(result) {
     .sort((a, b) => a.val - b.val)[0];
   if (strongestAbs) {
     html += `<div style="margin-top:8px;padding:8px 10px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;font-size:10px;line-height:1.6;color:#1e3a8a;">`;
-    html += `<div style="font-weight:700;margin-bottom:3px;">ÈÈÁ¦Í¼ÕªÒª</div>`;
-    html += `<div>×îÇ¿Ïà¹Ø£º${strongestAbs.a} ¡Á ${strongestAbs.b} = ${(strongestAbs.val >= 0 ? "+" : "")}${strongestAbs.val.toFixed(2)}</div>`;
+    html += `<div style="font-weight:700;margin-bottom:3px;">çƒ­åŠ›å›¾æ‘˜è¦</div>`;
+    html += `<div>æœ€å¼ºç›¸å…³ï¼š${strongestAbs.a} Ã— ${strongestAbs.b} = ${(strongestAbs.val >= 0 ? "+" : "")}${strongestAbs.val.toFixed(2)}</div>`;
     if (strongestPos)
-      html += `<div>×îÇ¿ÕıÏà¹Ø£º${strongestPos.a} ¡Á ${strongestPos.b} = +${strongestPos.val.toFixed(2)}</div>`;
+      html += `<div>æœ€å¼ºæ­£ç›¸å…³ï¼š${strongestPos.a} Ã— ${strongestPos.b} = +${strongestPos.val.toFixed(2)}</div>`;
     if (strongestNeg)
-      html += `<div>×îÇ¿¸ºÏà¹Ø£º${strongestNeg.a} ¡Á ${strongestNeg.b} = ${strongestNeg.val.toFixed(2)}</div>`;
+      html += `<div>æœ€å¼ºè´Ÿç›¸å…³ï¼š${strongestNeg.a} Ã— ${strongestNeg.b} = ${strongestNeg.val.toFixed(2)}</div>`;
     html += `</div>`;
   }
 
@@ -907,18 +907,18 @@ function renderMultiScenarioResult(result) {
 }
 
 /**
- * äÖÈ¾¸÷Çé¾°È¨ÖØ¶Ô±È±í
+ * æ¸²æŸ“å„æƒ…æ™¯æƒé‡å¯¹æ¯”è¡¨
  */
 function renderScenarioComparisonTable(result) {
   const container = document.getElementById("scenarioComparisonTable");
   if (!container || !result.scenarios || result.scenarios.length === 0) {
     if (container)
       container.innerHTML =
-        '<div style="text-align:center;color:#999;padding:20px;">ÎŞÊı¾İ</div>';
+        '<div style="text-align:center;color:#999;padding:20px;">æ— æ•°æ®</div>';
     return;
   }
 
-  // ÊÕ¼¯ËùÓĞ×Ê²ú
+  // æ”¶é›†æ‰€æœ‰èµ„äº§
   const allAssets = new Set();
   result.scenarios.forEach((s) => {
     Object.keys(s.weights).forEach((k) => {
@@ -929,9 +929,9 @@ function renderScenarioComparisonTable(result) {
   let html =
     '<table style="width:100%;border-collapse:collapse;font-size:10px;">';
   html +=
-    '<tr><th style="padding:6px;background:#f3f4f6;border:1px solid #ddd;">×Ê²ú</th>';
+    '<tr><th style="padding:6px;background:#f3f4f6;border:1px solid #ddd;">èµ„äº§</th>';
   html +=
-    '<th style="padding:6px;background:#e0e7ff;border:1px solid #ddd;font-weight:600;">¶Ô³åÈ¨ÖØ</th>';
+    '<th style="padding:6px;background:#e0e7ff;border:1px solid #ddd;font-weight:600;">å¯¹å†²æƒé‡</th>';
   result.scenarios.forEach((s) => {
     html +=
       '<th style="padding:6px;background:#f3f4f6;border:1px solid #ddd;">' +
@@ -975,7 +975,7 @@ function renderScenarioComparisonTable(result) {
 }
 
 function updateDisplay() {
-  // v16.57: ¼ÇÂ¼ºê¹ÛÊı¾İ×îºóĞŞ¸ÄÊ±¼ä£¬¹©±¨¸æÍ·²¿"Êı¾İ½ØÖÁ"±êÇ©Ê¹ÓÃ
+  // v16.57: è®°å½•å®è§‚æ•°æ®æœ€åä¿®æ”¹æ—¶é—´ï¼Œä¾›æŠ¥å‘Šå¤´éƒ¨"æ•°æ®æˆªè‡³"æ ‡ç­¾ä½¿ç”¨
   window._macroDataTimestamp = new Date().toLocaleString("zh-CN", {
     year: "numeric",
     month: "2-digit",
@@ -989,13 +989,13 @@ function updateDisplay() {
   // Update Total Display
   const totalDisplay = document.getElementById("totalDisplay");
   if (totalDisplay) {
-    totalDisplay.textContent = total + "ÍòÔª";
+    totalDisplay.textContent = total + "ä¸‡å…ƒ";
   }
 
   // Update Selected Count
   const selectedDisplay = document.getElementById("selectedDisplay");
   if (selectedDisplay) {
-    selectedDisplay.textContent = selectedAssets.size + "¸ö";
+    selectedDisplay.textContent = selectedAssets.size + "ä¸ª";
   }
 
   // Update Volatility Display
@@ -1027,8 +1027,8 @@ function updateDisplay() {
 function getMacroDataTimestampText(fallbackText) {
   const ts = window._macroDataTimestamp || fallbackText;
   return ts
-    ? `${ts} <span style="color:#f59e0b; font-size:10px;">(ÇëÈ·ÈÏºê¹ÛÊı¾İÎª×îĞÂ)</span>`
-    : `<span style="color:#f59e0b; font-size:10px;">(ÇëÈ·ÈÏºê¹ÛÊı¾İÎª×îĞÂ)</span>`;
+    ? `${ts} <span style="color:#f59e0b; font-size:10px;">(è¯·ç¡®è®¤å®è§‚æ•°æ®ä¸ºæœ€æ–°)</span>`
+    : `<span style="color:#f59e0b; font-size:10px;">(è¯·ç¡®è®¤å®è§‚æ•°æ®ä¸ºæœ€æ–°)</span>`;
 }
 
 function toggleAsset(majorKey, assetKey, el) {
@@ -1051,18 +1051,18 @@ function toggleAsset(majorKey, assetKey, el) {
   }
 }
 
-// v16.58 ÖØĞ´: »ùÓÚ¾ØÕóµÄ±ß¼Ê·çÏÕ¹±Ï× (MRC) Óë ·çÏÕ°Ù·Ö±È (RC%)
+// v16.58 é‡å†™: åŸºäºçŸ©é˜µçš„è¾¹é™…é£é™©è´¡çŒ® (MRC) ä¸ é£é™©ç™¾åˆ†æ¯” (RC%)
 function calculateRiskContribution() {
   const portfolioVol = calculatePortfolioVolatility();
   if (portfolioVol === 0 || !window.BL_ASSET_KEYS || !window.BL_DEFAULT_COV)
     return {};
 
-  // ¹¹Ôìµ±Ç°È¨ÖØÏòÁ¿ w
+  // æ„é€ å½“å‰æƒé‡å‘é‡ w
   const keys = window.BL_ASSET_KEYS;
   const weights = keys.map((k) => window.currentRec[k] || 0);
   const n = weights.length;
 
-  // ¼ÆËãĞ­·½²îÓëÈ¨ÖØµÄ³Ë»ıÏòÁ¿ (¦² * w)
+  // è®¡ç®—åæ–¹å·®ä¸æƒé‡çš„ä¹˜ç§¯å‘é‡ (Î£ * w)
   const cov_w = new Array(n).fill(0);
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
@@ -1073,26 +1073,26 @@ function calculateRiskContribution() {
   const riskContrib = {};
   let sumContrib = 0;
 
-  // MRC_i = (¦² * w)_i / ¦Ò_p
-  // RC_pct_i = (w_i * MRC_i) / ¦Ò_p = (w_i * (¦² * w)_i) / (¦Ò_p^2)
+  // MRC_i = (Î£ * w)_i / Ïƒ_p
+  // RC_pct_i = (w_i * MRC_i) / Ïƒ_p = (w_i * (Î£ * w)_i) / (Ïƒ_p^2)
   const portfolioVar = portfolioVol * portfolioVol;
 
   keys.forEach((key, i) => {
     const weight = weights[i];
     if (weight > 0) {
-      // ÕâÀïÎÒÃÇ·µ»ØµÄÊµ¼ÊÉÏÊÇ¸÷×Ê²ú·çÏÕ¹±Ï×µÄ¾ø¶Ô·½²î¹éÒ»»¯°Ù·Ö±È
-      // Ê¹µÃ sum(riskContrib) = 1.0 (¼´ 100%)
+      // è¿™é‡Œæˆ‘ä»¬è¿”å›çš„å®é™…ä¸Šæ˜¯å„èµ„äº§é£é™©è´¡çŒ®çš„ç»å¯¹æ–¹å·®å½’ä¸€åŒ–ç™¾åˆ†æ¯”
+      // ä½¿å¾— sum(riskContrib) = 1.0 (å³ 100%)
       const marginalRisk = cov_w[i];
       const contributionVariance = weight * marginalRisk;
       const percentageContrib = contributionVariance / portfolioVar;
-      riskContrib[key] = Math.max(0, percentageContrib); // È·±£Í¼±íäÖÈ¾
+      riskContrib[key] = Math.max(0, percentageContrib); // ç¡®ä¿å›¾è¡¨æ¸²æŸ“
       sumContrib += riskContrib[key];
     } else {
       riskContrib[key] = 0;
     }
   });
 
-  // ĞŞÕıÎ¢Ğ¡¸¡µãÎó²î£¬È·±£¼ÓºÍÎª 1.0
+  // ä¿®æ­£å¾®å°æµ®ç‚¹è¯¯å·®ï¼Œç¡®ä¿åŠ å’Œä¸º 1.0
   if (sumContrib > 0) {
     keys.forEach((key) => {
       riskContrib[key] /= sumContrib;
@@ -1102,30 +1102,30 @@ function calculateRiskContribution() {
   return riskContrib;
 }
 
-// v16.58 ÖØĞ´: »ùÓÚĞ­·½²î¾ØÕó¶ş´ÎĞÍµÄ×éºÏ²¨¶¯ÂÊ (¦Ò_p = sqrt(w' * ¦² * w))
+// v16.58 é‡å†™: åŸºäºåæ–¹å·®çŸ©é˜µäºŒæ¬¡å‹çš„ç»„åˆæ³¢åŠ¨ç‡ (Ïƒ_p = sqrt(w' * Î£ * w))
 function calculatePortfolioVolatility() {
   if (!window.BL_ASSET_KEYS || !window.BL_DEFAULT_COV || !window.currentRec)
     return 0;
 
-  // ¹¹Ôìµ±Ç°È¨ÖØÏòÁ¿ w
+  // æ„é€ å½“å‰æƒé‡å‘é‡ w
   const weights = window.BL_ASSET_KEYS.map(
     (key) => window.currentRec[key] || 0,
   );
   const n = weights.length;
   let variance = 0;
 
-  // ¼ÆËã¶ş´ÎĞÍ w^T * Cov * w
+  // è®¡ç®—äºŒæ¬¡å‹ w^T * Cov * w
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
       variance += weights[i] * weights[j] * window.BL_DEFAULT_COV[i][j];
     }
   }
 
-  // ´¦Àí¿ÉÄÜµÄ¼«Ğ¡¸ºÊıÎó²î
+  // å¤„ç†å¯èƒ½çš„æå°è´Ÿæ•°è¯¯å·®
   return variance > 0 ? Math.sqrt(variance) : 0;
 }
 
-// v16.58 ÖØĞ´: äÖÈ¾ÕıÈ·µÄ·çÏÕ¼ÆËãÊ¾Àı
+// v16.58 é‡å†™: æ¸²æŸ“æ­£ç¡®çš„é£é™©è®¡ç®—ç¤ºä¾‹
 function renderRiskCalculationExample() {
   const portfolioVol = calculatePortfolioVolatility();
   if (portfolioVol === 0 || !window.BL_ASSET_KEYS || !window.BL_DEFAULT_COV) {
@@ -1137,7 +1137,7 @@ function renderRiskCalculationExample() {
   const weights = keys.map((k) => window.currentRec[k] || 0);
   const n = weights.length;
 
-  // ¼ÆËã±ß¼Ê·çÏÕÏòÁ¿ (¦² * w)
+  // è®¡ç®—è¾¹é™…é£é™©å‘é‡ (Î£ * w)
   const cov_w = new Array(n).fill(0);
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
@@ -1148,10 +1148,10 @@ function renderRiskCalculationExample() {
   const portfolioVar = portfolioVol * portfolioVol;
 
   let html =
-    '<div style="margin-top: 12px; padding: 12px; background: #f0f9ff; border: 2px solid #0284c7; border-radius: 8px;"><div style="font-weight: 600; color: #0c4a6e; margin-bottom: 10px; font-size: 11px;">?? »ùÓÚÊµ¼ÊĞ­·½²î¾ØÕóµÄ·çÏÕ¹±Ï×¶È (Euler·Ö½â)</div>';
+    '<div style="margin-top: 12px; padding: 12px; background: #f0f9ff; border: 2px solid #0284c7; border-radius: 8px;"><div style="font-weight: 600; color: #0c4a6e; margin-bottom: 10px; font-size: 11px;">ğŸ“Š åŸºäºå®é™…åæ–¹å·®çŸ©é˜µçš„é£é™©è´¡çŒ®åº¦ (Euleråˆ†è§£)</div>';
 
   html +=
-    '<table style="width:100%; font-size:10px; border-collapse: collapse; margin-bottom: 10px;"><tr style="background:#e0f7f4;"><th style="padding:6px; border:1px solid #ccc; text-align:left;">×Ê²ú</th><th style="padding:6px; border:1px solid #ccc; text-align:center;">È¨ÖØ (1)</th><th style="padding:6px; border:1px solid #ccc; text-align:center;">±ß¼Ê·çÏÕ (2)</th><th style="padding:6px; border:1px solid #ccc; text-align:center;">·½²î¹±Ï× (1¡Á2)</th><th style="padding:6px; border:1px solid #ccc; text-align:center;">·çÏÕÕ¼±È%</th></tr>';
+    '<table style="width:100%; font-size:10px; border-collapse: collapse; margin-bottom: 10px;"><tr style="background:#e0f7f4;"><th style="padding:6px; border:1px solid #ccc; text-align:left;">èµ„äº§</th><th style="padding:6px; border:1px solid #ccc; text-align:center;">æƒé‡ (1)</th><th style="padding:6px; border:1px solid #ccc; text-align:center;">è¾¹é™…é£é™© (2)</th><th style="padding:6px; border:1px solid #ccc; text-align:center;">æ–¹å·®è´¡çŒ® (1Ã—2)</th><th style="padding:6px; border:1px solid #ccc; text-align:center;">é£é™©å æ¯”%</th></tr>';
 
   let totalVarianceContrib = 0;
 
@@ -1159,7 +1159,7 @@ function renderRiskCalculationExample() {
   keys.forEach((k, i) => {
     if (weights[i] > 0) {
       const w = weights[i];
-      const marginal = cov_w[i]; // (¦²w)_i
+      const marginal = cov_w[i]; // (Î£w)_i
       const varContrib = w * marginal;
       const pctContrib = varContrib / portfolioVar;
       totalVarianceContrib += varContrib;
@@ -1174,15 +1174,15 @@ function renderRiskCalculationExample() {
                     <td style="padding:6px;">${assetLibrary[row.key] ? assetLibrary[row.key].name : row.key}</td>
                     <td style="padding:6px; text-align:center;">${(row.w * 100).toFixed(1)}%</td>
                     <td style="padding:6px; text-align:center;">${(row.marginal * 100).toFixed(2)}%</td>
-                    <td style="padding:6px; text-align:center; font-weight:600;">${(row.varContrib * 10000).toFixed(2)}?</td>
+                    <td style="padding:6px; text-align:center; font-weight:600;">${(row.varContrib * 10000).toFixed(2)}â€±</td>
                     <td style="padding:6px; text-align:center; color:#10b981; font-weight:600;">${(row.pctContrib * 100).toFixed(1)}%</td>
                 </tr>`;
     });
 
-  html += `<tr style="background:#f0fdf4; font-weight:600;"><td style="padding:6px; border:2px solid #10b981; border-bottom:none;">×Ü×éºÏ·½²î</td><td colspan="3" style="padding:6px; border:2px solid #10b981; border-bottom:none; text-align:right;">${(totalVarianceContrib * 10000).toFixed(2)}? (¼´×éºÏ²¨¶¯ÂÊ ${(portfolioVol * 100).toFixed(2)}% µÄÆ½·½)</td><td style="padding:6px; border:2px solid #10b981; border-bottom:none; text-align:center;">100.0%</td></tr></table>`;
+  html += `<tr style="background:#f0fdf4; font-weight:600;"><td style="padding:6px; border:2px solid #10b981; border-bottom:none;">æ€»ç»„åˆæ–¹å·®</td><td colspan="3" style="padding:6px; border:2px solid #10b981; border-bottom:none; text-align:right;">${(totalVarianceContrib * 10000).toFixed(2)}â€± (å³ç»„åˆæ³¢åŠ¨ç‡ ${(portfolioVol * 100).toFixed(2)}% çš„å¹³æ–¹)</td><td style="padding:6px; border:2px solid #10b981; border-bottom:none; text-align:center;">100.0%</td></tr></table>`;
 
   html +=
-    '<div style="font-size:10px; color:#0c4a6e; background:#d1f2f7; padding:8px; border-radius:4px;"><strong>? ËµÃ÷£º</strong><br/>ÎÒÃÇÊ¹ÓÃ Euler Æë´Îº¯Êı¶¨Àí¾«×¼²ğ½â·çÏÕ£º×éºÏ×Ü·½²î = <strong>¡Æ (×Ê²úÈ¨ÖØ ¡Á ·Ö±ğ¶Ô¸Ã×Ê²úÇóÆ«µ¼µÄ±ß¼Ê·çÏÕ)</strong>¡£<br/>Õâ¿¼ÂÇÁË×Ê²úÖ®¼äµÄËùÓĞÀúÊ·Ïà¹ØĞÔºÍ¶Ô³åĞ§Ó¦£¬±È¼òµ¥µÄ¼ÓÈ¨¼ÆËã¸ü¿ÆÑ§×¼È·¡£</div></div>';
+    '<div style="font-size:10px; color:#0c4a6e; background:#d1f2f7; padding:8px; border-radius:4px;"><strong>âœ… è¯´æ˜ï¼š</strong><br/>æˆ‘ä»¬ä½¿ç”¨ Euler é½æ¬¡å‡½æ•°å®šç†ç²¾å‡†æ‹†è§£é£é™©ï¼šç»„åˆæ€»æ–¹å·® = <strong>âˆ‘ (èµ„äº§æƒé‡ Ã— åˆ†åˆ«å¯¹è¯¥èµ„äº§æ±‚åå¯¼çš„è¾¹é™…é£é™©)</strong>ã€‚<br/>è¿™è€ƒè™‘äº†èµ„äº§ä¹‹é—´çš„æ‰€æœ‰å†å²ç›¸å…³æ€§å’Œå¯¹å†²æ•ˆåº”ï¼Œæ¯”ç®€å•çš„åŠ æƒè®¡ç®—æ›´ç§‘å­¦å‡†ç¡®ã€‚</div></div>';
 
   document.getElementById("riskCalculationExample").innerHTML = html;
 }
@@ -1198,55 +1198,55 @@ function renderRiskDashboard() {
   const top3Sum = sortedContrib.slice(0, 3).reduce((sum, item) => sum + item[1], 0);
   const concentrationLevel =
     top1[1] >= 0.3
-      ? "µ¥Ò»×Ê²ú¼¯ÖĞ"
+      ? "å•ä¸€èµ„äº§é›†ä¸­"
       : top3Sum >= 0.65
-        ? "¶àÎ¬Æ«¼¯ÖĞ"
-        : "·ÖÉ¢Á¼ºÃ";
+        ? "å¤šç»´åé›†ä¸­"
+        : "åˆ†æ•£è‰¯å¥½";
   const concentrationColor =
     top1[1] >= 0.3 ? "#dc2626" : top3Sum >= 0.65 ? "#f59e0b" : "#059669";
 
   const var95 = portfolioVol * 1.645;
   const maxLossMonth = (total * var95) / 12;
 
-  let riskLevel = "µÍ·çÏÕ";
+  let riskLevel = "ä½é£é™©";
   let riskColor = "#10b981";
   if (portfolioVol > 0.12) {
-    riskLevel = "ÖĞ¸ß·çÏÕ";
+    riskLevel = "ä¸­é«˜é£é™©";
     riskColor = "#f59e0b";
   } else if (portfolioVol > 0.06) {
-    riskLevel = "ÖĞµÈ·çÏÕ";
+    riskLevel = "ä¸­ç­‰é£é™©";
     riskColor = "#f59e0b";
   }
 
   let html = `
                 <div style="margin-bottom:12px;padding:12px 14px;border-radius:10px;border:1px solid ${concentrationColor}33;background:${concentrationColor}12;line-height:1.6;">
-                    <div style="font-weight:800;color:${concentrationColor};margin-bottom:4px;">??? ¶àÎ¬¼¯ÖĞ¶ÈÕªÒª£º${concentrationLevel}</div>
-                    <div style="font-size:12px;color:#334155;">×î´ó·çÏÕ¹±Ï×£º${assetLibrary[top1[0]]?.name || "ÔİÎŞ"} ${(top1[1] * 100).toFixed(1)}%£»Ç°3ÏîºÏ¼Æ ${(top3Sum * 100).toFixed(1)}%¡£</div>
-                    <div style="font-size:12px;color:#334155;margin-top:4px;">¾¯½äÏß£ºÈÎºÎµ¥Ò»×Ê²ú·çÏÕ¹±Ï×´ïµ½ 30% ¼´ÌáĞÑ·ÖÉ¢¡£</div>
+                    <div style="font-weight:800;color:${concentrationColor};margin-bottom:4px;">ğŸ›¡ï¸ å¤šç»´é›†ä¸­åº¦æ‘˜è¦ï¼š${concentrationLevel}</div>
+                    <div style="font-size:12px;color:#334155;">æœ€å¤§é£é™©è´¡çŒ®ï¼š${assetLibrary[top1[0]]?.name || "æš‚æ— "} ${(top1[1] * 100).toFixed(1)}%ï¼›å‰3é¡¹åˆè®¡ ${(top3Sum * 100).toFixed(1)}%ã€‚</div>
+                    <div style="font-size:12px;color:#334155;margin-top:4px;">è­¦æˆ’çº¿ï¼šä»»ä½•å•ä¸€èµ„äº§é£é™©è´¡çŒ®è¾¾åˆ° 30% å³æé†’åˆ†æ•£ã€‚</div>
                 </div>
 
                 <div class="risk-metric">
                     <div>
-                        <div class="risk-label">?? Ô¤ÆÚÄê»¯²¨¶¯ÂÊ</div>
-                        <div style="font-size:10px; color:#666;">ºâÁ¿×éºÏ²¨¶¯³Ì¶È</div>
+                        <div class="risk-label">ğŸ“Š é¢„æœŸå¹´åŒ–æ³¢åŠ¨ç‡</div>
+                        <div style="font-size:10px; color:#666;">è¡¡é‡ç»„åˆæ³¢åŠ¨ç¨‹åº¦</div>
                     </div>
                     <div class="risk-value">${(portfolioVol * 100).toFixed(1)}%</div>
                 </div>
 
                 <div class="risk-metric">
                     <div>
-                        <div class="risk-label">?? ·çÏÕµÈ¼¶</div>
-                        <div style="font-size:10px; color:#666;">ÓëÓÃ»§·çÏÕÆ«ºÃ¶Ô±ê</div>
+                        <div class="risk-label">ğŸ“ˆ é£é™©ç­‰çº§</div>
+                        <div style="font-size:10px; color:#666;">ä¸ç”¨æˆ·é£é™©åå¥½å¯¹æ ‡</div>
                     </div>
                     <div class="risk-value" style="color:${riskColor};">${riskLevel}</div>
                 </div>
 
                 <div class="risk-metric">
                     <div>
-                        <div class="risk-label">?? VaR @ 95%£¨µ¥ÔÂ×î´ó¿÷Ëğ£©</div>
-                        <div style="font-size:10px; color:#666;">ÓĞ95%¸ÅÂÊÔÂ¶È¿÷Ëğ²»³¬¹ı´ËÖµ</div>
+                        <div class="risk-label">âš ï¸ VaR @ 95%ï¼ˆå•æœˆæœ€å¤§äºæŸï¼‰</div>
+                        <div style="font-size:10px; color:#666;">æœ‰95%æ¦‚ç‡æœˆåº¦äºæŸä¸è¶…è¿‡æ­¤å€¼</div>
                     </div>
-                    <div class="risk-value" style="color:#ef4444;">${maxLossMonth.toFixed(2)}Íò</div>
+                    <div class="risk-value" style="color:#ef4444;">${maxLossMonth.toFixed(2)}ä¸‡</div>
                 </div>
             `;
 
@@ -1259,12 +1259,12 @@ function renderRiskContribution() {
 
   if (portfolioVol === 0) {
     document.getElementById("riskContributionPanel").innerHTML =
-      '<div class="info-box">ÉĞÎ´Éú³ÉÍÆ¼öÅäÖÃ</div>';
+      '<div class="info-box">å°šæœªç”Ÿæˆæ¨èé…ç½®</div>';
     return;
   }
 
   let html =
-    '<div style="font-size:10px;color:#666;margin-bottom:12px;">?? ¸÷×Ê²ú¶Ô×éºÏÕûÌå·çÏÕµÄ±ß¼Ê¹±Ï×Õ¼±È (Euler·Ö½â£¬¿¼ÂÇÏà¹ØĞÔ)</div>';
+    '<div style="font-size:10px;color:#666;margin-bottom:12px;">ğŸ’¡ å„èµ„äº§å¯¹ç»„åˆæ•´ä½“é£é™©çš„è¾¹é™…è´¡çŒ®å æ¯” (Euleråˆ†è§£ï¼Œè€ƒè™‘ç›¸å…³æ€§)</div>';
 
   const sorted = Object.entries(riskContrib)
     .filter(([k, v]) => v > 0.001)
@@ -1274,24 +1274,24 @@ function renderRiskContribution() {
   const top3Sum = top3.reduce((sum, item) => sum + item[1], 0);
   const concentrationLevel =
     top1[1] >= 0.3
-      ? "µ¥Ò»×Ê²ú¼¯ÖĞ"
+      ? "å•ä¸€èµ„äº§é›†ä¸­"
       : top3Sum >= 0.65
-        ? "¶àÎ¬Æ«¼¯ÖĞ"
-        : "·ÖÉ¢Á¼ºÃ";
+        ? "å¤šç»´åé›†ä¸­"
+        : "åˆ†æ•£è‰¯å¥½";
   const concentrationColor =
     top1[1] >= 0.3 ? "#dc2626" : top3Sum >= 0.65 ? "#f59e0b" : "#059669";
 
   html += `
       <div style="margin-bottom:12px;padding:12px 14px;border-radius:10px;border:1px solid ${concentrationColor}33;background:${concentrationColor}12;line-height:1.6;">
-        <div style="font-weight:800;color:${concentrationColor};margin-bottom:4px;">??? ¶àÎ¬¼¯ÖĞ¶È½áÂÛ£º${concentrationLevel}</div>
-        <div style="font-size:12px;color:#334155;">×î´ó·çÏÕ¹±Ï×£º${assetLibrary[top1[0]]?.name || "ÔİÎŞ"} ${(top1[1] * 100).toFixed(1)}%£üÇ°3ÏîºÏ¼Æ ${(top3Sum * 100).toFixed(1)}%</div>
-        <div style="font-size:12px;color:#334155;margin-top:4px;">½¨ÒéÓÅÏÈ¹Ø×¢Ç°3Ïî£¬ÓÈÆäÊÇ³¬¹ı 30% µÄµ¥Ò»¹±Ï×Ïî¡£</div>
+        <div style="font-weight:800;color:${concentrationColor};margin-bottom:4px;">ğŸ›¡ï¸ å¤šç»´é›†ä¸­åº¦ç»“è®ºï¼š${concentrationLevel}</div>
+        <div style="font-size:12px;color:#334155;">æœ€å¤§é£é™©è´¡çŒ®ï¼š${assetLibrary[top1[0]]?.name || "æš‚æ— "} ${(top1[1] * 100).toFixed(1)}%ï½œå‰3é¡¹åˆè®¡ ${(top3Sum * 100).toFixed(1)}%</div>
+        <div style="font-size:12px;color:#334155;margin-top:4px;">å»ºè®®ä¼˜å…ˆå…³æ³¨å‰3é¡¹ï¼Œå°¤å…¶æ˜¯è¶…è¿‡ 30% çš„å•ä¸€è´¡çŒ®é¡¹ã€‚</div>
       </div>`;
 
   const hasHighConcentration = sorted.some(([k, v]) => v >= 0.3);
   if (hasHighConcentration) {
     html +=
-      '<div style="margin-bottom:12px; padding:8px; background:#fef2f2; border-left:4px solid #ef4444; border-radius:4px; font-size:11px; color:#b91c1c;"><strong>?? ¼¯ÖĞ¶È¸æ¾¯£º</strong>²¿·Ö´óÀà×Ê²úÕ¼¾İÁË³¬¹ı 30% µÄ×éºÏ·çÏÕ¶î¶È£¬Õâ»áÊ¹ÄúµÄ¾»Öµ¶Ôµ¥Ò»ÏÂµøÈİÈÌ¶È¼«²î¡£½¨Òé·ÖÉ¢³Ö²Ö£¡</div>';
+      '<div style="margin-bottom:12px; padding:8px; background:#fef2f2; border-left:4px solid #ef4444; border-radius:4px; font-size:11px; color:#b91c1c;"><strong>âš ï¸ é›†ä¸­åº¦å‘Šè­¦ï¼š</strong>éƒ¨åˆ†å¤§ç±»èµ„äº§å æ®äº†è¶…è¿‡ 30% çš„ç»„åˆé£é™©é¢åº¦ï¼Œè¿™ä¼šä½¿æ‚¨çš„å‡€å€¼å¯¹å•ä¸€ä¸‹è·Œå®¹å¿åº¦æå·®ã€‚å»ºè®®åˆ†æ•£æŒä»“ï¼</div>';
   }
 
   let totalContrib = 0;
@@ -1299,52 +1299,52 @@ function renderRiskContribution() {
     const contribPct = (contrib * 100).toFixed(1);
     totalContrib += parseFloat(contribPct);
 
-    // v16.58: É«½×Ô¤¾¯
-    let barColorClass = "bg-blue-500"; // Ä¬ÈÏÀ¶ (ĞèÒª¶ÔÓ¦ CSS£¬µ«ÕâÀïÎÒÃÇÖ±½Ó¸Ä background inline)
+    // v16.58: è‰²é˜¶é¢„è­¦
+    let barColorClass = "bg-blue-500"; // é»˜è®¤è“ (éœ€è¦å¯¹åº” CSSï¼Œä½†è¿™é‡Œæˆ‘ä»¬ç›´æ¥æ”¹ background inline)
     let barColorHex = "#3b82f6";
     if (contrib >= 0.3)
-      barColorHex = "#ef4444"; // Î£ÏÕºì
+      barColorHex = "#ef4444"; // å±é™©çº¢
     else if (contrib >= 0.2)
-      barColorHex = "#f59e0b"; // ¾¯½ä»Æ
-    else if (contrib < 0) barColorHex = "#10b981"; // ¸º¹±Ï×ÂÌ (±ÜÏÕ¶Ô³å¼«¼Ñ)
+      barColorHex = "#f59e0b"; // è­¦æˆ’é»„
+    else if (contrib < 0) barColorHex = "#10b981"; // è´Ÿè´¡çŒ®ç»¿ (é¿é™©å¯¹å†²æä½³)
 
     html += `
                     <div class="contribution-bar" style="margin-bottom:8px;">
                         <div class="contribution-label" style="width:120px; display:inline-block; font-size:11px;">${assetLibrary[k].name}</div>
                         <div class="contribution-bar-bg" style="display:inline-block; width:calc(100% - 170px); height:12px; background:#e5e7eb; border-radius:6px; overflow:hidden; vertical-align:middle; position:relative;">
                             <div class="contribution-bar-fill" style="width:${Math.max(0, Math.min(100, parseFloat(contribPct)))}%; height:100%; background:${barColorHex}; transition:width 0.3s;"></div>
-                            <!-- 30% Ñ¹²ÕÊ¯¾¯½äÏß -->
-                            <div style="position:absolute; left:30%; top:0; bottom:0; border-left:1px dashed #ef4444; opacity:0.5;" title="30% ¾¯½äÏß"></div>
+                            <!-- 30% å‹èˆ±çŸ³è­¦æˆ’çº¿ -->
+                            <div style="position:absolute; left:30%; top:0; bottom:0; border-left:1px dashed #ef4444; opacity:0.5;" title="30% è­¦æˆ’çº¿"></div>
                         </div>
                         <div class="contribution-percent" style="width:40px; display:inline-block; text-align:right; font-size:11px; font-weight:600; color:${barColorHex};">${contribPct}%</div>
                     </div>
                 `;
   });
 
-  html += `<div style="margin-top:12px; padding:8px; background:#e5e7eb; border-radius:4px; font-size:10px; font-weight:600; color:#1f3c88; text-align:right;">×Ü¼Æ£º${Math.round(totalContrib)}% ?</div>`;
+  html += `<div style="margin-top:12px; padding:8px; background:#e5e7eb; border-radius:4px; font-size:10px; font-weight:600; color:#1f3c88; text-align:right;">æ€»è®¡ï¼š${Math.round(totalContrib)}% âœ…</div>`;
 
   document.getElementById("riskContributionPanel").innerHTML = html;
 }
 
-// ¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T
-// v16.58: Çé¾°Ñ¹Á¦²âÊÔ
-// ¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// v16.58: æƒ…æ™¯å‹åŠ›æµ‹è¯•
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function renderStressTest() {
   const panel = document.getElementById("stressTestPanel");
   if (!panel) return;
   if (!window.currentRec || !window.historicalSnapshots) {
-    panel.innerHTML = '<div class="info-box">ÉĞÎ´Éú³ÉÍÆ¼öÅäÖÃ</div>';
+    panel.innerHTML = '<div class="info-box">å°šæœªç”Ÿæˆæ¨èé…ç½®</div>';
     return;
   }
 
   const total = parseFloat(document.getElementById("totalAmount").value) || 100;
   const scenarios = [
-    { key: "crisis2008", icon: "??", name: "2008 ½ğÈÚº£Ğ¥", color: "#dc2626" },
-    { key: "covid2020", icon: "??", name: "2020 ĞÂ¹Ú±ÀÅÌ", color: "#7c3aed" },
+    { key: "crisis2008", icon: "ğŸš¨", name: "2008 é‡‘èæµ·å•¸", color: "#dc2626" },
+    { key: "covid2020", icon: "ğŸ˜·", name: "2020 æ–°å† å´©ç›˜", color: "#7c3aed" },
     {
       key: "rateHike2022",
-      icon: "??",
-      name: "2022 ¼¤½ø¼ÓÏ¢",
+      icon: "ğŸ¦…",
+      name: "2022 æ¿€è¿›åŠ æ¯",
       color: "#d97706",
     },
   ];
@@ -1359,7 +1359,7 @@ function renderStressTest() {
     const snap = window.historicalSnapshots[sc.key];
     if (!snap || !snap.actualReturns) return;
 
-    // ¼ÆËã×éºÏ¼ÓÈ¨»Ø±¨: ¡Æ(w_i ¡Á r_i)
+    // è®¡ç®—ç»„åˆåŠ æƒå›æŠ¥: âˆ‘(w_i Ã— r_i)
     let portfolioReturn = 0;
     let worstAsset = { name: "", ret: 0 };
     let bestAsset = { name: "", ret: -Infinity };
@@ -1398,18 +1398,18 @@ function renderStressTest() {
                 ${portfolioReturn >= 0 ? "+" : ""}${(portfolioReturn * 100).toFixed(1)}%
             </div>
             <div style="font-size:11px; text-align:center; color:${lossColor}; margin-bottom:10px;">
-                ${portfolioReturn >= 0 ? "Ó¯Àû" : "¿÷Ëğ"} ${Math.abs(lossAmount).toFixed(2)}Íò
+                ${portfolioReturn >= 0 ? "ç›ˆåˆ©" : "äºæŸ"} ${Math.abs(lossAmount).toFixed(2)}ä¸‡
             </div>
             <div style="font-size:9px; border-top:1px solid #e5e7eb; padding-top:6px;">
-                <div style="color:#ef4444;">×î²î: ${worstAsset.name} ${(worstAsset.ret * 100).toFixed(0)}%</div>
-                <div style="color:#10b981;">×î¼Ñ: ${bestAsset.name} +${(bestAsset.ret * 100).toFixed(0)}%</div>
+                <div style="color:#ef4444;">æœ€å·®: ${worstAsset.name} ${(worstAsset.ret * 100).toFixed(0)}%</div>
+                <div style="color:#10b981;">æœ€ä½³: ${bestAsset.name} +${(bestAsset.ret * 100).toFixed(0)}%</div>
             </div>
         </div>`;
   });
 
   html += "</div>";
 
-  // ×ÛºÏÆÀ¹À
+  // ç»¼åˆè¯„ä¼°
   const avgDrawdown =
     summaryItems.reduce((sum, item) => sum + item.returnPct, 0) /
     Math.max(1, summaryItems.length);
@@ -1418,37 +1418,37 @@ function renderStressTest() {
 
   const riskGrade =
     avgDrawdown > -0.05
-      ? { text: "ÓÅĞã", color: "#10b981", icon: "??" }
+      ? { text: "ä¼˜ç§€", color: "#10b981", icon: "ğŸŸ¢" }
       : avgDrawdown > -0.1
-        ? { text: "Á¼ºÃ", color: "#3b82f6", icon: "??" }
+        ? { text: "è‰¯å¥½", color: "#3b82f6", icon: "ğŸ”µ" }
         : avgDrawdown > -0.2
-          ? { text: "ÖĞµÈ", color: "#f59e0b", icon: "??" }
-          : { text: "½Ï²î", color: "#ef4444", icon: "??" };
+          ? { text: "ä¸­ç­‰", color: "#f59e0b", icon: "ğŸŸ¡" }
+          : { text: "è¾ƒå·®", color: "#ef4444", icon: "ğŸ”´" };
 
   html += `<div style="padding:10px; background:${riskGrade.color}10; border-left:4px solid ${riskGrade.color}; border-radius:4px; font-size:11px;">
-        <strong>${riskGrade.icon} ¼«¶Ë³¡¾°¿¹Ñ¹ÆÀ¼¶£º${riskGrade.text}</strong>
-        ¡ª Èı´óÎ£»úÆ½¾ùÔ¤¹À»Ø³· ${(avgDrawdown * 100).toFixed(1)}%£¨${Math.abs(avgDrawdown * total).toFixed(2)}Íò£©
+        <strong>${riskGrade.icon} æç«¯åœºæ™¯æŠ—å‹è¯„çº§ï¼š${riskGrade.text}</strong>
+        â€” ä¸‰å¤§å±æœºå¹³å‡é¢„ä¼°å›æ’¤ ${(avgDrawdown * 100).toFixed(1)}%ï¼ˆ${Math.abs(avgDrawdown * total).toFixed(2)}ä¸‡ï¼‰
     </div>`;
 
   html = `
     <div style="margin-bottom:12px;padding:12px 14px;border-radius:10px;border:1px solid #c7d2fe;background:#eef2ff;line-height:1.7;">
-      <div style="font-weight:800;color:#3730a3;margin-bottom:4px;">?? ×îÔã³¡¾°ÕªÒª</div>
-      <div style="font-size:12px;color:#334155;">×î²î£º${worstScenario.name || "ÔİÎŞ"}£¬Ô¼ËğÊ§ ${worstLossAmount.toFixed(2)}Íò£»×îºÃ£º${bestScenario.name || "ÔİÎŞ"}£¬Ô¼ÊÕÒæ ${bestGainAmount.toFixed(2)}Íò¡£</div>
-      <div style="font-size:12px;color:#334155;margin-top:4px;">Èı´óÎ£»úÆ½¾ù»Ø³· ${(avgDrawdown * 100).toFixed(1)}%£¬ÓÃÓÚ¿ìËÙÅĞ¶Ïµ±Ç°ÍÆ¼öÔÚ¼«¶Ë»·¾³ÏÂµÄ´àÈõ³Ì¶È¡£</div>
+      <div style="font-weight:800;color:#3730a3;margin-bottom:4px;">ğŸ§ª æœ€ç³Ÿåœºæ™¯æ‘˜è¦</div>
+      <div style="font-size:12px;color:#334155;">æœ€å·®ï¼š${worstScenario.name || "æš‚æ— "}ï¼Œçº¦æŸå¤± ${worstLossAmount.toFixed(2)}ä¸‡ï¼›æœ€å¥½ï¼š${bestScenario.name || "æš‚æ— "}ï¼Œçº¦æ”¶ç›Š ${bestGainAmount.toFixed(2)}ä¸‡ã€‚</div>
+      <div style="font-size:12px;color:#334155;margin-top:4px;">ä¸‰å¤§å±æœºå¹³å‡å›æ’¤ ${(avgDrawdown * 100).toFixed(1)}%ï¼Œç”¨äºå¿«é€Ÿåˆ¤æ–­å½“å‰æ¨èåœ¨æç«¯ç¯å¢ƒä¸‹çš„è„†å¼±ç¨‹åº¦ã€‚</div>
     </div>
   ` + html;
 
   panel.innerHTML = html;
 }
 
-// ¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T
-// v16.58: Ïà¹ØĞÔÈÈÁ¦Í¼
-// ¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// v16.58: ç›¸å…³æ€§çƒ­åŠ›å›¾
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function renderCorrelationHeatmap() {
   const container = document.getElementById("correlationHeatmap");
   if (!container) return;
   if (!window.BL_ASSET_KEYS || !window.BL_DEFAULT_COV) {
-    container.innerHTML = '<div class="info-box">Ğ­·½²î¾ØÕóÎ´¼ÓÔØ</div>';
+    container.innerHTML = '<div class="info-box">åæ–¹å·®çŸ©é˜µæœªåŠ è½½</div>';
     return;
   }
 
@@ -1456,7 +1456,7 @@ function renderCorrelationHeatmap() {
   const cov = window.BL_DEFAULT_COV;
   const n = keys.length;
 
-  // ´ÓĞ­·½²î¾ØÕó·´ËãÏà¹ØÏµÊı: corr(i,j) = cov(i,j) / sqrt(var_i * var_j)
+  // ä»åæ–¹å·®çŸ©é˜µåç®—ç›¸å…³ç³»æ•°: corr(i,j) = cov(i,j) / sqrt(var_i * var_j)
   const corr = [];
   for (let i = 0; i < n; i++) {
     corr[i] = [];
@@ -1466,16 +1466,16 @@ function renderCorrelationHeatmap() {
     }
   }
 
-  // ¼ò¶ÌÃû³ÆÓ³Éä
+  // ç®€çŸ­åç§°æ˜ å°„
   const shortNames = keys.map((k) => {
     const name = assetLibrary[k]?.name || k;
-    // È¥µô emoji Ç°×ººóÈ¡Ç°4¸ö×Ö·û
+    // å»æ‰ emoji å‰ç¼€åå–å‰4ä¸ªå­—ç¬¦
     return name
       .replace(/^[\p{Emoji_Presentation}\p{Extended_Pictographic}\s]+/u, "")
       .slice(0, 4);
   });
 
-  // ÑÕÉ«Ó³Éä: -1(À¶) ¡ú 0(°×) ¡ú +1(ºì)
+  // é¢œè‰²æ˜ å°„: -1(è“) â†’ 0(ç™½) â†’ +1(çº¢)
   function corrColor(val) {
     const v = Math.max(-1, Math.min(1, val));
     if (v >= 0) {
@@ -1490,14 +1490,14 @@ function renderCorrelationHeatmap() {
   const cellSize = 32;
   let html = `<table style="border-collapse:collapse; font-size:8px; margin:0 auto;">`;
 
-  // ±íÍ·
+  // è¡¨å¤´
   html += "<tr><td></td>";
   shortNames.forEach((name) => {
     html += `<td style="width:${cellSize}px; text-align:center; font-weight:600; padding:2px; writing-mode:vertical-rl; height:50px;">${name}</td>`;
   });
   html += "</tr>";
 
-  // ĞĞ
+  // è¡Œ
   for (let i = 0; i < n; i++) {
     html += `<tr><td style="text-align:right; padding:2px 4px; font-weight:600; white-space:nowrap;">${shortNames[i]}</td>`;
     for (let j = 0; j < n; j++) {
@@ -1506,33 +1506,33 @@ function renderCorrelationHeatmap() {
       const textColor = Math.abs(val) > 0.5 ? "white" : "#333";
       const displayVal = i === j ? "" : val.toFixed(2);
       const border = i === j ? "2px solid #333" : "1px solid #e5e7eb";
-      html += `<td style="width:${cellSize}px; height:${cellSize}px; text-align:center; background:${bg}; color:${textColor}; border:${border}; font-size:7px; padding:0;" title="${keys[i]} ¡Á ${keys[j]}: ${val.toFixed(3)}">${displayVal}</td>`;
+      html += `<td style="width:${cellSize}px; height:${cellSize}px; text-align:center; background:${bg}; color:${textColor}; border:${border}; font-size:7px; padding:0;" title="${keys[i]} Ã— ${keys[j]}: ${val.toFixed(3)}">${displayVal}</td>`;
     }
     html += "</tr>";
   }
   html += "</table>";
 
-  // Í¼Àı
+  // å›¾ä¾‹
   html += `<div style="display:flex; justify-content:center; align-items:center; gap:8px; margin-top:10px; font-size:10px;">
-        <span style="display:inline-block; width:40px; height:12px; background:rgb(55,55,255); border-radius:2px;"></span> -1.0 (ÍêÃÀ¸ºÏà¹Ø)
-        <span style="display:inline-block; width:40px; height:12px; background:white; border:1px solid #ccc; border-radius:2px;"></span> 0 (ÎŞ¹Ø)
-        <span style="display:inline-block; width:40px; height:12px; background:rgb(255,55,55); border-radius:2px;"></span> +1.0 (ÍêÃÀÕıÏà¹Ø)
+        <span style="display:inline-block; width:40px; height:12px; background:rgb(55,55,255); border-radius:2px;"></span> -1.0 (å®Œç¾è´Ÿç›¸å…³)
+        <span style="display:inline-block; width:40px; height:12px; background:white; border:1px solid #ccc; border-radius:2px;"></span> 0 (æ— å…³)
+        <span style="display:inline-block; width:40px; height:12px; background:rgb(255,55,55); border-radius:2px;"></span> +1.0 (å®Œç¾æ­£ç›¸å…³)
     </div>`;
 
   container.innerHTML = html;
 }
 
-// v16.60: µ¼³öÏà¹ØĞÔÈÈÁ¦Í¼Îª CSV
+// v16.60: å¯¼å‡ºç›¸å…³æ€§çƒ­åŠ›å›¾ä¸º CSV
 window.exportCorrelationHeatmap = function () {
   if (!window.BL_ASSET_KEYS || !window.BL_DEFAULT_COV) {
-    alert("Ğ­·½²î¾ØÕóÎ´¼ÓÔØ£¬ÎŞ·¨µ¼³ö£¡");
+    alert("åæ–¹å·®çŸ©é˜µæœªåŠ è½½ï¼Œæ— æ³•å¯¼å‡ºï¼");
     return;
   }
   const keys = window.BL_ASSET_KEYS;
   const cov = window.BL_DEFAULT_COV;
   const n = keys.length;
 
-  // ¼ÆËãÏà¹ØÏµÊı¾ØÕó
+  // è®¡ç®—ç›¸å…³ç³»æ•°çŸ©é˜µ
   const corr = [];
   for (let i = 0; i < n; i++) {
     corr[i] = [];
@@ -1566,14 +1566,14 @@ window.exportCorrelationHeatmap = function () {
   document.body.removeChild(link);
 };
 
-// ? ĞÂÔö£º½ô´ÕµÄ³Ö²Ö±í¸ñ
+// âœ… æ–°å¢ï¼šç´§å‡‘çš„æŒä»“è¡¨æ ¼
 
-// ? V8.7.3: ½ô´Õ±í¸ñ + ÓÅ»¯µÄÊäÈë¿ò
+// âœ… V8.7.3: ç´§å‡‘è¡¨æ ¼ + ä¼˜åŒ–çš„è¾“å…¥æ¡†
 
-// ? V8.7.5: ¿ÅÁ£¶È³Ö²ÖÊäÈë
+// âœ… V8.7.5: é¢—ç²’åº¦æŒä»“è¾“å…¥
 function renderHoldingTable() {
   const total = parseFloat(document.getElementById("totalAmount").value) || 100;
-  let html = `<tr><th style="width:30%;">×Ê²ú</th><th style="width:25%;">µ±Ç°½ğ¶î(Íò)</th><th style="width:25%;">µ±Ç°±ÈÀı</th><th style="width:20%; text-align:center;">¡ï</th></tr>`;
+  let html = `<tr><th style="width:30%;">èµ„äº§</th><th style="width:25%;">å½“å‰é‡‘é¢(ä¸‡)</th><th style="width:25%;">å½“å‰æ¯”ä¾‹</th><th style="width:20%; text-align:center;">â˜…</th></tr>`;
 
   let totalAmount = 0;
 
@@ -1595,7 +1595,7 @@ function renderHoldingTable() {
       const userMajorPct = (userConfig[k] || 0) * 100;
 
       html += `<tr style="background:#f9fafb; font-weight:600;">
-                        <td class="asset-name" style="color:#1f3c88;">${v.name} (ºÏ¼Æ)</td>
+                        <td class="asset-name" style="color:#1f3c88;">${v.name} (åˆè®¡)</td>
                         <td id="major_amt_${k}">${userMajorAmt.toFixed(2)}</td>
                         <td id="major_pct_${k}">${userMajorPct.toFixed(1)}%</td>
                         <td style="text-align:center; color:#ccc;">-</td>
@@ -1626,7 +1626,7 @@ function renderHoldingTable() {
         const pct = val * 100;
 
         html += `<tr>
-                            <td style="padding-left:24px; font-size:11px; color:#666;">©À©¤ ${assetName}</td>
+                            <td style="padding-left:24px; font-size:11px; color:#666;">â”œâ”€ ${assetName}</td>
                             <td><input type="number" id="sub_amt_${uniqueId}" value="${amt.toFixed(2)}" min="0" step="0.1" onchange="updateSubHolding('${k}', '${assetKey}')" style="width:100%;"></td>
                             <td>
                                 <div style="position:relative; display:flex; align-items:center;">
@@ -1642,7 +1642,7 @@ function renderHoldingTable() {
     }
   });
 
-  html += `<tr class="total-row"><td class="total-cell">ºÏ¼Æ</td><td class="total-cell"><strong id="totalAmountDisplay">${totalAmount.toFixed(2)}</strong></td><td class="total-cell"><strong id="totalPctDisplay">${((totalAmount / total) * 100).toFixed(1)}</strong></td><td class="total-cell">%</td></tr>`;
+  html += `<tr class="total-row"><td class="total-cell">åˆè®¡</td><td class="total-cell"><strong id="totalAmountDisplay">${totalAmount.toFixed(2)}</strong></td><td class="total-cell"><strong id="totalPctDisplay">${((totalAmount / total) * 100).toFixed(1)}</strong></td><td class="total-cell">%</td></tr>`;
 
   document.getElementById("holdingTable").innerHTML = html;
 }
@@ -1695,8 +1695,8 @@ function updateSubHolding(majorKey, assetKey) {
   const diff = Math.abs((totalAmount / total) * 100 - 100);
   if (statusEl) {
     if (diff > 0.5)
-      statusEl.innerHTML = `<div class="warning-box">?? µ±Ç°ºÏ¼Æ ${((totalAmount / total) * 100).toFixed(1)}%£¬Çëµ÷ÕûÖÁ100%</div>`;
-    else statusEl.innerHTML = `<div class="success-box">? ÅäÖÃÕı³£</div>`;
+      statusEl.innerHTML = `<div class="warning-box">âš ï¸ å½“å‰åˆè®¡ ${((totalAmount / total) * 100).toFixed(1)}%ï¼Œè¯·è°ƒæ•´è‡³100%</div>`;
+    else statusEl.innerHTML = `<div class="success-box">âœ… é…ç½®æ­£å¸¸</div>`;
   }
 
   renderComparison();
@@ -1744,14 +1744,14 @@ function resetHoldingInputs() {
   // Trigger warning check
   const statusEl = document.getElementById("holdingStatus");
   if (statusEl)
-    statusEl.innerHTML = `<div class="success-box">? ÒÑ»Ö¸´ÍÆ¼öÖµ</div>`;
+    statusEl.innerHTML = `<div class="success-box">âœ… å·²æ¢å¤æ¨èå€¼</div>`;
 }
 
 // DELETED: Duplicate saveCurrentHoldings function removed.
 // The correct version is defined later in the file around line 2753.
 
 function renderComparison() {
-  let html = `<tr><th>×Ê²úÀà±ğ</th><th>µ±Ç°³Ö²Ö</th><th>AIÍÆ¼ö</th><th>²îÒì</th><th>²Ù×÷½¨Òé</th></tr>`;
+  let html = `<tr><th>èµ„äº§ç±»åˆ«</th><th>å½“å‰æŒä»“</th><th>AIæ¨è</th><th>å·®å¼‚</th><th>æ“ä½œå»ºè®®</th></tr>`;
   const deltas = [];
 
   Object.entries(assetLibrary).forEach(([k, v]) => {
@@ -1771,17 +1771,17 @@ function renderComparison() {
 
       if (Math.abs(diff) < 1) {
         actionColor = "#6b7280";
-        actionText = "³Ö²ÖÎÈ¶¨";
+        actionText = "æŒä»“ç¨³å®š";
         actionBg = "#f3f4f6";
         actionTextColor = "#6b7280";
       } else if (diff > 1) {
         actionColor = "#2563eb";
-        actionText = `Ôö³Ö +${diff.toFixed(1)}%`;
+        actionText = `å¢æŒ +${diff.toFixed(1)}%`;
         actionBg = "#dbeafe";
         actionTextColor = "#1d4ed8";
       } else {
         actionColor = "#ef4444";
-        actionText = `¼õ³Ö ${diff.toFixed(1)}%`;
+        actionText = `å‡æŒ ${diff.toFixed(1)}%`;
         actionBg = "#fee2e2";
         actionTextColor = "#b91c1c";
       }
@@ -1801,7 +1801,7 @@ function renderComparison() {
       const groupId = "comp_group_" + k;
 
       html += `<tr style="cursor:${hasSubItems ? "pointer" : "default"};" onclick="${hasSubItems ? "toggleGroup('" + groupId + "')" : ""}">
-                        <td>${hasSubItems ? '<span id="icon_' + groupId + '" style="font-size:10px;margin-right:4px;">?</span>' : '<span style="font-size:10px;margin-right:4px;color:#ccc;">¡ğ</span>'}${v.name}</td>
+                        <td>${hasSubItems ? '<span id="icon_' + groupId + '" style="font-size:10px;margin-right:4px;">â–¶</span>' : '<span style="font-size:10px;margin-right:4px;color:#ccc;">â—‹</span>'}${v.name}</td>
                         <td>${userPct.toFixed(1)}%</td>
                         <td style="font-weight:600;color:#1f3c88">${recPct.toFixed(1)}%</td>
                         <td style="color:${diff >= 0 ? "#3b82f6" : "#ef4444"};font-weight:600">${diff >= 0 ? "+" : ""}${diff.toFixed(1)}%</td>
@@ -1855,7 +1855,7 @@ function renderComparison() {
 
           html += `<tr class="${groupId}" style="display:none; background:#f9fafb;">
                                 <td style="padding-left:24px; font-size:11px; color:#666;">
-                                    <span style="color:#ccc;">${isLast ? "©¸©¤" : "©À©¤"}</span> ${assetName}
+                                    <span style="color:#ccc;">${isLast ? "â””â”€" : "â”œâ”€"}</span> ${assetName}
                                 </td>
                                 <td style="font-size:11px; color:#666;">${userSubPct.toFixed(1)}%</td>
                                 <td style="font-size:11px; color:#333;">${recSubPct.toFixed(1)}%</td>
@@ -1882,22 +1882,22 @@ function renderComparison() {
   const totalDiffRatio = totalAbsDiff / 100;
   const triggerLabel =
     totalDiffRatio >= 0.35 || maxAbsDiff >= 12
-      ? "½¨ÒéÖØÅä"
+      ? "å»ºè®®é‡é…"
       : totalDiffRatio >= 0.18 || maxAbsDiff >= 6
-        ? "½¨ÒéĞ¡ĞŞ"
-        : "½¨ÒéÔİ²»µ÷Õû";
+        ? "å»ºè®®å°ä¿®"
+        : "å»ºè®®æš‚ä¸è°ƒæ•´";
   const triggerReason =
-    triggerLabel === "½¨ÒéÖØÅä"
-      ? "µ±Ç°³Ö²ÖºÍÍÆ¼ö³Ö²Ö²îÒìÒÑ¾­×ã¹»´ó¡£"
-      : triggerLabel === "½¨ÒéĞ¡ĞŞ"
-        ? "µ±Ç°´æÔÚÖĞµÈÆ«²î£¬Ö»ĞŞÕıÆ«²î×î´óµÄÉÙÊı×Ê²ú¼´¿É¡£"
-        : "µ±Ç°×éºÏÒÑ½Ó½üÍÆ¼öÅäÖÃ£¬¼ÌĞø³ÖÓĞ¸ü»®Ëã¡£";
+    triggerLabel === "å»ºè®®é‡é…"
+      ? "å½“å‰æŒä»“å’Œæ¨èæŒä»“å·®å¼‚å·²ç»è¶³å¤Ÿå¤§ã€‚"
+      : triggerLabel === "å»ºè®®å°ä¿®"
+        ? "å½“å‰å­˜åœ¨ä¸­ç­‰åå·®ï¼Œåªä¿®æ­£åå·®æœ€å¤§çš„å°‘æ•°èµ„äº§å³å¯ã€‚"
+        : "å½“å‰ç»„åˆå·²æ¥è¿‘æ¨èé…ç½®ï¼Œç»§ç»­æŒæœ‰æ›´åˆ’ç®—ã€‚";
   const triggerAction =
-    triggerLabel === "½¨ÒéÖØÅä"
-      ? "ÏÈ¼õ³¬ÅäºÍ·çÏÕ¸ü¸ßµÄ²¿·Ö£¬ÔÙ²¹Ä¿±ê²ÖÎ»¡£"
-      : triggerLabel === "½¨ÒéĞ¡ĞŞ"
-        ? "Ö»¶¯Æ«²î×î´óµÄÇ°¼¸Ïî¡£"
-        : "ÏÈ²»¶¯£¬µÈÏÂÒ»´ÎÖ÷µ÷²Ö´°¿ÚÔÙ¿´¡£";
+    triggerLabel === "å»ºè®®é‡é…"
+      ? "å…ˆå‡è¶…é…å’Œé£é™©æ›´é«˜çš„éƒ¨åˆ†ï¼Œå†è¡¥ç›®æ ‡ä»“ä½ã€‚"
+      : triggerLabel === "å»ºè®®å°ä¿®"
+        ? "åªåŠ¨åå·®æœ€å¤§çš„å‰å‡ é¡¹ã€‚"
+        : "å…ˆä¸åŠ¨ï¼Œç­‰ä¸‹ä¸€æ¬¡ä¸»è°ƒä»“çª—å£å†çœ‹ã€‚";
   const topMoveItems = deltas
     .slice()
     .sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff))
@@ -1905,54 +1905,54 @@ function renderComparison() {
 
   const summaryHtml = `
     <div style="margin-bottom:14px;padding:18px 18px 16px;border:2px solid ${
-      triggerLabel === "½¨ÒéÖØÅä"
+      triggerLabel === "å»ºè®®é‡é…"
         ? "#fecaca"
-        : triggerLabel === "½¨ÒéĞ¡ĞŞ"
+        : triggerLabel === "å»ºè®®å°ä¿®"
           ? "#fde68a"
           : "#bfdbfe"
     };background:${
-      triggerLabel === "½¨ÒéÖØÅä"
+      triggerLabel === "å»ºè®®é‡é…"
         ? "#fff1f2"
-        : triggerLabel === "½¨ÒéĞ¡ĞŞ"
+        : triggerLabel === "å»ºè®®å°ä¿®"
           ? "#fffbeb"
           : "#eff6ff"
     };border-radius:14px;line-height:1.6;box-shadow:0 8px 24px rgba(15,23,42,0.06);">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
         <div style="font-size:20px;font-weight:900;color:${
-          triggerLabel === "½¨ÒéÖØÅä"
+          triggerLabel === "å»ºè®®é‡é…"
             ? "#b91c1c"
-            : triggerLabel === "½¨ÒéĞ¡ĞŞ"
+            : triggerLabel === "å»ºè®®å°ä¿®"
               ? "#a16207"
               : "#1d4ed8"
-        };letter-spacing:0.2px;">?? ¾ö²ß½áÂÛ£º${triggerLabel}</div>
-        <div style="font-size:11px;color:#64748b;">×Ü±ä¶¯ ${totalAbsDiff.toFixed(1)}% ¡¤ ×î´óÆ«²î ${maxAbsDiff.toFixed(1)}%</div>
+        };letter-spacing:0.2px;">ğŸ“Š å†³ç­–ç»“è®ºï¼š${triggerLabel}</div>
+        <div style="font-size:11px;color:#64748b;">æ€»å˜åŠ¨ ${totalAbsDiff.toFixed(1)}% Â· æœ€å¤§åå·® ${maxAbsDiff.toFixed(1)}%</div>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
         <span style="display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:${
-          triggerLabel === "½¨ÒéÖØÅä"
+          triggerLabel === "å»ºè®®é‡é…"
             ? "#fee2e2"
-            : triggerLabel === "½¨ÒéĞ¡ĞŞ"
+            : triggerLabel === "å»ºè®®å°ä¿®"
               ? "#fef3c7"
               : "#dbeafe"
         };color:${
-          triggerLabel === "½¨ÒéÖØÅä"
+          triggerLabel === "å»ºè®®é‡é…"
             ? "#b91c1c"
-            : triggerLabel === "½¨ÒéĞ¡ĞŞ"
+            : triggerLabel === "å»ºè®®å°ä¿®"
               ? "#a16207"
               : "#1d4ed8"
         };font-weight:800;font-size:11px;">${triggerLabel}</span>
-        <span style="display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:#f8fafc;border:1px solid #e2e8f0;color:#475569;font-weight:700;font-size:11px;">½¨Òé½Ú×à£º${
-          triggerLabel === "½¨ÒéÖØÅä"
-            ? "¼¾¶ÈÖ÷µ÷²Ö"
-            : triggerLabel === "½¨ÒéĞ¡ĞŞ"
-              ? "ÔÂ¶ÈĞ¡ĞŞ"
-              : "Ôİ²»µ÷Õû"
+        <span style="display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:#f8fafc;border:1px solid #e2e8f0;color:#475569;font-weight:700;font-size:11px;">å»ºè®®èŠ‚å¥ï¼š${
+          triggerLabel === "å»ºè®®é‡é…"
+            ? "å­£åº¦ä¸»è°ƒä»“"
+            : triggerLabel === "å»ºè®®å°ä¿®"
+              ? "æœˆåº¦å°ä¿®"
+              : "æš‚ä¸è°ƒæ•´"
         }</span>
       </div>
       <div style="font-size:14px;font-weight:800;color:#111827;margin-bottom:6px;">${triggerReason}</div>
       <div style="font-size:12px;color:#374151;margin-bottom:12px;">${triggerAction}</div>
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
-        <span style="font-size:11px;color:#64748b;align-self:center;">µ±Ç°×î¸ÃÏÈ¿´£º</span>
+        <span style="font-size:11px;color:#64748b;align-self:center;">å½“å‰æœ€è¯¥å…ˆçœ‹ï¼š</span>
         ${
           topMoveItems
             .map(
@@ -1965,7 +1965,7 @@ function renderComparison() {
             .join("")
         }
       </div>
-      <div style="font-size:11px;color:#64748b;">ËµÃ÷£ºÕâÊÇµ±Ç°³Ö²Ö¶ÔÍÆ¼ö³Ö²ÖµÄÅĞ¶Ï£¬Ö±½Ó¸æËßÄãÒª²»Òªµ÷¡¢ÏÈµ÷Ê²Ã´¡£</div>
+      <div style="font-size:11px;color:#64748b;">è¯´æ˜ï¼šè¿™æ˜¯å½“å‰æŒä»“å¯¹æ¨èæŒä»“çš„åˆ¤æ–­ï¼Œç›´æ¥å‘Šè¯‰ä½ è¦ä¸è¦è°ƒã€å…ˆè°ƒä»€ä¹ˆã€‚</div>
     </div>
   `;
 
@@ -1979,9 +1979,9 @@ function analyzeRebalancingCost() {
   const total = parseFloat(document.getElementById("totalAmount").value) || 100;
   let rebalancingActions = [];
 
-  // v16.57: Ê¹ÓÃ×Ê²ú¼¶³å»÷³É±¾Ìæ´ú¹Ì¶¨·ÑÂÊ
+  // v16.57: ä½¿ç”¨èµ„äº§çº§å†²å‡»æˆæœ¬æ›¿ä»£å›ºå®šè´¹ç‡
   const impactMap = window.IMPACT_COST_MAP || {};
-  const DEFAULT_IMPACT = 0.003; // »ØÍËµ½¾ÉµÄ¹Ì¶¨ 0.3% Ë«±ß
+  const DEFAULT_IMPACT = 0.003; // å›é€€åˆ°æ—§çš„å›ºå®š 0.3% åŒè¾¹
   const fallbackImpactLabel = `${(DEFAULT_IMPACT * 100).toFixed(1)}%`;
 
   Object.entries(assetLibrary).forEach(([k, v]) => {
@@ -1996,7 +1996,7 @@ function analyzeRebalancingCost() {
       rebalancingActions.push({
         asset: v.name,
         assetKey: k,
-        action: recPct > userPct ? "Ôö³Ö" : "¼õ³Ö",
+        action: recPct > userPct ? "å¢æŒ" : "å‡æŒ",
         diffPct: diff * 100,
         amount: amount,
         impactCost: impact,
@@ -2007,12 +2007,12 @@ function analyzeRebalancingCost() {
   const turnoverRate =
     rebalancingActions.reduce((sum, a) => sum + a.diffPct, 0) / 2;
 
-  // v16.57: ·Ö¼¶½»Ò×³É±¾ = Ë«±ß³å»÷ + Âô³öÓ¡»¨Ë°
+  // v16.57: åˆ†çº§äº¤æ˜“æˆæœ¬ = åŒè¾¹å†²å‡» + å–å‡ºå°èŠ±ç¨
   const totalBuy = rebalancingActions
-    .filter((a) => a.action === "Ôö³Ö")
+    .filter((a) => a.action === "å¢æŒ")
     .reduce((s, a) => s + a.amount, 0);
   const totalSellAmt = rebalancingActions
-    .filter((a) => a.action === "¼õ³Ö")
+    .filter((a) => a.action === "å‡æŒ")
     .reduce((s, a) => s + a.amount, 0);
   const weightedImpactRate =
     rebalancingActions.length > 0
@@ -2024,8 +2024,8 @@ function analyzeRebalancingCost() {
   let sellStampDuty = 0;
   let slippageBuffer = 0;
   rebalancingActions.forEach((a) => {
-    const bidask = a.amount * a.impactCost * 2; // Ë«±ß³å»÷
-    const stamp = a.action === "¼õ³Ö" ? a.amount * 0.001 : 0; // Ó¡»¨Ë°½öÂô³ö
+    const bidask = a.amount * a.impactCost * 2; // åŒè¾¹å†²å‡»
+    const stamp = a.action === "å‡æŒ" ? a.amount * 0.001 : 0; // å°èŠ±ç¨ä»…å–å‡º
     const buffer =
       a.amount *
       a.impactCost *
@@ -2053,18 +2053,18 @@ function analyzeRebalancingCost() {
   const deferMinorTweaks =
     !needsImmediateAction && mediumMoveCount === 0 && turnoverRate < 8;
   const cadenceLabel = needsImmediateAction
-    ? "¼¾¶ÈÖ÷µ÷²Ö"
+    ? "å­£åº¦ä¸»è°ƒä»“"
     : deferMinorTweaks
-      ? "Ôİ²»µ÷"
-      : "ÔÂ¶ÈĞ¡ĞŞ";
+      ? "æš‚ä¸è°ƒ"
+      : "æœˆåº¦å°ä¿®";
 
   let executionAdvice = "";
   if (rebalancingActions.length > 0) {
     const statusLabel = needsImmediateAction
-      ? "±ØĞëµ÷"
+      ? "å¿…é¡»è°ƒ"
       : deferMinorTweaks
-        ? "Ôİ»ºÖ´ĞĞ"
-        : "¿ÉÑ¡ÓÅ»¯";
+        ? "æš‚ç¼“æ‰§è¡Œ"
+        : "å¯é€‰ä¼˜åŒ–";
     const statusBg = needsImmediateAction
       ? "#fee2e2"
       : deferMinorTweaks
@@ -2076,25 +2076,25 @@ function analyzeRebalancingCost() {
         ? "#075985"
         : "#92400e";
     const cadence = needsImmediateAction
-      ? "Õâ´Î½¨ÒéÖØĞÂÅäÖÃ£¬²»ÊÇÖ»×öÎ¢µ÷¡£"
+      ? "è¿™æ¬¡å»ºè®®é‡æ–°é…ç½®ï¼Œä¸æ˜¯åªåšå¾®è°ƒã€‚"
       : deferMinorTweaks
-        ? "Õâ´Î½¨ÒéĞ¡ĞŞ¼´¿É£¬²»±ØÈ«Á¿»»²Ö¡£"
-        : "Õâ´Î¿ÉÒÔ°´³£¹æ½Ú×à¹Û²ì£¬ÔİÊ±²»¶¯¡£";
+        ? "è¿™æ¬¡å»ºè®®å°ä¿®å³å¯ï¼Œä¸å¿…å…¨é‡æ¢ä»“ã€‚"
+        : "è¿™æ¬¡å¯ä»¥æŒ‰å¸¸è§„èŠ‚å¥è§‚å¯Ÿï¼Œæš‚æ—¶ä¸åŠ¨ã€‚";
     const splitRule = needsImmediateAction
-      ? "ÖØÅäÊ±£¬ÏÈ´¦Àíµ±Ç°³Ö²ÖÀï×î³¬Åä¡¢×îÎ£ÏÕµÄ×Ê²ú£¬ÔÙ°ÑÄ¿±ê²ÖÎ»²¹»ØÀ´£¬×îºó°ÑÆ«²îÊÕ»ØãĞÖµÄÚ¡£"
+      ? "é‡é…æ—¶ï¼Œå…ˆå¤„ç†å½“å‰æŒä»“é‡Œæœ€è¶…é…ã€æœ€å±é™©çš„èµ„äº§ï¼Œå†æŠŠç›®æ ‡ä»“ä½è¡¥å›æ¥ï¼Œæœ€åæŠŠåå·®æ”¶å›é˜ˆå€¼å†…ã€‚"
       : deferMinorTweaks
-        ? "Ğ¡ĞŞÊ±£¬Ö»¸ÄÆ«²î×î´óµÄÉÙÊı×Ê²ú£¬²»×öÕûÌ×·­ĞÂ¡£"
-        : "²»¶¯Ê±£¬Ö±½Ó±£Áôµ±Ç°ÅäÖÃ¡£";
+        ? "å°ä¿®æ—¶ï¼Œåªæ”¹åå·®æœ€å¤§çš„å°‘æ•°èµ„äº§ï¼Œä¸åšæ•´å¥—ç¿»æ–°ã€‚"
+        : "ä¸åŠ¨æ—¶ï¼Œç›´æ¥ä¿ç•™å½“å‰é…ç½®ã€‚";
     const worthIt =
       totalCost / Math.max(total, 1) > 0.005 && !needsImmediateAction
-        ? "µ±Ç°³É±¾ÒÑ¾­Æ«¸ß£¬³ı·Ç»·¾³Ã÷ÏÔ±ä»¯£¬·ñÔò¸üÊÊºÏµÈÏÂÒ»´ÎÔÙ¶¯¡£"
-        : "µ±Ç°Õâ´Îµ÷ÕûÖµµÃ×ö£¬µ«ÒªÓÅÏÈ¸Ä·çÏÕ±©Â¶×î´óµÄ²¿·Ö¡£";
-    const costBreakdown = `»ù´¡³å»÷ ${baseImpactCost.toFixed(4)}Íò + Ó¡»¨Ë° ${sellStampDuty.toFixed(4)}Íò + »¬µã»º³å ${slippageBuffer.toFixed(4)}Íò`;
+        ? "å½“å‰æˆæœ¬å·²ç»åé«˜ï¼Œé™¤éç¯å¢ƒæ˜æ˜¾å˜åŒ–ï¼Œå¦åˆ™æ›´é€‚åˆç­‰ä¸‹ä¸€æ¬¡å†åŠ¨ã€‚"
+        : "å½“å‰è¿™æ¬¡è°ƒæ•´å€¼å¾—åšï¼Œä½†è¦ä¼˜å…ˆæ”¹é£é™©æš´éœ²æœ€å¤§çš„éƒ¨åˆ†ã€‚";
+    const costBreakdown = `åŸºç¡€å†²å‡» ${baseImpactCost.toFixed(4)}ä¸‡ + å°èŠ±ç¨ ${sellStampDuty.toFixed(4)}ä¸‡ + æ»‘ç‚¹ç¼“å†² ${slippageBuffer.toFixed(4)}ä¸‡`;
     const triggerLabel = needsImmediateAction
-      ? "½¨ÒéÁ¢¼´ÖØÅä"
+      ? "å»ºè®®ç«‹å³é‡é…"
       : deferMinorTweaks
-        ? "½¨ÒéÔİ»º»òĞ¡ĞŞ"
-        : "½¨Òé°´³£¹æ½Ú×à¹Û²ì";
+        ? "å»ºè®®æš‚ç¼“æˆ–å°ä¿®"
+        : "å»ºè®®æŒ‰å¸¸è§„èŠ‚å¥è§‚å¯Ÿ";
     const triggerReason = needsImmediateAction
       ? "Current holdings differ materially from the recommendation, or the macro environment has changed clearly."
       : deferMinorTweaks
@@ -2106,41 +2106,41 @@ function analyzeRebalancingCost() {
         ? "Only adjust the few assets with the largest deviation."
         : "Do not adjust for now; review at the next major rebalancing window.";
     const cadenceReason = needsImmediateAction
-      ? "²îÒìÒÑ¾­³¬¹ı³£¹æÈİÈÌÇø¼ä£¬°´¼¾¶ÈÖ÷µ÷²Ö´¦Àí¸ü·ûºÏÊµÅÌ½Ú×à¡£"
+      ? "å·®å¼‚å·²ç»è¶…è¿‡å¸¸è§„å®¹å¿åŒºé—´ï¼ŒæŒ‰å­£åº¦ä¸»è°ƒä»“å¤„ç†æ›´ç¬¦åˆå®ç›˜èŠ‚å¥ã€‚"
       : deferMinorTweaks
-        ? "µ±Ç°Æ«²î½ÏĞ¡£¬¼ÌĞø³ÖÓĞ¸ü»®Ëã¡£"
-        : "´æÔÚÖĞµÈÆ«²î£¬½¨ÒéÔÚÏÂÒ»¸öÔÂ¶È´°¿Ú×öĞ¡ĞŞ¡£";
+        ? "å½“å‰åå·®è¾ƒå°ï¼Œç»§ç»­æŒæœ‰æ›´åˆ’ç®—ã€‚"
+        : "å­˜åœ¨ä¸­ç­‰åå·®ï¼Œå»ºè®®åœ¨ä¸‹ä¸€ä¸ªæœˆåº¦çª—å£åšå°ä¿®ã€‚";
     const impactMapUsedCount = rebalancingActions.filter(
       (a) => (impactMap[a.assetKey] || DEFAULT_IMPACT) !== DEFAULT_IMPACT,
     ).length;
     const fallbackImpactCount = rebalancingActions.length - impactMapUsedCount;
     const executionCostRate = totalCost / Math.max(total, 1);
     const costReadout =
-      `${baseImpactCost.toFixed(4)}Íò »ù´¡³å»÷ + ${sellStampDuty.toFixed(4)}Íò Âô³öÓ¡»¨Ë° + ${slippageBuffer.toFixed(4)}Íò »¬µã»º³å`;
+      `${baseImpactCost.toFixed(4)}ä¸‡ åŸºç¡€å†²å‡» + ${sellStampDuty.toFixed(4)}ä¸‡ å–å‡ºå°èŠ±ç¨ + ${slippageBuffer.toFixed(4)}ä¸‡ æ»‘ç‚¹ç¼“å†²`;
     const slippageRule = turnoverRate >= 15
-      ? "¸ß»»ÊÖ£¬»¬µã»º³å°´Æ«±£ÊØ¿Ú¾¶¼Æ¡£"
+      ? "é«˜æ¢æ‰‹ï¼Œæ»‘ç‚¹ç¼“å†²æŒ‰åä¿å®ˆå£å¾„è®¡ã€‚"
       : turnoverRate >= 8
-        ? "ÖĞµÈ»»ÊÖ£¬»¬µã»º³å°´ÖĞĞÔ¿Ú¾¶¼Æ¡£"
-        : "µÍ»»ÊÖ£¬»¬µã»º³å°´½ÏÇá¿Ú¾¶¼Æ¡£";
+        ? "ä¸­ç­‰æ¢æ‰‹ï¼Œæ»‘ç‚¹ç¼“å†²æŒ‰ä¸­æ€§å£å¾„è®¡ã€‚"
+        : "ä½æ¢æ‰‹ï¼Œæ»‘ç‚¹ç¼“å†²æŒ‰è¾ƒè½»å£å¾„è®¡ã€‚";
     const impactTier =
-      turnoverRate >= 15 ? "¸ß" : turnoverRate >= 8 ? "ÖĞ" : "µÍ";
+      turnoverRate >= 15 ? "é«˜" : turnoverRate >= 8 ? "ä¸­" : "ä½";
     const topCostItems = rebalancingActions
       .slice()
       .sort((a, b) => {
-        const aCost = a.amount * a.impactCost * 2 + (a.action === "¼õ³Ö" ? a.amount * 0.001 : 0);
-        const bCost = b.amount * b.impactCost * 2 + (b.action === "¼õ³Ö" ? b.amount * 0.001 : 0);
+        const aCost = a.amount * a.impactCost * 2 + (a.action === "å‡æŒ" ? a.amount * 0.001 : 0);
+        const bCost = b.amount * b.impactCost * 2 + (b.action === "å‡æŒ" ? b.amount * 0.001 : 0);
         return bCost - aCost;
       })
       .slice(0, 3)
       .map((a) => {
         const itemCost =
-          a.amount * a.impactCost * 2 + (a.action === "¼õ³Ö" ? a.amount * 0.001 : 0);
-        return `${a.asset} ${itemCost.toFixed(4)}Íò`;
+          a.amount * a.impactCost * 2 + (a.action === "å‡æŒ" ? a.amount * 0.001 : 0);
+        return `${a.asset} ${itemCost.toFixed(4)}ä¸‡`;
       });
     const summaryBanner = `
       <div style="margin-top:8px;padding:10px 12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;font-size:11px;line-height:1.7;">
-        <strong>³É±¾ÕªÒª£º</strong>»»ÊÖ${turnoverRate.toFixed(1)}%£¬${impactTier}µµ£»×Ü³É±¾Õ¼±È${((executionCostRate) * 100).toFixed(3)}%£»»¬µã¹æÔò£º${slippageRule}
-        <div style="margin-top:4px;color:#475569;">×î¸ß³É±¾Ç°ÈıÏî£º${topCostItems.join("£»") || "ÔİÎŞ"}</div>
+        <strong>æˆæœ¬æ‘˜è¦ï¼š</strong>æ¢æ‰‹${turnoverRate.toFixed(1)}%ï¼Œ${impactTier}æ¡£ï¼›æ€»æˆæœ¬å æ¯”${((executionCostRate) * 100).toFixed(3)}%ï¼›æ»‘ç‚¹è§„åˆ™ï¼š${slippageRule}
+        <div style="margin-top:4px;color:#475569;">æœ€é«˜æˆæœ¬å‰ä¸‰é¡¹ï¼š${topCostItems.join("ï¼›") || "æš‚æ— "}</div>
       </div>
     `;
 
@@ -2148,47 +2148,47 @@ function analyzeRebalancingCost() {
       <div style="margin-top:12px;padding:12px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;font-size:11px;line-height:1.7;">
         <div style="margin-bottom:8px;">
           <span style="background:${statusBg};color:${statusColor};padding:3px 8px;border-radius:999px;font-weight:700;">${statusLabel}</span>
-          <span style="margin-left:8px;color:#475569;">ÕâÊÇÔÚ»Ø´ğ£ºÒª²»Òª»»¡¢ÔõÃ´»»¡¢»»µ½Ê²Ã´³Ì¶È</span>
+          <span style="margin-left:8px;color:#475569;">è¿™æ˜¯åœ¨å›ç­”ï¼šè¦ä¸è¦æ¢ã€æ€ä¹ˆæ¢ã€æ¢åˆ°ä»€ä¹ˆç¨‹åº¦</span>
         </div>
-        <div><strong>µ±Ç°³Ö²ÖÖ¸Ê²Ã´£º</strong>ÄãÏÖÔÚÔÚÒ³ÃæÀïÑ¡ÖĞµÄ×éºÏ£¬Ò²¾ÍÊÇÒ³Ãæµ±Ç°³Ö²ÖÊı¾İ¶ÔÓ¦µÄ²ÖÎ»¡£</div>
-        <div><strong>½¨Òé½Ú×à£º</strong>${cadenceLabel}¡£${cadenceReason}</div>
-        <div><strong>ÊÇ·ñĞèÒªÖØĞÂÅäÖÃ£º</strong>${triggerLabel}¡£${triggerReason}</div>
-        <div><strong>ÔõÃ´×ö£º</strong>${triggerAction}</div>
-        <div><strong>ÅĞ¶Ï¹æÔò£º</strong>${splitRule}</div>
-        <div><strong>Öµ²»ÖµµÃ¶¯£º</strong>${worthIt}</div>
-        <div><strong>³É±¾²ğ·Ö£º</strong>${costReadout}</div>
-        <div><strong>³É±¾¿Ú¾¶£º</strong>×Ê²ú¼¶Ä¬ÈÏ³å»÷³É±¾»ØÍËÎª ${fallbackImpactLabel} Ë«±ß£»µ±Ç°ÃüÖĞµÄ·ÇÄ¬ÈÏ×Ê²úÊı ${impactMapUsedCount} ¸ö£¬»ØÍË×Ê²úÊı ${fallbackImpactCount} ¸ö¡£</div>
-        <div><strong>³å»÷µµÎ»£º</strong>${impactTier} »»ÊÖ£»´ó±ä¶¯ ${largeMoveCount} ¸ö£¬ÖĞ±ä¶¯ ${mediumMoveCount} ¸ö£¬Ğ¡±ä¶¯ ${smallMoveCount} ¸ö¡£</div>
-        <div><strong>»»ÊÖÇ¿¶È£º</strong>${turnoverRate.toFixed(1)}%£»µ±Ç°¹ÀËã×Ü³É±¾Õ¼±È ${((executionCostRate) * 100).toFixed(3)}%£»¼ÓÈ¨³å»÷ÂÊÔ¼ ${(weightedImpactRate * 100).toFixed(2)}%¡£</div>
-        <div><strong>»¬µãËµÃ÷£º</strong>${slippageRule}</div>
-        <div><strong>³É±¾×î¸ßÇ°ÈıÏî£º</strong>${topCostItems.join("£»") || "ÔİÎŞ"}</div>
-        <div><strong>ÓÅÏÈ¼¶£º</strong>ÏÈ¸Äµ±Ç°³Ö²ÖÀï×î³¬Åä¡¢×îÎ£ÏÕµÄ²¿·Ö£¬ÔÙÈ¥²¹ÍÆ¼öÅäÖÃÀïÓ¦¸ÃÔö¼ÓµÄ²¿·Ö¡£</div>
-        <div><strong>ÏÈ¿´Õâ¼¸Ïî£º</strong>${topDeviationItems.join("£»") || "ÔİÎŞ"}</div>
+        <div><strong>å½“å‰æŒä»“æŒ‡ä»€ä¹ˆï¼š</strong>ä½ ç°åœ¨åœ¨é¡µé¢é‡Œé€‰ä¸­çš„ç»„åˆï¼Œä¹Ÿå°±æ˜¯é¡µé¢å½“å‰æŒä»“æ•°æ®å¯¹åº”çš„ä»“ä½ã€‚</div>
+        <div><strong>å»ºè®®èŠ‚å¥ï¼š</strong>${cadenceLabel}ã€‚${cadenceReason}</div>
+        <div><strong>æ˜¯å¦éœ€è¦é‡æ–°é…ç½®ï¼š</strong>${triggerLabel}ã€‚${triggerReason}</div>
+        <div><strong>æ€ä¹ˆåšï¼š</strong>${triggerAction}</div>
+        <div><strong>åˆ¤æ–­è§„åˆ™ï¼š</strong>${splitRule}</div>
+        <div><strong>å€¼ä¸å€¼å¾—åŠ¨ï¼š</strong>${worthIt}</div>
+        <div><strong>æˆæœ¬æ‹†åˆ†ï¼š</strong>${costReadout}</div>
+        <div><strong>æˆæœ¬å£å¾„ï¼š</strong>èµ„äº§çº§é»˜è®¤å†²å‡»æˆæœ¬å›é€€ä¸º ${fallbackImpactLabel} åŒè¾¹ï¼›å½“å‰å‘½ä¸­çš„éé»˜è®¤èµ„äº§æ•° ${impactMapUsedCount} ä¸ªï¼Œå›é€€èµ„äº§æ•° ${fallbackImpactCount} ä¸ªã€‚</div>
+        <div><strong>å†²å‡»æ¡£ä½ï¼š</strong>${impactTier} æ¢æ‰‹ï¼›å¤§å˜åŠ¨ ${largeMoveCount} ä¸ªï¼Œä¸­å˜åŠ¨ ${mediumMoveCount} ä¸ªï¼Œå°å˜åŠ¨ ${smallMoveCount} ä¸ªã€‚</div>
+        <div><strong>æ¢æ‰‹å¼ºåº¦ï¼š</strong>${turnoverRate.toFixed(1)}%ï¼›å½“å‰ä¼°ç®—æ€»æˆæœ¬å æ¯” ${((executionCostRate) * 100).toFixed(3)}%ï¼›åŠ æƒå†²å‡»ç‡çº¦ ${(weightedImpactRate * 100).toFixed(2)}%ã€‚</div>
+        <div><strong>æ»‘ç‚¹è¯´æ˜ï¼š</strong>${slippageRule}</div>
+        <div><strong>æˆæœ¬æœ€é«˜å‰ä¸‰é¡¹ï¼š</strong>${topCostItems.join("ï¼›") || "æš‚æ— "}</div>
+        <div><strong>ä¼˜å…ˆçº§ï¼š</strong>å…ˆæ”¹å½“å‰æŒä»“é‡Œæœ€è¶…é…ã€æœ€å±é™©çš„éƒ¨åˆ†ï¼Œå†å»è¡¥æ¨èé…ç½®é‡Œåº”è¯¥å¢åŠ çš„éƒ¨åˆ†ã€‚</div>
+        <div><strong>å…ˆçœ‹è¿™å‡ é¡¹ï¼š</strong>${topDeviationItems.join("ï¼›") || "æš‚æ— "}</div>
       </div>
     `;
   }
 
   let html = "";
   if (rebalancingActions.length === 0) {
-    html = '<div class="success-box">? ÎŞĞèµ÷Õû£¨ËùÓĞÆ«²î¶¼ÔÚãĞÖµÄÚ£©</div>';
+    html = '<div class="success-box">âœ… æ— éœ€è°ƒæ•´ï¼ˆæ‰€æœ‰åå·®éƒ½åœ¨é˜ˆå€¼å†…ï¼‰</div>';
   } else {
     html = `
       <div class="warning-box">
-        <strong>?? ½¨Òéµ÷ÕûÏî£¨³¬¹ı${(threshold * 100).toFixed(0)}%ãĞÖµ£©£º</strong><br/>
-        ${rebalancingActions.length}¸ö×Ê²úĞèÒªµ÷Õû£¬Ô¤¼Æ³É±¾${totalCost.toFixed(4)}Íò£¨Ô¼${((totalCost / total) * 100).toFixed(3)}%£©
+        <strong>âš ï¸ å»ºè®®è°ƒæ•´é¡¹ï¼ˆè¶…è¿‡${(threshold * 100).toFixed(0)}%é˜ˆå€¼ï¼‰ï¼š</strong><br/>
+        ${rebalancingActions.length}ä¸ªèµ„äº§éœ€è¦è°ƒæ•´ï¼Œé¢„è®¡æˆæœ¬${totalCost.toFixed(4)}ä¸‡ï¼ˆçº¦${((totalCost / total) * 100).toFixed(3)}%ï¼‰
       </div>
       ${summaryBanner}
       <div style="margin-top:8px;padding:8px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:6px;font-size:11px;line-height:1.6;">
-        <strong>½»Ò×³É±¾²ğ·Ö£º</strong>${baseImpactCost.toFixed(4)}Íò »ù´¡³å»÷ + ${sellStampDuty.toFixed(4)}Íò Âô³öÓ¡»¨Ë° + ${slippageBuffer.toFixed(4)}Íò »¬µã»º³å
-        <div style="margin-top:4px;color:#64748b;">Ä¬ÈÏ³å»÷¿Ú¾¶£º${fallbackImpactLabel} Ë«±ß£»»»ÊÖÔ½¸ß£¬»¬µã»º³åÔ½±£ÊØ¡£</div>
-        <div style="margin-top:4px;color:#64748b;">»»ÊÖµµÎ»£º${impactTier}£»´ó/ÖĞ/Ğ¡±ä¶¯·Ö±ğÎª ${largeMoveCount}/${mediumMoveCount}/${smallMoveCount} Ïî¡£</div>
+        <strong>äº¤æ˜“æˆæœ¬æ‹†åˆ†ï¼š</strong>${baseImpactCost.toFixed(4)}ä¸‡ åŸºç¡€å†²å‡» + ${sellStampDuty.toFixed(4)}ä¸‡ å–å‡ºå°èŠ±ç¨ + ${slippageBuffer.toFixed(4)}ä¸‡ æ»‘ç‚¹ç¼“å†²
+        <div style="margin-top:4px;color:#64748b;">é»˜è®¤å†²å‡»å£å¾„ï¼š${fallbackImpactLabel} åŒè¾¹ï¼›æ¢æ‰‹è¶Šé«˜ï¼Œæ»‘ç‚¹ç¼“å†²è¶Šä¿å®ˆã€‚</div>
+        <div style="margin-top:4px;color:#64748b;">æ¢æ‰‹æ¡£ä½ï¼š${impactTier}ï¼›å¤§/ä¸­/å°å˜åŠ¨åˆ†åˆ«ä¸º ${largeMoveCount}/${mediumMoveCount}/${smallMoveCount} é¡¹ã€‚</div>
       </div>
       <table style="margin-top:12px;">
-        <tr><th>×Ê²ú</th><th>²Ù×÷</th><th>Æ«²î</th><th>µ÷Õû½ğ¶î</th><th>³å»÷ÂÊ</th><th>Ë«±ß³å»÷</th><th>Ô¤¼Æ³É±¾</th></tr>
+        <tr><th>èµ„äº§</th><th>æ“ä½œ</th><th>åå·®</th><th>è°ƒæ•´é‡‘é¢</th><th>å†²å‡»ç‡</th><th>åŒè¾¹å†²å‡»</th><th>é¢„è®¡æˆæœ¬</th></tr>
         ${rebalancingActions
           .map((a) => {
             const bidask = a.amount * a.impactCost * 2;
-            const stamp = a.action === "¼õ³Ö" ? a.amount * 0.001 : 0;
+            const stamp = a.action === "å‡æŒ" ? a.amount * 0.001 : 0;
             const buffer =
               a.amount *
               a.impactCost *
@@ -2199,17 +2199,17 @@ function analyzeRebalancingCost() {
                 <td>${a.asset}</td>
                 <td>${a.action}</td>
                 <td style="color:#3b82f6;font-weight:600;">${a.diffPct.toFixed(1)}%</td>
-                <td style="font-weight:600;">${a.amount.toFixed(2)}Íò</td>
+                <td style="font-weight:600;">${a.amount.toFixed(2)}ä¸‡</td>
                 <td style="font-weight:600;color:#7c3aed;">${(a.impactCost * 100).toFixed(2)}%</td>
-                <td style="font-weight:600;color:#334155;">${bidask.toFixed(4)}Íò</td>
-                <td style="color:#ef4444;font-weight:600;">${itemCost.toFixed(4)}Íò</td>
+                <td style="font-weight:600;color:#334155;">${bidask.toFixed(4)}ä¸‡</td>
+                <td style="color:#ef4444;font-weight:600;">${itemCost.toFixed(4)}ä¸‡</td>
               </tr>
             `;
           })
           .join("")}
         <tr class="total-row">
-          <td colspan="3">ºÏ¼Æ³É±¾</td>
-          <td colspan="2" style="color:#ef4444;font-weight:600;">${totalCost.toFixed(4)}Íò£¨Õ¼Í¶×Ê¶î${((totalCost / total) * 100).toFixed(3)}%£©</td>
+          <td colspan="3">åˆè®¡æˆæœ¬</td>
+          <td colspan="2" style="color:#ef4444;font-weight:600;">${totalCost.toFixed(4)}ä¸‡ï¼ˆå æŠ•èµ„é¢${((totalCost / total) * 100).toFixed(3)}%ï¼‰</td>
         </tr>
       </table>
       ${executionAdvice}
@@ -2221,13 +2221,13 @@ function analyzeRebalancingCost() {
 
 function saveAssetTemplate() {
   if (selectedAssets.size === 0) {
-    alert("ÇëÏÈÑ¡ÔñÖÁÉÙ1¸ö×Ê²ú!");
+    alert("è¯·å…ˆé€‰æ‹©è‡³å°‘1ä¸ªèµ„äº§!");
     return;
   }
 
   const templateName = prompt(
-    "ÇëÊäÈëÄ£°åÃû³Æ£¨Èç£º±£ÊØÅäÖÃ£©£º",
-    `ÅäÖÃ_${new Date().toLocaleDateString()}`,
+    "è¯·è¾“å…¥æ¨¡æ¿åç§°ï¼ˆå¦‚ï¼šä¿å®ˆé…ç½®ï¼‰ï¼š",
+    `é…ç½®_${new Date().toLocaleDateString()}`,
   );
   if (!templateName) return;
 
@@ -2247,19 +2247,19 @@ function saveAssetTemplate() {
 
   localStorage.setItem("assetTemplates", JSON.stringify(templates));
   localStorage.setItem("lumi_asset_templates", JSON.stringify(templates));
-  alert("? Ä£°åÒÑ±£´æ£¡");
+  alert("âœ… æ¨¡æ¿å·²ä¿å­˜ï¼");
   loadTemplatesUI();
 }
 
 function saveFullSnapshot() {
   if (!currentRec || Object.keys(currentRec).length === 0) {
-    alert("ÇëÏÈÉú³ÉÍÆ¼ö£¡");
+    alert("è¯·å…ˆç”Ÿæˆæ¨èï¼");
     return;
   }
 
   const snapshotName = prompt(
-    "ÇëÊäÈë¿ìÕÕÃû³Æ£¨Èç£º±£ÊØÅäÖÃ_ÀûÂÊÉÏÉı£©£º",
-    `¿ìÕÕ_${new Date().toLocaleString("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })}`,
+    "è¯·è¾“å…¥å¿«ç…§åç§°ï¼ˆå¦‚ï¼šä¿å®ˆé…ç½®_åˆ©ç‡ä¸Šå‡ï¼‰ï¼š",
+    `å¿«ç…§_${new Date().toLocaleString("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })}`,
   );
   if (!snapshotName) return;
 
@@ -2275,7 +2275,7 @@ function saveFullSnapshot() {
     riskPref: document.getElementById("riskPref").value,
     portfolioVolatility: calculatePortfolioVolatility(),
     userConfig: { ...userConfig },
-    // v16.41: ¿ÉÉó¼ÆÊä³öÀ©Õ¹
+    // v16.41: å¯å®¡è®¡è¾“å‡ºæ‰©å±•
     version: "v1.0",
     globalOptimalRec: window._globalOptimalRec
       ? { ...window._globalOptimalRec }
@@ -2299,9 +2299,9 @@ function saveFullSnapshot() {
 
   localStorage.setItem("portfolioSnapshots", JSON.stringify(snapshots));
   saveExecutionJournal({
-    action: "±£´æ¿ìÕÕ",
+    action: "ä¿å­˜å¿«ç…§",
     note: snapshotName,
-    kind: "Ö´ĞĞ²ã",
+    kind: "æ‰§è¡Œå±‚",
     recommendation: { ...currentRec },
     userConfig: { ...userConfig },
     macroEnvState:
@@ -2317,12 +2317,12 @@ function saveFullSnapshot() {
     })(),
     topDeviationItems: buildExecutionDeviationItems(),
   });
-  alert("? ¿ìÕÕÒÑ±£´æ£¡");
+  alert("âœ… å¿«ç…§å·²ä¿å­˜ï¼");
   loadTemplatesUI();
 }
 
-// v16.41: ¼¾¶ÈÅäÖÃ¶Ô±È±¨¸æ
-// v16.62 F4: ÍÆ¼öÇ¨ÒÆÂ·¾¶¶Ô±È (ÉÏ´ÎÍÆ¼ö -> ±¾´ÎÍÆ¼ö)
+// v16.41: å­£åº¦é…ç½®å¯¹æ¯”æŠ¥å‘Š
+// v16.62 F4: æ¨èè¿ç§»è·¯å¾„å¯¹æ¯” (ä¸Šæ¬¡æ¨è -> æœ¬æ¬¡æ¨è)
 function renderWeightMigration() {
   const container = document.getElementById("weightMigrationPanel");
   if (!container) return;
@@ -2330,7 +2330,7 @@ function renderWeightMigration() {
   const currentWeights = window._globalOptimalRec;
   if (!currentWeights) {
     container.innerHTML =
-      '<div style="color:#999; text-align:center; padding:20px;">ÇëÏÈÉú³ÉAIÍÆ¼öÒÔ¿ªÆô¶Ô±È</div>';
+      '<div style="color:#999; text-align:center; padding:20px;">è¯·å…ˆç”ŸæˆAIæ¨èä»¥å¼€å¯å¯¹æ¯”</div>';
     return;
   }
 
@@ -2339,16 +2339,16 @@ function renderWeightMigration() {
   const prevMacro = prevData?.macro || {};
   const prevTime = prevData?.timestamp
     ? new Date(prevData.timestamp).toLocaleString()
-    : "ÎŞ¼ÇÂ¼";
-  const previousSourceLabel = "ÉÏÒ»ÆÚÍÆ¼ö = ÏµÍ³×Ô¶¯±£´æµÄÉÏÒ»°æÍÆ¼ö¿ìÕÕ";
-  const currentSourceLabel = "±¾ÆÚÍÆ¼ö = µ±Ç°Õâ´ÎÖØĞÂ¼ÆËã³öÀ´µÄÈ«¾ÖÍÆ¼ö";
+    : "æ— è®°å½•";
+  const previousSourceLabel = "ä¸Šä¸€æœŸæ¨è = ç³»ç»Ÿè‡ªåŠ¨ä¿å­˜çš„ä¸Šä¸€ç‰ˆæ¨èå¿«ç…§";
+  const currentSourceLabel = "æœ¬æœŸæ¨è = å½“å‰è¿™æ¬¡é‡æ–°è®¡ç®—å‡ºæ¥çš„å…¨å±€æ¨è";
 
   const allKeys = new Set([
     ...Object.keys(currentWeights),
     ...Object.keys(prevWeights),
   ]);
 
-  // ¹ıÂËµôÈ¨ÖØ¶¼¼«Ğ¡µÄ×Ê²ú
+  // è¿‡æ»¤æ‰æƒé‡éƒ½æå°çš„èµ„äº§
   const activeKeys = Array.from(allKeys)
     .filter(
       (k) => (currentWeights[k] || 0) > 0.001 || (prevWeights[k] || 0) > 0.001,
@@ -2357,7 +2357,7 @@ function renderWeightMigration() {
 
   if (activeKeys.length === 0) {
     container.innerHTML =
-      '<div style="color:#999; text-align:center; padding:20px;">ÔİÎŞÏÔÖøÈ¨ÖØ·ÖÅä</div>';
+      '<div style="color:#999; text-align:center; padding:20px;">æš‚æ— æ˜¾è‘—æƒé‡åˆ†é…</div>';
     return;
   }
 
@@ -2392,28 +2392,28 @@ function renderWeightMigration() {
 
   let html = `
         <div style="margin-bottom:12px;padding:12px;border:1px solid #dbeafe;background:#eff6ff;border-radius:8px;font-size:11px;line-height:1.65;">
-            <div style="font-weight:700;color:#1d4ed8;margin-bottom:6px;">?? Ç¨ÒÆÕªÒª</div>
-            <div><strong>×ÜÇ¨ÒÆÇ¿¶È£º</strong>${totalShift.toFixed(1)}%</div>
-            <div><strong>±ä»¯·Ö²¼£º</strong><span style="color:#166534;">ÔöÅä ${increaseCount}</span> / <span style="color:#b91c1c;">¼õÅä ${decreaseCount}</span> / <span style="color:#64748b;">³ÖÆ½ ${flatCount}</span></div>
-            <div><strong>×î´óµ¥Ïî±ä»¯£º</strong>${biggestMove?.name || "ÎŞ"} ${biggestMove ? (biggestMove.diff >= 0 ? "+" : "") + biggestMove.diff.toFixed(1) + "%" : ""}</div>
-            <div><strong>ÓÅÏÈÔöÅä£º</strong>${addHints.length ? addHints.map((item) => `${item.name} +${item.diff.toFixed(1)}%`).join("£»") : "ÔİÎŞ"}</div>
-            <div><strong>ÓÅÏÈ¼õÅä£º</strong>${cutHints.length ? cutHints.map((item) => `${item.name} ${item.diff.toFixed(1)}%`).join("£»") : "ÔİÎŞ"}</div>
-            <div style="color:#64748b;">ËµÃ÷£ºÕâÊÇÎÈ¶¨ĞÔ²ã¶Ô±È£¬Ö»¿´ÉÏ´ÎÍÆ¼öºÍ±¾´ÎÍÆ¼öµÄ±ä»¯£¬ÓÃÀ´ÅĞ¶ÏÏµÍ³¹ÛµãÊÇ·ñÎÈ¶¨£¬²»ÊÇµ±Ç°ÕæÊµ³Ö²ÖµÄÀúÊ·¶Ô±È¡£</div>
-            <div style="color:#475569;">À´Ô´ËµÃ÷£º<strong>ÉÏÒ»ÆÚ</strong>¶Á localStorage ÀïµÄ <code>lumi_prev_weights</code>£¬ÓÉÏµÍ³ÔÚÍÆ¼öÉú³Éºó×Ô¶¯Ğ´Èë£»<strong>±¾ÆÚ</strong>¶Áµ±Ç°µÄ <code>_globalOptimalRec</code>¡£</div>
-            <div style="color:#64748b;">${previousSourceLabel}£»${currentSourceLabel}¡£</div>
+            <div style="font-weight:700;color:#1d4ed8;margin-bottom:6px;">ğŸ“Š è¿ç§»æ‘˜è¦</div>
+            <div><strong>æ€»è¿ç§»å¼ºåº¦ï¼š</strong>${totalShift.toFixed(1)}%</div>
+            <div><strong>å˜åŒ–åˆ†å¸ƒï¼š</strong><span style="color:#166534;">å¢é… ${increaseCount}</span> / <span style="color:#b91c1c;">å‡é… ${decreaseCount}</span> / <span style="color:#64748b;">æŒå¹³ ${flatCount}</span></div>
+            <div><strong>æœ€å¤§å•é¡¹å˜åŒ–ï¼š</strong>${biggestMove?.name || "æ— "} ${biggestMove ? (biggestMove.diff >= 0 ? "+" : "") + biggestMove.diff.toFixed(1) + "%" : ""}</div>
+            <div><strong>ä¼˜å…ˆå¢é…ï¼š</strong>${addHints.length ? addHints.map((item) => `${item.name} +${item.diff.toFixed(1)}%`).join("ï¼›") : "æš‚æ— "}</div>
+            <div><strong>ä¼˜å…ˆå‡é…ï¼š</strong>${cutHints.length ? cutHints.map((item) => `${item.name} ${item.diff.toFixed(1)}%`).join("ï¼›") : "æš‚æ— "}</div>
+            <div style="color:#64748b;">è¯´æ˜ï¼šè¿™æ˜¯ç¨³å®šæ€§å±‚å¯¹æ¯”ï¼Œåªçœ‹ä¸Šæ¬¡æ¨èå’Œæœ¬æ¬¡æ¨èçš„å˜åŒ–ï¼Œç”¨æ¥åˆ¤æ–­ç³»ç»Ÿè§‚ç‚¹æ˜¯å¦ç¨³å®šï¼Œä¸æ˜¯å½“å‰çœŸå®æŒä»“çš„å†å²å¯¹æ¯”ã€‚</div>
+            <div style="color:#475569;">æ¥æºè¯´æ˜ï¼š<strong>ä¸Šä¸€æœŸ</strong>è¯» localStorage é‡Œçš„ <code>lumi_prev_weights</code>ï¼Œç”±ç³»ç»Ÿåœ¨æ¨èç”Ÿæˆåè‡ªåŠ¨å†™å…¥ï¼›<strong>æœ¬æœŸ</strong>è¯»å½“å‰çš„ <code>_globalOptimalRec</code>ã€‚</div>
+            <div style="color:#64748b;">${previousSourceLabel}ï¼›${currentSourceLabel}ã€‚</div>
         </div>
         <div style="font-size:10px; color:#666; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
-            <span>?? ÉÏ´ÎÍÆ¼öÊ±¼ä: <strong style="color:#3b82f6;">${prevTime}</strong></span>
-            <span>?? ×´Ì¬: ${prevData ? "? ÒÑÁ´½ÓÉÏ´ÎÍÆ¼ö" : "?? Ê×´ÎÔËĞĞ£¬ÔİÎŞÀúÊ·¶Ô±È"}</span>
+            <span>ğŸ“… ä¸Šæ¬¡æ¨èæ—¶é—´: <strong style="color:#3b82f6;">${prevTime}</strong></span>
+            <span>ğŸ¯ çŠ¶æ€: ${prevData ? "âœ… å·²é“¾æ¥ä¸Šæ¬¡æ¨è" : "âš ï¸ é¦–æ¬¡è¿è¡Œï¼Œæš‚æ— å†å²å¯¹æ¯”"}</span>
         </div>
         <table style="width:100%; border-collapse:collapse; font-size:11px;">
             <thead>
                 <tr style="background:#f8fafc; border-bottom:2px solid #e2e8f0;">
-                    <th style="padding:8px; text-align:left;">×Ê²úÀà±ğ</th>
-                    <th style="padding:8px; text-align:right;">ÉÏ´ÎÍÆ¼ö %</th>
-                    <th style="padding:8px; text-align:right;">±¾´ÎÍÆ¼ö %</th>
-                    <th style="padding:8px; text-align:right;">±ä»¯</th>
-                    <th style="padding:8px; text-align:center;">²Ù×÷¹ì¼£</th>
+                    <th style="padding:8px; text-align:left;">èµ„äº§ç±»åˆ«</th>
+                    <th style="padding:8px; text-align:right;">ä¸Šæ¬¡æ¨è %</th>
+                    <th style="padding:8px; text-align:right;">æœ¬æ¬¡æ¨è %</th>
+                    <th style="padding:8px; text-align:right;">å˜åŒ–</th>
+                    <th style="padding:8px; text-align:center;">æ“ä½œè½¨è¿¹</th>
                 </tr>
             </thead>
             <tbody>
@@ -2425,16 +2425,16 @@ function renderWeightMigration() {
     const diff = curr - last;
     const assetName = assetLibrary[k]?.name || k;
 
-    // ²Ù×÷½¨ÒéÂß¼­
+    // æ“ä½œå»ºè®®é€»è¾‘
     let actionHtml = "";
     if (diff > 0.5) {
       actionHtml =
-        '<span style="background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px; font-weight:600;">? ÔöÅä</span>';
+        '<span style="background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px; font-weight:600;">â• å¢é…</span>';
     } else if (diff < -0.5) {
       actionHtml =
-        '<span style="background:#fee2e2; color:#991b1b; padding:2px 6px; border-radius:4px; font-weight:600;">? ¼õÅä</span>';
+        '<span style="background:#fee2e2; color:#991b1b; padding:2px 6px; border-radius:4px; font-weight:600;">â– å‡é…</span>';
     } else {
-      actionHtml = '<span style="color:#94a3b8;">¡ñ ³ÖÆ½</span>';
+      actionHtml = '<span style="color:#94a3b8;">â— æŒå¹³</span>';
     }
 
     const diffColor =
@@ -2466,7 +2466,7 @@ function renderWeightMigration() {
         </table>
     `;
 
-  // »»ÊÖËğºÄÔ¤¹À (Ö»Õë¶ÔÇ¨ÒÆÂ·¾¶)
+  // æ¢æ‰‹æŸè€—é¢„ä¼° (åªé’ˆå¯¹è¿ç§»è·¯å¾„)
   const turnover =
     activeKeys.reduce(
       (sum, k) =>
@@ -2476,14 +2476,14 @@ function renderWeightMigration() {
   if (turnover > 0.001) {
     html += `
             <div style="margin-top:12px; padding:10px; background:#f0f9ff; border-radius:6px; font-size:11px; color:#0369a1; border:1px solid #bae6fd;">
-                ?? <strong>ÅäÖÃÇ¨ÒÆÇ¿¶È:</strong> ±¾´Îºê¹Û²¨Çı¶¯µÄÈ¨ÖØ»»ÊÖÂÊÎª <strong>${(turnover * 100).toFixed(1)}%</strong>
+                ğŸš€ <strong>é…ç½®è¿ç§»å¼ºåº¦:</strong> æœ¬æ¬¡å®è§‚æ³¢é©±åŠ¨çš„æƒé‡æ¢æ‰‹ç‡ä¸º <strong>${(turnover * 100).toFixed(1)}%</strong>
             </div>
         `;
   }
 
   container.innerHTML = html;
 }
-// ¶Ô±È×î½üÁ½¸ö¿ìÕÕµÄÈ¨ÖØ²îÒì£¬Êä³ö½á¹¹»¯µÄÉó¼Æ±¨¸æ
+// å¯¹æ¯”æœ€è¿‘ä¸¤ä¸ªå¿«ç…§çš„æƒé‡å·®å¼‚ï¼Œè¾“å‡ºç»“æ„åŒ–çš„å®¡è®¡æŠ¥å‘Š
 window.generateQuarterlyDiffReport = function () {
   let snapshots = [];
   try {
@@ -2499,24 +2499,24 @@ window.generateQuarterlyDiffReport = function () {
       (a, b) => new Date(b.timestamp) - new Date(a.timestamp),
     );
   } catch (e) {
-    console.error("¿ìÕÕ¶ÁÈ¡Ê§°Ü", e);
+    console.error("å¿«ç…§è¯»å–å¤±è´¥", e);
   }
 
   if (snapshots.length < 2) {
-    alert("ĞèÒªÖÁÉÙ 2 ¸ö¿ìÕÕ²ÅÄÜÉú³É¶Ô±È±¨¸æ¡£µ±Ç°: " + snapshots.length);
+    alert("éœ€è¦è‡³å°‘ 2 ä¸ªå¿«ç…§æ‰èƒ½ç”Ÿæˆå¯¹æ¯”æŠ¥å‘Šã€‚å½“å‰: " + snapshots.length);
     return;
   }
 
   const curr = snapshots[0];
   const prev = snapshots[1];
 
-  let report = `?? ¼¾¶ÈÅäÖÃ¶Ô±È±¨¸æ\n`;
-  report += `©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥\n`;
-  report += `µ±Ç°: ${curr.name} (${new Date(curr.timestamp).toLocaleDateString("zh-CN")})\n`;
-  report += `ÉÏÆÚ: ${prev.name} (${new Date(prev.timestamp).toLocaleDateString("zh-CN")})\n\n`;
+  let report = `ğŸ“Š å­£åº¦é…ç½®å¯¹æ¯”æŠ¥å‘Š\n`;
+  report += `â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”\n`;
+  report += `å½“å‰: ${curr.name} (${new Date(curr.timestamp).toLocaleDateString("zh-CN")})\n`;
+  report += `ä¸ŠæœŸ: ${prev.name} (${new Date(prev.timestamp).toLocaleDateString("zh-CN")})\n\n`;
 
-  // È¨ÖØ²îÒì
-  report += `?? È¨ÖØ±ä»¯:\n`;
+  // æƒé‡å·®å¼‚
+  report += `ğŸ“ˆ æƒé‡å˜åŒ–:\n`;
   const allKeys = new Set([
     ...Object.keys(curr.recommendation || {}),
     ...Object.keys(prev.recommendation || {}),
@@ -2537,18 +2537,18 @@ window.generateQuarterlyDiffReport = function () {
   });
 
   if (changes.length === 0) {
-    report += `  ? È¨ÖØ»ù±¾²»±ä£¨²îÒì¾ù < 0.5%£©\n`;
+    report += `  âœ… æƒé‡åŸºæœ¬ä¸å˜ï¼ˆå·®å¼‚å‡ < 0.5%ï¼‰\n`;
   } else {
     changes.sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff));
     changes.forEach((c) => {
-      const arrow = c.diff > 0 ? "¡ü" : "¡ı";
-      report += `  ${arrow} ${c.name}: ${c.prevW.toFixed(1)}% ¡ú ${c.currW.toFixed(1)}% (${c.diff > 0 ? "+" : ""}${c.diff.toFixed(1)}%)\n`;
+      const arrow = c.diff > 0 ? "â†‘" : "â†“";
+      report += `  ${arrow} ${c.name}: ${c.prevW.toFixed(1)}% â†’ ${c.currW.toFixed(1)}% (${c.diff > 0 ? "+" : ""}${c.diff.toFixed(1)}%)\n`;
     });
   }
 
-  // ÖÆ¶È×´Ì¬±ä»¯
+  // åˆ¶åº¦çŠ¶æ€å˜åŒ–
   if (curr.macroEnvState && prev.macroEnvState) {
-    report += `\n??? ÖÆ¶È×´Ì¬±ä»¯:\n`;
+    report += `\nğŸ›ï¸ åˆ¶åº¦çŠ¶æ€å˜åŒ–:\n`;
     [
       "isLiquidityShock",
       "isBubblePeak",
@@ -2557,13 +2557,13 @@ window.generateQuarterlyDiffReport = function () {
       "isStagflation",
     ].forEach((flag) => {
       if (curr.macroEnvState[flag] !== prev.macroEnvState[flag]) {
-        report += `  ? ${flag}: ${prev.macroEnvState[flag]} ¡ú ${curr.macroEnvState[flag]}\n`;
+        report += `  âš¡ ${flag}: ${prev.macroEnvState[flag]} â†’ ${curr.macroEnvState[flag]}\n`;
       }
     });
   }
 
-  report += `\n©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥\n`;
-  report += `Éú³ÉÊ±¼ä: ${new Date().toLocaleString("zh-CN")}`;
+  report += `\nâ”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”\n`;
+  report += `ç”Ÿæˆæ—¶é—´: ${new Date().toLocaleString("zh-CN")}`;
 
   debugLog(report);
   alert(report);
@@ -2575,7 +2575,7 @@ function loadAssetTemplate(templateId) {
     templateId !== "" && !Number.isNaN(Number(templateId))
       ? Number(templateId)
       : templateId;
-  // v9.7.3: ±£´æµ±Ç°ºê¹ÛÊı¾İ£¬·ÀÖ¹±»Ä£°å¸²¸Ç
+  // v9.7.3: ä¿å­˜å½“å‰å®è§‚æ•°æ®ï¼Œé˜²æ­¢è¢«æ¨¡æ¿è¦†ç›–
   const preservedMacroData = {};
   const macroKeys = [
     "inflation",
@@ -2598,12 +2598,12 @@ function loadAssetTemplate(templateId) {
     }
   });
 
-  debugLog("[v9.7.3] ±£´æºê¹ÛÊı¾İ£¬·ÀÖ¹±»×Ê²úÄ£°å¸²¸Ç:", preservedMacroData);
+  debugLog("[v9.7.3] ä¿å­˜å®è§‚æ•°æ®ï¼Œé˜²æ­¢è¢«èµ„äº§æ¨¡æ¿è¦†ç›–:", preservedMacroData);
 
   let templates = JSON.parse(localStorage.getItem("assetTemplates") || "[]");
   const template = templates.find((t) => t.id === normalizedTemplateId);
   if (template) {
-    // v8.27: Ôö¼Ó¶Ô¾ÉÄ£°å×Ê²úIDµÄ¼æÈİĞÔÇ¨ÒÆÂß¼­
+    // v8.27: å¢åŠ å¯¹æ—§æ¨¡æ¿èµ„äº§IDçš„å…¼å®¹æ€§è¿ç§»é€»è¾‘
     const migratedAssets = template.assets.map((id) => {
       if (id.startsWith("commodities_")) {
         const sub = id.replace("commodities_", "");
@@ -2627,7 +2627,7 @@ function loadAssetTemplate(templateId) {
           )
         )
           return id.replace("commodities_", "agriculture_");
-        return "precious_" + sub; // Ä¬ÈÏ»ØÍË
+        return "precious_" + sub; // é»˜è®¤å›é€€
       }
       return id;
     });
@@ -2635,7 +2635,7 @@ function loadAssetTemplate(templateId) {
     document.getElementById("totalAmount").value = template.totalAmount;
     document.getElementById("riskPref").value = template.riskPref;
 
-    // v9.7.3: »Ö¸´ºê¹ÛÊı¾İ
+    // v9.7.3: æ¢å¤å®è§‚æ•°æ®
     macroKeys.forEach((key) => {
       const input = document.getElementById(`macro_${key}`);
       if (input && preservedMacroData[key] !== undefined) {
@@ -2643,7 +2643,7 @@ function loadAssetTemplate(templateId) {
       }
     });
 
-    debugLog("[v9.7.3] ºê¹ÛÊı¾İÒÑ»Ö¸´");
+    debugLog("[v9.7.3] å®è§‚æ•°æ®å·²æ¢å¤");
 
     updateDisplay();
     renderSelectedAssetsList();
@@ -2651,9 +2651,9 @@ function loadAssetTemplate(templateId) {
       generateRecommendation(true);
     }
     alert(
-      "? Ä£°åÒÑ¼ÓÔØ£¡" +
+      "âœ… æ¨¡æ¿å·²åŠ è½½ï¼" +
         (template.assets.some((id) => id.startsWith("commodities_"))
-          ? " (ÒÑ×Ô¶¯Ç¨ÒÆ¾É°æ×Ê²ú)"
+          ? " (å·²è‡ªåŠ¨è¿ç§»æ—§ç‰ˆèµ„äº§)"
           : ""),
     );
     switchTab(0);
@@ -2670,7 +2670,7 @@ function loadFullSnapshot(snapshotId) {
   );
   const snapshot = snapshots.find((s) => s.id === normalizedSnapshotId);
   if (snapshot) {
-    // v8.27: ¼æÈİĞÔÇ¨ÒÆ
+    // v8.27: å…¼å®¹æ€§è¿ç§»
     const migratedAssets = snapshot.selectedAssets.map((id) => {
       if (id.startsWith("commodities_")) {
         const sub = id.replace("commodities_", "");
@@ -2703,7 +2703,7 @@ function loadFullSnapshot(snapshotId) {
     assetScores = snapshot.assetScores;
     userConfig = snapshot.userConfig;
 
-    // Ç¨ÒÆ userConfig ºÍ currentRec ÖĞµÄ stale key
+    // è¿ç§» userConfig å’Œ currentRec ä¸­çš„ stale key
     if (userConfig.commodities) {
       userConfig.precious =
         (userConfig.precious || 0) + userConfig.commodities / 4;
@@ -2740,16 +2740,16 @@ function loadFullSnapshot(snapshotId) {
     renderCorrelationHeatmap();
     renderHoldingTable();
     alert(
-      "? ¿ìÕÕÒÑ¼ÓÔØ£¡" +
+      "âœ… å¿«ç…§å·²åŠ è½½ï¼" +
         (snapshot.selectedAssets.some((id) => id.startsWith("commodities_"))
-          ? " (ÒÑ×Ô¶¯Ç¨ÒÆ¾É°æÊı¾İ)"
+          ? " (å·²è‡ªåŠ¨è¿ç§»æ—§ç‰ˆæ•°æ®)"
           : ""),
     );
   }
 }
 
 function deleteAssetTemplate(templateId) {
-  if (confirm("È·ÈÏÉ¾³ı¸ÃÄ£°å£¿")) {
+  if (confirm("ç¡®è®¤åˆ é™¤è¯¥æ¨¡æ¿ï¼Ÿ")) {
     const normalizedTemplateId =
       templateId !== "" && !Number.isNaN(Number(templateId))
         ? Number(templateId)
@@ -2763,7 +2763,7 @@ function deleteAssetTemplate(templateId) {
 }
 
 function deleteFullSnapshot(snapshotId) {
-  if (confirm("È·ÈÏÉ¾³ı¸Ã¿ìÕÕ£¿")) {
+  if (confirm("ç¡®è®¤åˆ é™¤è¯¥å¿«ç…§ï¼Ÿ")) {
     const normalizedSnapshotId =
       snapshotId !== "" && !Number.isNaN(Number(snapshotId))
         ? Number(snapshotId)
@@ -2849,16 +2849,16 @@ function loadTemplatesUI() {
   let templatesHtml = "";
   if (templates.length === 0) {
     templatesHtml =
-      '<div style="padding:10px; color:#999; text-align:center;">ÔİÎŞ±£´æµÄÄ£°å</div>';
+      '<div style="padding:10px; color:#999; text-align:center;">æš‚æ— ä¿å­˜çš„æ¨¡æ¿</div>';
   } else {
     templatesHtml = templates
       .map(
         (t) => `
             <div class="template-item">
-                <div class="template-name">?? ${t.name}</div>
+                <div class="template-name">ğŸŸ¢ ${t.name}</div>
                 <div class="template-actions">
-                    <button class="btn-small btn-load" onclick="loadAssetTemplate(${t.id})">?? ¼ÓÔØ</button>
-                    <button class="btn-small btn-delete" onclick="deleteAssetTemplate(${t.id})">???</button>
+                    <button class="btn-small btn-load" onclick="loadAssetTemplate(${t.id})">ğŸ“‚ åŠ è½½</button>
+                    <button class="btn-small btn-delete" onclick="deleteAssetTemplate(${t.id})">ğŸ—‘ï¸</button>
                 </div>
             </div>
         `,
@@ -2877,24 +2877,24 @@ function loadTemplatesUI() {
     const macroPanel = document.getElementById("macroTemplatesPanel");
     if (macroPanel)
       macroPanel.innerHTML =
-        '<div style="padding:10px; color:#999; text-align:center;">¼ÓÔØÖĞ...</div>';
+        '<div style="padding:10px; color:#999; text-align:center;">åŠ è½½ä¸­...</div>';
   }
 
   // Full Snapshots
   let snapshotsHtml = "";
   if (snapshots.length === 0) {
     snapshotsHtml =
-      '<div style="padding:10px; color:#999; text-align:center;">ÔİÎŞ¿ìÕÕ</div>';
+      '<div style="padding:10px; color:#999; text-align:center;">æš‚æ— å¿«ç…§</div>';
   } else {
     snapshotsHtml = snapshots
       .map(
         (s) => `
             <div class="template-item">
-                <div class="template-name">?? ${s.name}</div>
+                <div class="template-name">ğŸ“¸ ${s.name}</div>
                 <div class="template-time">${new Date(s.timestamp).toLocaleString("zh-CN", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</div>
                 <div class="template-actions">
-                    <button class="btn-small btn-load" onclick="loadFullSnapshot(${s.id})">?? ¼ÓÔØ</button>
-                    <button class="btn-small btn-delete" onclick="deleteFullSnapshot(${s.id})">???</button>
+                    <button class="btn-small btn-load" onclick="loadFullSnapshot(${s.id})">ğŸ“‚ åŠ è½½</button>
+                    <button class="btn-small btn-delete" onclick="deleteFullSnapshot(${s.id})">ğŸ—‘ï¸</button>
                 </div>
             </div>
         `,
@@ -2906,7 +2906,7 @@ function loadTemplatesUI() {
 }
 
 function clearAssets() {
-  if (confirm("È·ÈÏÇå¿ÕËùÓĞÒÑÑ¡×Ê²ú£¿")) {
+  if (confirm("ç¡®è®¤æ¸…ç©ºæ‰€æœ‰å·²é€‰èµ„äº§ï¼Ÿ")) {
     selectedAssets.clear();
     updateDisplay();
     renderSelectedAssetsList();
@@ -2918,33 +2918,33 @@ function clearAssets() {
 function displayBacktestComparison(snapshot) {
   let html = `
                 <div style="background:#f0fdf4; border-left:4px solid #10b981; padding:12px; border-radius:6px; margin-bottom:16px;">
-                    <div style="font-weight:600; color:#065f46; margin-bottom:4px;">?? ${snapshot.period}</div>
+                    <div style="font-weight:600; color:#065f46; margin-bottom:4px;">ğŸ“Œ ${snapshot.period}</div>
                     <div style="font-size:10px; color:#666;">${snapshot.description}</div>
                 </div>
 
                 <table>
                     <tr>
-                        <th>×Ê²úÀà±ğ</th>
-                        <th>ÏµÍ³ÍÆ¼ö±ÈÀı</th>
-                        <th>ÀúÊ·Êµ¼Ê±íÏÖ</th>
-                        <th>ÆÀ¼Û</th>
+                        <th>èµ„äº§ç±»åˆ«</th>
+                        <th>ç³»ç»Ÿæ¨èæ¯”ä¾‹</th>
+                        <th>å†å²å®é™…è¡¨ç°</th>
+                        <th>è¯„ä»·</th>
                     </tr>
             `;
 
-  // v8.22: ¼ì²éÊÇ·ñÓĞ×ÓÀà±ğ»Ø±¨Êı¾İ
+  // v8.22: æ£€æŸ¥æ˜¯å¦æœ‰å­ç±»åˆ«å›æŠ¥æ•°æ®
   const hasSubcategoryData =
     snapshot.subcategoryReturns &&
     Object.keys(snapshot.subcategoryReturns).length > 0;
 
-  // v13.3 DEBUG: ×·×ÙäÖÈ¾¹ı³Ì
+  // v13.3 DEBUG: è¿½è¸ªæ¸²æŸ“è¿‡ç¨‹
   console.log(
     `[Backtest Render] Scenario: ${snapshot.name}, Year: ${currentScenarioYear}, CryptoAvail: ${isAssetAvailable("crypto", currentScenarioYear)}`,
   );
 
   Object.keys(assetLibrary).forEach((k) => {
-    // v11.35b: Ìø¹ıÔÚµ±Ç°³¡¾°Äê·İÉĞÎ´´æÔÚµÄ×Ê²ú
+    // v11.35b: è·³è¿‡åœ¨å½“å‰åœºæ™¯å¹´ä»½å°šæœªå­˜åœ¨çš„èµ„äº§
     if (!isAssetAvailable(k, currentScenarioYear)) {
-      // v13.3 DEBUG: ¼ÇÂ¼Ìø¹ıµÄ×Ê²ú
+      // v13.3 DEBUG: è®°å½•è·³è¿‡çš„èµ„äº§
       if (k === "crypto")
         console.log(
           `[Backtest Debug] Crypto SKIPPED due to isAssetAvailable=false (Year: ${currentScenarioYear})`,
@@ -2954,7 +2954,7 @@ function displayBacktestComparison(snapshot) {
     const recPct = (currentRec[k] || 0) * 100;
     const actualReturn = snapshot.actualReturns[k];
 
-    // v13.3 DEBUG: ×·×Ù Crypto ÏÔÊ¾Âß¼­
+    // v13.3 DEBUG: è¿½è¸ª Crypto æ˜¾ç¤ºé€»è¾‘
     if (k === "crypto") {
       console.log(
         `[Backtest Debug] Crypto: Rec=${recPct.toFixed(1)}%, Actual=${actualReturn}, VisibleCondition=${recPct > 0.1 || actualReturn !== null}`,
@@ -2964,18 +2964,18 @@ function displayBacktestComparison(snapshot) {
     if (recPct > 0.1 || actualReturn !== null) {
       let evaluation = "";
       if (actualReturn === null) {
-        evaluation = "£¨²»´æÔÚ£©";
+        evaluation = "ï¼ˆä¸å­˜åœ¨ï¼‰";
       } else if (recPct > 0.1) {
         if (actualReturn > 0) {
-          evaluation = `? ÕıÈ· (${(actualReturn * 100).toFixed(1)}%)`;
+          evaluation = `âœ… æ­£ç¡® (${(actualReturn * 100).toFixed(1)}%)`;
         } else {
-          evaluation = `? ¿÷Ëğ (${(actualReturn * 100).toFixed(1)}%)`;
+          evaluation = `âŒ äºæŸ (${(actualReturn * 100).toFixed(1)}%)`;
         }
       } else {
         if (actualReturn > 0) {
-          evaluation = `?? ´í¹ı»ú»á (${(actualReturn * 100).toFixed(1)}%)`;
+          evaluation = `âš ï¸ é”™è¿‡æœºä¼š (${(actualReturn * 100).toFixed(1)}%)`;
         } else {
-          evaluation = `? ¶ã¹ı (${(actualReturn * 100).toFixed(1)}%)`;
+          evaluation = `âœ… èº²è¿‡ (${(actualReturn * 100).toFixed(1)}%)`;
         }
       }
 
@@ -2986,18 +2986,18 @@ function displayBacktestComparison(snapshot) {
                         <td style="font-size:10px;">${evaluation}</td>
                     </tr>`;
 
-      // v13.3 FIX: ÊÊÅä v10.0+ ²ğ·ÖºóµÄ×Ê²úÀà±ğ key (bonds_us, bonds_china, precious, etc.)
-      // ¾ÉÂß¼­½ö¼ì²é k === 'bonds' || k === 'commodities'£¬¶ÔÓÚ²ğ·ÖºóµÄ key ÎŞĞ§
+      // v13.3 FIX: é€‚é… v10.0+ æ‹†åˆ†åçš„èµ„äº§ç±»åˆ« key (bonds_us, bonds_china, precious, etc.)
+      // æ—§é€»è¾‘ä»…æ£€æŸ¥ k === 'bonds' || k === 'commodities'ï¼Œå¯¹äºæ‹†åˆ†åçš„ key æ— æ•ˆ
       const isSplitAsset =
         k.startsWith("bonds_") ||
         k.startsWith("forex_") ||
         ["precious", "energy", "industrial", "agriculture"].includes(k);
 
       if (hasSubcategoryData && isSplitAsset) {
-        // ²éÕÒÊôÓÚµ±Ç°´óÀàµÄ×Ó×Ê²ú key (e.g., bonds_china -> bonds_china_CNBD3Y ?? ĞèÈ·ÈÏ key ¸ñÊ½)
-        // ¼ÙÉè subcategoryReturns Ê¹ÓÃ flat key »ò prefixed key?
-        // data.js ÖĞÔİÎŞ subcategoryReturns Ê¾Àı£¬¼ÙÉè key ¸ñÊ½Îª "MajorKey_SubKey" ???
-        // Ö®Ç°µÄ´úÂëÂß¼­: key.startsWith(k + '_')
+        // æŸ¥æ‰¾å±äºå½“å‰å¤§ç±»çš„å­èµ„äº§ key (e.g., bonds_china -> bonds_china_CNBD3Y ?? éœ€ç¡®è®¤ key æ ¼å¼)
+        // å‡è®¾ subcategoryReturns ä½¿ç”¨ flat key æˆ– prefixed key?
+        // data.js ä¸­æš‚æ—  subcategoryReturns ç¤ºä¾‹ï¼Œå‡è®¾ key æ ¼å¼ä¸º "MajorKey_SubKey" ???
+        // ä¹‹å‰çš„ä»£ç é€»è¾‘: key.startsWith(k + '_')
 
         const subcatKeys = Object.keys(snapshot.subcategoryReturns).filter(
           (key) => key.startsWith(k + "_"),
@@ -3007,12 +3007,12 @@ function displayBacktestComparison(snapshot) {
           subcatKeys.forEach((subcatKey) => {
             const subcatName = subcatKey.replace(k + "_", ""); // e.g. bonds_us_US10Y -> US10Y
             const subcatReturn = snapshot.subcategoryReturns[subcatKey];
-            // ÊÔÍ¼´Ó subcategories ¶¨ÒåÖĞ»ñÈ¡ÖĞÎÄÃû
+            // è¯•å›¾ä» subcategories å®šä¹‰ä¸­è·å–ä¸­æ–‡å
             let subcatLabel = subcatName;
 
-            // ³¢ÊÔÔÚ assetLibrary[k].subcategories ÖĞ²éÕÒ
-            // assetLibrary[k].subcategories ÊÇ¶ÔÏó½á¹¹ { group1: { assets: { KEY: 'Name' } } }
-            // ĞèÒªÉî¶È²éÕÒ
+            // å°è¯•åœ¨ assetLibrary[k].subcategories ä¸­æŸ¥æ‰¾
+            // assetLibrary[k].subcategories æ˜¯å¯¹è±¡ç»“æ„ { group1: { assets: { KEY: 'Name' } } }
+            // éœ€è¦æ·±åº¦æŸ¥æ‰¾
             const subGroups = assetLibrary[k].subcategories;
             for (const gKey in subGroups) {
               if (
@@ -3026,20 +3026,20 @@ function displayBacktestComparison(snapshot) {
 
             // Fallback map (retain existing hardcoded map just in case)
             const fallbackMap = {
-              us: "ÃÀÕ®",
-              china: "ÖĞ¹úÕ®",
-              global: "È«ÇòÕ®",
-              US10Y: "ÃÀÕ®10Y",
-              CNBD10Y: "¹úÕ®10Y",
-              CNBD3Y: "¹úÕ®3Y",
+              us: "ç¾å€º",
+              china: "ä¸­å›½å€º",
+              global: "å…¨çƒå€º",
+              US10Y: "ç¾å€º10Y",
+              CNBD10Y: "å›½å€º10Y",
+              CNBD3Y: "å›½å€º3Y",
             };
             if (fallbackMap[subcatName]) subcatLabel = fallbackMap[subcatName];
 
             html += `<tr style="background:#f9fafb; font-size:10px;">
-                                    <td style="padding-left:20px;">? ${subcatLabel}</td>
+                                    <td style="padding-left:20px;">â†³ ${subcatLabel}</td>
                                     <td>-</td>
                                     <td style="font-weight:600; color:${subcatReturn > 0 ? "#10b981" : "#ef4444"};">${(subcatReturn * 100).toFixed(1)}%</td>
-                                    <td style="color:#666;">Ï¸·Ö»Ø±¨</td>
+                                    <td style="color:#666;">ç»†åˆ†å›æŠ¥</td>
                                 </tr>`;
           });
         }
@@ -3049,10 +3049,10 @@ function displayBacktestComparison(snapshot) {
 
   html += `</table>`;
 
-  // v8.22: Èç¹ûÓĞ×ÓÀà±ğÊı¾İ£¬Ìí¼ÓÌáÊ¾
+  // v8.22: å¦‚æœæœ‰å­ç±»åˆ«æ•°æ®ï¼Œæ·»åŠ æç¤º
   if (hasSubcategoryData) {
     html += `<div style="font-size:10px; color:#7c3aed; margin-top:8px; padding:8px; background:#faf5ff; border-radius:4px;">
-                    ? ±¾³¡¾°°üº¬×ÓÀà±ğÏ¸·ÖÊı¾İ£¬¿É¾«È·¶Ô±È¸÷×Ó×Ê²ú±íÏÖ
+                    âš¡ æœ¬åœºæ™¯åŒ…å«å­ç±»åˆ«ç»†åˆ†æ•°æ®ï¼Œå¯ç²¾ç¡®å¯¹æ¯”å„å­èµ„äº§è¡¨ç°
                 </div>`;
   }
 
@@ -3074,15 +3074,15 @@ function renderHistoryPanel() {
   const latestCount = window.recHistory.length;
   let html = `
     <div style="margin-bottom:10px;padding:10px 12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;font-size:11px;line-height:1.6;">
-      <div style="font-weight:700;color:#1d4ed8;margin-bottom:4px;">??? ÀúÊ·¼ÇÂ¼ÕªÒª</div>
-      <div style="color:#334155;">µ±Ç°¼ÇÂ¼Êı£º${latestCount} Ìõ£»×îĞÂÊ±¼ä£º${latestTs || "ÔİÎŞ"}£»×îĞÂ¶¯×÷£º${latest?.allocation ? "ÒÑ±£´æÅäÖÃ" : "½ö¼ÇÂ¼Ê±¼ä´Á"}</div>
+      <div style="font-weight:700;color:#1d4ed8;margin-bottom:4px;">ğŸ—‚ï¸ å†å²è®°å½•æ‘˜è¦</div>
+      <div style="color:#334155;">å½“å‰è®°å½•æ•°ï¼š${latestCount} æ¡ï¼›æœ€æ–°æ—¶é—´ï¼š${latestTs || "æš‚æ— "}ï¼›æœ€æ–°åŠ¨ä½œï¼š${latest?.allocation ? "å·²ä¿å­˜é…ç½®" : "ä»…è®°å½•æ—¶é—´æˆ³"}</div>
     </div>
   `;
   html += window.recHistory
     .map(
       (h, i) => `
                 <div class="collapsible" onclick="this.classList.toggle('collapsed'); this.nextElementSibling.classList.toggle('hidden')">
-                    ${new Date(h.timestamp).toLocaleString("zh-CN")} ${i === 0 ? "(×îĞÂ)" : ""}
+                    ${new Date(h.timestamp).toLocaleString("zh-CN")} ${i === 0 ? "(æœ€æ–°)" : ""}
                 </div>
                 <div class="hidden" style="padding:10px; background:#f9fafb; border-radius:6px; margin-bottom:10px; font-size:11px;">
                     ${
@@ -3094,18 +3094,18 @@ function renderHistoryPanel() {
                                 `<div>${assetLibrary[k].name}: ${(pct * 100).toFixed(1)}%</div>`,
                             )
                             .join("")
-                        : '<span style="color:#999;">ÎŞÅäÖÃÊı¾İ</span>'
+                        : '<span style="color:#999;">æ— é…ç½®æ•°æ®</span>'
                     }
                 </div>
             `,
     )
     .join("");
   document.getElementById("historyPanel").innerHTML =
-    html || '<span style="color:#999;">ÔİÎŞÀúÊ·¼ÇÂ¼</span>';
+    html || '<span style="color:#999;">æš‚æ— å†å²è®°å½•</span>';
 }
 
 function exportCSV() {
-  let csv = "×Ê²úÀà±ğ,ÍÆ¼ö±ÈÀı(%),ÍÆ¼ö½ğ¶î(Íò),²¨¶¯ÂÊ(%),·çÏÕ¹±Ï×(%)\n";
+  let csv = "èµ„äº§ç±»åˆ«,æ¨èæ¯”ä¾‹(%),æ¨èé‡‘é¢(ä¸‡),æ³¢åŠ¨ç‡(%),é£é™©è´¡çŒ®(%)\n";
   const total = parseFloat(document.getElementById("totalAmount").value) || 100;
   const riskContrib = calculateRiskContribution();
 
@@ -3119,15 +3119,15 @@ function exportCSV() {
       csv += `${name.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, "")},${(pct * 100).toFixed(1)},${amount.toFixed(2)},${(vol * 100).toFixed(1)},${contrib}\n`;
     });
 
-  csv += `\n×éºÏ²¨¶¯ÂÊ,${(calculatePortfolioVolatility() * 100).toFixed(1)}%\n`;
+  csv += `\nç»„åˆæ³¢åŠ¨ç‡,${(calculatePortfolioVolatility() * 100).toFixed(1)}%\n`;
 
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = `Í¶×ÊÅäÖÃ_${new Date().toISOString().split("T")[0]}.csv`;
+  link.download = `æŠ•èµ„é…ç½®_${new Date().toISOString().split("T")[0]}.csv`;
   link.click();
   document.getElementById("exportStatus").innerHTML =
-    '<div class="success-box">? CSVÒÑµ¼³ö</div>';
+    '<div class="success-box">âœ… CSVå·²å¯¼å‡º</div>';
 }
 
 function exportExcel() {
@@ -3139,22 +3139,22 @@ function exportExcel() {
 
   // v13.4: Get risk pref and allocation style labels
   const riskPrefLabels = {
-    conservative: "±£ÊØĞÍ",
-    balanced: "Æ½ºâĞÍ",
-    aggressive: "½øÈ¡ĞÍ",
+    conservative: "ä¿å®ˆå‹",
+    balanced: "å¹³è¡¡å‹",
+    aggressive: "è¿›å–å‹",
   };
   const styleLabels = {
-    riskParity: "·çÏÕÆ½¼Û£¨´ïÀï°ÂÈ«Ììºò£©",
-    balanced: "Æ½ºâ¼¯ÖĞ£¨60/30/10Ô­Ôò£©",
-    concentrated: "¸ß¶È¼¯ÖĞ£¨Top3-5¸ß·Ö×Ê²ú£©",
-    concentratedCapped: "¼¯ÖĞÏŞ²Ö£¨Top5£¬µ¥×Ê²ú16%£©",
-    scoreWeighted: "ÆÀ·Ö¼ÓÈ¨",
+    riskParity: "é£é™©å¹³ä»·ï¼ˆLumiå…¨å¤©å€™ï¼‰",
+    balanced: "å¹³è¡¡é›†ä¸­ï¼ˆ60/30/10åŸåˆ™ï¼‰",
+    concentrated: "é«˜åº¦é›†ä¸­ï¼ˆTop3-5é«˜åˆ†èµ„äº§ï¼‰",
+    concentratedCapped: "é›†ä¸­é™ä»“ï¼ˆTop5ï¼Œå•èµ„äº§16%ï¼‰",
+    scoreWeighted: "è¯„åˆ†åŠ æƒ",
   };
   const subStyle = document.getElementById("allocationMode")?.value || "equal";
   const subStyleLabels = {
-    equal: "µÈÈ¨ÖØ",
-    riskParity: "·çÏÕÆ½¼Û",
-    scoreWeighted: "ÆÀ·Ö¼ÓÈ¨",
+    equal: "ç­‰æƒé‡",
+    riskParity: "é£é™©å¹³ä»·",
+    scoreWeighted: "è¯„åˆ†åŠ æƒ",
   };
 
   // v13.4: Load actual holdings from localStorage
@@ -3163,7 +3163,7 @@ function exportExcel() {
 
   let html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
             <head>
-                <!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>´ïÀï°ÂÍ¶×Ê±¨¸æ</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+                <!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>LumiæŠ•èµ„æŠ¥å‘Š</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
                 <style>
                     body { font-family: 'Microsoft YaHei', sans-serif; }
                     .header { background-color: #1f3c88; color: white; font-weight: bold; text-align: center; }
@@ -3180,29 +3180,29 @@ function exportExcel() {
             </head>
             <body>
 
-            <h2 style="text-align:center; color:#1f3c88;">?? ´ïÀï°ÂÖÇÄÜÍ¶×ÊÅäÖÃ±¨¸æ v13.4</h2>
+            <h2 style="text-align:center; color:#1f3c88;">ğŸ“Š Lumiæ™ºèƒ½æŠ•èµ„é…ç½®æŠ¥å‘Š v13.4</h2>
 
 
 
-            <div class="section-title">0. Í¶×Ê²ÎÊıÉèÖÃ</div>
+            <div class="section-title">0. æŠ•èµ„å‚æ•°è®¾ç½®</div>
             <table class="param-table" style="width:50%;">
-                <tr><td>×ÜÍ¶×Ê¶î</td><td>${total} Íò</td></tr>
-                <tr><td>·çÏÕÆ«ºÃ</td><td>${riskPrefLabels[riskPref] || riskPref}</td></tr>
-                <tr><td>´óÀàÅäÖÃ·ç¸ñ</td><td>${styleLabels[allocationStyle] || allocationStyle}</td></tr>
-                <tr><td>Ï¸·ÖÅä¶îÄ£Ê½</td><td>${subStyleLabels[subStyle] || subStyle}</td></tr>
-                <tr><td>Éú³ÉÊ±¼ä</td><td>${dateStr}</td></tr>
-                <tr><td>?? Êı¾İ½ØÖÁ</td><td>${getMacroDataTimestampText(dateStr)}</td></tr>
+                <tr><td>æ€»æŠ•èµ„é¢</td><td>${total} ä¸‡</td></tr>
+                <tr><td>é£é™©åå¥½</td><td>${riskPrefLabels[riskPref] || riskPref}</td></tr>
+                <tr><td>å¤§ç±»é…ç½®é£æ ¼</td><td>${styleLabels[allocationStyle] || allocationStyle}</td></tr>
+                <tr><td>ç»†åˆ†é…é¢æ¨¡å¼</td><td>${subStyleLabels[subStyle] || subStyle}</td></tr>
+                <tr><td>ç”Ÿæˆæ—¶é—´</td><td>${dateStr}</td></tr>
+                <tr><td>ğŸ“¡ æ•°æ®æˆªè‡³</td><td>${getMacroDataTimestampText(dateStr)}</td></tr>
             </table>
 
             <br><br>
-            <div class="section-title">1. AI ºê¹ÛÅäÖÃ½¨Òé (The View)</div>
+            <div class="section-title">1. AI å®è§‚é…ç½®å»ºè®® (The View)</div>
             <table>
                 <tr class="header">
-                    <th>×Ê²úÀà±ğ</th>
-                    <th>ÍÆ¼öÅäÖÃ±ÈÀı</th>
-                    <th>½¨Òé½ğ¶î (Íò)</th>
-                    <th>ºê¹ÛÆÀ·Ö</th>
-                    <th>ÅäÖÃÀíÓÉ</th>
+                    <th>èµ„äº§ç±»åˆ«</th>
+                    <th>æ¨èé…ç½®æ¯”ä¾‹</th>
+                    <th>å»ºè®®é‡‘é¢ (ä¸‡)</th>
+                    <th>å®è§‚è¯„åˆ†</th>
+                    <th>é…ç½®ç†ç”±</th>
                 </tr>`;
 
   // v13.4: Unified sorting - sort by allocation descending
@@ -3237,10 +3237,10 @@ function exportExcel() {
       typeof scoreRaw === "number" ? scoreRaw : parseFloat(scoreRaw) || 50;
     const reason =
       score >= 65
-        ? "ºê¹Û»·¾³ÓĞÀû (Overweight)"
+        ? "å®è§‚ç¯å¢ƒæœ‰åˆ© (Overweight)"
         : score <= 40
-          ? "ºê¹Û»·¾³²»Àû (Underweight)"
-          : "ºê¹Û»·¾³ÖĞĞÔ (Neutral)";
+          ? "å®è§‚ç¯å¢ƒä¸åˆ© (Underweight)"
+          : "å®è§‚ç¯å¢ƒä¸­æ€§ (Neutral)";
     html += `<tr>
                     <td style="font-weight:bold;">${assetLibrary[k].name}</td>
                     <td>${(alloc * 100).toFixed(1)}%</td>
@@ -3252,14 +3252,14 @@ function exportExcel() {
   html += `</table>`;
 
   // Table 2: Gap Analysis - use SAME sortedKeys order
-  html += `<br><br><div class="section-title">2. ´óÀà×Ê²ú³Ö²ÖÆ«²î (Portfolio Gap)</div>
+  html += `<br><br><div class="section-title">2. å¤§ç±»èµ„äº§æŒä»“åå·® (Portfolio Gap)</div>
             <table>
                 <tr class="header">
-                    <th>×Ê²úÀà±ğ</th>
-                    <th>µ±Ç°³Ö²Ö (Íò)</th>
-                    <th>Ä¿±ê³Ö²Ö (Íò)</th>
-                    <th>Æ«²î½ğ¶î (Íò)</th>
-                    <th>²Ù×÷½¨Òé</th>
+                    <th>èµ„äº§ç±»åˆ«</th>
+                    <th>å½“å‰æŒä»“ (ä¸‡)</th>
+                    <th>ç›®æ ‡æŒä»“ (ä¸‡)</th>
+                    <th>åå·®é‡‘é¢ (ä¸‡)</th>
+                    <th>æ“ä½œå»ºè®®</th>
                 </tr>`;
 
   sortedKeys.forEach((k) => {
@@ -3274,7 +3274,7 @@ function exportExcel() {
 
     const diffAmt = targetAmt - currAmt;
     const action =
-      Math.abs(diffAmt) < 0.5 ? "? ±£³Ö" : diffAmt > 0 ? "? ÂòÈë" : "? Âô³ö";
+      Math.abs(diffAmt) < 0.5 ? "âœ… ä¿æŒ" : diffAmt > 0 ? "â• ä¹°å…¥" : "â– å–å‡º";
     const colorClass =
       diffAmt > 0.5 ? "pos-val" : diffAmt < -0.5 ? "neg-val" : "";
 
@@ -3289,15 +3289,15 @@ function exportExcel() {
   html += `</table>`;
 
   // Table 3: Detailed Execution - use SAME sortedKeys order
-  html += `<br><br><div class="section-title">3. Ï¸·Ö±êµÄÖ´ĞĞ·½°¸ (Execution Plan)</div>
+  html += `<br><br><div class="section-title">3. ç»†åˆ†æ ‡çš„æ‰§è¡Œæ–¹æ¡ˆ (Execution Plan)</div>
             <table>
                 <tr class="header">
-                    <th>´óÀà</th>
-                    <th>¾ßÌå±êµÄ</th>
-                    <th>µ±Ç°³ÖÓĞ (Íò)</th>
-                    <th>AI½¨ÒéÄ¿±ê (Íò)</th>
-                    <th>Ğèµ÷Õû½ğ¶î (Íò)</th>
-                    <th>Ö´ĞĞ¶¯×÷</th>
+                    <th>å¤§ç±»</th>
+                    <th>å…·ä½“æ ‡çš„</th>
+                    <th>å½“å‰æŒæœ‰ (ä¸‡)</th>
+                    <th>AIå»ºè®®ç›®æ ‡ (ä¸‡)</th>
+                    <th>éœ€è°ƒæ•´é‡‘é¢ (ä¸‡)</th>
+                    <th>æ‰§è¡ŒåŠ¨ä½œ</th>
                 </tr>`;
 
   sortedKeys.forEach((k) => {
@@ -3308,7 +3308,7 @@ function exportExcel() {
     if (list.length > 0) {
       const subAllocRec = calculateSubAllocation(list, catTargetAmount);
 
-      html += `<tr class="subheader"><td colspan="6" style="text-align:left; padding-left:10px;">${assetLibrary[k].name} (Ä¿±ê×Ü¶î: ${catTargetAmount.toFixed(2)}Íò)</td></tr>`;
+      html += `<tr class="subheader"><td colspan="6" style="text-align:left; padding-left:10px;">${assetLibrary[k].name} (ç›®æ ‡æ€»é¢: ${catTargetAmount.toFixed(2)}ä¸‡)</td></tr>`;
 
       list.forEach((assetKey) => {
         let assetName = assetKey;
@@ -3364,17 +3364,17 @@ function exportExcel() {
   });
   html += `</table>
             <div style="margin-top:20px; font-size:11px; color:#999; text-align:center;">
-                ×¢£º±¾±¨¸æÓÉ´ïÀï°ÂÖÇÄÜÍ¶×ÊÏµÍ³×Ô¶¯Éú³É£¬½ö¹©²Î¿¼£¬²»¹¹³ÉÍ¶×Ê½¨Òé¡£ÊĞ³¡ÓĞ·çÏÕ£¬Í¶×ÊĞè½÷É÷¡£
+                æ³¨ï¼šæœ¬æŠ¥å‘Šç”±Lumiæ™ºèƒ½æŠ•èµ„ç³»ç»Ÿè‡ªåŠ¨ç”Ÿæˆï¼Œä»…ä¾›å‚è€ƒï¼Œä¸æ„æˆæŠ•èµ„å»ºè®®ã€‚å¸‚åœºæœ‰é£é™©ï¼ŒæŠ•èµ„éœ€è°¨æ…ã€‚
             </div>
             </body></html>`;
 
   const blob = new Blob([html], { type: "application/vnd.ms-excel" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = "´ïÀï°ÂÅäÖÃÖ´ĞĞ·½°¸_v13.4.xls";
+  link.download = "Lumié…ç½®æ‰§è¡Œæ–¹æ¡ˆ_v13.4.xls";
   link.click();
   document.getElementById("exportStatus").innerHTML =
-    '<div class="success-box">? ×¨ÒµExcel±¨±íÒÑµ¼³ö</div>';
+    '<div class="success-box">âœ… ä¸“ä¸šExcelæŠ¥è¡¨å·²å¯¼å‡º</div>';
 }
 
 function exportJSON() {
@@ -3399,10 +3399,10 @@ function exportJSON() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `Í¶×ÊÅäÖÃ_${new Date().toISOString().split("T")[0]}.json`;
+  a.download = `æŠ•èµ„é…ç½®_${new Date().toISOString().split("T")[0]}.json`;
   a.click();
   document.getElementById("exportStatus").innerHTML =
-    '<div class="success-box">? JSONÒÑµ¼³ö</div>';
+    '<div class="success-box">âœ… JSONå·²å¯¼å‡º</div>';
 }
 
 function exportAssetJSON() {
@@ -3432,36 +3432,36 @@ function exportAssetJSON() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `×Ê²úÅäÖÃ_${new Date().toISOString().split("T")[0]}.json`;
+  a.download = `èµ„äº§é…ç½®_${new Date().toISOString().split("T")[0]}.json`;
   a.click();
   document.getElementById("exportStatus").innerHTML =
-    '<div class="success-box">? ×Ê²úJSONÒÑµ¼³ö</div>';
+    '<div class="success-box">âœ… èµ„äº§JSONå·²å¯¼å‡º</div>';
 }
 
 function exportTXT() {
-  let txt = "´ïÀï°ÂÖÇÄÜÍ¶×ÊÏµÍ³ - ÅäÖÃ±¨¸æ\n" + "=".repeat(60) + "\n\n";
-  txt += `Éú³ÉÊ±¼ä: ${new Date().toLocaleString("zh-CN")}\n`;
-  txt += `×ÜÍ¶×Ê¶î: ${document.getElementById("totalAmount").value}ÍòÔª\n`;
-  txt += `·çÏÕÆ«ºÃ: ${document.getElementById("riskPref").value}\n`;
-  txt += `×éºÏ²¨¶¯ÂÊ: ${(calculatePortfolioVolatility() * 100).toFixed(1)}%\n\n`;
-  txt += "ÍÆ¼öÅäÖÃ:\n" + "-".repeat(60) + "\n";
+  let txt = "Lumiæ™ºèƒ½æŠ•èµ„ç³»ç»Ÿ - é…ç½®æŠ¥å‘Š\n" + "=".repeat(60) + "\n\n";
+  txt += `ç”Ÿæˆæ—¶é—´: ${new Date().toLocaleString("zh-CN")}\n`;
+  txt += `æ€»æŠ•èµ„é¢: ${document.getElementById("totalAmount").value}ä¸‡å…ƒ\n`;
+  txt += `é£é™©åå¥½: ${document.getElementById("riskPref").value}\n`;
+  txt += `ç»„åˆæ³¢åŠ¨ç‡: ${(calculatePortfolioVolatility() * 100).toFixed(1)}%\n\n`;
+  txt += "æ¨èé…ç½®:\n" + "-".repeat(60) + "\n";
 
   Object.entries(currentRec)
     .filter(([k, pct]) => pct > 0)
     .forEach(([k, pct]) => {
       const amount =
         pct * parseFloat(document.getElementById("totalAmount").value);
-      txt += `${assetLibrary[k].name}: ${(pct * 100).toFixed(1)}% (${amount.toFixed(2)}Íò)\n`;
+      txt += `${assetLibrary[k].name}: ${(pct * 100).toFixed(1)}% (${amount.toFixed(2)}ä¸‡)\n`;
     });
 
   const blob = new Blob([txt], { type: "text/plain;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `Í¶×ÊÅäÖÃ_${new Date().toISOString().split("T")[0]}.txt`;
+  link.download = `æŠ•èµ„é…ç½®_${new Date().toISOString().split("T")[0]}.txt`;
   link.click();
   document.getElementById("exportStatus").innerHTML =
-    '<div class="success-box">? TXTÒÑµ¼³ö</div>';
+    '<div class="success-box">âœ… TXTå·²å¯¼å‡º</div>';
 }
 
 function updateMacroAndScore() {
@@ -3490,25 +3490,25 @@ function switchTab(i) {
 }
 
 function recalculateWeightsForSelectedAssets(isSilent = false) {
-  debugLog("[v11.29 P1] recalculateWeightsForSelectedAssets ±»µ÷ÓÃ");
+  debugLog("[v11.29 P1] recalculateWeightsForSelectedAssets è¢«è°ƒç”¨");
 
-  // »ñÈ¡ºê¹ÛÊı¾İ
+  // è·å–å®è§‚æ•°æ®
   const macroVals = getMacroValues();
   const riskPref = document.getElementById("riskPref").value;
 
-  // v11.43: »ñÈ¡ÅäÖÃ·ç¸ñ²¢´«Èë P1
+  // v11.43: è·å–é…ç½®é£æ ¼å¹¶ä¼ å…¥ P1
   const allocationStyle =
     document.getElementById("allocationStyle")?.value || "riskParity";
 
-  // v11.29 P1: Ê¹ÓÃ·Ö²ãÈ¨ÖØ¼ÆËã
-  // v11.29 P1: Ê¹ÓÃ·Ö²ãÈ¨ÖØ¼ÆËã
+  // v11.29 P1: ä½¿ç”¨åˆ†å±‚æƒé‡è®¡ç®—
+  // v11.29 P1: ä½¿ç”¨åˆ†å±‚æƒé‡è®¡ç®—
   const layeredWeights = P1_calculateLayeredWeights_v15(
     assetScores,
     macroVals,
     allocationStyle,
   );
 
-  // ½«·Ö²ãÈ¨ÖØÓ¦ÓÃµ½Ñ¡ÖĞµÄ×Ê²ú
+  // å°†åˆ†å±‚æƒé‡åº”ç”¨åˆ°é€‰ä¸­çš„èµ„äº§
   const selectedMajorKeys = new Set();
   selectedAssets.forEach((id) => {
     for (const key of Object.keys(assetLibrary)) {
@@ -3519,13 +3519,13 @@ function recalculateWeightsForSelectedAssets(isSilent = false) {
     }
   });
 
-  // v13.6 Fix (Reverted): ÓÃ»§Ã÷È·ÒªÇó"Î´Ñ¡ÖĞµÄ×Ê²ú²»Ó¦¸Ã³öÏÖ"
-  // Òò´ËÕâÀï²»ÔÙ½øĞĞ×Ô¶¯ÏòÍÆ¼ö±íÌí¼Ó¸ß·Ö×Ê²úµÄ²Ù×÷¡£
-  // Ö»ÓĞÓÃ»§ÔÚUIÉÏÊÖ¶¯Ñ¡ÖĞµÄ×Ê²ú£¬²Å»á²ÎÓëÈ¨ÖØ·ÖÅä¡£
+  // v13.6 Fix (Reverted): ç”¨æˆ·æ˜ç¡®è¦æ±‚"æœªé€‰ä¸­çš„èµ„äº§ä¸åº”è¯¥å‡ºç°"
+  // å› æ­¤è¿™é‡Œä¸å†è¿›è¡Œè‡ªåŠ¨å‘æ¨èè¡¨æ·»åŠ é«˜åˆ†èµ„äº§çš„æ“ä½œã€‚
+  // åªæœ‰ç”¨æˆ·åœ¨UIä¸Šæ‰‹åŠ¨é€‰ä¸­çš„èµ„äº§ï¼Œæ‰ä¼šå‚ä¸æƒé‡åˆ†é…ã€‚
 
   // Original Auto-Discovery Logic Removed
 
-  // ¹¹½¨alloc£¨Ö»°üº¬Ñ¡ÖĞ×Ê²ú£¬²¢ÖØĞÂ¹éÒ»»¯£©
+  // æ„å»ºallocï¼ˆåªåŒ…å«é€‰ä¸­èµ„äº§ï¼Œå¹¶é‡æ–°å½’ä¸€åŒ–ï¼‰
   const alloc = {};
   let totalWeight = 0;
 
@@ -3535,7 +3535,7 @@ function recalculateWeightsForSelectedAssets(isSilent = false) {
     totalWeight += weight;
   });
 
-  // ¹éÒ»»¯È·±£×ÜºÍÎª1
+  // å½’ä¸€åŒ–ç¡®ä¿æ€»å’Œä¸º1
   if (totalWeight > 0) {
     selectedMajorKeys.forEach((k) => {
       alloc[k] = alloc[k] / totalWeight;
@@ -3547,21 +3547,21 @@ function recalculateWeightsForSelectedAssets(isSilent = false) {
       : [];
 
   debugLog(
-    `[v11.43 P1] ·Ö²ãÈ¨ÖØ¼ÆËãÍê³É(·ç¸ñ:${allocationStyle})£¬¹éÒ»»¯ºó:`,
+    `[v11.43 P1] åˆ†å±‚æƒé‡è®¡ç®—å®Œæˆ(é£æ ¼:${allocationStyle})ï¼Œå½’ä¸€åŒ–å:`,
     Object.entries(alloc)
       .filter(([k, v]) => v > 0.01)
       .map(([k, v]) => `${k}:${(v * 100).toFixed(1)}%`)
       .join(", "),
   );
 
-  // v11.38: ÏµÍ³¼¶È¨ÖØ¸²¸Ç (Global Hedge Override)
-  // [ÖØ¹¹] ÒÆÖÁ´Ë´¦(·çÏÕÆ«ºÃÖ®Ç°)£¬È·±£¶Ô³åÈ¨ÖØÒ²»áÊÜ·çÏÕÆ«ºÃÏŞÖÆ
+  // v11.38: ç³»ç»Ÿçº§æƒé‡è¦†ç›– (Global Hedge Override)
+  // [é‡æ„] ç§»è‡³æ­¤å¤„(é£é™©åå¥½ä¹‹å‰)ï¼Œç¡®ä¿å¯¹å†²æƒé‡ä¹Ÿä¼šå—é£é™©åå¥½é™åˆ¶
   if (window.GLOBAL_HEDGED_OVERRIDE) {
-    debugLog("??? [v11.40] Ó¦ÓÃÈ«¾Ö¶Ô³åÈ¨ÖØ¸²¸Ç (Hedge Override)");
+    debugLog("ğŸ›¡ï¸ [v11.40] åº”ç”¨å…¨å±€å¯¹å†²æƒé‡è¦†ç›– (Hedge Override)");
     const hedgedAlloc = {};
     let hedgedTotal = 0;
 
-    // ½öÍ¬²½ÒÑÑ¡×Ê²ú´óÀà
+    // ä»…åŒæ­¥å·²é€‰èµ„äº§å¤§ç±»
     selectedMajorKeys.forEach((k) => {
       const w = window.GLOBAL_HEDGED_OVERRIDE[k] || 0;
       hedgedAlloc[k] = w;
@@ -3569,31 +3569,31 @@ function recalculateWeightsForSelectedAssets(isSilent = false) {
     });
 
     if (hedgedTotal > 0) {
-      // ÖØĞÂ¹éÒ»»¯È·±£×ÜºÍÎª 100%
+      // é‡æ–°å½’ä¸€åŒ–ç¡®ä¿æ€»å’Œä¸º 100%
       selectedMajorKeys.forEach((k) => {
         alloc[k] = hedgedAlloc[k] / hedgedTotal;
       });
       // currentRec = alloc; // Delay assignment until after RiskPref
-      debugLog("? ¶Ô³åÈ¨ÖØÒÑ×¢Èë²¢¹éÒ»»¯");
+      debugLog("âœ… å¯¹å†²æƒé‡å·²æ³¨å…¥å¹¶å½’ä¸€åŒ–");
     } else {
-      console.warn("?? ¶Ô³åÈ¨ÖØÖĞÎ´°üº¬µ±Ç°ÒÑÑ¡×Ê²ú");
+      console.warn("âš ï¸ å¯¹å†²æƒé‡ä¸­æœªåŒ…å«å½“å‰å·²é€‰èµ„äº§");
     }
   }
 
-  // v11.42: Ó¦ÓÃ·çÏÕÆ«ºÃ¼ì²é
+  // v11.42: åº”ç”¨é£é™©åå¥½æ£€æŸ¥
   const riskPrefResult = applyRiskPreferenceLimits(alloc, riskPref);
 
-  // [ĞŞ¸´] Ç¿ÖÆÓ¦ÓÃ·çÏÕÆ«ºÃµ÷Õû½á¹û
+  // [ä¿®å¤] å¼ºåˆ¶åº”ç”¨é£é™©åå¥½è°ƒæ•´ç»“æœ
   if (riskPrefResult.adjustedWeights) {
-    Object.keys(alloc).forEach((k) => delete alloc[k]); // Çå¿ÕÔ­¶ÔÏó
-    Object.assign(alloc, riskPrefResult.adjustedWeights); // ¸³ÖµĞÂÈ¨ÖØ
+    Object.keys(alloc).forEach((k) => delete alloc[k]); // æ¸…ç©ºåŸå¯¹è±¡
+    Object.assign(alloc, riskPrefResult.adjustedWeights); // èµ‹å€¼æ–°æƒé‡
   }
 
   const riskPrefResultAnalysis = riskPrefResult; // Alias for following code usage if any
 
   if (riskPrefResult.warnings.length > 0) {
-    console.warn("[v11.42 ·çÏÕÆ«ºÃ¾¯¸æ]", riskPrefResult.warnings.join(" | "));
-    // ÔÚÍÆ¼ö½á¹ûÇøÓòÏÔÊ¾¾¯¸æ
+    console.warn("[v11.42 é£é™©åå¥½è­¦å‘Š]", riskPrefResult.warnings.join(" | "));
+    // åœ¨æ¨èç»“æœåŒºåŸŸæ˜¾ç¤ºè­¦å‘Š
     const warningBox = document.getElementById("riskPrefWarningBox");
     if (warningBox) {
       const predictiveWarnings = [];
@@ -3601,12 +3601,12 @@ function recalculateWeightsForSelectedAssets(isSilent = false) {
         const diagnostics = window.__predictiveDiagnostics || {};
         if (diagnostics.reliabilityLevel === "low") {
           predictiveWarnings.push(
-            "PredictiveÖÃĞÅ¶ÈÎªLow£º½¨ÒéÓëriskParity½á¹û½»²æÑéÖ¤¡£",
+            "Predictiveç½®ä¿¡åº¦ä¸ºLowï¼šå»ºè®®ä¸riskParityç»“æœäº¤å‰éªŒè¯ã€‚",
           );
         }
         if (diagnostics.reliabilityLevel) {
           predictiveWarnings.push(
-            `Predictive¿É¿¿ĞÔ£º${String(diagnostics.reliabilityLevel).toUpperCase()}¡£`,
+            `Predictiveå¯é æ€§ï¼š${String(diagnostics.reliabilityLevel).toUpperCase()}ã€‚`,
           );
         }
         if (Array.isArray(diagnostics.warnings)) {
@@ -3624,72 +3624,72 @@ function recalculateWeightsForSelectedAssets(isSilent = false) {
         .join("");
       warningBox.style.display = "block";
     } else {
-      // Èç¹ûÃ»ÓĞ×¨ÓÃ¾¯¸æ¿ò£¬Ê¹ÓÃ alert ÌáÊ¾Ò»´Î
+      // å¦‚æœæ²¡æœ‰ä¸“ç”¨è­¦å‘Šæ¡†ï¼Œä½¿ç”¨ alert æç¤ºä¸€æ¬¡
       if (!window._riskPrefWarningShown) {
-        alert("?? ·çÏÕÆ«ºÃÌáĞÑ:\n\n" + riskPrefResult.warnings.join("\n"));
+        alert("âš ï¸ é£é™©åå¥½æé†’:\n\n" + riskPrefResult.warnings.join("\n"));
         window._riskPrefWarningShown = true;
       }
     }
   } else {
-    // ÎŞ¾¯¸æÊ±Òş²Ø¾¯¸æ¿ò
+    // æ— è­¦å‘Šæ—¶éšè—è­¦å‘Šæ¡†
     const warningBox = document.getElementById("riskPrefWarningBox");
     if (warningBox) warningBox.style.display = "none";
   }
 
-  // v11.42: ¸üĞÂ×´Ì¬»ÕÕÂÏÔÊ¾µ±Ç°ÉèÖÃ
+  // v11.42: æ›´æ–°çŠ¶æ€å¾½ç« æ˜¾ç¤ºå½“å‰è®¾ç½®
   const statusBadges = document.getElementById("userRecStatusBadges");
   if (statusBadges) {
-    const prefLabel = RISK_PREFERENCE_LIMITS[riskPref]?.label || "Æ½ºâĞÍ";
-    const hedgeActive = window.GLOBAL_HEDGED_OVERRIDE ? "???¶Ô³åÖĞ" : "";
+    const prefLabel = RISK_PREFERENCE_LIMITS[riskPref]?.label || "å¹³è¡¡å‹";
+    const hedgeActive = window.GLOBAL_HEDGED_OVERRIDE ? "ğŸ›¡ï¸å¯¹å†²ä¸­" : "";
     statusBadges.innerHTML = `
                     <span style="background:#dbeafe;color:#1e40af;padding:2px 6px;border-radius:4px;margin-right:4px;">${prefLabel}</span>
                     ${hedgeActive ? `<span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;">${hedgeActive}</span>` : ""}
                 `;
   }
 
-  // v8.20: Ö±½ÓÊ¹ÓÃÒÑÓĞµÄmacroVals¶ÁÈ¡Ô­ÒòÖ¸±ê
+  // v8.20: ç›´æ¥ä½¿ç”¨å·²æœ‰çš„macroValsè¯»å–åŸå› æŒ‡æ ‡
   const rateReason = macroVals.rateChangeReason || 0;
   const usdReasonVal = macroVals.usdReason || 0;
   const vixReasonVal = macroVals.vixReason || 0;
   const inflReasonVal = macroVals.inflationReason || 0;
 
-  // v8.20: Ã¬¶Ü¼ì²â - ¼ì²âÔ­ÒòÓëÊµ¼ÊÖ¸±êÖµ/Ç÷ÊÆµÄÃ¬¶Ü
+  // v8.20: çŸ›ç›¾æ£€æµ‹ - æ£€æµ‹åŸå› ä¸å®é™…æŒ‡æ ‡å€¼/è¶‹åŠ¿çš„çŸ›ç›¾
   const contradictions = [];
 
-  // VIXÃ¬¶Ü¼ì²â (ÖµÓëÔ­Òò)
+  // VIXçŸ›ç›¾æ£€æµ‹ (å€¼ä¸åŸå› )
   const vixValue = macroVals.vix || 20;
   const vixNeutral = macroIndics.vix?.neutral || 20;
   if (vixReasonVal < -0.5 && vixValue < vixNeutral * 1.2) {
     contradictions.push(
-      `VIX: Ñ¡Ôñ"¿Ö»Å/Î£»ú"µ«VIXÖµ(${vixValue.toFixed(0)})Æ«µÍ`,
+      `VIX: é€‰æ‹©"ææ…Œ/å±æœº"ä½†VIXå€¼(${vixValue.toFixed(0)})åä½`,
     );
   }
   if (vixReasonVal > 0.5 && vixValue > vixNeutral * 1.5) {
     contradictions.push(
-      `VIX: Ñ¡Ôñ"Òì³£µÍÃÔ"µ«VIXÖµ(${vixValue.toFixed(0)})Æ«¸ß`,
+      `VIX: é€‰æ‹©"å¼‚å¸¸ä½è¿·"ä½†VIXå€¼(${vixValue.toFixed(0)})åé«˜`,
     );
   }
 
-  // Í¨ÕÍÃ¬¶Ü¼ì²â (ÖµÓëÔ­Òò)
+  // é€šèƒ€çŸ›ç›¾æ£€æµ‹ (å€¼ä¸åŸå› )
   const inflation = macroVals.inflation || 2.5;
   const inflNeutral = macroIndics.inflation?.neutral || 2.5;
-  // Ñ¡ÔñÁËÍ¨ÕÍÉÏÉıÔ­Òòµ«Êµ¼ÊÍ¨ÕÍÆ«µÍ
+  // é€‰æ‹©äº†é€šèƒ€ä¸Šå‡åŸå› ä½†å®é™…é€šèƒ€åä½
   if (inflReasonVal < -0.5 && inflation < inflNeutral) {
     contradictions.push(
-      `Í¨ÕÍ: Ñ¡Ôñ"¹©¸ø³å»÷ÉÏÉı"µ«Í¨ÕÍ(${inflation.toFixed(1)}%)Æ«µÍ`,
+      `é€šèƒ€: é€‰æ‹©"ä¾›ç»™å†²å‡»ä¸Šå‡"ä½†é€šèƒ€(${inflation.toFixed(1)}%)åä½`,
     );
   }
-  // Ñ¡ÔñÁËÍ¨ÕÍÏÂ½µÔ­Òòµ«Êµ¼ÊÍ¨ÕÍ¸ß
+  // é€‰æ‹©äº†é€šèƒ€ä¸‹é™åŸå› ä½†å®é™…é€šèƒ€é«˜
   if (inflReasonVal > 0.5 && inflation > inflNeutral * 1.3) {
     contradictions.push(
-      `Í¨ÕÍ: Ñ¡Ôñ"ĞèÇóÀ­¶¯/¹©¸øĞŞ¸´"µ«Í¨ÕÍ(${inflation.toFixed(1)}%)ÒÑ¸ß`,
+      `é€šèƒ€: é€‰æ‹©"éœ€æ±‚æ‹‰åŠ¨/ä¾›ç»™ä¿®å¤"ä½†é€šèƒ€(${inflation.toFixed(1)}%)å·²é«˜`,
     );
   }
 
-  // ´æ´¢Ã¬¶ÜĞÅÏ¢¹©UIÏÔÊ¾
+  // å­˜å‚¨çŸ›ç›¾ä¿¡æ¯ä¾›UIæ˜¾ç¤º
   window.reasonContradictions = contradictions;
   if (contradictions.length > 0) {
-    console.warn("?? Ô­ÒòÖ¸±êÃ¬¶Ü:", contradictions);
+    console.warn("âš ï¸ åŸå› æŒ‡æ ‡çŸ›ç›¾:", contradictions);
   }
 
   // Feed live tuning stability knobs into the real recommendation path.
@@ -3761,13 +3761,13 @@ function recalculateWeightsForSelectedAssets(isSilent = false) {
       console.warn("[LiveTuning] Previous weights save failed:", e);
     }
   }
-  debugLog("[v16.3] È¨ÖØ¼ÆËãÁ÷³Ì½áÊø (Force window.currentRec)");
+  debugLog("[v16.3] æƒé‡è®¡ç®—æµç¨‹ç»“æŸ (Force window.currentRec)");
 
   // v16.3 Alias - Ensure it's available immediately
   window.P1_calculateLayeredWeights_Final = P1_calculateLayeredWeights_v15;
 
   console.log(
-    `[v11.43 P1] È«¾Ö×îÓÅÍÆ¼öÒÑÊ¹ÓÃ·Ö²ãÈ¨ÖØ(·ç¸ñ:${allocationStyle})`,
+    `[v11.43 P1] å…¨å±€æœ€ä¼˜æ¨èå·²ä½¿ç”¨åˆ†å±‚æƒé‡(é£æ ¼:${allocationStyle})`,
   );
 
   // Sync userConfig (Major) AND userSubConfig (Granular) to Rec Defaults
@@ -3809,16 +3809,16 @@ function recalculateWeightsForSelectedAssets(isSilent = false) {
     }
   });
 
-  // ? v11.19 FIX: ÇåÀíÒÅÁôµÄbonds±äÁ¿£¨ÒÑ²ğ·ÖÎªbonds_us/bonds_china/bonds_global£©
+  // âœ… v11.19 FIX: æ¸…ç†é—ç•™çš„bondså˜é‡ï¼ˆå·²æ‹†åˆ†ä¸ºbonds_us/bonds_china/bonds_globalï¼‰
   if (userConfig.hasOwnProperty("bonds")) {
     console.warn(
-      `?? [v11.19] ¼ì²âµ½ÒÅÁôbonds±äÁ¿£¬Öµ=${userConfig.bonds}£¬É¾³ıÖĞ...`,
+      `âš ï¸ [v11.19] æ£€æµ‹åˆ°é—ç•™bondså˜é‡ï¼Œå€¼=${userConfig.bonds}ï¼Œåˆ é™¤ä¸­...`,
     );
     delete userConfig.bonds;
   }
 
-  // ? v11.19 DEBUG: ´òÓ¡userConfigµÄËùÓĞkeysºÍÖµ
-  debugLog("?? [v11.19 DEBUG] userConfigÍêÕûÄÚÈİ:");
+  // âœ… v11.19 DEBUG: æ‰“å°userConfigçš„æ‰€æœ‰keyså’Œå€¼
+  debugLog("ğŸ” [v11.19 DEBUG] userConfigå®Œæ•´å†…å®¹:");
   Object.keys(userConfig).forEach((k) => {
     const val = userConfig[k];
     if (val && val > 0.0001) {
@@ -3826,7 +3826,7 @@ function recalculateWeightsForSelectedAssets(isSilent = false) {
     }
   });
 
-  // ? v11.19 FIX: È·±£userConfigÒ²¾«È·¹éÒ»»¯µ½100%
+  // âœ… v11.19 FIX: ç¡®ä¿userConfigä¹Ÿç²¾ç¡®å½’ä¸€åŒ–åˆ°100%
   let userConfigTotal = 0;
   Object.keys(assetLibrary).forEach((k) => {
     userConfigTotal += userConfig[k] || 0;
@@ -3834,22 +3834,22 @@ function recalculateWeightsForSelectedAssets(isSilent = false) {
 
   if (userConfigTotal > 0 && Math.abs(userConfigTotal - 1.0) > 0.0001) {
     debugLog(
-      `?? [v11.19 userConfig FIX] ¹éÒ»»¯: ${(userConfigTotal * 100).toFixed(4)}% ¡ú 100.00%`,
+      `ğŸ”§ [v11.19 userConfig FIX] å½’ä¸€åŒ–: ${(userConfigTotal * 100).toFixed(4)}% â†’ 100.00%`,
     );
     Object.keys(assetLibrary).forEach((k) => {
       userConfig[k] = (userConfig[k] || 0) / userConfigTotal;
     });
 
-    // ÑéÖ¤
+    // éªŒè¯
     let verifyTotal = 0;
     Object.keys(assetLibrary).forEach(
       (k) => (verifyTotal += userConfig[k] || 0),
     );
     debugLog(
-      `? [v11.19 userConfig] ¹éÒ»»¯ºó: ${(verifyTotal * 100).toFixed(6)}%`,
+      `âœ… [v11.19 userConfig] å½’ä¸€åŒ–å: ${(verifyTotal * 100).toFixed(6)}%`,
     );
   } else {
-    debugLog(`? [v11.19 userConfig] ÒÑ¾­ÊÇ100%£¬ÎŞĞè¹éÒ»»¯`);
+    debugLog(`âœ… [v11.19 userConfig] å·²ç»æ˜¯100%ï¼Œæ— éœ€å½’ä¸€åŒ–`);
   }
 
   renderRecommendation();
@@ -3880,7 +3880,7 @@ function toggleGroup(className) {
       isHidden = true;
     }
   }
-  if (icon) icon.textContent = isHidden ? "?" : "¨‹";
+  if (icon) icon.textContent = isHidden ? "â–¶" : "â–¼";
 }
 
 function renderRecommendation() {
@@ -3892,11 +3892,11 @@ function renderRecommendation() {
   const userSelectedCard = userSelectedContainer
     ? userSelectedContainer.closest(".card")
     : null;
-  // v11.8: Ë«ÖØÍÆ¼öäÖÈ¾
+  // v11.8: åŒé‡æ¨èæ¸²æŸ“
   const total = parseFloat(document.getElementById("totalAmount").value) || 100;
 
-  // äÖÈ¾ÓÃ»§Ñ¡ÔñÍÆ¼ö (into 'userSelectedContainer')
-  // v11.38: Ö±½ÓÊ¹ÓÃ currentRec£¬Æä¸²¸ÇÂß¼­ÒÑÉÏÒÆÖÁ¼ÆËã²ã
+  // æ¸²æŸ“ç”¨æˆ·é€‰æ‹©æ¨è (into 'userSelectedContainer')
+  // v11.38: ç›´æ¥ä½¿ç”¨ currentRecï¼Œå…¶è¦†ç›–é€»è¾‘å·²ä¸Šç§»è‡³è®¡ç®—å±‚
   if (userSelectedCard) {
     userSelectedCard.style.display = hasUserSelection ? "" : "none";
   }
@@ -3905,12 +3905,12 @@ function renderRecommendation() {
   } else if (userSelectedContainer && !hasUserSelection) {
     userSelectedContainer.innerHTML = "";
   } else if (document.getElementById("recommendationTable")) {
-    // »ØÍËµ½¾ÉäÖÈ¾Âß¼­£¨¼«¼ò°æ£¬·ÀÖ¹±¨´í£©
+    // å›é€€åˆ°æ—§æ¸²æŸ“é€»è¾‘ï¼ˆæç®€ç‰ˆï¼Œé˜²æ­¢æŠ¥é”™ï¼‰
     document.getElementById("recommendationTable").innerHTML =
-      "<tr><td>ÇëË¢ĞÂÒ³ÃæÒÔ¼ÓÔØĞÂUI</td></tr>";
+      "<tr><td>è¯·åˆ·æ–°é¡µé¢ä»¥åŠ è½½æ–°UI</td></tr>";
   }
 
-  // äÖÈ¾È«¾Ö×îÓÅÍÆ¼ö (into 'globalOptimalContainer')
+  // æ¸²æŸ“å…¨å±€æœ€ä¼˜æ¨è (into 'globalOptimalContainer')
   if (document.getElementById("globalOptimalContainer")) {
     if (window._globalOptimalRec) {
       renderRecommendationTable(
@@ -3921,22 +3921,22 @@ function renderRecommendation() {
       );
     } else {
       document.getElementById("globalOptimalContainer").innerHTML =
-        '<div style="padding:10px;color:#999;">ÎŞÊı¾İ</div>';
+        '<div style="padding:10px;color:#999;">æ— æ•°æ®</div>';
     }
   }
 
-  // v16.42.1: äÖÈ¾ BL ¶ÀÁ¢ÊÓ½ÇÃæ°å
+  // v16.42.1: æ¸²æŸ“ BL ç‹¬ç«‹è§†è§’é¢æ¿
   renderBLPanel(total);
 
-  // v16.62 F4: äÖÈ¾È¨ÖØÇ¨ÒÆÂ·¾¶¶Ô±È
+  // v16.62 F4: æ¸²æŸ“æƒé‡è¿ç§»è·¯å¾„å¯¹æ¯”
   if (typeof renderWeightMigration === "function") {
     renderWeightMigration();
   }
 }
 
-// ¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T
-// v16.42.1: Black-Litterman ¶ÀÁ¢ÊÓ½Ç UI
-// ¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// v16.42.1: Black-Litterman ç‹¬ç«‹è§†è§’ UI
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 function renderBLPanel(total) {
   const wrapper = document.getElementById("blPanelWrapper");
@@ -3951,28 +3951,28 @@ function renderBLPanel(total) {
   if (!blRec || !blRec.weights) {
     container.innerHTML = `
       <div style="padding:12px;border:1px dashed #f59e0b;background:#fffbeb;border-radius:8px;font-size:11px;line-height:1.6;color:#92400e;">
-        <div style="font-weight:700;margin-bottom:4px;">BL ÍÆ¼öÔİ²»¿ÉÓÃ</div>
-        <div>µ±Ç°Ã»ÓĞÉú³É <code>window._blRecommendation</code>£¬ËùÒÔÕâÀï²»»áÏÔÊ¾ BL È¨ÖØ±í¡£</div>
-        <div style="margin-top:4px;color:#b45309;">³£¼ûÔ­Òò£º»¹Ã»µã¡°Ò»¼ü AI ÍÆ¼ö¡±¡¢ÍÆ¼öÁ÷³ÌÖĞ¶Ï¡¢»ò BL Êı¾İÔ´ÉĞÎ´×¼±¸ºÃ¡£</div>
+        <div style="font-weight:700;margin-bottom:4px;">BL æ¨èæš‚ä¸å¯ç”¨</div>
+        <div>å½“å‰æ²¡æœ‰ç”Ÿæˆ <code>window._blRecommendation</code>ï¼Œæ‰€ä»¥è¿™é‡Œä¸ä¼šæ˜¾ç¤º BL æƒé‡è¡¨ã€‚</div>
+        <div style="margin-top:4px;color:#b45309;">å¸¸è§åŸå› ï¼šè¿˜æ²¡ç‚¹â€œä¸€é”® AI æ¨èâ€ã€æ¨èæµç¨‹ä¸­æ–­ã€æˆ– BL æ•°æ®æºå°šæœªå‡†å¤‡å¥½ã€‚</div>
       </div>
     `;
     if (diagContainer) {
       diagContainer.innerHTML =
-        '<div style="padding:8px;color:#92400e;font-size:10px;background:#fffbeb;border:1px dashed #f59e0b;border-radius:6px;">BL Õï¶ÏÃæ°åÔİÊ±ÎŞÊı¾İ£¬ÒòÎªµ±Ç°Ã»ÓĞÉú³É BL ÍÆ¼ö¡£</div>';
+        '<div style="padding:8px;color:#92400e;font-size:10px;background:#fffbeb;border:1px dashed #f59e0b;border-radius:6px;">BL è¯Šæ–­é¢æ¿æš‚æ—¶æ— æ•°æ®ï¼Œå› ä¸ºå½“å‰æ²¡æœ‰ç”Ÿæˆ BL æ¨èã€‚</div>';
     }
     return;
   }
 
-  // Ğ­·½²îÊı¾İ×´Ì¬
+  // åæ–¹å·®æ•°æ®çŠ¶æ€
   if (covStatus && blRec.diagnostics?.covStatus) {
     const cs = blRec.diagnostics.covStatus;
     covStatus.textContent =
-      cs.source === "Ô¤ÉèÄ¬ÈÏÖµ"
-        ? "?? Ô¤ÉèÄ¬ÈÏÖµ"
-        : `?? ÒÑµ¼Èë(${cs.updateDate})`;
+      cs.source === "é¢„è®¾é»˜è®¤å€¼"
+        ? "ğŸ“Š é¢„è®¾é»˜è®¤å€¼"
+        : `ğŸ“Š å·²å¯¼å…¥(${cs.updateDate})`;
   }
 
-  // 1. BL È¨ÖØ±í¸ñ (Óë P1 ¶Ô±È)
+  // 1. BL æƒé‡è¡¨æ ¼ (ä¸ P1 å¯¹æ¯”)
   const p1Rec = window._globalOptimalRec || {};
   const weights = blRec.weights;
   const sorted = Object.entries(weights)
@@ -3982,10 +3982,10 @@ function renderBLPanel(total) {
   let html =
     '<table style="width:100%; border-collapse:collapse; font-size:11px;">';
   html += '<tr style="background:#fbbf24;color:#78350f;">';
-  html += '<th style="padding:4px 6px;text-align:left;">×Ê²ú</th>';
-  html += '<th style="padding:4px 6px;text-align:right;">BLÈ¨ÖØ</th>';
-  html += '<th style="padding:4px 6px;text-align:right;">P1È¨ÖØ</th>';
-  html += '<th style="padding:4px 6px;text-align:right;">²îÒì</th>';
+  html += '<th style="padding:4px 6px;text-align:left;">èµ„äº§</th>';
+  html += '<th style="padding:4px 6px;text-align:right;">BLæƒé‡</th>';
+  html += '<th style="padding:4px 6px;text-align:right;">P1æƒé‡</th>';
+  html += '<th style="padding:4px 6px;text-align:right;">å·®å¼‚</th>';
   html += "</tr>";
 
   sorted.forEach(([key, blW]) => {
@@ -4005,7 +4005,7 @@ function renderBLPanel(total) {
   });
   html += "</table>";
 
-  // ¼òÒªËµÃ÷
+  // ç®€è¦è¯´æ˜
   const views = blRec.diagnostics?.views || [];
   const topView = views.sort(
     (a, b) => Math.abs(b.viewReturn) - Math.abs(a.viewReturn),
@@ -4026,22 +4026,22 @@ function renderBLPanel(total) {
           : "#b91c1c";
     const confidenceHint =
       topView.confidence >= 0.7
-        ? "ÕâÌõ¹ÛµãÖÃĞÅ¶È½Ï¸ß£¬¿ÉÒÔÓÅÏÈ²Î¿¼¡£"
+        ? "è¿™æ¡è§‚ç‚¹ç½®ä¿¡åº¦è¾ƒé«˜ï¼Œå¯ä»¥ä¼˜å…ˆå‚è€ƒã€‚"
         : topView.confidence >= 0.4
-          ? "ÕâÌõ¹ÛµãÖÃĞÅ¶ÈÖĞµÈ£¬½¨Òé½áºÏÆäËûÖ¸±êÒ»Æğ¿´¡£"
-          : "ÕâÌõ¹ÛµãÖÃĞÅ¶È½ÏµÍ£¬¸üÊÊºÏ×÷Îª¸¨ÖúÌáÊ¾£¬²»½¨Òéµ¥¶ÀÒÀÀµ¡£";
+          ? "è¿™æ¡è§‚ç‚¹ç½®ä¿¡åº¦ä¸­ç­‰ï¼Œå»ºè®®ç»“åˆå…¶ä»–æŒ‡æ ‡ä¸€èµ·çœ‹ã€‚"
+          : "è¿™æ¡è§‚ç‚¹ç½®ä¿¡åº¦è¾ƒä½ï¼Œæ›´é€‚åˆä½œä¸ºè¾…åŠ©æç¤ºï¼Œä¸å»ºè®®å•ç‹¬ä¾èµ–ã€‚";
     html += `<div style="margin-top:6px;padding:6px;background:#fef3c7;border-radius:4px;font-size:10px;color:#92400e;">`;
-    html += `?? BL ×îÇ¿¹Ûµã: <b>${topView.blKey}</b> ÆÀ·Ö${topView.score.toFixed(0)} ¡ú `;
-    html += `Ô¤ÆÚÄê»¯${(topView.viewReturn * 100).toFixed(1)}%, ĞÅĞÄ${confidencePct}%`;
+    html += `ğŸ’¡ BL æœ€å¼ºè§‚ç‚¹: <b>${topView.blKey}</b> è¯„åˆ†${topView.score.toFixed(0)} â†’ `;
+    html += `é¢„æœŸå¹´åŒ–${(topView.viewReturn * 100).toFixed(1)}%, ä¿¡å¿ƒ${confidencePct}%`;
     html += `</div>`;
     html += `<div style="margin-top:4px;padding:6px;border-radius:4px;background:${confidenceBg};color:${confidenceColor};font-size:10px;">`;
-    html += `¿ÉĞÅ¶ÈÌáÊ¾£º${confidenceHint}`;
+    html += `å¯ä¿¡åº¦æç¤ºï¼š${confidenceHint}`;
     html += `</div>`;
   }
 
   container.innerHTML = html;
 
-  // 2. Õï¶ÏÏêÇé
+  // 2. è¯Šæ–­è¯¦æƒ…
   if (diagContainer && blRec.diagnostics) {
     renderBLDiagnostics(diagContainer, blRec.diagnostics);
   }
@@ -4050,19 +4050,19 @@ function renderBLPanel(total) {
 function renderBLDiagnostics(container, diag) {
   let html = "";
 
-  // Èı²ã¶Ô±È±í
+  // ä¸‰å±‚å¯¹æ¯”è¡¨
   const blKeys = Object.keys(diag.equilibriumWeights || {});
   if (blKeys.length > 0) {
     html +=
-      '<div style="font-weight:600;margin-bottom:4px;color:#92400e;">¾ùºâ¡úÒşº¬ÊÕÒæ¡úBLºóÑéÊÕÒæ¡úÈ¨ÖØ</div>';
+      '<div style="font-weight:600;margin-bottom:4px;color:#92400e;">å‡è¡¡â†’éšå«æ”¶ç›Šâ†’BLåéªŒæ”¶ç›Šâ†’æƒé‡</div>';
     html +=
       '<table style="width:100%;border-collapse:collapse;font-size:10px;">';
     html += '<tr style="background:#fde68a;color:#78350f;">';
-    html += '<th style="padding:2px 4px;">BL×Ê²ú</th>';
-    html += '<th style="padding:2px 4px;text-align:right;">¾ùºâÈ¨ÖØ</th>';
-    html += '<th style="padding:2px 4px;text-align:right;">Òşº¬ÊÕÒæ</th>';
-    html += '<th style="padding:2px 4px;text-align:right;">BLÊÕÒæ</th>';
-    html += '<th style="padding:2px 4px;text-align:right;">×îÖÕÈ¨ÖØ</th>';
+    html += '<th style="padding:2px 4px;">BLèµ„äº§</th>';
+    html += '<th style="padding:2px 4px;text-align:right;">å‡è¡¡æƒé‡</th>';
+    html += '<th style="padding:2px 4px;text-align:right;">éšå«æ”¶ç›Š</th>';
+    html += '<th style="padding:2px 4px;text-align:right;">BLæ”¶ç›Š</th>';
+    html += '<th style="padding:2px 4px;text-align:right;">æœ€ç»ˆæƒé‡</th>';
     html += "</tr>";
 
     blKeys.forEach((k) => {
@@ -4085,36 +4085,36 @@ function renderBLDiagnostics(container, diag) {
     html += "</table>";
   }
 
-  // ¹ÛµãÁĞ±í
+  // è§‚ç‚¹åˆ—è¡¨
   const views = diag.views || [];
   if (views.length > 0) {
     html +=
-      '<div style="margin-top:8px;font-weight:600;color:#92400e;">ÆÀ·Ö¡ú¹ÛµãÓ³Éä</div>';
+      '<div style="margin-top:8px;font-weight:600;color:#92400e;">è¯„åˆ†â†’è§‚ç‚¹æ˜ å°„</div>';
     views.forEach((v) => {
-      const dir = v.viewReturn > 0 ? "??" : "??";
-      const warn = v.confidence < 0.4 ? " µÍĞÅĞÄ" : v.confidence < 0.7 ? " ÖĞĞÅĞÄ" : " ¸ßĞÅĞÄ";
+      const dir = v.viewReturn > 0 ? "ğŸ“ˆ" : "ğŸ“‰";
+      const warn = v.confidence < 0.4 ? " ä½ä¿¡å¿ƒ" : v.confidence < 0.7 ? " ä¸­ä¿¡å¿ƒ" : " é«˜ä¿¡å¿ƒ";
       const confWidth = Math.max(8, Math.min(100, Math.round((v.confidence || 0) * 100)));
       const confBarColor = v.confidence < 0.4 ? "#fca5a5" : v.confidence < 0.7 ? "#fbbf24" : "#86efac";
-      html += `<div style="padding:2px 0;">${dir} <b>${v.blKey}</b>: ÆÀ·Ö${v.score.toFixed(0)} ¡ú `;
-      html += `¹Ûµã${(v.viewReturn * 100).toFixed(1)}%, ĞÅĞÄ${(v.confidence * 100).toFixed(0)}%${warn}`;
+      html += `<div style="padding:2px 0;">${dir} <b>${v.blKey}</b>: è¯„åˆ†${v.score.toFixed(0)} â†’ `;
+      html += `è§‚ç‚¹${(v.viewReturn * 100).toFixed(1)}%, ä¿¡å¿ƒ${(v.confidence * 100).toFixed(0)}%${warn}`;
       html += `<div style="margin:3px 0 0 18px; display:flex; align-items:center; gap:6px;">`;
       html += `<div style="width:90px; height:6px; background:#f1f5f9; border-radius:999px; overflow:hidden; border:1px solid #e2e8f0;"><div style="width:${confWidth}%; height:100%; background:${confBarColor};"></div></div>`;
-      html += `<span style="font-size:9px; color:#64748b;">${v.confidence < 0.4 ? "Ñù±¾/Ò»ÖÂĞÔÆ«Èõ" : v.confidence < 0.7 ? "¿É²Î¿¼" : "½ÏÎÈ"}</span>`;
+      html += `<span style="font-size:9px; color:#64748b;">${v.confidence < 0.4 ? "æ ·æœ¬/ä¸€è‡´æ€§åå¼±" : v.confidence < 0.7 ? "å¯å‚è€ƒ" : "è¾ƒç¨³"}</span>`;
       html += `</div></div>`;
     });
   }
 
-  // ÅäÖÃ²ÎÊı
+  // é…ç½®å‚æ•°
   if (diag.config) {
     html += `<div style="margin-top:8px;padding:4px;background:#f5f5f4;border-radius:4px;font-size:9px;color:#78716c;">`;
-    html += `?? ¦Ó=${diag.config.tau} | ¦Ä=${diag.config.delta} | maxView=${diag.config.maxView * 100}% | VIX=${diag.vixUsed}`;
+    html += `âš™ï¸ Ï„=${diag.config.tau} | Î´=${diag.config.delta} | maxView=${diag.config.maxView * 100}% | VIX=${diag.vixUsed}`;
     html += "</div>";
   }
 
   container.innerHTML = html;
 }
 
-// Ğ­·½²î JSON µ¼Èë´¦Àí
+// åæ–¹å·® JSON å¯¼å…¥å¤„ç†
 window.handleBLCovImport = function (input) {
   const file = input.files[0];
   if (!file) return;
@@ -4125,25 +4125,25 @@ window.handleBLCovImport = function (input) {
       if (typeof window.importCovData === "function") {
         const result = window.importCovData(json);
         if (result.success) {
-          alert("? Ğ­·½²îÊı¾İµ¼Èë³É¹¦£¡\n" + (result.message || ""));
-          // ÖØĞÂÉú³ÉÍÆ¼öÒÔÊ¹ÓÃĞÂÊı¾İ
+          alert("âœ… åæ–¹å·®æ•°æ®å¯¼å…¥æˆåŠŸï¼\n" + (result.message || ""));
+          // é‡æ–°ç”Ÿæˆæ¨èä»¥ä½¿ç”¨æ–°æ•°æ®
           if (typeof generateRecommendation === "function")
             generateRecommendation();
         } else {
-          alert("? µ¼ÈëÊ§°Ü: " + (result.error || "Î´Öª´íÎó"));
+          alert("âŒ å¯¼å…¥å¤±è´¥: " + (result.error || "æœªçŸ¥é”™è¯¯"));
         }
       } else {
-        alert("? BL Ğ­·½²îÄ£¿éÎ´¼ÓÔØ");
+        alert("âŒ BL åæ–¹å·®æ¨¡å—æœªåŠ è½½");
       }
     } catch (err) {
-      alert("? JSON ½âÎöÊ§°Ü: " + err.message);
+      alert("âŒ JSON è§£æå¤±è´¥: " + err.message);
     }
   };
   reader.readAsText(file);
   input.value = "";
 };
 
-// Ğ­·½²î JSON µ¼³ö´¦Àí
+// åæ–¹å·® JSON å¯¼å‡ºå¤„ç†
 window.handleBLCovExport = function () {
   if (typeof window.exportCovData === "function") {
     const data = window.exportCovData();
@@ -4157,11 +4157,11 @@ window.handleBLCovExport = function () {
     a.click();
     URL.revokeObjectURL(url);
   } else {
-    alert("? BL Ğ­·½²îÄ£¿éÎ´¼ÓÔØ");
+    alert("âŒ BL åæ–¹å·®æ¨¡å—æœªåŠ è½½");
   }
 };
 
-// v11.8: Í¨ÓÃäÖÈ¾º¯Êı - °²È«×Ö·û´®Æ´½Ó
+// v11.8: é€šç”¨æ¸²æŸ“å‡½æ•° - å®‰å…¨å­—ç¬¦ä¸²æ‹¼æ¥
 function renderRecommendationTable(
   recommendation,
   total,
@@ -4172,13 +4172,13 @@ function renderRecommendationTable(
     .filter(([k, v]) => v > 0)
     .sort((a, b) => b[1] - a[1]);
 
-  // »ñÈ¡×Ó×Ê²ú·Ö×é
+  // è·å–å­èµ„äº§åˆ†ç»„
   const groupedAssets = {};
   if (showSubItems) {
     selectedAssets.forEach((id) => {
       let majorKey = id.split("_")[0];
       let assetKey = id.split("_").slice(1).join("_");
-      // ÖÇÄÜÆ¥Åä
+      // æ™ºèƒ½åŒ¹é…
       for (const libraryKey of Object.keys(assetLibrary)) {
         if (id.startsWith(libraryKey + "_")) {
           majorKey = libraryKey;
@@ -4194,24 +4194,24 @@ function renderRecommendationTable(
   let html =
     '<table style="width:100%;border-collapse:collapse;font-size:11px;">';
   html +=
-    '<tr><th style="padding:6px;background:#f3f4f6;border:1px solid #ddd;">×Ê²ú</th><th style="padding:6px;background:#f3f4f6;border:1px solid #ddd;">²ã¼¶</th><th style="padding:6px;background:#f3f4f6;border:1px solid #ddd;">±ÈÀı</th><th style="padding:6px;background:#f3f4f6;border:1px solid #ddd;">½ğ¶î</th><th style="padding:6px;background:#f3f4f6;border:1px solid #ddd;">ÆÀ·Ö</th></tr>';
+    '<tr><th style="padding:6px;background:#f3f4f6;border:1px solid #ddd;">èµ„äº§</th><th style="padding:6px;background:#f3f4f6;border:1px solid #ddd;">å±‚çº§</th><th style="padding:6px;background:#f3f4f6;border:1px solid #ddd;">æ¯”ä¾‹</th><th style="padding:6px;background:#f3f4f6;border:1px solid #ddd;">é‡‘é¢</th><th style="padding:6px;background:#f3f4f6;border:1px solid #ddd;">è¯„åˆ†</th></tr>';
 
   let totalPct = 0;
   let totalAmount = 0;
 
-  // ¸¨Öúº¯Êı£º»ñÈ¡×Ê²úËùÊô·Ö×éÏÔÊ¾Ãû
+  // è¾…åŠ©å‡½æ•°ï¼šè·å–èµ„äº§æ‰€å±åˆ†ç»„æ˜¾ç¤ºå
   function getAssetGroupLabel(key) {
     if (P1_assetGroups.risk.includes(key))
-      return '<span style="color:#dc2626;">·çÏÕ</span>';
+      return '<span style="color:#dc2626;">é£é™©</span>';
     if (P1_assetGroups.safe.includes(key))
-      return '<span style="color:#16a34a;">±ÜÏÕ</span>';
+      return '<span style="color:#16a34a;">é¿é™©</span>';
     if (P1_assetGroups.cross.includes(key))
-      return '<span style="color:#7c3aed;">½»²æ</span>';
+      return '<span style="color:#7c3aed;">äº¤å‰</span>';
     return "-";
   }
 
   sorted.forEach(([k, alloc]) => {
-    // v11.35b: Ìø¹ıÔÚµ±Ç°³¡¾°Äê·İÉĞÎ´´æÔÚµÄ×Ê²ú
+    // v11.35b: è·³è¿‡åœ¨å½“å‰åœºæ™¯å¹´ä»½å°šæœªå­˜åœ¨çš„èµ„äº§
     // v16.1 FIX: Protect High-Score/High-Weight Precious from UI Filtering
     const isHighScorePrecious =
       k === "precious" &&
@@ -4234,24 +4234,24 @@ function renderRecommendationTable(
     let scoreIcon = "";
     if (assetScores[k]?.isSpecific) {
       scoreIcon =
-        '<span title="×Ó×Ê²ú¸ß·Ö¸²¸Ç" style="font-size:8px;margin-right:2px;">?</span>';
+        '<span title="å­èµ„äº§é«˜åˆ†è¦†ç›–" style="font-size:8px;margin-right:2px;">âš¡</span>';
     }
 
     const selectedInCategory = groupedAssets[k] || [];
     const hasSubItems = showSubItems && selectedInCategory.length > 0;
     const groupId = "group_" + targetId + "_" + k;
 
-    // °²È«µÄonclick¹¹½¨
+    // å®‰å…¨çš„onclickæ„å»º
     let rowStyle = hasSubItems ? "cursor:pointer" : "";
     let onClickAttr = hasSubItems ? `onclick="toggleGroup('${groupId}')"` : "";
 
     html += `<tr style="${rowStyle}" ${onClickAttr}>`;
 
-    // µ¥Ôª¸ñÄÚÈİ
+    // å•å…ƒæ ¼å†…å®¹
     html += `<td style="padding:6px;border:1px solid #ddd;">`;
     html += hasSubItems
-      ? `<span id="icon_${groupId}" style="font-size:10px;margin-right:4px;">?</span>`
-      : '<span style="font-size:10px;margin-right:4px;color:#ccc;">¡ğ</span>';
+      ? `<span id="icon_${groupId}" style="font-size:10px;margin-right:4px;">â–¶</span>`
+      : '<span style="font-size:10px;margin-right:4px;color:#ccc;">â—‹</span>';
 
     // [v14.1 Smart Scan & Override Display]
     let displayName = assetLibrary[k]?.name || k;
@@ -4280,7 +4280,7 @@ function renderRecommendationTable(
     html += `${displayName}</td>`;
     html += `<td style="padding:6px;border:1px solid #ddd;font-size:9px;text-align:center;">${getAssetGroupLabel(k)}</td>`;
     html += `<td style="padding:6px;border:1px solid #ddd;font-weight:600;color:#1f3c88;">${(alloc * 100).toFixed(1)}%</td>`;
-    html += `<td style="padding:6px;border:1px solid #ddd;color:#10b981;font-weight:600;">${amount.toFixed(2)}Íò</td>`;
+    html += `<td style="padding:6px;border:1px solid #ddd;color:#10b981;font-weight:600;">${amount.toFixed(2)}ä¸‡</td>`;
     html += `<td style="padding:6px;border:1px solid #ddd;"><span class="score-badge" style="background:${scoreColor};color:white;padding:1px 4px;border-radius:4px;font-size:10px;">${scoreIcon}${displayScore}</span></td></tr>`;
 
     if (hasSubItems) {
@@ -4288,7 +4288,7 @@ function renderRecommendationTable(
       selectedInCategory.forEach((assetKey, i) => {
         let assetName = assetKey;
         const asset = assetLibrary[k];
-        // ²éÕÒ×Ê²úÃû³Æ
+        // æŸ¥æ‰¾èµ„äº§åç§°
         for (const [subKey, subData] of Object.entries(
           asset.subcategories || {},
         )) {
@@ -4304,29 +4304,29 @@ function renderRecommendationTable(
 
         html += `<tr class="${groupId}" style="display:none;background:#f9fafb;">`;
         html += `<td style="padding:6px;padding-left:20px;border:1px solid #ddd;font-size:10px;color:#666;">`;
-        html += `<span style="color:#ccc;">${isLast ? "©¸©¤" : "©À©¤"}</span> ${assetName}</td>`;
+        html += `<span style="color:#ccc;">${isLast ? "â””â”€" : "â”œâ”€"}</span> ${assetName}</td>`;
         html += `<td style="padding:6px;border:1px solid #ddd;font-size:10px;color:#666;">${subPct}%</td>`;
-        html += `<td style="padding:6px;border:1px solid #ddd;font-size:10px;color:#333;">${subAmt.toFixed(2)}Íò</td>`;
+        html += `<td style="padding:6px;border:1px solid #ddd;font-size:10px;color:#333;">${subAmt.toFixed(2)}ä¸‡</td>`;
         html += `<td style="padding:6px;border:1px solid #ddd;"></td></tr>`;
       });
     }
 
-    // --- ×¢Èë ETF Ó³Éä±í UI£¨¶ÀÁ¢ÓÚ×Ó×Ê²úÕÛµş£©---
+    // --- æ³¨å…¥ ETF æ˜ å°„è¡¨ UIï¼ˆç‹¬ç«‹äºå­èµ„äº§æŠ˜å ï¼‰---
     const etfMap = assetLibrary[k]?.etfMap;
     if (etfMap) {
       const etfGroupId = "etf_" + targetId + "_" + k;
-      // ETF ¶ÀÁ¢Õ¹¿ª°´Å¥ĞĞ
+      // ETF ç‹¬ç«‹å±•å¼€æŒ‰é’®è¡Œ
       html += `<tr style="cursor:pointer;background:#f8fafc;" onclick="toggleGroup('${etfGroupId}')">`;
       html += `<td colspan="5" style="padding:4px 8px;padding-left:20px;border:1px solid #ddd;font-size:10px;color:#64748b;">`;
-      html += `<span style="color:#cbd5e1;margin-right:4px;">©¸©¤</span>`;
-      html += `<span id="icon_${etfGroupId}" style="font-size:10px;margin-right:4px;">?</span>`;
-      html += `?? ²é¿´¿É½»Ò×±êµÄ (ETF/»ù½ğ)</td></tr>`;
+      html += `<span style="color:#cbd5e1;margin-right:4px;">â””â”€</span>`;
+      html += `<span id="icon_${etfGroupId}" style="font-size:10px;margin-right:4px;">â–¶</span>`;
+      html += `ğŸ“‹ æŸ¥çœ‹å¯äº¤æ˜“æ ‡çš„ (ETF/åŸºé‡‘)</td></tr>`;
 
-      // ETF ÏêÇéĞĞ£¨Ä¬ÈÏÒş²Ø£©
+      // ETF è¯¦æƒ…è¡Œï¼ˆé»˜è®¤éšè—ï¼‰
       html += `<tr class="${etfGroupId}" style="display:none;background:#f0f9ff;">`;
       html += `<td colspan="5" style="padding:8px 16px;border:1px solid #ddd;font-size:10px;">`;
 
-      // ¸¨Öúº¯Êı£ºäÖÈ¾Ò»¸ö ETF ·Ö×é
+      // è¾…åŠ©å‡½æ•°ï¼šæ¸²æŸ“ä¸€ä¸ª ETF åˆ†ç»„
       const renderEtfGroup = (title, list) => {
         if (!list || list.length === 0) return "";
         let res = `<div style="margin-bottom:6px;">`;
@@ -4334,7 +4334,7 @@ function renderRecommendationTable(
         res += list
           .map(
             (e) => `
-                    <span style="display:inline-block;background:white;border:1px solid #bae6fd;padding:2px 6px;border-radius:4px;margin:2px;cursor:help;" title="·ÑÂÊ: ${e.expense || "-"}&#10;ËµÃ÷: ${e.note || "-"}">
+                    <span style="display:inline-block;background:white;border:1px solid #bae6fd;padding:2px 6px;border-radius:4px;margin:2px;cursor:help;" title="è´¹ç‡: ${e.expense || "-"}&#10;è¯´æ˜: ${e.note || "-"}">
                         <strong>${e.ticker}</strong> (${e.name})
                     </span>`,
           )
@@ -4343,11 +4343,11 @@ function renderRecommendationTable(
         return res;
       };
 
-      if (etfMap.overseas) html += renderEtfGroup("¾³ÍâÓÅÏÈ", etfMap.overseas);
-      if (etfMap.domestic) html += renderEtfGroup("¾³ÄÚÓÅÑ¡", etfMap.domestic);
-      if (etfMap.primary) html += renderEtfGroup("Ö÷Á¦±êµÄ", etfMap.primary);
-      if (etfMap.sector) html += renderEtfGroup("ĞĞÒµÏ¸·Ö", etfMap.sector);
-      if (etfMap.regional) html += renderEtfGroup("ÇøÓòÏ¸·Ö", etfMap.regional);
+      if (etfMap.overseas) html += renderEtfGroup("å¢ƒå¤–ä¼˜å…ˆ", etfMap.overseas);
+      if (etfMap.domestic) html += renderEtfGroup("å¢ƒå†…ä¼˜é€‰", etfMap.domestic);
+      if (etfMap.primary) html += renderEtfGroup("ä¸»åŠ›æ ‡çš„", etfMap.primary);
+      if (etfMap.sector) html += renderEtfGroup("è¡Œä¸šç»†åˆ†", etfMap.sector);
+      if (etfMap.regional) html += renderEtfGroup("åŒºåŸŸç»†åˆ†", etfMap.regional);
 
       if (etfMap.note) {
         html += `<div style="color:#0ea5e9;font-style:italic;margin-top:4px;">${etfMap.note}</div>`;
@@ -4357,23 +4357,23 @@ function renderRecommendationTable(
     }
   });
 
-  html += `<tr style="background:#f0fdf4;"><td style="padding:6px;border:1px solid #ddd;font-weight:600;">ºÏ¼Æ</td>`;
+  html += `<tr style="background:#f0fdf4;"><td style="padding:6px;border:1px solid #ddd;font-weight:600;">åˆè®¡</td>`;
   html += `<td style="padding:6px;border:1px solid #ddd;font-weight:600;color:#10b981;">${(totalPct * 100).toFixed(1)}%</td>`;
-  html += `<td style="padding:6px;border:1px solid #ddd;font-weight:600;color:#10b981;">${totalAmount.toFixed(2)}Íò</td>`;
+  html += `<td style="padding:6px;border:1px solid #ddd;font-weight:600;color:#10b981;">${totalAmount.toFixed(2)}ä¸‡</td>`;
   html += `<td style="padding:6px;border:1px solid #ddd;"></td></tr>`;
   html += "</table>";
   const macroNow = typeof getMacroValues === "function" ? getMacroValues() : {};
   const vixNow = parseFloat(macroNow.vix) || 0;
   const vixStatus =
     vixNow > 30
-      ? "?? ¿Ö»Å (>30)"
+      ? "ğŸ”´ ææ…Œ (>30)"
       : vixNow > 20
-        ? "?? ¾¯Ìè (20-30)"
-        : "?? Õı³£ (<20)";
+        ? "ğŸŸ¡ è­¦æƒ• (20-30)"
+        : "ğŸŸ¢ æ­£å¸¸ (<20)";
   const vixColor =
     vixNow > 30 ? "#dc2626" : vixNow > 20 ? "#d97706" : "#16a34a";
   const dataDate = window.currentScenarioYear
-    ? window.currentScenarioYear + "Äê³¡¾°"
+    ? window.currentScenarioYear + "å¹´åœºæ™¯"
     : new Date().toLocaleDateString("zh-CN");
   const maxTurnover =
     typeof MAX_TURNOVER !== "undefined"
@@ -4415,16 +4415,16 @@ function renderRecommendationTable(
   })();
   const executionHint =
     migrationTurnover >= 0.15
-      ? "ÖØÅäĞÅºÅ£ºµ±Ç°³Ö²ÖºÍÍÆ¼ö³Ö²Ö²îÒìÌ«´ó£¬Ó¦¸ÃÓÅÏÈÇĞµ½ÍÆ¼öÅäÖÃ¡£"
+      ? "é‡é…ä¿¡å·ï¼šå½“å‰æŒä»“å’Œæ¨èæŒä»“å·®å¼‚å¤ªå¤§ï¼Œåº”è¯¥ä¼˜å…ˆåˆ‡åˆ°æ¨èé…ç½®ã€‚"
       : migrationTurnover >= 0.05
-        ? "Ğ¡ĞŞĞÅºÅ£ºÖ»¸ÄÆ«²î×î´óµÄ²¿·Ö£¬²»ĞèÒªÈ«Á¿·­²Ö¡£"
-        : "²»¶¯ĞÅºÅ£ºµ±Ç°³Ö²ÖÒÑ¾­½Ó½üÍÆ¼ö³Ö²Ö£¬ÔİÊ±²»ÓÃµ÷Õû¡£";
+        ? "å°ä¿®ä¿¡å·ï¼šåªæ”¹åå·®æœ€å¤§çš„éƒ¨åˆ†ï¼Œä¸éœ€è¦å…¨é‡ç¿»ä»“ã€‚"
+        : "ä¸åŠ¨ä¿¡å·ï¼šå½“å‰æŒä»“å·²ç»æ¥è¿‘æ¨èæŒä»“ï¼Œæš‚æ—¶ä¸ç”¨è°ƒæ•´ã€‚";
   const statusLabel =
     migrationTurnover >= 0.15
-      ? "±ØĞëµ÷"
+      ? "å¿…é¡»è°ƒ"
       : migrationTurnover >= 0.05
-        ? "¿ÉÑ¡ÓÅ»¯"
-        : "Ôİ»ºÖ´ĞĞ";
+        ? "å¯é€‰ä¼˜åŒ–"
+        : "æš‚ç¼“æ‰§è¡Œ";
   const statusBg =
     migrationTurnover >= 0.15
       ? "#fee2e2"
@@ -4439,36 +4439,36 @@ function renderRecommendationTable(
         : "#075985";
   const cadence =
     migrationTurnover >= 0.15
-      ? "½¨Òé±¾ÆÚÖ±½ÓÖ´ĞĞ£¬ÏÈ¼õµô·½Ïò´íÎó»ò·çÏÕ¹ı¸ßµÄ±©Â¶£¬ÔÙ²¹Ä¿±ê±©Â¶¡£"
+      ? "å»ºè®®æœ¬æœŸç›´æ¥æ‰§è¡Œï¼Œå…ˆå‡æ‰æ–¹å‘é”™è¯¯æˆ–é£é™©è¿‡é«˜çš„æš´éœ²ï¼Œå†è¡¥ç›®æ ‡æš´éœ²ã€‚"
       : migrationTurnover >= 0.05
-        ? "½¨Òé×öĞ¡ĞŞ£¬Ö»¸ÄÆ«²î×î´óµÄÉÙÊı×Ê²ú£¬²»±ØÈ«Á¿ÖØÅä¡£"
-        : "½¨ÒéÔİ²»µ÷Õû£¬¼ÌĞø¹Û²ìµ±Ç°ÅäÖÃ¡£";
+        ? "å»ºè®®åšå°ä¿®ï¼Œåªæ”¹åå·®æœ€å¤§çš„å°‘æ•°èµ„äº§ï¼Œä¸å¿…å…¨é‡é‡é…ã€‚"
+        : "å»ºè®®æš‚ä¸è°ƒæ•´ï¼Œç»§ç»­è§‚å¯Ÿå½“å‰é…ç½®ã€‚";
   const triggerLabel =
     migrationTurnover >= 0.15 || migrationCost / Math.max(total, 1) > 0.005
-      ? "½¨ÒéÖØĞÂÅäÖÃ"
+      ? "å»ºè®®é‡æ–°é…ç½®"
       : migrationTurnover >= 0.05
-        ? "½¨ÒéĞ¡ĞŞ"
-        : "Ôİ²»µ÷Õû";
+        ? "å»ºè®®å°ä¿®"
+        : "æš‚ä¸è°ƒæ•´";
   const triggerReason =
     migrationTurnover >= 0.15
-      ? "µ±Ç°³Ö²ÖºÍÍÆ¼ö³Ö²ÖµÄ×ÜÆ«²î½Ï´ó£¬ÒÑ¾­³¬¹ıÖØÅäãĞÖµ¡£"
+      ? "å½“å‰æŒä»“å’Œæ¨èæŒä»“çš„æ€»åå·®è¾ƒå¤§ï¼Œå·²ç»è¶…è¿‡é‡é…é˜ˆå€¼ã€‚"
       : migrationCost / Math.max(total, 1) > 0.005
-        ? "µ÷Õû³É±¾Õ¼±ÈÆ«¸ß£¬ËµÃ÷Õâ´Î±ä»¯²»ÊÇÇáÎ¢ĞŞÕı¡£"
+        ? "è°ƒæ•´æˆæœ¬å æ¯”åé«˜ï¼Œè¯´æ˜è¿™æ¬¡å˜åŒ–ä¸æ˜¯è½»å¾®ä¿®æ­£ã€‚"
         : migrationTurnover >= 0.05
-          ? "ÓĞÃ÷ÏÔÆ«²î£¬µ«»¹Ã»µ½±ØĞëÈ«Á¿ÖØÅäµÄ³Ì¶È¡£"
-          : "µ±Ç°³Ö²ÖÓëÍÆ¼ö³Ö²Ö²îÒì½ÏĞ¡¡£";
+          ? "æœ‰æ˜æ˜¾åå·®ï¼Œä½†è¿˜æ²¡åˆ°å¿…é¡»å…¨é‡é‡é…çš„ç¨‹åº¦ã€‚"
+          : "å½“å‰æŒä»“ä¸æ¨èæŒä»“å·®å¼‚è¾ƒå°ã€‚";
   const triggerAction =
     migrationTurnover >= 0.15
-      ? "°´ÍÆ¼öÅäÖÃÖØĞÂµ÷²Ö£¬²¢ÓÅÏÈ´¦ÀíÆ«²î×î´óµÄ×Ê²ú¡£"
+      ? "æŒ‰æ¨èé…ç½®é‡æ–°è°ƒä»“ï¼Œå¹¶ä¼˜å…ˆå¤„ç†åå·®æœ€å¤§çš„èµ„äº§ã€‚"
       : migrationTurnover >= 0.05
-        ? "Ö»×ö¾Ö²¿ĞŞÕı£¬ÓÅÏÈµ÷ÕûÆ«²î×î´óµÄÉÙÊı×Ê²ú¡£"
-        : "±£³Öµ±Ç°ÅäÖÃ£¬ÔİÊ±²»ĞèÒªµ÷Õû¡£";
+        ? "åªåšå±€éƒ¨ä¿®æ­£ï¼Œä¼˜å…ˆè°ƒæ•´åå·®æœ€å¤§çš„å°‘æ•°èµ„äº§ã€‚"
+        : "ä¿æŒå½“å‰é…ç½®ï¼Œæš‚æ—¶ä¸éœ€è¦è°ƒæ•´ã€‚";
   const splitRule =
     migrationTurnover >= 0.15
-      ? "ÖØÅäÊ±£¬ÏÈ´¦Àíµ±Ç°³Ö²ÖÀï×î³¬Åä¡¢×îÎ£ÏÕµÄ×Ê²ú£¬ÔÙ°ÑÄ¿±ê²ÖÎ»²¹»ØÀ´£¬×îºó°ÑÆ«²îÑ¹»ØãĞÖµÄÚ¡£"
+      ? "é‡é…æ—¶ï¼Œå…ˆå¤„ç†å½“å‰æŒä»“é‡Œæœ€è¶…é…ã€æœ€å±é™©çš„èµ„äº§ï¼Œå†æŠŠç›®æ ‡ä»“ä½è¡¥å›æ¥ï¼Œæœ€åæŠŠåå·®å‹å›é˜ˆå€¼å†…ã€‚"
       : migrationTurnover >= 0.05
-        ? "Ğ¡ĞŞÊ±£¬Ö»¸ÄÆ«²î×î´óµÄÉÙÊı×Ê²ú£¬²»×öÕûÌ×·­ĞÂ¡£"
-        : "²»¶¯Ê±£¬Ö±½Ó±£Áôµ±Ç°ÅäÖÃ¡£";
+        ? "å°ä¿®æ—¶ï¼Œåªæ”¹åå·®æœ€å¤§çš„å°‘æ•°èµ„äº§ï¼Œä¸åšæ•´å¥—ç¿»æ–°ã€‚"
+        : "ä¸åŠ¨æ—¶ï¼Œç›´æ¥ä¿ç•™å½“å‰é…ç½®ã€‚";
   const worthIt =
     migrationTurnover >= 0.05 &&
     (migrationTurnover >= 0.15 || migrationCost / Math.max(total, 1) > 0.005)
@@ -4490,20 +4490,20 @@ function renderRecommendationTable(
     `;
   html += `
     <div style="margin-top:12px;padding:12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;font-size:11px;line-height:1.6;">
-      <div style="font-weight:600;color:#1e40af;margin-bottom:4px;">?? Êµ²Ù»»ÊÖ½¨Òé</div>
-      <div><strong>Õâ´ÎÎªÊ²Ã´»áÌáÊ¾£º</strong>ÏµÍ³±È½ÏµÄÊÇµ±Ç°³Ö²ÖºÍÍÆ¼ö³Ö²ÖµÄÈ¨ÖØ²îÒì£¬Ö»ÓĞ²îÒì³¬¹ıãĞÖµ²ÅÌáÊ¾µ÷Õû¡£</div>
-      <div><strong>µ±Ç°³Ö²ÖÖ¸Ê²Ã´£º</strong>ÄãÏÖÔÚÒ³ÃæÀïÑ¡ÖĞµÄ×éºÏ£¬Ò²¾ÍÊÇ Tab4 Àïµ±Ç°³Ö²ÖÄÇÒ»²à£¬²»ÊÇºê¹ÛÊı¾İ±¾Éí¡£</div>
-      <div><strong>ÅĞ¶¨±ê×¼£º</strong>${migrationTurnover >= 0.15 ? "²îÒìºÜ´ó£¬½¨ÒéÖØÅä" : migrationTurnover >= 0.05 ? "ÓĞÃ÷ÏÔÆ«²î£¬½¨ÒéĞ¡ĞŞ" : "²îÒì½ÏĞ¡£¬Ôİ²»µ÷Õû"}</div>
-      <div><strong>ÊÇ·ñĞèÒªÖØĞÂÅäÖÃ£º</strong>${triggerLabel}¡£${triggerReason}</div>
-      <div><strong>ÖØĞÂÅäÖÃ·½Ê½£º</strong>${triggerAction}</div>
-      <div><strong>Ä¿±êÊÇÊ²Ã´£º</strong>°Ñµ±Ç°³Ö²Öµ÷ÏòÍÆ¼ö³Ö²Ö£¬¶ø²»ÊÇ¼ÌĞøÑØÓÃ¾É±ÈÀı¡£</div>
+      <div style="font-weight:600;color:#1e40af;margin-bottom:4px;">ğŸ“Œ å®æ“æ¢æ‰‹å»ºè®®</div>
+      <div><strong>è¿™æ¬¡ä¸ºä»€ä¹ˆä¼šæç¤ºï¼š</strong>ç³»ç»Ÿæ¯”è¾ƒçš„æ˜¯å½“å‰æŒä»“å’Œæ¨èæŒä»“çš„æƒé‡å·®å¼‚ï¼Œåªæœ‰å·®å¼‚è¶…è¿‡é˜ˆå€¼æ‰æç¤ºè°ƒæ•´ã€‚</div>
+      <div><strong>å½“å‰æŒä»“æŒ‡ä»€ä¹ˆï¼š</strong>ä½ ç°åœ¨é¡µé¢é‡Œé€‰ä¸­çš„ç»„åˆï¼Œä¹Ÿå°±æ˜¯ Tab4 é‡Œå½“å‰æŒä»“é‚£ä¸€ä¾§ï¼Œä¸æ˜¯å®è§‚æ•°æ®æœ¬èº«ã€‚</div>
+      <div><strong>åˆ¤å®šæ ‡å‡†ï¼š</strong>${migrationTurnover >= 0.15 ? "å·®å¼‚å¾ˆå¤§ï¼Œå»ºè®®é‡é…" : migrationTurnover >= 0.05 ? "æœ‰æ˜æ˜¾åå·®ï¼Œå»ºè®®å°ä¿®" : "å·®å¼‚è¾ƒå°ï¼Œæš‚ä¸è°ƒæ•´"}</div>
+      <div><strong>æ˜¯å¦éœ€è¦é‡æ–°é…ç½®ï¼š</strong>${triggerLabel}ã€‚${triggerReason}</div>
+      <div><strong>é‡æ–°é…ç½®æ–¹å¼ï¼š</strong>${triggerAction}</div>
+      <div><strong>ç›®æ ‡æ˜¯ä»€ä¹ˆï¼š</strong>æŠŠå½“å‰æŒä»“è°ƒå‘æ¨èæŒä»“ï¼Œè€Œä¸æ˜¯ç»§ç»­æ²¿ç”¨æ—§æ¯”ä¾‹ã€‚</div>
       <div style="margin-top:6px;padding-top:6px;border-top:1px dashed #bfdbfe;">
-        <div><strong>ÊõÓï½âÊÍ£º</strong></div>
-        <div>1. ÖØĞÂÅäÖÃ = µ±Ç°³Ö²ÖºÍÍÆ¼ö³Ö²Ö²îÒìÒÑ¾­×ã¹»´ó£¬ÖµµÃ¿ªÊ¼µ÷¡£</div>
-        <div>2. Ğ¡ĞŞ = Ö»¸ÄÆ«²î×î´óµÄ²¿·Ö£¬²»ĞèÒªÈ«Á¿»»µô¡£</div>
-        <div>3. ²»¶¯ = µ±Ç°³Ö²ÖÒÑ¾­½Ó½üÍÆ¼ö³Ö²Ö£¬¼ÌĞø³ÖÓĞ¸ü»®Ëã¡£</div>
+        <div><strong>æœ¯è¯­è§£é‡Šï¼š</strong></div>
+        <div>1. é‡æ–°é…ç½® = å½“å‰æŒä»“å’Œæ¨èæŒä»“å·®å¼‚å·²ç»è¶³å¤Ÿå¤§ï¼Œå€¼å¾—å¼€å§‹è°ƒã€‚</div>
+        <div>2. å°ä¿® = åªæ”¹åå·®æœ€å¤§çš„éƒ¨åˆ†ï¼Œä¸éœ€è¦å…¨é‡æ¢æ‰ã€‚</div>
+        <div>3. ä¸åŠ¨ = å½“å‰æŒä»“å·²ç»æ¥è¿‘æ¨èæŒä»“ï¼Œç»§ç»­æŒæœ‰æ›´åˆ’ç®—ã€‚</div>
       </div>
-      <div style="color:#64748b;margin-top:4px;">ËµÃ÷£ºÕâÊÇÒ»Ì×¡°ÊÇ·ñ¸Ã»»ÅäÖÃ¡¢»»µ½Ê²Ã´³Ì¶È¡¢ÔõÃ´¿ªÊ¼¶¯¡±µÄÌáĞÑ£¬²»ÊÇ·ÖÅúÁ÷³ÌËµÃ÷¡£</div>
+      <div style="color:#64748b;margin-top:4px;">è¯´æ˜ï¼šè¿™æ˜¯ä¸€å¥—â€œæ˜¯å¦è¯¥æ¢é…ç½®ã€æ¢åˆ°ä»€ä¹ˆç¨‹åº¦ã€æ€ä¹ˆå¼€å§‹åŠ¨â€çš„æé†’ï¼Œä¸æ˜¯åˆ†æ‰¹æµç¨‹è¯´æ˜ã€‚</div>
     </div>
   `;
   const targetEl = document.getElementById(targetId);
@@ -4512,10 +4512,10 @@ function renderRecommendationTable(
 
 function applyGlobalRecommendation() {
   if (!window._globalOptimalRec) {
-    alert("ÔİÎŞÍÆ¼öÊı¾İ");
+    alert("æš‚æ— æ¨èæ•°æ®");
     return;
   }
-  if (!confirm("È·ÈÏ²ÉÓÃÈ«¾Ö×îÓÅÍÆ¼ö£¿\nÕâ½«¸²¸ÇÄúµ±Ç°µÄÑ¡Ôñ¡£")) return;
+  if (!confirm("ç¡®è®¤é‡‡ç”¨å…¨å±€æœ€ä¼˜æ¨èï¼Ÿ\nè¿™å°†è¦†ç›–æ‚¨å½“å‰çš„é€‰æ‹©ã€‚")) return;
 
   selectedAssets.clear();
   Object.entries(window._globalOptimalRec).forEach(([majorKey, weight]) => {
@@ -4538,47 +4538,47 @@ function applyGlobalRecommendation() {
   });
   renderSelectedAssetsList();
   updateDisplay();
-  generateRecommendation(); // ´¥·¢ÖØĞÂ¼ÆËã
-  alert("? ÒÑÓ¦ÓÃÈ«¾ÖÍÆ¼ö");
+  generateRecommendation(); // è§¦å‘é‡æ–°è®¡ç®—
+  alert("âœ… å·²åº”ç”¨å…¨å±€æ¨è");
 }
 
-// v16.42.1: ²Î¿¼ BL È¨ÖØÖØĞÂÑ¡Ôñ×Ê²ú
-window._blApplied = false; // v16.65 F3 FIX: ·ÀÖØÈë±êÖ¾ (window scope for cross-file reset)
+// v16.42.1: å‚è€ƒ BL æƒé‡é‡æ–°é€‰æ‹©èµ„äº§
+window._blApplied = false; // v16.65 F3 FIX: é˜²é‡å…¥æ ‡å¿— (window scope for cross-file reset)
 function applyBLRecommendation() {
   alert(
-    "BL µ±Ç°½ö×÷Õï¶Ï²Î¿¼£¬²»²ÎÓëÊµÅÌ×Ê²úÑ¡Ôñ¡£\n\nÇëÊ¹ÓÃ P1-LiveFull ÍÆ¼ö×÷ÎªÖ÷Â·¾¶¡£",
+    "BL å½“å‰ä»…ä½œè¯Šæ–­å‚è€ƒï¼Œä¸å‚ä¸å®ç›˜èµ„äº§é€‰æ‹©ã€‚\n\nè¯·ä½¿ç”¨ P1-LiveFull æ¨èä½œä¸ºä¸»è·¯å¾„ã€‚",
   );
   return;
 
   if (window._blApplied) {
     alert(
-      "BL È¨ÖØÒÑÓ¦ÓÃ¹ı¡£ÈçĞèÖØĞÂÓ¦ÓÃ£¬ÇëÏÈµã»÷¡¸Ò»¼üAIÍÆ¼ö¡¹Ë¢ĞÂ P1 »ùÏß¡£",
+      "BL æƒé‡å·²åº”ç”¨è¿‡ã€‚å¦‚éœ€é‡æ–°åº”ç”¨ï¼Œè¯·å…ˆç‚¹å‡»ã€Œä¸€é”®AIæ¨èã€åˆ·æ–° P1 åŸºçº¿ã€‚",
     );
     return;
   }
   const blRec = window._blRecommendation;
   if (!blRec || !blRec.weights) {
-    alert("ÔİÎŞ BL ÍÆ¼öÊı¾İ£¬ÇëÏÈµã»÷¡¸Ò»¼üAIÍÆ¼ö¡¹");
+    alert("æš‚æ—  BL æ¨èæ•°æ®ï¼Œè¯·å…ˆç‚¹å‡»ã€Œä¸€é”®AIæ¨èã€");
     return;
   }
   if (
     !confirm(
-      "½«°´ BL È¨ÖØÑ¡ÔñËùÓĞ×Ê²úÀà±ğ\n£¨Ñ¡Ôñ´óÀàºó P1 ÈÔ»áÖØĞÂ¼ÆËã×îÖÕÅä±È£©\n\n×¢Òâ£º´Ë²Ù×÷Ö»¿ÉÖ´ĞĞÒ»´Î¡£\n¼ÌĞø£¿",
+      "å°†æŒ‰ BL æƒé‡é€‰æ‹©æ‰€æœ‰èµ„äº§ç±»åˆ«\nï¼ˆé€‰æ‹©å¤§ç±»å P1 ä»ä¼šé‡æ–°è®¡ç®—æœ€ç»ˆé…æ¯”ï¼‰\n\næ³¨æ„ï¼šæ­¤æ“ä½œåªå¯æ‰§è¡Œä¸€æ¬¡ã€‚\nç»§ç»­ï¼Ÿ",
     )
   )
     return;
 
   const weights = blRec.weights;
-  // v16.66 FIX: Ñ¡ÔñËùÓĞ BL ÓĞÈ¨ÖØµÄ×Ê²ú£¬²»ÅÅ³ıµÍÈ¨ÖØ×Ê²ú¡£
-  // Ö®Ç°ÓÃ >= 0.02 ãĞÖµÅÅ³ıÁË A¹É/¸Û¹É/ĞÂĞË£¬µ¼ÖÂ P1 ÖØËãÊ±
-  // ·¢´ïÊĞ³¡¶ÀÕ¼ risk ×é ¡ú 0.6·Ö×Ê²ú»ñµÃ 27.1% È¨ÖØ¡£
-  // µÚÒ»ĞÔÔ­Àí: BL È¨ÖØÊÇ²Î¿¼ĞÅºÅ£¬²»Ó¦×÷ÎªÅÅ³ı»úÖÆ¡£
+  // v16.66 FIX: é€‰æ‹©æ‰€æœ‰ BL æœ‰æƒé‡çš„èµ„äº§ï¼Œä¸æ’é™¤ä½æƒé‡èµ„äº§ã€‚
+  // ä¹‹å‰ç”¨ >= 0.02 é˜ˆå€¼æ’é™¤äº† Aè‚¡/æ¸¯è‚¡/æ–°å…´ï¼Œå¯¼è‡´ P1 é‡ç®—æ—¶
+  // å‘è¾¾å¸‚åœºç‹¬å  risk ç»„ â†’ 0.6åˆ†èµ„äº§è·å¾— 27.1% æƒé‡ã€‚
+  // ç¬¬ä¸€æ€§åŸç†: BL æƒé‡æ˜¯å‚è€ƒä¿¡å·ï¼Œä¸åº”ä½œä¸ºæ’é™¤æœºåˆ¶ã€‚
   const selected = Object.entries(weights)
     .filter(([, w]) => w > 0)
     .sort((a, b) => b[1] - a[1]);
 
   if (selected.length === 0) {
-    alert("BL Ã»ÓĞÍÆ¼öÈÎºÎÕıÈ¨ÖØµÄ×Ê²ú£¬Çë¼ì²é BL Õï¶Ï");
+    alert("BL æ²¡æœ‰æ¨èä»»ä½•æ­£æƒé‡çš„èµ„äº§ï¼Œè¯·æ£€æŸ¥ BL è¯Šæ–­");
     return;
   }
 
@@ -4601,8 +4601,8 @@ function applyBLRecommendation() {
   renderSelectedAssetsList();
   updateDisplay();
   generateRecommendation();
-  window._blApplied = true; // v16.65 F3 FIX: Ëø¶¨·ÀÖØÈë
-  alert(`? ÒÑ°´ BL È¨ÖØÑ¡Ôñ ${selected.length} ¸ö×Ê²úÀà±ğ£¬P1 ÕıÔÚÖØĞÂ¼ÆËã`);
+  window._blApplied = true; // v16.65 F3 FIX: é”å®šé˜²é‡å…¥
+  alert(`âœ… å·²æŒ‰ BL æƒé‡é€‰æ‹© ${selected.length} ä¸ªèµ„äº§ç±»åˆ«ï¼ŒP1 æ­£åœ¨é‡æ–°è®¡ç®—`);
 }
 
 function renderScoreDetails() {
@@ -4652,23 +4652,23 @@ function renderScoreDetails() {
             ? "#ef4444"
             : "#f59e0b";
       return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;margin-bottom:4px;background:white;border-radius:4px;border-left:3px solid ${borderColor};">
-                        <div style="flex:1;"><strong style="font-size:12px;">${f.label}</strong><span style="font-size:10px;color:#666;margin-left:8px;">µ±Ç°${f.currValue || "-"} | ÖĞĞÔ${f.neutralValue || "-"}</span></div>
-                        <div style="font-weight:bold;font-size:13px;min-width:60px;text-align:right;color:${textColor}">${parseFloat(f.contribution) > 0 ? "+" : ""}${f.contribution}·Ö</div>
+                        <div style="flex:1;"><strong style="font-size:12px;">${f.label}</strong><span style="font-size:10px;color:#666;margin-left:8px;">å½“å‰${f.currValue || "-"} | ä¸­æ€§${f.neutralValue || "-"}</span></div>
+                        <div style="font-weight:bold;font-size:13px;min-width:60px;text-align:right;color:${textColor}">${parseFloat(f.contribution) > 0 ? "+" : ""}${f.contribution}åˆ†</div>
                     </div>`;
     };
 
     html += `
                     <div class="collapsible collapsed" onclick="this.classList.toggle('collapsed'); this.nextElementSibling.classList.toggle('hidden')">
-                        ${assetLibrary[k].name} <span class="score-badge" style="background:${scoreColor};color:white;">${score}/100</span> ${isSelected ? '<span style="color:#10b981;font-weight:600;">? ÒÑÑ¡</span>' : ""}
+                        ${assetLibrary[k].name} <span class="score-badge" style="background:${scoreColor};color:white;">${score}/100</span> ${isSelected ? '<span style="color:#10b981;font-weight:600;">âœ“ å·²é€‰</span>' : ""}
                     </div>
                     <div class="hidden" style="padding:12px; background:#f4f7f6; border-radius:6px; margin-bottom:12px; border:1px solid #e2e8f0;">
                         <div style="margin-bottom:12px; padding:10px; background:#f8fafc; border-bottom:1px solid #cbd5e1; border-radius:4px; font-size:11px; color:#475569;">
-                            <strong>?? ºËĞÄÆÀ·Ö·Ö½â</strong>
+                            <strong>ğŸ“Š æ ¸å¿ƒè¯„åˆ†åˆ†è§£</strong>
                         </div>
 
                         <!-- Base Factors Section -->
                         <div style="margin-bottom:16px;">
-                            ${baseFactors.length > 0 ? baseFactors.map(renderFactor).join("") : '<div style="font-size:10px;color:#999;padding-left:10px;">(ÎŞ»ù´¡ºê¹ÛÆ«Àë)</div>'}
+                            ${baseFactors.length > 0 ? baseFactors.map(renderFactor).join("") : '<div style="font-size:10px;color:#999;padding-left:10px;">(æ— åŸºç¡€å®è§‚åç¦»)</div>'}
                         </div>
 
                         <!-- Trend Layer Section -->
@@ -4676,7 +4676,7 @@ function renderScoreDetails() {
                           trendFactors.length > 0
                             ? `
                         <div style="margin-top:12px; margin-bottom:8px; padding:4px 10px; background:#f0f9ff; border-radius:4px; color:#0369a1; font-size:11px; font-weight:bold; display:flex; align-items:center; gap:6px;">
-                            <span>?? Ç÷ÊÆÓëÁìÏÈÖ¸±ê²ã (Alpha Overlay)</span>
+                            <span>ğŸ“¡ è¶‹åŠ¿ä¸é¢†å…ˆæŒ‡æ ‡å±‚ (Alpha Overlay)</span>
                         </div>
                         <div style="margin-bottom:12px;">
                             ${trendFactors.map(renderFactor).join("")}
@@ -4686,39 +4686,39 @@ function renderScoreDetails() {
                         }
 
                         <div style="padding:8px 10px;background:#fff3cd;border-left:3px solid #f59e0b;border-radius:4px;margin-top:8px;">
-                            <strong style="font-size:11px;">?? ºËĞÄ½âÎö£º</strong>
+                            <strong style="font-size:11px;">ğŸ“Œ æ ¸å¿ƒè§£æï¼š</strong>
                             <div style="font-size:10px; color:#666; margin-top:4px; line-height:1.5;">
                                 ${data.factors
                                   .map((f) => {
                                     const e =
                                       parseFloat(f.contribution) < -1.5
-                                        ? "?"
+                                        ? "âŒ"
                                         : parseFloat(f.contribution) < -0.5
-                                          ? "??"
+                                          ? "âš ï¸"
                                           : parseFloat(f.contribution) > 0.5
-                                            ? "?"
-                                            : "?";
+                                            ? "âœ…"
+                                            : "â–";
                                     const reasons = {
-                                      ÖĞ¹úÕş²ßÆ«ºÃ:
+                                      ä¸­å›½æ”¿ç­–åå¥½:
                                         parseFloat(f.contribution) < 0
-                                          ? "Õş²ß²»È·¶¨¡ú·çÏÕ¼Ó´ó"
-                                          : "Õş²ßÓĞÀû¡úÎüÒıÁ¦Ôö¼Ó",
-                                      "FedÀûÂÊ (%)":
+                                          ? "æ”¿ç­–ä¸ç¡®å®šâ†’é£é™©åŠ å¤§"
+                                          : "æ”¿ç­–æœ‰åˆ©â†’å¸å¼•åŠ›å¢åŠ ",
+                                      "Fedåˆ©ç‡ (%)":
                                         parseFloat(f.contribution) < 0
-                                          ? "FedÀûÂÊ¸ß¡ú×Ê½ğÍâÁ÷"
-                                          : "FedÀûÂÊµÍ¡ú×Ê½ğ»ØÁ÷",
-                                      "È«ÇòÔöËÙ (%)":
+                                          ? "Fedåˆ©ç‡é«˜â†’èµ„é‡‘å¤–æµ"
+                                          : "Fedåˆ©ç‡ä½â†’èµ„é‡‘å›æµ",
+                                      "å…¨çƒå¢é€Ÿ (%)":
                                         parseFloat(f.contribution) < 0
-                                          ? "ÔöËÙÈõ¡úĞèÇó²»×ã"
-                                          : "ÔöËÙÇ¿¡úĞèÇóÍúÊ¢",
-                                      VIX¿Ö»ÅÖ¸Êı:
+                                          ? "å¢é€Ÿå¼±â†’éœ€æ±‚ä¸è¶³"
+                                          : "å¢é€Ÿå¼ºâ†’éœ€æ±‚æ—ºç››",
+                                      VIXææ…ŒæŒ‡æ•°:
                                         parseFloat(f.contribution) < 0
-                                          ? "¿Ö»ÅÉıÎÂ¡ú¹æ±Ü·çÏÕ"
-                                          : "¿Ö»Å»º½â¡ú·çÏÕÆ«ºÃÌáÉı",
-                                      ¼¼ÊõÃæ¶¯Á¿:
+                                          ? "ææ…Œå‡æ¸©â†’è§„é¿é£é™©"
+                                          : "ææ…Œç¼“è§£â†’é£é™©åå¥½æå‡",
+                                      æŠ€æœ¯é¢åŠ¨é‡:
                                         parseFloat(f.contribution) < 0
-                                          ? "¶¯Á¿Èõ¡úÏÂĞĞÑ¹Á¦"
-                                          : "¶¯Á¿Ç¿¡úÉÏÉı¶¯Á¦",
+                                          ? "åŠ¨é‡å¼±â†’ä¸‹è¡Œå‹åŠ›"
+                                          : "åŠ¨é‡å¼ºâ†’ä¸Šå‡åŠ¨åŠ›",
                                     };
                                     const reasonText =
                                       reasons[f.label] || f.label;
@@ -4735,7 +4735,7 @@ function renderScoreDetails() {
 
 window.addEventListener("load", init);
 
-// V8.7.1: Åä¶îÄ£Ê½¼ÆËã
+// V8.7.1: é…é¢æ¨¡å¼è®¡ç®—
 const assetVolatility = {
   HS300: 0.25,
   TECH100: 0.3,
@@ -4816,8 +4816,8 @@ function calculateSubAllocation(assetKeys, totalAmount) {
     );
   }
 
-  // === v8.26: ÉÌÆ·×ÓÀà±ğÖÇÄÜµ÷Õû ===
-  // ¼ì²éÊÇ·ñÊÇÉÌÆ·´óÀà
+  // === v8.26: å•†å“å­ç±»åˆ«æ™ºèƒ½è°ƒæ•´ ===
+  // æ£€æŸ¥æ˜¯å¦æ˜¯å•†å“å¤§ç±»
   const isCommodity =
     assetKeys.length > 0 &&
     assetKeys[0].includes("_") &&
@@ -4832,24 +4832,24 @@ function calculateSubAllocation(assetKeys, totalAmount) {
     const vixReasonVal = macroData.vixReason || 0;
     const growthVal = macroData.globalGrowth || 2.5;
 
-    // ´´½¨È¨ÖØµ÷ÕûÓ³Éä
+    // åˆ›å»ºæƒé‡è°ƒæ•´æ˜ å°„
     const weights = {};
     assetKeys.forEach((k) => {
-      weights[k] = 1.0; // »ù´¡È¨ÖØ
+      weights[k] = 1.0; // åŸºç¡€æƒé‡
 
-      // Ê¶±ğ×ÓÀà±ğ
+      // è¯†åˆ«å­ç±»åˆ«
       const assetKey = k.split("_").slice(-1)[0];
       const subCatKey = "commodities_" + assetKey;
 
-      // »Æ½ğÔÚÏµÍ³Î£»úÊ±´ó·ùÌáÉıÈ¨ÖØ
+      // é»„é‡‘åœ¨ç³»ç»Ÿå±æœºæ—¶å¤§å¹…æå‡æƒé‡
       if (assetKey === "gold" || subCatKey === "commodities_precious") {
         if (vixReasonVal < -0.7 || vixLevel > 70) {
           weights[k] = 1.4; // +40%
-          console.log("?? Î£»ú»·¾³£º»Æ½ğÈ¨ÖØ+40%");
+          console.log("ğŸ¥‡ å±æœºç¯å¢ƒï¼šé»„é‡‘æƒé‡+40%");
         }
       }
 
-      // ÄÜÔ´ÔÚË¥ÍË/Î£»úÊ±½µµÍÈ¨ÖØ
+      // èƒ½æºåœ¨è¡°é€€/å±æœºæ—¶é™ä½æƒé‡
       if (
         assetKey === "oil" ||
         assetKey === "energy" ||
@@ -4857,14 +4857,14 @@ function calculateSubAllocation(assetKeys, totalAmount) {
       ) {
         if (growthVal < 1.0) {
           weights[k] = 0.5; //  -50%
-          console.log("? Ë¥ÍË»·¾³£¨Ôö³¤<1%£©£ºÄÜÔ´È¨ÖØ-50%");
+          console.log("â›½ è¡°é€€ç¯å¢ƒï¼ˆå¢é•¿<1%ï¼‰ï¼šèƒ½æºæƒé‡-50%");
         } else if (vixLevel > 60) {
           weights[k] = 0.7; // -30%
-          console.log("? Î£»ú»·¾³£¨VIX>60£©£ºÄÜÔ´È¨ÖØ-30%");
+          console.log("â›½ å±æœºç¯å¢ƒï¼ˆVIX>60ï¼‰ï¼šèƒ½æºæƒé‡-30%");
         }
       }
 
-      // ¹¤Òµ½ğÊôÔÚË¥ÍË/Î£»úÊ±½µµÍÈ¨ÖØ
+      // å·¥ä¸šé‡‘å±åœ¨è¡°é€€/å±æœºæ—¶é™ä½æƒé‡
       if (
         assetKey === "copper" ||
         assetKey === "industrial" ||
@@ -4872,17 +4872,17 @@ function calculateSubAllocation(assetKeys, totalAmount) {
       ) {
         if (growthVal < 1.5 || vixLevel > 60) {
           weights[k] = 0.6; // -40%
-          console.log("?? Ë¥ÍË/Î£»ú»·¾³£º¹¤Òµ½ğÊô-40%");
+          console.log("ğŸ­ è¡°é€€/å±æœºç¯å¢ƒï¼šå·¥ä¸šé‡‘å±-40%");
         }
       }
     });
 
-    // Ó¦ÓÃÈ¨ÖØµ÷Õû
+    // åº”ç”¨æƒé‡è°ƒæ•´
     assetKeys.forEach((k) => {
       allocations[k] = (allocations[k] || 0) * weights[k];
     });
 
-    // ÖØĞÂ¹éÒ»»¯µ½totalAmount
+    // é‡æ–°å½’ä¸€åŒ–åˆ°totalAmount
     const adjustedTotal = Object.values(allocations).reduce((a, b) => a + b, 0);
     if (adjustedTotal > 0) {
       assetKeys.forEach((k) => {
@@ -4900,19 +4900,19 @@ function toggleSubRow(rowId) {
   if (row) {
     if (row.style.display === "none") {
       row.style.display = "table-row";
-      if (icon) icon.textContent = "¨‹";
+      if (icon) icon.textContent = "â–¼";
     } else {
       row.style.display = "none";
-      if (icon) icon.textContent = "?";
+      if (icon) icon.textContent = "â–¶";
     }
   }
 }
 
 function renderSelectedAssetsList() {
-  // v10.0: ÇåÀí¾ÉbondsÒıÓÃ£¨ÖÇÄÜÆ¥Åä£©
+  // v10.0: æ¸…ç†æ—§bondså¼•ç”¨ï¼ˆæ™ºèƒ½åŒ¹é…ï¼‰
   const toRemove = [];
   selectedAssets.forEach((id) => {
-    // ÖÇÄÜÆ¥ÅämajorKey£¨´¦ÀíkeyÖĞ°üº¬ÏÂ»®ÏßµÄÇé¿ö£¬Èçbonds_us£©
+    // æ™ºèƒ½åŒ¹é…majorKeyï¼ˆå¤„ç†keyä¸­åŒ…å«ä¸‹åˆ’çº¿çš„æƒ…å†µï¼Œå¦‚bonds_usï¼‰
     let foundMajorKey = null;
     for (const key of Object.keys(assetLibrary)) {
       if (id.startsWith(key + "_")) {
@@ -4921,17 +4921,17 @@ function renderSelectedAssetsList() {
       }
     }
 
-    // Èç¹ûÕÒ²»µ½ÓĞĞ§µÄmajorKey£¬ËµÃ÷ÊÇ¾É×Ê²ú
+    // å¦‚æœæ‰¾ä¸åˆ°æœ‰æ•ˆçš„majorKeyï¼Œè¯´æ˜æ˜¯æ—§èµ„äº§
     if (!foundMajorKey) {
       toRemove.push(id);
-      console.warn(`[v10.0] ×Ô¶¯ÒÆ³ıÎŞĞ§×Ê²ú: ${id}`);
+      console.warn(`[v10.0] è‡ªåŠ¨ç§»é™¤æ— æ•ˆèµ„äº§: ${id}`);
     }
   });
   toRemove.forEach((id) => selectedAssets.delete(id));
 
   if (selectedAssets.size === 0) {
     document.getElementById("selectedAssetsList").innerHTML =
-      '<span style="color: #999;">ÉĞÎ´Ñ¡Ôñ×Ê²ú£¬µã»÷ÉÏ·½×Ê²ú´óÀà¿ªÊ¼Ñ¡Ôñ</span>';
+      '<span style="color: #999;">å°šæœªé€‰æ‹©èµ„äº§ï¼Œç‚¹å‡»ä¸Šæ–¹èµ„äº§å¤§ç±»å¼€å§‹é€‰æ‹©</span>';
     document.getElementById("selectedCountDisplay").textContent = "0";
     document.getElementById("categoryCountDisplay").textContent = "0";
     return;
@@ -4939,7 +4939,7 @@ function renderSelectedAssetsList() {
 
   const grouped = {};
   selectedAssets.forEach((id) => {
-    // v10.0: ÖÇÄÜÆ¥ÅämajorKey£¨´¦Àíbonds_usµÈ°üº¬ÏÂ»®ÏßµÄkey£©
+    // v10.0: æ™ºèƒ½åŒ¹é…majorKeyï¼ˆå¤„ç†bonds_usç­‰åŒ…å«ä¸‹åˆ’çº¿çš„keyï¼‰
     let majorKey = null;
     let assetKey = null;
 
@@ -4959,9 +4959,9 @@ function renderSelectedAssetsList() {
 
   let html = "";
   Object.entries(grouped).forEach(([majorKey, assets]) => {
-    // v8.27: °²È«¼ì²é£¬·ÀÖ¹¾ÉÄ£°åÖĞµÄ¹ıÊ±×Ê²ú´óÀà£¨Èçcommodities£©µ¼ÖÂ±ÀÀ£
+    // v8.27: å®‰å…¨æ£€æŸ¥ï¼Œé˜²æ­¢æ—§æ¨¡æ¿ä¸­çš„è¿‡æ—¶èµ„äº§å¤§ç±»ï¼ˆå¦‚commoditiesï¼‰å¯¼è‡´å´©æºƒ
     if (!assetLibrary[majorKey]) {
-      console.warn(`[v8.27] ºöÂÔ¹ıÊ±»òÎ´ÖªµÄ×Ê²ú´óÀà: ${majorKey}`);
+      console.warn(`[v8.27] å¿½ç•¥è¿‡æ—¶æˆ–æœªçŸ¥çš„èµ„äº§å¤§ç±»: ${majorKey}`);
       return;
     }
     const majorName = assetLibrary[majorKey].name;
@@ -4987,7 +4987,7 @@ function renderSelectedAssetsList() {
       html += `
                         <div style="background: white; border: 1px solid #ddd; padding: 4px 8px; border-radius: 4px; display: flex; align-items: center; gap: 6px;">
                             <span>${assetName}</span>
-                            <span onclick="removeSelectedAsset('${id}')" style="cursor: pointer; color: #ef4444; font-weight: bold;">¡Á</span>
+                            <span onclick="removeSelectedAsset('${id}')" style="cursor: pointer; color: #ef4444; font-weight: bold;">Ã—</span>
                         </div>
                     `;
     });
@@ -5014,10 +5014,10 @@ function removeSelectedAsset(assetId) {
 }
 
 // ========================================
-// v8.12 ³Ö²Ö¶Ô±ÈÍêÕû°æ
+// v8.12 æŒä»“å¯¹æ¯”å®Œæ•´ç‰ˆ
 // ========================================
 
-// ´Ó×Ó×Ê²ú¸üĞÂ´óÀàºÏ¼Æ
+// ä»å­èµ„äº§æ›´æ–°å¤§ç±»åˆè®¡
 function updateMajorFromSubs(majorKey) {
   let total = 0;
   document
@@ -5029,7 +5029,7 @@ function updateMajorFromSubs(majorKey) {
   if (majorInp) majorInp.value = total.toFixed(2);
 }
 
-// ÔöÇ¿³Ö²Ö±í - Ê¹ÓÃ userSubConfig + Æ«²îÁĞÌáĞÑ
+// å¢å¼ºæŒä»“è¡¨ - ä½¿ç”¨ userSubConfig + åå·®åˆ—æé†’
 const _origRenderHoldingTable =
   typeof renderHoldingTable === "function" ? renderHoldingTable : null;
 renderHoldingTable = function () {
@@ -5038,19 +5038,19 @@ renderHoldingTable = function () {
 
   const total = parseFloat(document.getElementById("totalAmount").value) || 100;
   const holdingsSourceLabel =
-    "µ±Ç°³Ö²ÖÓÅÏÈ¶Á localStorage.currentHoldings_v812£»Ã»ÓĞ±£´æÖµÊ±£¬²Å»ØÍËµ½ÍÆ¼ö½ğ¶î";
+    "å½“å‰æŒä»“ä¼˜å…ˆè¯» localStorage.currentHoldings_v812ï¼›æ²¡æœ‰ä¿å­˜å€¼æ—¶ï¼Œæ‰å›é€€åˆ°æ¨èé‡‘é¢";
   let tableHtml = `
     <tr>
       <th colspan="5" style="text-align:left; font-size:11px; color:#475569; background:#f8fafc;">
-        µ±Ç°³Ö²ÖÀ´Ô´ËµÃ÷£º${holdingsSourceLabel}
+        å½“å‰æŒä»“æ¥æºè¯´æ˜ï¼š${holdingsSourceLabel}
       </th>
     </tr>
-    <tr><th>×Ê²ú</th><th>ÍÆ¼ö±ÈÀı</th><th>ÍÆ¼ö½ğ¶î</th><th>µ±Ç°³Ö²Ö(Íò)</th><th>À´Ô´</th><th>Æ«²î</th></tr>`;
+    <tr><th>èµ„äº§</th><th>æ¨èæ¯”ä¾‹</th><th>æ¨èé‡‘é¢</th><th>å½“å‰æŒä»“(ä¸‡)</th><th>æ¥æº</th><th>åå·®</th></tr>`;
 
   let hasRec = Object.keys(currentRec).some((k) => currentRec[k] > 0.001);
   if (!hasRec) {
     tableHtml +=
-      '<tr><td colspan="5" style="text-align:center; color:#999; padding:20px;">ÇëÏÈÉú³ÉAIÍÆ¼öÅäÖÃ</td></tr>';
+      '<tr><td colspan="5" style="text-align:center; color:#999; padding:20px;">è¯·å…ˆç”ŸæˆAIæ¨èé…ç½®</td></tr>';
     table.innerHTML = tableHtml;
     return;
   }
@@ -5102,13 +5102,13 @@ renderHoldingTable = function () {
       '<tr style="background:#e0f2fe;">' +
       '<td style="font-weight:700; color:#1f3c88;">' +
       majorVal.name +
-      " (ºÏ¼Æ)</td>" +
+      " (åˆè®¡)</td>" +
       '<td style="font-weight:600;">' +
       (majorRec * 100).toFixed(1) +
       "%</td>" +
       '<td style="font-weight:600;">' +
       majorRecAmount +
-      "Íò</td>" +
+      "ä¸‡</td>" +
       '<td><input type="number" id="holding_' +
       majorKey +
       '" value="' +
@@ -5117,7 +5117,7 @@ renderHoldingTable = function () {
       inputAttr +
       "></td>" +
       '<td style="font-size:10px; color:#64748b;">' +
-      (savedHoldings["holding_" + majorKey] !== undefined ? "ÒÑ±£´æ" : "ÍÆ¼ö»ØÌî") +
+      (savedHoldings["holding_" + majorKey] !== undefined ? "å·²ä¿å­˜" : "æ¨èå›å¡«") +
       "</td>" +
       '<td id="alert_' +
       majorKey +
@@ -5145,7 +5145,7 @@ renderHoldingTable = function () {
 
       tableHtml +=
         '<tr style="background:#f9fafb;">' +
-        '<td style="padding-left:24px; color:#666;">©¸ ' +
+        '<td style="padding-left:24px; color:#666;">â”” ' +
         assetName +
         "</td>" +
         '<td style="color:#999;">' +
@@ -5153,7 +5153,7 @@ renderHoldingTable = function () {
         "%</td>" +
         '<td style="color:#666;">' +
         subRecAmount +
-        "Íò</td>" +
+        "ä¸‡</td>" +
         '<td><input type="number" id="holding_' +
         uniqueId +
         '" data-target="' +
@@ -5164,7 +5164,7 @@ renderHoldingTable = function () {
         majorKey +
         '\')" style="width:70px;"></td>' +
         '<td style="font-size:10px; color:#64748b;">' +
-        (savedHoldings["holding_" + uniqueId] !== undefined ? "ÒÑ±£´æ" : "ÍÆ¼ö»ØÌî") +
+        (savedHoldings["holding_" + uniqueId] !== undefined ? "å·²ä¿å­˜" : "æ¨èå›å¡«") +
         "</td>" +
         '<td id="alert_' +
         uniqueId +
@@ -5175,18 +5175,18 @@ renderHoldingTable = function () {
 
   tableHtml +=
     '<tr class="total-row" style="background:#f0fdf4;">' +
-    '<td style="font-weight:700;">ºÏ¼Æ</td><td>100%</td>' +
+    '<td style="font-weight:700;">åˆè®¡</td><td>100%</td>' +
     '<td style="font-weight:700;">' +
     total.toFixed(2) +
-    "Íò</td>" +
+    "ä¸‡</td>" +
     '<td style="font-weight:700;" id="holdingTotal">' +
     total.toFixed(2) +
-    "Íò</td>" +
-    '<td style="font-size:10px; color:#64748b;">×Ô¶¯ÅĞ¶¨</td>' +
+    "ä¸‡</td>" +
+    '<td style="font-size:10px; color:#64748b;">è‡ªåŠ¨åˆ¤å®š</td>' +
     "<td></td></tr>";
   table.innerHTML = tableHtml;
 
-  // ³õÊ¼»¯Ê±Á¢¼´¸üĞÂÆ«²îºÍ¶Ô±È
+  // åˆå§‹åŒ–æ—¶ç«‹å³æ›´æ–°åå·®å’Œå¯¹æ¯”
   setTimeout(function () {
     // If we have sub assets, we should recalculate the major total from them to ensure consistency
     // But if we just loaded from save, we trust the save (or re-sum).
@@ -5221,7 +5221,7 @@ function updateAllAlerts() {
 
   const holdingTotalEl = document.getElementById("holdingTotal");
   if (holdingTotalEl)
-    holdingTotalEl.textContent = holdingTotal.toFixed(2) + "Íò";
+    holdingTotalEl.textContent = holdingTotal.toFixed(2) + "ä¸‡";
 
   let rebalanceDetails = [];
 
@@ -5238,35 +5238,35 @@ function updateAllAlerts() {
       let majorAlert = "";
       if (majorDiff > total * 0.02) {
         majorAlert =
-          '<span style="color:#ef4444; font-size:10px; font-weight:600;">¡ı¼õ³Ö' +
+          '<span style="color:#ef4444; font-size:10px; font-weight:600;">â†“å‡æŒ' +
           majorDiff.toFixed(2) +
-          "Íò</span>";
+          "ä¸‡</span>";
         rebalanceDetails.push({
           name: assetLibrary[majorKey].name,
-          action: "Âô³ö",
+          action: "å–å‡º",
           amount: majorDiff,
         });
       } else if (majorDiff < -total * 0.02) {
         majorAlert =
-          '<span style="color:#10b981; font-size:10px; font-weight:600;">¡üÔö³Ö' +
+          '<span style="color:#10b981; font-size:10px; font-weight:600;">â†‘å¢æŒ' +
           Math.abs(majorDiff).toFixed(2) +
-          "Íò</span>";
+          "ä¸‡</span>";
         rebalanceDetails.push({
           name: assetLibrary[majorKey].name,
-          action: "ÂòÈë",
+          action: "ä¹°å…¥",
           amount: Math.abs(majorDiff),
         });
       } else {
         majorAlert =
-          '<span style="color:#22c55e; font-size:10px;">?Õı³£</span>';
+          '<span style="color:#22c55e; font-size:10px;">âœ…æ­£å¸¸</span>';
       }
       majorAlertEl.innerHTML = majorAlert;
 
       const selectedSubs = [];
       selectedAssets.forEach((id) => {
-        // v16.67 FIX: Ê¹ÓÃÇ°×ºÆ¥ÅäÌæ´ú¼òµ¥ split('_')[0]
-        // Ô­Ğ´·¨ const [maj, sub] = id.split('_') ¶Ô bonds_china / bonds_us µÈ
-        // ¸´ºÏ key »á´íÎó½âÎö£¨maj='bonds'£¬ÎŞ·¨Æ¥Åä 'bonds_china'£©
+        // v16.67 FIX: ä½¿ç”¨å‰ç¼€åŒ¹é…æ›¿ä»£ç®€å• split('_')[0]
+        // åŸå†™æ³• const [maj, sub] = id.split('_') å¯¹ bonds_china / bonds_us ç­‰
+        // å¤åˆ key ä¼šé”™è¯¯è§£æï¼ˆmaj='bonds'ï¼Œæ— æ³•åŒ¹é… 'bonds_china'ï¼‰
         let matchMajor = null;
         let matchSub = null;
         for (const libraryKey of Object.keys(assetLibrary)) {
@@ -5292,16 +5292,16 @@ function updateAllAlerts() {
         let subAlert = "";
         if (subDiff > 0.5) {
           subAlert =
-            '<span style="color:#f59e0b; font-size:9px;">¡ı' +
+            '<span style="color:#f59e0b; font-size:9px;">â†“' +
             subDiff.toFixed(2) +
-            "Íò</span>";
+            "ä¸‡</span>";
         } else if (subDiff < -0.5) {
           subAlert =
-            '<span style="color:#3b82f6; font-size:9px;">¡ü' +
+            '<span style="color:#3b82f6; font-size:9px;">â†‘' +
             Math.abs(subDiff).toFixed(2) +
-            "Íò</span>";
+            "ä¸‡</span>";
         } else {
-          subAlert = '<span style="color:#22c55e; font-size:9px;">?</span>';
+          subAlert = '<span style="color:#22c55e; font-size:9px;">âœ“</span>';
         }
         subAlertEl.innerHTML = subAlert;
       });
@@ -5317,14 +5317,14 @@ function updateRebalanceCost(details, holdingTotal) {
 
   if (!details || details.length === 0) {
     panel.innerHTML =
-      '<div style="text-align:center; color:#22c55e; padding:15px;">? ³Ö²ÖÓëÍÆ¼öÒ»ÖÂ£¬ÎŞĞèµ÷²Ö</div>';
+      '<div style="text-align:center; color:#22c55e; padding:15px;">âœ… æŒä»“ä¸æ¨èä¸€è‡´ï¼Œæ— éœ€è°ƒä»“</div>';
     return;
   }
 
   let totalBuy = 0,
     totalSell = 0;
   details.forEach((d) => {
-    if (d.action === "ÂòÈë") totalBuy += d.amount;
+    if (d.action === "ä¹°å…¥") totalBuy += d.amount;
     else totalSell += d.amount;
   });
 
@@ -5333,28 +5333,28 @@ function updateRebalanceCost(details, holdingTotal) {
   let costHtml =
     '<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">' +
     '<div style="background:#fef3c7; padding:10px; border-radius:6px; text-align:center;">' +
-    '<div style="font-size:10px; color:#92400e;">?? Âô³ö</div>' +
+    '<div style="font-size:10px; color:#92400e;">ğŸ“¤ å–å‡º</div>' +
     '<div style="font-size:16px; font-weight:700; color:#d97706;">' +
     totalSell.toFixed(2) +
-    "Íò</div>" +
+    "ä¸‡</div>" +
     "</div>" +
     '<div style="background:#d1fae5; padding:10px; border-radius:6px; text-align:center;">' +
-    '<div style="font-size:10px; color:#065f46;">?? ÂòÈë</div>' +
+    '<div style="font-size:10px; color:#065f46;">ğŸ“¥ ä¹°å…¥</div>' +
     '<div style="font-size:16px; font-weight:700; color:#10b981;">' +
     totalBuy.toFixed(2) +
-    "Íò</div>" +
+    "ä¸‡</div>" +
     "</div>" +
     "</div>";
 
   costHtml +=
-    '<div style="font-size:11px; margin-bottom:8px;"><strong>?? µ÷²ÖÃ÷Ï¸:</strong></div>';
+    '<div style="font-size:11px; margin-bottom:8px;"><strong>ğŸ“‹ è°ƒä»“æ˜ç»†:</strong></div>';
   details.forEach((d) => {
-    const color = d.action === "ÂòÈë" ? "#10b981" : "#ef4444";
+    const color = d.action === "ä¹°å…¥" ? "#10b981" : "#ef4444";
     costHtml +=
       '<div style="padding:4px 8px; background:#f9fafb; margin-bottom:2px; border-left:3px solid ' +
       color +
       '; font-size:11px;">' +
-      (d.action === "ÂòÈë" ? "??" : "??") +
+      (d.action === "ä¹°å…¥" ? "ğŸ“¥" : "ğŸ“¤") +
       " " +
       d.name +
       ': <strong style="color:' +
@@ -5363,15 +5363,15 @@ function updateRebalanceCost(details, holdingTotal) {
       d.action +
       " " +
       d.amount.toFixed(2) +
-      "Íò</strong>" +
+      "ä¸‡</strong>" +
       "</div>";
   });
 
   costHtml +=
     '<div style="background:#fef2f2; padding:8px; border-radius:6px; text-align:center; font-size:11px; margin-top:8px;">' +
-    '<strong style="color:#dc2626;">Ô¤¹À½»Ò×³É±¾: ' +
+    '<strong style="color:#dc2626;">é¢„ä¼°äº¤æ˜“æˆæœ¬: ' +
     totalFee.toFixed(4) +
-    "Íò</strong></div>";
+    "ä¸‡</strong></div>";
 
   panel.innerHTML = costHtml;
 }
@@ -5382,7 +5382,7 @@ function updateComparison() {
 
   const total = parseFloat(document.getElementById("totalAmount").value) || 100;
   let tableHtml =
-    "<tr><th>×Ê²úÀà±ğ</th><th>µ±Ç°³Ö²Ö</th><th>AIÍÆ¼ö</th><th>Æ«²î</th><th>²Ù×÷½¨Òé</th></tr>";
+    "<tr><th>èµ„äº§ç±»åˆ«</th><th>å½“å‰æŒä»“</th><th>AIæ¨è</th><th>åå·®</th><th>æ“ä½œå»ºè®®</th></tr>";
 
   let currentTotal = 0;
   Object.keys(currentRec).forEach((k) => {
@@ -5425,13 +5425,13 @@ function updateComparison() {
         slippage += amount * impact * (turnOverApprox >= 15 ? 0.9 : turnOverApprox >= 8 ? 0.6 : 0.3);
       }
 
-      let action = "³Ö²ÖÎÈ¶¨",
+      let action = "æŒä»“ç¨³å®š",
         actionColor = "#22c55e";
       if (diff > 5) {
-        action = "¼õ³Ö";
+        action = "å‡æŒ";
         actionColor = "#ef4444";
       } else if (diff < -5) {
-        action = "Ôö³Ö";
+        action = "å¢æŒ";
         actionColor = "#10b981";
       }
 
@@ -5440,7 +5440,7 @@ function updateComparison() {
 
     tableHtml +=
       '<tr style="background:#f0f9ff; font-weight:600;">' +
-        '<td style="color:#1f3c88;">¨‹ ' +
+        '<td style="color:#1f3c88;">â–¼ ' +
         assetLibrary[majorKey].name +
         "</td>" +
         "<td>" +
@@ -5496,7 +5496,7 @@ function updateComparison() {
 
         tableHtml +=
           "<tr>" +
-          '<td style="padding-left:24px; color:#666;">©¸ ' +
+          '<td style="padding-left:24px; color:#666;">â”” ' +
           assetName +
           "</td>" +
           '<td style="color:#999;">' +
@@ -5521,16 +5521,16 @@ function updateComparison() {
     Object.keys(currentRec).filter((k) => currentRec[k] > 0.001).length === 0
   ) {
     tableHtml +=
-      '<tr><td colspan="5" style="text-align:center; color:#999;">ÇëÏÈÉú³ÉAIÍÆ¼öÅäÖÃ</td></tr>';
+      '<tr><td colspan="5" style="text-align:center; color:#999;">è¯·å…ˆç”ŸæˆAIæ¨èé…ç½®</td></tr>';
   }
 
   const estimatedCost = baseImpact + sellTax + slippage;
   const summaryHtml = `
     <div style="margin-bottom:10px;padding:12px 14px;border-radius:10px;border:1px solid #bfdbfe;background:#eff6ff;line-height:1.6;">
-      <div style="font-weight:800;color:#1d4ed8;margin-bottom:4px;">?? Ö´ĞĞÕªÒª£ºµ±Ç°³Ö²Ö vs ÍÆ¼ö</div>
-      <div style="font-size:12px;color:#334155;">ÕâÊÇ°´ÄãÏÖÔÚÒ³ÃæÀïµÄµ±Ç°³Ö²ÖºÍ AI ÍÆ¼ö¼ÆËãµÄÖ´ĞĞ²ã³É±¾£¬²»ÊÇÈ«¾Ö×Ê²ú³Ø³É±¾¡£</div>
-      <div style="font-size:12px;color:#334155;margin-top:4px;">ĞèÒªµ÷Õû ${adjustCount} Ïî£¬´ÖÂÔ»»ÊÖ ${turnOverApprox.toFixed(1)}%£¬×î´óÆ«²î ${maxDiffName || "ÔİÎŞ"} ${maxDiffValue.toFixed(1)}%¡£</div>
-      <div style="font-size:12px;color:#334155;margin-top:4px;">Ô¤¼Æ³É±¾£º»ù´¡³å»÷ ${baseImpact.toFixed(4)}Íò + Âô³öÓ¡»¨Ë° ${sellTax.toFixed(4)}Íò + »¬µã»º³å ${slippage.toFixed(4)}Íò = <strong style="color:#b91c1c;">${estimatedCost.toFixed(4)}Íò</strong></div>
+      <div style="font-weight:800;color:#1d4ed8;margin-bottom:4px;">ğŸ§¾ æ‰§è¡Œæ‘˜è¦ï¼šå½“å‰æŒä»“ vs æ¨è</div>
+      <div style="font-size:12px;color:#334155;">è¿™æ˜¯æŒ‰ä½ ç°åœ¨é¡µé¢é‡Œçš„å½“å‰æŒä»“å’Œ AI æ¨èè®¡ç®—çš„æ‰§è¡Œå±‚æˆæœ¬ï¼Œä¸æ˜¯å…¨å±€èµ„äº§æ± æˆæœ¬ã€‚</div>
+      <div style="font-size:12px;color:#334155;margin-top:4px;">éœ€è¦è°ƒæ•´ ${adjustCount} é¡¹ï¼Œç²—ç•¥æ¢æ‰‹ ${turnOverApprox.toFixed(1)}%ï¼Œæœ€å¤§åå·® ${maxDiffName || "æš‚æ— "} ${maxDiffValue.toFixed(1)}%ã€‚</div>
+      <div style="font-size:12px;color:#334155;margin-top:4px;">é¢„è®¡æˆæœ¬ï¼šåŸºç¡€å†²å‡» ${baseImpact.toFixed(4)}ä¸‡ + å–å‡ºå°èŠ±ç¨ ${sellTax.toFixed(4)}ä¸‡ + æ»‘ç‚¹ç¼“å†² ${slippage.toFixed(4)}ä¸‡ = <strong style="color:#b91c1c;">${estimatedCost.toFixed(4)}ä¸‡</strong></div>
     </div>
   `;
 
@@ -5569,9 +5569,9 @@ function saveCurrentHoldings() {
     .sort((a, b) => b.diff - a.diff)
     .slice(0, 3);
   saveExecutionJournal({
-    action: "±£´æ³Ö²Ö",
-    note: `×Ü¶î ${totalHolding.toFixed(2)} Íò`,
-    kind: "Ö´ĞĞ²ã",
+    action: "ä¿å­˜æŒä»“",
+    note: `æ€»é¢ ${totalHolding.toFixed(2)} ä¸‡`,
+    kind: "æ‰§è¡Œå±‚",
     actualWeights: currentWeights,
     topDeviationItems,
   });
@@ -5582,9 +5582,9 @@ function saveCurrentHoldings() {
   const statusEl = document.getElementById("holdingStatus");
   if (statusEl) {
     statusEl.innerHTML =
-      '<div style="background:#d1fae5; color:#065f46; padding:10px; border-radius:6px; text-align:center;">? ³Ö²ÖÒÑ±£´æ£¨×Ü¶î£º' +
+      '<div style="background:#d1fae5; color:#065f46; padding:10px; border-radius:6px; text-align:center;">âœ… æŒä»“å·²ä¿å­˜ï¼ˆæ€»é¢ï¼š' +
       totalHolding.toFixed(2) +
-      "Íò£©</div>";
+      "ä¸‡ï¼‰</div>";
   }
 }
 
@@ -5595,7 +5595,7 @@ function saveCurrentHoldings() {
 function resetHoldingInputs() {
   if (
     !confirm(
-      "È·ÈÏ½«ËùÓĞ³Ö²ÖÖØÖÃÎªAIÍÆ¼öµÄÄ¬ÈÏ½ğ¶î£¿\n\n×¢Òâ£ºÕâ½«¸²¸ÇÄúµ±Ç°µÄÊÖ¶¯ÊäÈë£¬²¢»Ö¸´ÎªÏµÍ³½¨ÒéÖµ¡£",
+      "ç¡®è®¤å°†æ‰€æœ‰æŒä»“é‡ç½®ä¸ºAIæ¨èçš„é»˜è®¤é‡‘é¢ï¼Ÿ\n\næ³¨æ„ï¼šè¿™å°†è¦†ç›–æ‚¨å½“å‰çš„æ‰‹åŠ¨è¾“å…¥ï¼Œå¹¶æ¢å¤ä¸ºç³»ç»Ÿå»ºè®®å€¼ã€‚",
     )
   )
     return;
@@ -5616,12 +5616,12 @@ function resetHoldingInputs() {
     const statusEl = document.getElementById("holdingStatus");
     if (statusEl) {
       statusEl.innerHTML =
-        '<div style="background:#dbeafe; color:#1e40af; padding:10px; border-radius:6px; text-align:center;">?? ÒÑ»Ö¸´ÎªAIÍÆ¼öÅäÖÃ</div>';
+        '<div style="background:#dbeafe; color:#1e40af; padding:10px; border-radius:6px; text-align:center;">ğŸ”„ å·²æ¢å¤ä¸ºAIæ¨èé…ç½®</div>';
     }
   }, 200);
 }
 
-// ¸²¸Ç switchTab ÒÔÔÚÇĞ»»Ê±¸üĞÂ¶Ô±È
+// è¦†ç›– switchTab ä»¥åœ¨åˆ‡æ¢æ—¶æ›´æ–°å¯¹æ¯”
 const _origSwitchTab = typeof switchTab === "function" ? switchTab : null;
 switchTab = function (i) {
   document
@@ -5647,14 +5647,14 @@ switchTab = function (i) {
   }
 };
 
-console.log("v8.12 ³Ö²Ö¶Ô±ÈÍêÕû°æ¼ÓÔØÍê³É");
+console.log("v8.12 æŒä»“å¯¹æ¯”å®Œæ•´ç‰ˆåŠ è½½å®Œæˆ");
 
 // ========================================
-// v8.19 ×ÓÀàÃô¸Ğ¶È²îÒì»¯ (ĞŞ¸´°æ)
+// v8.19 å­ç±»æ•æ„Ÿåº¦å·®å¼‚åŒ– (ä¿®å¤ç‰ˆ)
 // ========================================
 
 const subCategorySensOverrides = {
-  // Õ®È¯ - ÇøÓò»¯´¦Àí
+  // å€ºåˆ¸ - åŒºåŸŸåŒ–å¤„ç†
   bonds_china: {
     fedRate: -0.1,
     cnPolicy: +0.8,
@@ -5685,9 +5685,9 @@ const subCategorySensOverrides = {
     adoption: 0,
   },
 
-  // ÉÌÆ· - Ç¿µ÷²îÒì
+  // å•†å“ - å¼ºè°ƒå·®å¼‚
   commodities_precious: {
-    vix: +0.85, // ÔöÇ¿±ÜÏÕÊôĞÔ£¨´Ó+0.60ÌáÉı£©
+    vix: +0.85, // å¢å¼ºé¿é™©å±æ€§ï¼ˆä»+0.60æå‡ï¼‰
     inflation: +0.9,
     usd: -0.9,
     realYield: -0.85,
@@ -5698,7 +5698,7 @@ const subCategorySensOverrides = {
     growthTrend: -0.3,
   },
   commodities_energy: {
-    vix: -1.0, // ´Ó-0.75ÔöÇ¿µ½-1.0£¨Î£»úÊ±ĞèÇóÍêÈ«±ÀÀ££©
+    vix: -1.0, // ä»-0.75å¢å¼ºåˆ°-1.0ï¼ˆå±æœºæ—¶éœ€æ±‚å®Œå…¨å´©æºƒï¼‰
     globalGrowth: +0.85,
     cnPolicy: +0.6,
     inflation: +0.3,
@@ -5709,7 +5709,7 @@ const subCategorySensOverrides = {
     fedTrend: -0.2,
   },
   commodities_industrial: {
-    vix: -1.0, // ´Ó-0.80ÔöÇ¿µ½-1.0£¨Î£»úÊ±¹¤ÒµĞèÇóÍêÈ«Í£ÖÍ£©
+    vix: -1.0, // ä»-0.80å¢å¼ºåˆ°-1.0ï¼ˆå±æœºæ—¶å·¥ä¸šéœ€æ±‚å®Œå…¨åœæ»ï¼‰
     cnPolicy: +0.85,
     globalGrowth: +0.8,
     usd: -0.5,
@@ -5720,14 +5720,14 @@ const subCategorySensOverrides = {
     growthTrend: +0.6,
   },
   commodities_agriculture: {
-    vix: -0.35, // ĞÂÔö£ºÎ£»úÊ±Ò²ÊÜÓ°Ïìµ«½ÏÇá
+    vix: -0.35, // æ–°å¢ï¼šå±æœºæ—¶ä¹Ÿå—å½±å“ä½†è¾ƒè½»
     inflation: +0.5,
     globalGrowth: +0.4,
     cnPolicy: +0.3,
     adoption: 0,
   },
 
-  // ÃÀ¹ú¹ÉÆ±
+  // ç¾å›½è‚¡ç¥¨
   usStock_broadIndex: { adoption: 0 },
   usStock_technology: {
     fedRate: -0.95,
@@ -5743,7 +5743,7 @@ const subCategorySensOverrides = {
   },
   usStock_sector: { adoption: 0 },
 
-  // ÖĞ¹ú¹ÉÆ± - ½µµÍFedÓ°Ïì
+  // ä¸­å›½è‚¡ç¥¨ - é™ä½Fedå½±å“
   cnStock_domestic: {
     fedRate: -0.2,
     cnPolicy: +1.3,
@@ -5758,7 +5758,7 @@ const subCategorySensOverrides = {
     adoption: 0,
   },
 
-  // ·¢´ïÊĞ³¡
+  // å‘è¾¾å¸‚åœº
   devStock_asia: { usd: +0.5, cnPolicy: +0.3, adoption: 0 },
   devStock_europe: {
     globalGrowth: +0.75,
@@ -5768,7 +5768,7 @@ const subCategorySensOverrides = {
   },
   devStock_northAmerica: { adoption: 0 },
 
-  // ĞÂĞËÊĞ³¡
+  // æ–°å…´å¸‚åœº
   emStock_brics: { usd: -0.6, globalGrowth: +0.8, adoption: 0 },
   emStock_latam: { fedRate: -0.75, usd: -0.7, inflation: +0.2, adoption: 0 },
   emStock_africa: {
@@ -5778,7 +5778,7 @@ const subCategorySensOverrides = {
     adoption: 0,
   },
 
-  // ¼ÓÃÜ - ±£Áôadoption
+  // åŠ å¯† - ä¿ç•™adoption
   crypto_major: { adoption: +0.95, momentum: +0.9 },
   crypto_altcoins: {
     momentum: +1.0,
@@ -5786,7 +5786,7 @@ const subCategorySensOverrides = {
     adoption: +0.85,
   },
 
-  // ¶Ô³å
+  // å¯¹å†²
   hedges_volatility: { vix: +0.95, momentum: 0, adoption: 0 },
   hedges_cash: {
     fedRate: +0.2,
@@ -5799,7 +5799,7 @@ const subCategorySensOverrides = {
   hedges_relative: { vix: +0.4, momentum: 0, adoption: 0 },
 };
 
-// ¸¨Öúº¯Êı£º´Ó×Ê²úIDÕÒµ½×ÓÀà¼ü
+// è¾…åŠ©å‡½æ•°ï¼šä»èµ„äº§IDæ‰¾åˆ°å­ç±»é”®
 function getSubCategoryKey(majorKey, assetKey) {
   const major = assetLibrary[majorKey];
   if (!major) return null;
@@ -5812,19 +5812,19 @@ function getSubCategoryKey(majorKey, assetKey) {
   return null;
 }
 
-// ¼ÆËã×Ó×Ê²úÆÀ·Ö
+// è®¡ç®—å­èµ„äº§è¯„åˆ†
 function calcSubAssetScore(majorKey, assetKey, macroVals) {
   const cat = assetLibrary[majorKey];
   if (!cat) return null;
 
-  // ÕÒµ½×ÓÀà¼ü
+  // æ‰¾åˆ°å­ç±»é”®
   const subCatKey = getSubCategoryKey(majorKey, assetKey);
   if (!subCatKey) return null;
 
-  // »ù´¡Ãô¸Ğ¶È = ´óÀàÃô¸Ğ¶È
+  // åŸºç¡€æ•æ„Ÿåº¦ = å¤§ç±»æ•æ„Ÿåº¦
   const baseSens = { ...cat.sens };
 
-  // ºÏ²¢×ÓÀà¸²¸Ç
+  // åˆå¹¶å­ç±»è¦†ç›–
   const overrideKey = majorKey + "_" + subCatKey;
   const overrides = subCategorySensOverrides[overrideKey] || {};
   const mergedSens = { ...baseSens, ...overrides };
@@ -5833,7 +5833,7 @@ function calcSubAssetScore(majorKey, assetKey, macroVals) {
   let factors = [];
   const hasOverride = Object.keys(overrides).length > 0;
 
-  // v11.34 Phase 13.1: Ê¹ÓÃ¹²ÓÃ¸¨Öúº¯Êı£¨¼õÉÙ´úÂëÖØ¸´£©
+  // v11.34 Phase 13.1: ä½¿ç”¨å…±ç”¨è¾…åŠ©å‡½æ•°ï¼ˆå‡å°‘ä»£ç é‡å¤ï¼‰
   const factorLimits = { cnPolicy: 35, creditSpread: 28, default: 20 };
 
   Object.entries(mergedSens).forEach(([ind, sens]) => {
@@ -5842,10 +5842,10 @@ function calcSubAssetScore(majorKey, assetKey, macroVals) {
       macroVals[ind] !== undefined ? macroVals[ind] : macroIndics[ind].current;
     const neutral = macroIndics[ind].neutral;
 
-    // Ê¹ÓÃ¹²ÓÃÆ«Àë¶È¼ÆËã
+    // ä½¿ç”¨å…±ç”¨åç¦»åº¦è®¡ç®—
     const dev = calculateDeviation(curr, neutral, ind, majorKey);
 
-    // Ê¹ÓÃ¹²ÓÃÀûÂÊÃô¸Ğ¶Èµ÷Õû
+    // ä½¿ç”¨å…±ç”¨åˆ©ç‡æ•æ„Ÿåº¦è°ƒæ•´
     let adjustedSens = sens;
     let reasonNote = "";
     if (ind === "fedRate") {
@@ -5858,7 +5858,7 @@ function calcSubAssetScore(majorKey, assetKey, macroVals) {
       reasonNote = rateAdj.reasonNote;
     }
 
-    // Ê¹ÓÃ¹²ÓÃ¹±Ï×¼ÆËã
+    // ä½¿ç”¨å…±ç”¨è´¡çŒ®è®¡ç®—
     const contrib = calculateContribution(adjustedSens, dev, ind, factorLimits);
     score += contrib.contribution;
 
@@ -5874,7 +5874,7 @@ function calcSubAssetScore(majorKey, assetKey, macroVals) {
     }
   });
 
-  // ÏŞÖÆ·¶Î§ (Prior to Bonus)
+  // é™åˆ¶èŒƒå›´ (Prior to Bonus)
   score = Math.max(0, Math.min(100, score));
 
   // FIX: Apply Regime/Reason Adjustments (Stagflation, Liquidity, Valuations)
@@ -5885,8 +5885,8 @@ function calcSubAssetScore(majorKey, assetKey, macroVals) {
   score = bonusRes.score;
 
   // ========================================
-  // ×Ó×Ê²ú×¨Êô·Ö»¯
-  // Ö»±£ÁôÕæÕıÓĞ½á¹¹²îÒìµÄ×¨Êô¹æÔò£¬²»ÔÙµş¼ÓÍ¨ÓÃ¸²¸Ç²ã¡£
+  // å­èµ„äº§ä¸“å±åˆ†åŒ–
+  // åªä¿ç•™çœŸæ­£æœ‰ç»“æ„å·®å¼‚çš„ä¸“å±è§„åˆ™ï¼Œä¸å†å åŠ é€šç”¨è¦†ç›–å±‚ã€‚
   // ========================================
   const fedRateVal = parseFloat(macroVals.fedRate) || 0;
   const realYieldVal = parseFloat(macroVals.realYield) || 0;
@@ -6010,19 +6010,19 @@ function calcSubAssetScore(majorKey, assetKey, macroVals) {
   };
 }
 
-console.log("v8.19 ×ÓÀàÃô¸Ğ¶ÈĞŞ¸´°æ¼ÓÔØÍê³É");
+console.log("v8.19 å­ç±»æ•æ„Ÿåº¦ä¿®å¤ç‰ˆåŠ è½½å®Œæˆ");
 
 // ========================================
-// v8.19 ´óÀàÆÀ·Ö¾ÛºÏĞŞÕı
+// v8.19 å¤§ç±»è¯„åˆ†èšåˆä¿®æ­£
 // ========================================
 
 /* [v13.8.5] Deprecated in favor of algo.js refined logic
 const _originalCalcAssetScore = calcAssetScore;
 calcAssetScore = function (majorKey, macroVals) {
-    // ÏÈ»ñÈ¡Ô­Ê¼´óÀàÆÀ·Ö
+    // å…ˆè·å–åŸå§‹å¤§ç±»è¯„åˆ†
     const originalResult = _originalCalcAssetScore(majorKey, macroVals);
 
-    // ¼ì²éÊÇ·ñÓĞÒÑÑ¡µÄ×Ó×Ê²ú
+    // æ£€æŸ¥æ˜¯å¦æœ‰å·²é€‰çš„å­èµ„äº§
     const selectedSubs = [];
     selectedAssets.forEach(id => {
         // v10.0 FIX: Smart matching for major keys with underscores (e.g., bonds_us)
@@ -6043,12 +6043,12 @@ calcAssetScore = function (majorKey, macroVals) {
         }
     });
 
-    // Èç¹ûÃ»ÓĞÑ¡Ôñ×Ó×Ê²ú£¬·µ»ØÔ­Ê¼ÆÀ·Ö
+    // å¦‚æœæ²¡æœ‰é€‰æ‹©å­èµ„äº§ï¼Œè¿”å›åŸå§‹è¯„åˆ†
     if (selectedSubs.length === 0) {
         return originalResult;
     }
 
-    // ¼ÆËãËùÓĞÒÑÑ¡×Ó×Ê²úµÄÆÀ·Ö
+    // è®¡ç®—æ‰€æœ‰å·²é€‰å­èµ„äº§çš„è¯„åˆ†
     let totalScore = 0;
     let subScores = [];
 
@@ -6061,19 +6061,19 @@ calcAssetScore = function (majorKey, macroVals) {
         }
     });
 
-    // ¼ÆËã¼ÓÈ¨Æ½¾ù£¨Ä¿Ç°µÈÈ¨£©
+    // è®¡ç®—åŠ æƒå¹³å‡ï¼ˆç›®å‰ç­‰æƒï¼‰
     const avgScore = (totalScore / selectedSubs.length).toFixed(1);
 
-    // ÔÚfactorsÖĞÌí¼Ó¾ÛºÏËµÃ÷
+    // åœ¨factorsä¸­æ·»åŠ èšåˆè¯´æ˜
     const aggregatedFactors = originalResult.factors;
     aggregatedFactors.unshift({
         indicator: '_aggregate',
-        label: '?? ¾ÛºÏÆÀ·Ö',
+        label: 'ğŸ“Š èšåˆè¯„åˆ†',
         sensitivity: '-',
-        currValue: selectedSubs.length + '¸ö×Ó×Ê²ú',
+        currValue: selectedSubs.length + 'ä¸ªå­èµ„äº§',
         neutralValue: '-',
         deviation: '-',
-        contribution: '¼ÓÈ¨Æ½¾ù'
+        contribution: 'åŠ æƒå¹³å‡'
     });
 
     return {
@@ -6087,7 +6087,7 @@ calcAssetScore = function (majorKey, macroVals) {
                 .filter(f => Math.abs(parseFloat(f.contribution)) > 5) // Only significant factors
                 .sort((a, b) => Math.abs(parseFloat(b.contribution)) - Math.abs(parseFloat(a.contribution))) // Sort by impact
                 .slice(0, 2) // Top 2
-                .map(f => `${f.label.replace(/[:£º].*$/, '')} (${f.contribution})`) // Clean label
+                .map(f => `${f.label.replace(/[:ï¼š].*$/, '')} (${f.contribution})`) // Clean label
             : []),
         macroAdjustment: originalResult.macroAdjustment,
         reasonBonus: originalResult.reasonBonus,
@@ -6096,13 +6096,13 @@ calcAssetScore = function (majorKey, macroVals) {
 };
 */
 
-// ¸üĞÂÆÀ·Ö²ğ½âÏÔÊ¾ÒÔ·´Ó³¾ÛºÏ
+// æ›´æ–°è¯„åˆ†æ‹†è§£æ˜¾ç¤ºä»¥åæ˜ èšåˆ
 const _origRenderScoreDetails2 = renderScoreDetails;
 renderScoreDetails = function () {
-  // µ÷ÓÃÔ­ÓĞÂß¼­
+  // è°ƒç”¨åŸæœ‰é€»è¾‘
   _origRenderScoreDetails2();
 
-  // ÔÚ¶¥²¿Ìí¼Ó¾ÛºÏËµÃ÷
+  // åœ¨é¡¶éƒ¨æ·»åŠ èšåˆè¯´æ˜
   const panel = document.getElementById("scoreDetailsPanel");
   if (!panel) return;
 
@@ -6121,18 +6121,18 @@ renderScoreDetails = function () {
     infoBox.className = "info-box";
     infoBox.style.marginBottom = "12px";
     infoBox.innerHTML =
-      "?? <strong>ÆÀ·Ö¾ÛºÏÄ£Ê½</strong>£º´óÀàÆÀ·Ö = ÒÑÑ¡×Ó×Ê²úÆÀ·ÖµÄ¼ÓÈ¨Æ½¾ù£¬¸ü×¼È··´Ó³ÄúµÄÊµ¼Ê³Ö²Ö";
+      "ğŸ“Š <strong>è¯„åˆ†èšåˆæ¨¡å¼</strong>ï¼šå¤§ç±»è¯„åˆ† = å·²é€‰å­èµ„äº§è¯„åˆ†çš„åŠ æƒå¹³å‡ï¼Œæ›´å‡†ç¡®åæ˜ æ‚¨çš„å®é™…æŒä»“";
     panel.insertBefore(infoBox, panel.firstChild);
   }
 };
 
-console.log("v8.19 ´óÀàÆÀ·Ö¾ÛºÏĞŞÕı¼ÓÔØÍê³É");
+console.log("v8.19 å¤§ç±»è¯„åˆ†èšåˆä¿®æ­£åŠ è½½å®Œæˆ");
 
 // ========================================
-// v8.19 Ë«¹ìÆÀ·ÖÏµÍ³
+// v8.19 åŒè½¨è¯„åˆ†ç³»ç»Ÿ
 // ========================================
 
-// ÖØĞ´ renderScoreDetails ÒÔÏÔÊ¾Ë«¹ìÆÀ·Ö
+// é‡å†™ renderScoreDetails ä»¥æ˜¾ç¤ºåŒè½¨è¯„åˆ†
 const _origRenderScoreDetails_v815 =
   typeof renderScoreDetails === "function" ? renderScoreDetails : null;
 renderScoreDetails = function () {
@@ -6142,9 +6142,9 @@ renderScoreDetails = function () {
   const macroVals = getMacroValues();
   let html = "";
 
-  // ±éÀúÃ¿¸öÓĞÑ¡ÖĞ×Ê²úµÄ´óÀà
+  // éå†æ¯ä¸ªæœ‰é€‰ä¸­èµ„äº§çš„å¤§ç±»
   Object.entries(assetLibrary).forEach(([majorKey, majorVal]) => {
-    // ¼ì²éÊÇ·ñÓĞÑ¡ÖĞµÄ×Ó×Ê²ú
+    // æ£€æŸ¥æ˜¯å¦æœ‰é€‰ä¸­çš„å­èµ„äº§
     const selectedSubs = [];
     selectedAssets.forEach((id) => {
       const parts = id.split("_");
@@ -6155,7 +6155,7 @@ renderScoreDetails = function () {
 
     if (selectedSubs.length === 0) return;
 
-    // ¼ÆËãÀà±ğÆÀ·Ö£¨Ê¹ÓÃ´óÀàÃô¸Ğ¶È£© - v14.4 Fix: Recalculate to avoid mutated scores
+    // è®¡ç®—ç±»åˆ«è¯„åˆ†ï¼ˆä½¿ç”¨å¤§ç±»æ•æ„Ÿåº¦ï¼‰ - v14.4 Fix: Recalculate to avoid mutated scores
     // Recalculate pure Beta score, avoid mutated assetScores[majorKey]
     const betaScoreObj =
       window._useV98Scoring && typeof calcAssetScore_v98 === "function"
@@ -6167,7 +6167,7 @@ renderScoreDetails = function () {
     const catColor =
       catScoreVal >= 60 ? "#10b981" : catScoreVal >= 40 ? "#f59e0b" : "#ef4444";
 
-    // ¼ÆËã×Ó×Ê²úÆÀ·Ö
+    // è®¡ç®—å­èµ„äº§è¯„åˆ†
     const subScoresList = [];
     selectedSubs.forEach((assetKey) => {
       const subScore = calcSubAssetScore(majorKey, assetKey, macroVals);
@@ -6187,7 +6187,7 @@ renderScoreDetails = function () {
       }
     });
 
-    // ¼ÆËã³Ö²ÖÆÀ·Ö£¨×Ó×Ê²ú¼ÓÈ¨Æ½¾ù£©
+    // è®¡ç®—æŒä»“è¯„åˆ†ï¼ˆå­èµ„äº§åŠ æƒå¹³å‡ï¼‰
     const avgScore =
       subScoresList.length > 0
         ? (
@@ -6199,25 +6199,25 @@ renderScoreDetails = function () {
     const avgColor =
       avgScoreVal >= 60 ? "#10b981" : avgScoreVal >= 40 ? "#f59e0b" : "#ef4444";
 
-    // äÖÈ¾Ë«¹ìÆÀ·Ö¿¨Æ¬
+    // æ¸²æŸ“åŒè½¨è¯„åˆ†å¡ç‰‡
     html +=
       '<div class="card" style="margin-bottom: 16px; border-left: 4px solid ' +
       catColor +
       ';">';
     html +=
       '<div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">';
-    html += "<span>" + majorVal.name + " ?ÒÑÑ¡</span>";
+    html += "<span>" + majorVal.name + " âœ“å·²é€‰</span>";
     html += "</div>";
 
-    // Ë«¹ìÆÀ·ÖÕªÒª
+    // åŒè½¨è¯„åˆ†æ‘˜è¦
     html +=
       '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">';
 
-    // ×ó²à£ºÀà±ğÆÀ·Ö
+    // å·¦ä¾§ï¼šç±»åˆ«è¯„åˆ†
     html +=
       '<div style="background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 100%); padding: 12px; border-radius: 8px; text-align: center;">';
     html +=
-      '<div style="font-size: 10px; color: #92400e; margin-bottom: 4px;">?? Àà±ğÆÀ·Ö</div>';
+      '<div style="font-size: 10px; color: #92400e; margin-bottom: 4px;">ğŸ“Š ç±»åˆ«è¯„åˆ†</div>';
     html +=
       '<div style="font-size: 24px; font-weight: 700; color: ' +
       catColor +
@@ -6225,14 +6225,14 @@ renderScoreDetails = function () {
       categoryScore.score +
       "</div>";
     html +=
-      '<div style="font-size: 9px; color: #78716c;">ºê¹Û»·¾³¶Ô´ËÀà×Ê²úµÄÊÊÅä¶È</div>';
+      '<div style="font-size: 9px; color: #78716c;">å®è§‚ç¯å¢ƒå¯¹æ­¤ç±»èµ„äº§çš„é€‚é…åº¦</div>';
     html += "</div>";
 
-    // ÓÒ²à£º³Ö²ÖÆÀ·Ö
+    // å³ä¾§ï¼šæŒä»“è¯„åˆ†
     html +=
       '<div style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); padding: 12px; border-radius: 8px; text-align: center;">';
     html +=
-      '<div style="font-size: 10px; color: #065f46; margin-bottom: 4px;">?? ³Ö²ÖÆÀ·Ö</div>';
+      '<div style="font-size: 10px; color: #065f46; margin-bottom: 4px;">ğŸ“¦ æŒä»“è¯„åˆ†</div>';
     html +=
       '<div style="font-size: 24px; font-weight: 700; color: ' +
       avgColor +
@@ -6240,7 +6240,7 @@ renderScoreDetails = function () {
       avgScore +
       "</div>";
     html +=
-      '<div style="font-size: 9px; color: #78716c;">ÄúÑ¡ÔñµÄ¾ßÌå×Ê²ú±íÏÖ</div>';
+      '<div style="font-size: 9px; color: #78716c;">æ‚¨é€‰æ‹©çš„å…·ä½“èµ„äº§è¡¨ç°</div>';
     html += "</div>";
 
     html += "</div>";
@@ -6251,23 +6251,23 @@ renderScoreDetails = function () {
       html +=
         '<div style="background:#eff6ff; border:1px solid #bfdbfe; padding:10px; border-radius:8px; font-size:10px; margin-bottom:12px; color:#1e3a8a;">';
       html +=
-        "?? <strong>×Ó×Ê²ú²îÒìÌáÊ¾£º</strong> µ±Ç°Ñ¡ÖĞ " +
+        "ğŸ§­ <strong>å­èµ„äº§å·®å¼‚æç¤ºï¼š</strong> å½“å‰é€‰ä¸­ " +
         subScoresList.length +
-        " ¸ö×Ó×Ê²ú£¬×î¸ß " +
+        " ä¸ªå­èµ„äº§ï¼Œæœ€é«˜ " +
         topSub.name +
         " " +
         topSub.score.toFixed(1) +
-        " ·Ö£¬×îµÍ " +
+        " åˆ†ï¼Œæœ€ä½ " +
         bottomSub.name +
         " " +
         bottomSub.score.toFixed(1) +
-        " ·Ö£¬¾ùÖµ " +
+        " åˆ†ï¼Œå‡å€¼ " +
         avgScore +
-        " ·Ö¡£";
+        " åˆ†ã€‚";
       html += "</div>";
     }
 
-    // ÆÀ·Ö²îÒìÌáÊ¾
+    // è¯„åˆ†å·®å¼‚æç¤º
     const diff = avgScoreVal - catScoreVal;
     if (Math.abs(diff) > 10) {
       html +=
@@ -6275,28 +6275,28 @@ renderScoreDetails = function () {
       if (diff > 0) {
         html += 'background: #d1fae5; color: #065f46;">';
         html +=
-          "?? <strong>ÄúµÄÑ¡ÔñÓÅÓÚÀà±ğÆ½¾ù£¡</strong> ÄúÑ¡µÄ¾ßÌå×Ê²ú(" +
+          "ğŸ’¡ <strong>æ‚¨çš„é€‰æ‹©ä¼˜äºç±»åˆ«å¹³å‡ï¼</strong> æ‚¨é€‰çš„å…·ä½“èµ„äº§(" +
           avgScore +
-          "·Ö)±ÈÀà±ğÕûÌå(" +
+          "åˆ†)æ¯”ç±»åˆ«æ•´ä½“(" +
           categoryScore.score +
-          "·Ö)¸ß" +
+          "åˆ†)é«˜" +
           diff.toFixed(1) +
-          "·Ö";
+          "åˆ†";
       } else {
         html += 'background: #fef3c7; color: #92400e;">';
-        html += "?? <strong>ÄúµÄÑ¡ÔñµÍÓÚÀà±ğÆ½¾ù</strong> ¿¼ÂÇµ÷Õû¾ßÌå×Ê²úÅäÖÃ";
+        html += "âš ï¸ <strong>æ‚¨çš„é€‰æ‹©ä½äºç±»åˆ«å¹³å‡</strong> è€ƒè™‘è°ƒæ•´å…·ä½“èµ„äº§é…ç½®";
       }
       html += "</div>";
     }
 
-    // Àà±ğÆÀ·ÖÒò×Ó£¨ÕÛµşÏÔÊ¾£©
+    // ç±»åˆ«è¯„åˆ†å› å­ï¼ˆæŠ˜å æ˜¾ç¤ºï¼‰
     html +=
       "<div class=\"collapsible collapsed\" onclick=\"this.classList.toggle('collapsed'); this.nextElementSibling.classList.toggle('hidden');\">";
-    html += "Àà±ğÆÀ·ÖÒò×Ó²ğ½â (" + categoryScore.factors.length + "Ïî)";
+    html += "ç±»åˆ«è¯„åˆ†å› å­æ‹†è§£ (" + categoryScore.factors.length + "é¡¹)";
     html += "</div>";
     html += '<div class="hidden" style="margin-bottom: 12px;">';
     html +=
-      '<table style="font-size: 10px;"><tr><th>Ö¸±ê</th><th>Ãô¸Ğ¶È</th><th>¹±Ï×</th></tr>';
+      '<table style="font-size: 10px;"><tr><th>æŒ‡æ ‡</th><th>æ•æ„Ÿåº¦</th><th>è´¡çŒ®</th></tr>';
     categoryScore.factors.forEach((f) => {
       const contrib = parseFloat(f.contribution);
       const contribColor = contrib > 0 ? "#10b981" : "#ef4444";
@@ -6307,15 +6307,15 @@ renderScoreDetails = function () {
         '; font-weight:600;">' +
         (contrib > 0 ? "+" : "") +
         f.contribution +
-        "·Ö</td></tr>";
+        "åˆ†</td></tr>";
     });
     html += "</table></div>";
 
-    // ×Ó×Ê²úÆÀ·ÖÁĞ±í
+    // å­èµ„äº§è¯„åˆ†åˆ—è¡¨
     html +=
       '<div style="background: #f9fafb; padding: 10px; border-radius: 8px;">';
     html +=
-      '<div style="font-size: 11px; font-weight: 600; color: #374151; margin-bottom: 8px;">?? ÄúÑ¡ÔñµÄ×Ó×Ê²úÆÀ·Ö</div>';
+      '<div style="font-size: 11px; font-weight: 600; color: #374151; margin-bottom: 8px;">ğŸ“¦ æ‚¨é€‰æ‹©çš„å­èµ„äº§è¯„åˆ†</div>';
 
     subScoresList.forEach((sub) => {
       const subColor =
@@ -6336,7 +6336,7 @@ renderScoreDetails = function () {
         subColor +
         '; font-size: 14px;">' +
         sub.score.toFixed(1) +
-        "·Ö ?</span>";
+        "åˆ† âš¡</span>";
       html += "</div>";
     });
 
@@ -6346,15 +6346,15 @@ renderScoreDetails = function () {
 
   if (html === "") {
     html =
-      '<div style="text-align: center; color: #999; padding: 40px;">ÇëÏÈÑ¡Ôñ×Ê²ú²¢Éú³ÉAIÍÆ¼ö</div>';
+      '<div style="text-align: center; color: #999; padding: 40px;">è¯·å…ˆé€‰æ‹©èµ„äº§å¹¶ç”ŸæˆAIæ¨è</div>';
   } else {
-    // Ìí¼ÓÍ¼ÀıËµÃ÷
+    // æ·»åŠ å›¾ä¾‹è¯´æ˜
     html =
       '<div class="info-box" style="margin-bottom: 16px;">' +
-      "<strong>?? Ë«¹ìÆÀ·ÖÏµÍ³</strong><br/>" +
-      "? <strong>Àà±ğÆÀ·Ö</strong>£º¸Ã×Ê²úÀà±ğÔÚµ±Ç°ºê¹Û»·¾³ÏÂµÄÕûÌåÊÊÅä¶È<br/>" +
-      "? <strong>³Ö²ÖÆÀ·Ö</strong>£ºÄúÑ¡ÔñµÄ¾ßÌå×Ó×Ê²úµÄ¼ÓÈ¨Æ½¾ùÆÀ·Ö<br/>" +
-      "? µ±Á½Õß²îÒì>10·ÖÊ±£¬ËµÃ÷ÄúµÄÑ¡ÔñÓëÀà±ğÕûÌåÇ÷ÊÆÓĞÏÔÖø²îÒì" +
+      "<strong>ğŸ“Š åŒè½¨è¯„åˆ†ç³»ç»Ÿ</strong><br/>" +
+      "â€¢ <strong>ç±»åˆ«è¯„åˆ†</strong>ï¼šè¯¥èµ„äº§ç±»åˆ«åœ¨å½“å‰å®è§‚ç¯å¢ƒä¸‹çš„æ•´ä½“é€‚é…åº¦<br/>" +
+      "â€¢ <strong>æŒä»“è¯„åˆ†</strong>ï¼šæ‚¨é€‰æ‹©çš„å…·ä½“å­èµ„äº§çš„åŠ æƒå¹³å‡è¯„åˆ†<br/>" +
+      "â€¢ å½“ä¸¤è€…å·®å¼‚>10åˆ†æ—¶ï¼Œè¯´æ˜æ‚¨çš„é€‰æ‹©ä¸ç±»åˆ«æ•´ä½“è¶‹åŠ¿æœ‰æ˜¾è‘—å·®å¼‚" +
       "</div>" +
       html;
   }
@@ -6362,20 +6362,20 @@ renderScoreDetails = function () {
   panel.innerHTML = html;
 };
 
-console.log("ui.js?v=14.5:3820 v8.19 Ë«¹ìÆÀ·ÖÏµÍ³¼ÓÔØÍê³É");
+console.log("ui.js?v=14.5:3820 v8.19 åŒè½¨è¯„åˆ†ç³»ç»ŸåŠ è½½å®Œæˆ");
 
 // ========================================
-// v8.19 Ë«¹ìÆÀ·ÖĞŞ¸´
+// v8.19 åŒè½¨è¯„åˆ†ä¿®å¤
 // ========================================
 
 /**
- * v11.25: z-scoreÆ«Àë¶È¼ÆËãº¯Êı
- * Ê¹ÓÃÀúÊ·±ê×¼²î±ê×¼»¯Æ«Àë¶È£¬¿ÆÑ§ĞÔÇ¿ÓÚ¼òµ¥°Ù·Ö±È·¨
+ * v11.25: z-scoreåç¦»åº¦è®¡ç®—å‡½æ•°
+ * ä½¿ç”¨å†å²æ ‡å‡†å·®æ ‡å‡†åŒ–åç¦»åº¦ï¼Œç§‘å­¦æ€§å¼ºäºç®€å•ç™¾åˆ†æ¯”æ³•
  */
 function calculateDeviationZScore(current, neutral, indicator) {
   const stdDev = macroStdDev[indicator];
 
-  // ±ß½ç´¦Àí£ºÎŞ±ê×¼²îÊ±½µ¼¶µ½°Ù·Ö±È·¨
+  // è¾¹ç•Œå¤„ç†ï¼šæ— æ ‡å‡†å·®æ—¶é™çº§åˆ°ç™¾åˆ†æ¯”æ³•
   if (!stdDev || stdDev < 0.001) {
     if (Math.abs(neutral) < 0.01) {
       return current < neutral ? -1 : current > neutral ? 1 : 0;
@@ -6383,12 +6383,12 @@ function calculateDeviationZScore(current, neutral, indicator) {
     return (current - neutral) / Math.abs(neutral);
   }
 
-  // z-score = (µ±Ç°Öµ - ÖĞĞÔÖµ) / ±ê×¼²î
+  // z-score = (å½“å‰å€¼ - ä¸­æ€§å€¼) / æ ‡å‡†å·®
   const zScore = (current - neutral) / stdDev;
-  return Math.max(-3, Math.min(3, zScore)); // ½Ø¶Ïµ½¡À3
+  return Math.max(-3, Math.min(3, zScore)); // æˆªæ–­åˆ°Â±3
 }
 
-// ¼ÆËãÔ­Ê¼Àà±ğÆÀ·Ö£¨Ê¹ÓÃ´óÀàÃô¸Ğ¶È£¬²»¾ÛºÏ£©
+// è®¡ç®—åŸå§‹ç±»åˆ«è¯„åˆ†ï¼ˆä½¿ç”¨å¤§ç±»æ•æ„Ÿåº¦ï¼Œä¸èšåˆï¼‰
 function calcOriginalCategoryScore(majorKey, macroVals) {
   const cat = assetLibrary[majorKey];
   if (!cat) return { score: "50", factors: [] };
@@ -6396,11 +6396,11 @@ function calcOriginalCategoryScore(majorKey, macroVals) {
   let score = 50;
   let factors = [];
 
-  // v11.28.2: ¹Ø¼üÒò×Óµ¥¶ÀÉÏÏŞ£¨½öcnPolicyÌá¸ß£¬VIX±£³ÖÔ­Öµ£©
+  // v11.28.2: å…³é”®å› å­å•ç‹¬ä¸Šé™ï¼ˆä»…cnPolicyæé«˜ï¼ŒVIXä¿æŒåŸå€¼ï¼‰
   const keyFactorLimits = {
     cnPolicy: 35,
     creditSpread: 28,
-    // vix±£³ÖÄ¬ÈÏÏŞÖÆ£¨¸ºÏòÒò×Ó£¬²»Ìá¸ß£©
+    // vixä¿æŒé»˜è®¤é™åˆ¶ï¼ˆè´Ÿå‘å› å­ï¼Œä¸æé«˜ï¼‰
   };
   const defaultLimit = 20;
 
@@ -6409,10 +6409,10 @@ function calcOriginalCategoryScore(majorKey, macroVals) {
     const curr =
       macroVals[ind] !== undefined ? macroVals[ind] : macroIndics[ind].current;
     const neutral = macroIndics[ind].neutral;
-    // v11.25: Ê¹ÓÃz-scoreÆ«Àë¶È£¨»ùÓÚÀúÊ·±ê×¼²î£©
+    // v11.25: ä½¿ç”¨z-scoreåç¦»åº¦ï¼ˆåŸºäºå†å²æ ‡å‡†å·®ï¼‰
     const dev = calculateDeviationZScore(curr, neutral, ind);
 
-    // v11.28.1: Ê¹ÓÃÒò×ÓÌØ¶¨µÄ±¥ºÍÉÏÏŞ
+    // v11.28.1: ä½¿ç”¨å› å­ç‰¹å®šçš„é¥±å’Œä¸Šé™
     const limit = keyFactorLimits[ind] || defaultLimit;
     let contribution = Math.max(-limit, Math.min(limit, sens * dev * 20));
     score += contribution;
@@ -6437,7 +6437,7 @@ function calcOriginalCategoryScore(majorKey, macroVals) {
   return { score: score.toFixed(1), factors: factors };
 }
 
-// ÖØĞ´Ë«¹ìÆÀ·ÖÏÔÊ¾
+// é‡å†™åŒè½¨è¯„åˆ†æ˜¾ç¤º
 renderScoreDetails = function () {
   const panel = document.getElementById("scoreDetailsPanel");
   if (!panel) return;
@@ -6483,7 +6483,7 @@ renderScoreDetails = function () {
     const catColor =
       catScoreVal >= 65 ? "#10b981" : catScoreVal <= 40 ? "#ef4444" : "#f59e0b";
 
-    // ¼ÆËã×Ó×Ê²úÆÀ·Ö
+    // è®¡ç®—å­èµ„äº§è¯„åˆ†
     const subScoresList = [];
     selectedSubs.forEach((assetKey) => {
       const subScore = calcSubAssetScore(majorKey, assetKey, macroVals);
@@ -6503,7 +6503,7 @@ renderScoreDetails = function () {
       }
     });
 
-    // ¼ÆËã³Ö²ÖÆÀ·Ö£¨×Ó×Ê²ú¼ÓÈ¨Æ½¾ù£©
+    // è®¡ç®—æŒä»“è¯„åˆ†ï¼ˆå­èµ„äº§åŠ æƒå¹³å‡ï¼‰
     const avgScore =
       subScoresList.length > 0
         ? (
@@ -6515,21 +6515,21 @@ renderScoreDetails = function () {
     const avgColor =
       avgScoreVal >= 60 ? "#10b981" : avgScoreVal >= 40 ? "#f59e0b" : "#ef4444";
 
-    // äÖÈ¾
+    // æ¸²æŸ“
     html += '<div class="card" style="margin-bottom: 16px;">';
-    html += '<div class="card-title">' + majorVal.name + " ?ÒÑÑ¡</div>";
+    html += '<div class="card-title">' + majorVal.name + " âœ“å·²é€‰</div>";
 
-    // Ë«¹ìÆÀ·Ö¶Ô±È
+    // åŒè½¨è¯„åˆ†å¯¹æ¯”
     html +=
       '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">';
 
-    // Àà±ğÆÀ·Ö
+    // ç±»åˆ«è¯„åˆ†
     html +=
       '<div style="background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 100%); padding: 12px; border-radius: 8px; text-align: center; border: 2px solid ' +
       catColor +
       ';">';
     html +=
-      '<div style="font-size: 10px; color: #92400e; margin-bottom: 4px;">?? Àà±ğÆÀ·Ö</div>';
+      '<div style="font-size: 10px; color: #92400e; margin-bottom: 4px;">ğŸ“Š ç±»åˆ«è¯„åˆ†</div>';
     html +=
       '<div style="font-size: 28px; font-weight: 700; color: ' +
       catColor +
@@ -6537,16 +6537,16 @@ renderScoreDetails = function () {
       categoryScore.score +
       "</div>";
     html +=
-      '<div style="font-size: 9px; color: #78716c; margin-top: 4px;">´ËÀà×Ê²úÕûÌåÊÊÅä¶È</div>';
+      '<div style="font-size: 9px; color: #78716c; margin-top: 4px;">æ­¤ç±»èµ„äº§æ•´ä½“é€‚é…åº¦</div>';
     html += "</div>";
 
-    // ³Ö²ÖÆÀ·Ö
+    // æŒä»“è¯„åˆ†
     html +=
       '<div style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); padding: 12px; border-radius: 8px; text-align: center; border: 2px solid ' +
       avgColor +
       ';">';
     html +=
-      '<div style="font-size: 10px; color: #065f46; margin-bottom: 4px;">?? ³Ö²ÖÆÀ·Ö</div>';
+      '<div style="font-size: 10px; color: #065f46; margin-bottom: 4px;">ğŸ“¦ æŒä»“è¯„åˆ†</div>';
     html +=
       '<div style="font-size: 28px; font-weight: 700; color: ' +
       avgColor +
@@ -6554,12 +6554,12 @@ renderScoreDetails = function () {
       avgScore +
       "</div>";
     html +=
-      '<div style="font-size: 9px; color: #78716c; margin-top: 4px;">ÄúÑ¡µÄ¾ßÌå×Ê²ú±íÏÖ</div>';
+      '<div style="font-size: 9px; color: #78716c; margin-top: 4px;">æ‚¨é€‰çš„å…·ä½“èµ„äº§è¡¨ç°</div>';
     html += "</div>";
 
     html += "</div>";
 
-    // ²îÒì·ÖÎö
+    // å·®å¼‚åˆ†æ
     const diff = avgScoreVal - catScoreVal;
     if (Math.abs(diff) > 5) {
       html +=
@@ -6567,31 +6567,31 @@ renderScoreDetails = function () {
       if (diff > 0) {
         html +=
           'background: #d1fae5; border-left: 4px solid #10b981; color: #065f46;">';
-        html += "? <strong>ÄúµÄÑ¡ÔñÓÅÓÚÀà±ğÆ½¾ù</strong><br/>";
+        html += "âœ… <strong>æ‚¨çš„é€‰æ‹©ä¼˜äºç±»åˆ«å¹³å‡</strong><br/>";
         html +=
-          "Àà±ğÕûÌåÊÊÅä¶È½ÏµÍ(" +
+          "ç±»åˆ«æ•´ä½“é€‚é…åº¦è¾ƒä½(" +
           categoryScore.score +
-          "·Ö)£¬µ«ÄúÑ¡ÔñµÄ¾ßÌå×Ê²ú(" +
+          "åˆ†)ï¼Œä½†æ‚¨é€‰æ‹©çš„å…·ä½“èµ„äº§(" +
           avgScore +
-          "·Ö)±íÏÖ¸üºÃ£¬ËµÃ÷ÄúµÄÑ¡Æ·ÑÛ¹â²»´í£¡";
+          "åˆ†)è¡¨ç°æ›´å¥½ï¼Œè¯´æ˜æ‚¨çš„é€‰å“çœ¼å…‰ä¸é”™ï¼";
       } else {
         html +=
           'background: #fef3c7; border-left: 4px solid #f59e0b; color: #92400e;">';
-        html += "?? <strong>ÄúµÄÑ¡ÔñµÍÓÚÀà±ğÆ½¾ù</strong><br/>";
+        html += "âš ï¸ <strong>æ‚¨çš„é€‰æ‹©ä½äºç±»åˆ«å¹³å‡</strong><br/>";
         html +=
-          "Àà±ğÕûÌåÊÊÅä¶È(" +
+          "ç±»åˆ«æ•´ä½“é€‚é…åº¦(" +
           categoryScore.score +
-          "·Ö)¸ßÓÚÄúÑ¡ÔñµÄ×Ê²ú(" +
+          "åˆ†)é«˜äºæ‚¨é€‰æ‹©çš„èµ„äº§(" +
           avgScore +
-          "·Ö)£¬½¨Òé¿¼ÂÇµ÷Õû¾ßÌå±êµÄ¡£";
+          "åˆ†)ï¼Œå»ºè®®è€ƒè™‘è°ƒæ•´å…·ä½“æ ‡çš„ã€‚";
       }
       html += "</div>";
     }
 
-    // Àà±ğÆÀ·ÖÒò×Ó
+    // ç±»åˆ«è¯„åˆ†å› å­
     html += '<div style="margin-bottom: 12px;">';
     html +=
-      '<div style="font-size: 11px; font-weight: 600; color: #92400e; margin-bottom: 6px;">?? Àà±ğÆÀ·ÖÒò×Ó£¨Ê¹ÓÃ´óÀàÍ¨ÓÃÃô¸Ğ¶È£©</div>';
+      '<div style="font-size: 11px; font-weight: 600; color: #92400e; margin-bottom: 6px;">ğŸ“Š ç±»åˆ«è¯„åˆ†å› å­ï¼ˆä½¿ç”¨å¤§ç±»é€šç”¨æ•æ„Ÿåº¦ï¼‰</div>';
     html +=
       '<div style="background: #fffbeb; padding: 8px; border-radius: 6px;">';
     categoryScore.factors.forEach((f) => {
@@ -6599,22 +6599,22 @@ renderScoreDetails = function () {
       const contribColor = contrib > 0 ? "#10b981" : "#ef4444";
       html +=
         '<div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #fef3c7; font-size: 10px;">';
-      html += "<span>" + f.label + " (Ãô¸Ğ¶È:" + f.sensitivity + ")</span>";
+      html += "<span>" + f.label + " (æ•æ„Ÿåº¦:" + f.sensitivity + ")</span>";
       html +=
         '<span style="color:' +
         contribColor +
         '; font-weight:600;">' +
         (contrib > 0 ? "+" : "") +
         f.contribution +
-        "·Ö</span>";
+        "åˆ†</span>";
       html += "</div>";
     });
     html += "</div></div>";
 
-    // ×Ó×Ê²úÆÀ·Ö
+    // å­èµ„äº§è¯„åˆ†
     html += '<div style="margin-bottom: 8px;">';
     html +=
-      '<div style="font-size: 11px; font-weight: 600; color: #065f46; margin-bottom: 6px;">?? ÄúÑ¡ÔñµÄ×Ó×Ê²úÆÀ·Ö£¨Ê¹ÓÃ×ÓÀà×¨ÊôÃô¸Ğ¶È£©</div>';
+      '<div style="font-size: 11px; font-weight: 600; color: #065f46; margin-bottom: 6px;">ğŸ“¦ æ‚¨é€‰æ‹©çš„å­èµ„äº§è¯„åˆ†ï¼ˆä½¿ç”¨å­ç±»ä¸“å±æ•æ„Ÿåº¦ï¼‰</div>';
     html +=
       '<div style="background: #ecfdf5; padding: 8px; border-radius: 6px;">';
 
@@ -6622,7 +6622,7 @@ renderScoreDetails = function () {
       const subColor =
         sub.score >= 60 ? "#10b981" : sub.score >= 40 ? "#f59e0b" : "#ef4444";
 
-      // ×Ó×Ê²ú±êÌâĞĞ
+      // å­èµ„äº§æ ‡é¢˜è¡Œ
       html +=
         '<div style="margin-bottom: 8px; background: white; border-radius: 6px; border: 1px solid #e5e7eb; overflow: hidden;">';
       html +=
@@ -6645,20 +6645,20 @@ renderScoreDetails = function () {
         subColor +
         '; font-size: 16px;">' +
         sub.score.toFixed(1) +
-        "·Ö</span>";
-      html += '<span style="font-size: 10px; color: #999;">¨‹</span>';
+        "åˆ†</span>";
+      html += '<span style="font-size: 10px; color: #999;">â–¼</span>';
       html += "</div>";
       html += "</div>";
 
-      // ×Ó×Ê²úÆÀ·ÖÒò×ÓÏêÇé£¨¿ÉÕÛµş£©
+      // å­èµ„äº§è¯„åˆ†å› å­è¯¦æƒ…ï¼ˆå¯æŠ˜å ï¼‰
       html +=
         '<div style="display: none; padding: 8px 12px; background: #fafafa; border-top: 1px solid #e5e7eb;">';
 
       if (sub.factors && sub.factors.length > 0) {
         html +=
-          '<div style="font-size: 10px; color: #666; margin-bottom: 6px; font-weight: 600;">?? ÆÀ·ÖÒò×ÓÃ÷Ï¸£º</div>';
+          '<div style="font-size: 10px; color: #666; margin-bottom: 6px; font-weight: 600;">ğŸ“Š è¯„åˆ†å› å­æ˜ç»†ï¼š</div>';
 
-        // ÏÔÊ¾ËùÓĞÆÀ·ÖÒò×Ó
+        // æ˜¾ç¤ºæ‰€æœ‰è¯„åˆ†å› å­
         sub.factors.forEach((f) => {
           const contrib = parseFloat(f.contribution);
           const contribColor = contrib > 0 ? "#10b981" : "#ef4444";
@@ -6672,7 +6672,7 @@ renderScoreDetails = function () {
             f.label +
             "</span>";
           html +=
-            '<span style="color: #999; margin-left: 4px; font-size: 9px;">(Ãô¸Ğ¶È: ' +
+            '<span style="color: #999; margin-left: 4px; font-size: 9px;">(æ•æ„Ÿåº¦: ' +
             f.sensitivity +
             ")</span>";
           html += "</div>";
@@ -6682,12 +6682,12 @@ renderScoreDetails = function () {
             '; font-weight: 700; min-width: 50px; text-align: right;">' +
             contribSign +
             contrib.toFixed(1) +
-            "·Ö</span>";
+            "åˆ†</span>";
           html += "</div>";
         });
       } else {
         html +=
-          '<div style="font-size: 10px; color: #999; font-style: italic;">ÎŞÏêÏ¸Òò×ÓÊı¾İ</div>';
+          '<div style="font-size: 10px; color: #999; font-style: italic;">æ— è¯¦ç»†å› å­æ•°æ®</div>';
       }
 
       html += "</div>";
@@ -6700,14 +6700,14 @@ renderScoreDetails = function () {
 
   if (html === "") {
     html =
-      '<div style="text-align: center; color: #999; padding: 40px;">ÇëÏÈÑ¡Ôñ×Ê²ú²¢Éú³ÉAIÍÆ¼ö</div>';
+      '<div style="text-align: center; color: #999; padding: 40px;">è¯·å…ˆé€‰æ‹©èµ„äº§å¹¶ç”ŸæˆAIæ¨è</div>';
   } else {
     html =
       '<div class="info-box" style="margin-bottom: 16px;">' +
-      "<strong>?? Ë«¹ìÆÀ·ÖËµÃ÷</strong><br/>" +
-      '? <strong style="color:#92400e;">Àà±ğÆÀ·Ö</strong>£ºÊ¹ÓÃ´óÀàÍ¨ÓÃÃô¸Ğ¶È£¬±íÊ¾"¸ÃÀà×Ê²úÕûÌåÊÇ·ñÊÊºÏµ±Ç°ºê¹Û"<br/>' +
-      '? <strong style="color:#065f46;">³Ö²ÖÆÀ·Ö</strong>£ºÊ¹ÓÃ×ÓÀà×¨ÊôÃô¸Ğ¶È£¬±íÊ¾"ÄúÑ¡µÄ¾ßÌå×Ê²úÔÚµ±Ç°ºê¹ÛÏÂµÄ±íÏÖ"<br/>' +
-      "? Á½Õß¿ÉÄÜ²îÒìºÜ´ó£¬ÒòÎªÍ¬Ò»Àà±ğÏÂµÄ×Ó×Ê²ú¿ÉÄÜ¶Ôºê¹ÛÒò×Ó·´Ó¦ÍêÈ«²»Í¬" +
+      "<strong>ğŸ“Š åŒè½¨è¯„åˆ†è¯´æ˜</strong><br/>" +
+      'â€¢ <strong style="color:#92400e;">ç±»åˆ«è¯„åˆ†</strong>ï¼šä½¿ç”¨å¤§ç±»é€šç”¨æ•æ„Ÿåº¦ï¼Œè¡¨ç¤º"è¯¥ç±»èµ„äº§æ•´ä½“æ˜¯å¦é€‚åˆå½“å‰å®è§‚"<br/>' +
+      'â€¢ <strong style="color:#065f46;">æŒä»“è¯„åˆ†</strong>ï¼šä½¿ç”¨å­ç±»ä¸“å±æ•æ„Ÿåº¦ï¼Œè¡¨ç¤º"æ‚¨é€‰çš„å…·ä½“èµ„äº§åœ¨å½“å‰å®è§‚ä¸‹çš„è¡¨ç°"<br/>' +
+      "â€¢ ä¸¤è€…å¯èƒ½å·®å¼‚å¾ˆå¤§ï¼Œå› ä¸ºåŒä¸€ç±»åˆ«ä¸‹çš„å­èµ„äº§å¯èƒ½å¯¹å®è§‚å› å­ååº”å®Œå…¨ä¸åŒ" +
       "</div>" +
       html;
   }
@@ -6715,57 +6715,57 @@ renderScoreDetails = function () {
   panel.innerHTML = html;
 };
 
-console.log("v8.19 Ë«¹ìÆÀ·ÖĞŞ¸´¼ÓÔØÍê³É");
+console.log("v8.19 åŒè½¨è¯„åˆ†ä¿®å¤åŠ è½½å®Œæˆ");
 
 // ========================================
-// v8.19 È«¾Ö×îÓÅÍÆ¼öÏµÍ³
+// v8.19 å…¨å±€æœ€ä¼˜æ¨èç³»ç»Ÿ
 // ========================================
 
 var userConstraints = new Set([
-  "A¹É",
-  "¸Û¹É",
-  "ÃÀ¹É",
-  "ÈÕº«",
-  "À­ÃÀ",
-  "Ó¡¶È",
-  "Õ®È¯",
-  "ÉÌÆ·",
-  "¼ÓÃÜ",
-  "¶Ô³å",
-  "Íâ»ã",
+  "Aè‚¡",
+  "æ¸¯è‚¡",
+  "ç¾è‚¡",
+  "æ—¥éŸ©",
+  "æ‹‰ç¾",
+  "å°åº¦",
+  "å€ºåˆ¸",
+  "å•†å“",
+  "åŠ å¯†",
+  "å¯¹å†²",
+  "å¤–æ±‡",
 ]);
 
-// v11.5: ¸üĞÂregionMap°üº¬ËùÓĞ13¸ö´óÀà
+// v11.5: æ›´æ–°regionMapåŒ…å«æ‰€æœ‰13ä¸ªå¤§ç±»
 var regionMap = {
-  // ¹ÉÆ±Àà£¨4¸ö£©
-  cnStock: { region: "ÖĞ¹ú", constraints: ["A¹É", "¸Û¹É"], name: "ÖĞ¹ú¹ÉÆ±" },
-  usStock: { region: "ÃÀ¹ú", constraints: ["ÃÀ¹É"], name: "ÃÀ¹ú¹ÉÆ±" },
+  // è‚¡ç¥¨ç±»ï¼ˆ4ä¸ªï¼‰
+  cnStock: { region: "ä¸­å›½", constraints: ["Aè‚¡", "æ¸¯è‚¡"], name: "ä¸­å›½è‚¡ç¥¨" },
+  usStock: { region: "ç¾å›½", constraints: ["ç¾è‚¡"], name: "ç¾å›½è‚¡ç¥¨" },
   devStock: {
-    region: "·¢´ïÊĞ³¡",
-    constraints: ["ÃÀ¹É", "ÈÕº«"],
-    name: "·¢´ïÊĞ³¡¹ÉÆ±",
+    region: "å‘è¾¾å¸‚åœº",
+    constraints: ["ç¾è‚¡", "æ—¥éŸ©"],
+    name: "å‘è¾¾å¸‚åœºè‚¡ç¥¨",
   },
   emStock: {
-    region: "ĞÂĞËÊĞ³¡",
-    constraints: ["À­ÃÀ", "Ó¡¶È"],
-    name: "ĞÂĞËÊĞ³¡¹ÉÆ±",
+    region: "æ–°å…´å¸‚åœº",
+    constraints: ["æ‹‰ç¾", "å°åº¦"],
+    name: "æ–°å…´å¸‚åœºè‚¡ç¥¨",
   },
 
-  // Õ®È¯Àà£¨3¸ö - v10.0²ğ·Ö£©
-  bonds_us: { region: "ÃÀÕ®", constraints: ["Õ®È¯"], name: "ÃÀ¹úÕ®È¯" },
-  bonds_china: { region: "ÖĞÕ®", constraints: ["Õ®È¯"], name: "ÖĞ¹úÕ®È¯" },
-  bonds_global: { region: "È«ÇòÕ®", constraints: ["Õ®È¯"], name: "È«ÇòÕ®È¯" },
+  // å€ºåˆ¸ç±»ï¼ˆ3ä¸ª - v10.0æ‹†åˆ†ï¼‰
+  bonds_us: { region: "ç¾å€º", constraints: ["å€ºåˆ¸"], name: "ç¾å›½å€ºåˆ¸" },
+  bonds_china: { region: "ä¸­å€º", constraints: ["å€ºåˆ¸"], name: "ä¸­å›½å€ºåˆ¸" },
+  bonds_global: { region: "å…¨çƒå€º", constraints: ["å€ºåˆ¸"], name: "å…¨çƒå€ºåˆ¸" },
 
-  // ÉÌÆ·Àà£¨4¸ö - v10.0²ğ·Ö£©
-  precious: { region: "¹ó½ğÊô", constraints: ["ÉÌÆ·"], name: "¹ó½ğÊô" },
-  energy: { region: "ÄÜÔ´", constraints: ["ÉÌÆ·"], name: "ÄÜÔ´" },
-  industrial: { region: "¹¤Òµ½ğÊô", constraints: ["ÉÌÆ·"], name: "¹¤Òµ½ğÊô" },
-  agriculture: { region: "Å©²úÆ·", constraints: ["ÉÌÆ·"], name: "Å©²úÆ·" },
+  // å•†å“ç±»ï¼ˆ4ä¸ª - v10.0æ‹†åˆ†ï¼‰
+  precious: { region: "è´µé‡‘å±", constraints: ["å•†å“"], name: "è´µé‡‘å±" },
+  energy: { region: "èƒ½æº", constraints: ["å•†å“"], name: "èƒ½æº" },
+  industrial: { region: "å·¥ä¸šé‡‘å±", constraints: ["å•†å“"], name: "å·¥ä¸šé‡‘å±" },
+  agriculture: { region: "å†œäº§å“", constraints: ["å•†å“"], name: "å†œäº§å“" },
 
-  // ÆäËûÀà£¨3¸ö£©
-  forex: { region: "Íâ»ã", constraints: ["Íâ»ã"], name: "Íâ»ã" }, // v11.3ĞÂÔö
-  crypto: { region: "¼ÓÃÜ", constraints: ["¼ÓÃÜ"], name: "¼ÓÃÜ×Ê²ú" },
-  hedges: { region: "¶Ô³å", constraints: ["¶Ô³å"], name: "¶Ô³å¹¤¾ß" },
+  // å…¶ä»–ç±»ï¼ˆ3ä¸ªï¼‰
+  forex: { region: "å¤–æ±‡", constraints: ["å¤–æ±‡"], name: "å¤–æ±‡" }, // v11.3æ–°å¢
+  crypto: { region: "åŠ å¯†", constraints: ["åŠ å¯†"], name: "åŠ å¯†èµ„äº§" },
+  hedges: { region: "å¯¹å†²", constraints: ["å¯¹å†²"], name: "å¯¹å†²å·¥å…·" },
 };
 
 function calcGlobalScores() {
@@ -6773,10 +6773,10 @@ function calcGlobalScores() {
   var scores = {};
   Object.keys(assetLibrary).forEach(function (majorKey) {
     var result = calcAssetScore(majorKey, macroVals);
-    // v13.3 FIX: calcAssetScore ÒÑ¾­µ÷ÓÃÁË applyReasonBonus£¬²»ĞèÒªÔÙ´Îµ÷ÓÃ
-    // Ö®Ç°µÄÖØ¸´µ÷ÓÃ»áµ¼ÖÂ realYield ¼Ó·ÖµÈÂß¼­ÔÚ core.js ÖĞÌí¼ÓºóÎŞ·¨ÕıÈ··´Ó³
+    // v13.3 FIX: calcAssetScore å·²ç»è°ƒç”¨äº† applyReasonBonusï¼Œä¸éœ€è¦å†æ¬¡è°ƒç”¨
+    // ä¹‹å‰çš„é‡å¤è°ƒç”¨ä¼šå¯¼è‡´ realYield åŠ åˆ†ç­‰é€»è¾‘åœ¨ core.js ä¸­æ·»åŠ åæ— æ³•æ­£ç¡®åæ˜ 
     scores[majorKey] = {
-      score: result.score, // Ö±½ÓÊ¹ÓÃ calcAssetScore ·µ»ØµÄ·ÖÊı£¨ÒÑ°üº¬ applyReasonBonus£©
+      score: result.score, // ç›´æ¥ä½¿ç”¨ calcAssetScore è¿”å›çš„åˆ†æ•°ï¼ˆå·²åŒ…å« applyReasonBonusï¼‰
       factors: result.factors,
     };
   });
@@ -6785,14 +6785,14 @@ function calcGlobalScores() {
 
 function calcRegionScores() {
   var globalScores = calcGlobalScores();
-  // v11.5: Ö±½ÓÏÔÊ¾13¸ö×Ê²úÀà±ğ£¬²»ÔÙ¾ÛºÏÎªregion
+  // v11.5: ç›´æ¥æ˜¾ç¤º13ä¸ªèµ„äº§ç±»åˆ«ï¼Œä¸å†èšåˆä¸ºregion
   var regionScores = {};
 
   Object.keys(regionMap).forEach(function (key) {
     var info = regionMap[key];
     if (globalScores[key]) {
       var score = parseFloat(globalScores[key].score);
-      // Ê¹ÓÃ×Ê²úÀà±ğÃû³Æ×÷Îªkey
+      // ä½¿ç”¨èµ„äº§ç±»åˆ«åç§°ä½œä¸ºkey
       regionScores[info.name] = {
         score: score,
         assets: [{ key: key, name: info.name, score: score }],
@@ -6803,32 +6803,32 @@ function calcRegionScores() {
 }
 
 // ========================================
-// v11.29 P2: ·Ö²ãÈ¨ÖØÏµÍ³£¨Î£»ú³¡¾°ÓÅ»¯£©
+// v11.29 P2: åˆ†å±‚æƒé‡ç³»ç»Ÿï¼ˆå±æœºåœºæ™¯ä¼˜åŒ–ï¼‰
 // ========================================
 
-// Èı²ã×Ê²ú·Ö×é¶¨Òå£¨P2: ÄÜÔ´ÒÆµ½cross×é£©
+// ä¸‰å±‚èµ„äº§åˆ†ç»„å®šä¹‰ï¼ˆP2: èƒ½æºç§»åˆ°crossç»„ï¼‰
 // DELETED - Moved to top
 // const P1_assetGroups = { ... }
 
-// VIXÇı¶¯µÄ²ã¼ä±ÈÀı£¨P2.1: ·Ç¿Ö»ÅÊ±Ìá¸ßcross±ÈÀıÆ½ºâÄÜÔ´È¨ÖØ£©
+// VIXé©±åŠ¨çš„å±‚é—´æ¯”ä¾‹ï¼ˆP2.1: éææ…Œæ—¶æé«˜crossæ¯”ä¾‹å¹³è¡¡èƒ½æºæƒé‡ï¼‰
 function P1_getLayerRatios(vix) {
-  if (vix > 50) return { risk: 0.15, safe: 0.65, cross: 0.2 }; // ¼«¶È¿Ö»Å (15/65/20)
-  if (vix > 30) return { risk: 0.4, safe: 0.35, cross: 0.25 }; // P2.1: µ£ÓÇ (40/35/25)
-  if (vix > 20) return { risk: 0.5, safe: 0.25, cross: 0.25 }; // P2.1: Õı³£ (50/25/25)
-  return { risk: 0.55, safe: 0.2, cross: 0.25 }; // P2.1: ÀÖ¹Û (55/20/25)
+  if (vix > 50) return { risk: 0.15, safe: 0.65, cross: 0.2 }; // æåº¦ææ…Œ (15/65/20)
+  if (vix > 30) return { risk: 0.4, safe: 0.35, cross: 0.25 }; // P2.1: æ‹…å¿§ (40/35/25)
+  if (vix > 20) return { risk: 0.5, safe: 0.25, cross: 0.25 }; // P2.1: æ­£å¸¸ (50/25/25)
+  return { risk: 0.55, safe: 0.2, cross: 0.25 }; // P2.1: ä¹è§‚ (55/20/25)
 }
 
 /**
- * v11.43: ¸ù¾İÅäÖÃ·ç¸ñ×ª»»·ÖÊı
+ * v11.43: æ ¹æ®é…ç½®é£æ ¼è½¬æ¢åˆ†æ•°
  */
 function P1_transformScoreByStyle(score, style) {
   if (style === "balanced") {
-    // v13.6: ÓÅ»¯»ìºÏÇúÏß (1.8´ÎÃİ) - ·ÀÖ¹¸ß·ÖÓ®¼ÒÍ¨³Ô£¬¸ø60-70·Ö×Ê²úÁô³ö¿Õ¼ä
+    // v13.6: ä¼˜åŒ–æ··åˆæ›²çº¿ (1.8æ¬¡å¹‚) - é˜²æ­¢é«˜åˆ†èµ¢å®¶é€šåƒï¼Œç»™60-70åˆ†èµ„äº§ç•™å‡ºç©ºé—´
     // [v14.1 Fix] Ensure positive output
     if (score <= 0) return 0;
     return Math.pow(score / 50, 1.8) * 50;
   } else if (style === "concentrated" || style === "concentratedCapped") {
-    // v11.45: 4´Î·½¼«¶Ë¼Ó³É£¬ÇÒÉèÖÃ 55 ·ÖÎª hard cut-off (µÍÓÚ55·ÖÖ±½Ó³ö¾Ö)
+    // v11.45: 4æ¬¡æ–¹æç«¯åŠ æˆï¼Œä¸”è®¾ç½® 55 åˆ†ä¸º hard cut-off (ä½äº55åˆ†ç›´æ¥å‡ºå±€)
     if (score < 55) return 0;
     return Math.pow(score / 50, 4) * 50;
   }
@@ -6868,8 +6868,8 @@ function capConcentratedWeights(weights, singleAssetCap = 0.16) {
   return capped;
 }
 
-// P1·Ö²ãÈ¨ÖØ¼ÆËã
-// P1·Ö²ãÈ¨ÖØ¼ÆËã v15.0
+// P1åˆ†å±‚æƒé‡è®¡ç®—
+// P1åˆ†å±‚æƒé‡è®¡ç®— v15.0
 function P1_calculateLayeredWeights_v15(
   assetScores,
   macroVals,
@@ -6880,59 +6880,59 @@ function P1_calculateLayeredWeights_v15(
     "%c !!! P1_v15 RUNNING !!! ",
     "background:blue; color:white; font-size:20px",
   );
-  // alert("µ÷ÊÔÄ£Ê½: P1È¨ÖØ¼ÆËãº¯ÊıÒÑÔËĞĞ (v13.8.3)"); // Optional: Uncomment if console is ignored
+  // alert("è°ƒè¯•æ¨¡å¼: P1æƒé‡è®¡ç®—å‡½æ•°å·²è¿è¡Œ (v13.8.3)"); // Optional: Uncomment if console is ignored
 
   // Predictive mode: use mean-variance optimizer with expected returns
   if (allocationStyle === "predictive") {
     if (typeof window.predictiveAllocate === "function") {
-      debugLog("[P1ºËĞÄ] Ô¤²âÓÅ»¯Ä£Ê½ÆôÓÃ");
+      debugLog("[P1æ ¸å¿ƒ] é¢„æµ‹ä¼˜åŒ–æ¨¡å¼å¯ç”¨");
       return window.predictiveAllocate(assetScores, macroVals) || {};
     }
-    console.warn("[P1ºËĞÄ] predictiveAllocate È±Ê§£¬»ØÍË riskParity");
+    console.warn("[P1æ ¸å¿ƒ] predictiveAllocate ç¼ºå¤±ï¼Œå›é€€ riskParity");
   }
 
   // ===============================================
-  // ²ßÂÔ·ÖÖ§ 1: ¸ß¶È¼¯ÖĞ (Concentrated) -> ´¿ Alpha ²ßÂÔ
-  // µÚÒ»ĞÔÔ­Àí: ¼ÈÈ»×·Çó¼¯ÖĞ£¬¾Í±ØĞë´òÆÆºê¹Û·ÖÍ°(Beta)µÄÏŞÖÆ£¬´¿´â×·Öğ¸ß·Ö×Ê²ú¡£
+  // ç­–ç•¥åˆ†æ”¯ 1: é«˜åº¦é›†ä¸­ (Concentrated) -> çº¯ Alpha ç­–ç•¥
+  // ç¬¬ä¸€æ€§åŸç†: æ—¢ç„¶è¿½æ±‚é›†ä¸­ï¼Œå°±å¿…é¡»æ‰“ç ´å®è§‚åˆ†æ¡¶(Beta)çš„é™åˆ¶ï¼Œçº¯ç²¹è¿½é€é«˜åˆ†èµ„äº§ã€‚
   // ===============================================
   if (allocationStyle === "concentrated" || allocationStyle === "concentratedCapped") {
-    debugLog("[P1ºËĞÄ] ÆôÓÃ¸ß¶È¼¯ÖĞÄ£Ê½: ´òÆÆ·ÖÍ°ÏŞÖÆ£¬Ö´ĞĞÈ«¾ÖÓÅÑ¡");
+    debugLog("[P1æ ¸å¿ƒ] å¯ç”¨é«˜åº¦é›†ä¸­æ¨¡å¼: æ‰“ç ´åˆ†æ¡¶é™åˆ¶ï¼Œæ‰§è¡Œå…¨å±€ä¼˜é€‰");
     const finalWeights = {};
     let candidates = [];
 
-    // 1. È«¾ÖÉ¨ÃèËùÓĞ¿ÉÓÃ×Ê²ú
+    // 1. å…¨å±€æ‰«ææ‰€æœ‰å¯ç”¨èµ„äº§
     Object.keys(assetScores).forEach((key) => {
-      // È·±£×Ê²úÔÚµ±Ç°Äê·İ´æÔÚ
+      // ç¡®ä¿èµ„äº§åœ¨å½“å‰å¹´ä»½å­˜åœ¨
       if (!isAssetAvailable(key, currentScenarioYear)) return;
 
-      // v10.0: °²È«¼ì²é
+      // v10.0: å®‰å…¨æ£€æŸ¥
       if (!assetLibrary[key]) return;
 
       const score = parseFloat(assetScores[key]?.score || 0);
 
-      // Ó²ÃÅ¼÷: ±ØĞë¼°¸ñ(60·Ö)²ÅÄÜ½øÈë¼¯ÖĞ³Ø
-      // Èç¹ûÊÇÆÕÍ¨Ê±ÆÚ£¬ÃÅ¼÷¸ü¸ß£»µ«ÔÚÎ£»úÊ±ÆÚ(È«Ô±µÍ·Ö)£¬ÉÔÎ¢·Å¿íÒÔ·À¿Õ²Ö
+      // ç¡¬é—¨æ§›: å¿…é¡»åŠæ ¼(60åˆ†)æ‰èƒ½è¿›å…¥é›†ä¸­æ± 
+      // å¦‚æœæ˜¯æ™®é€šæ—¶æœŸï¼Œé—¨æ§›æ›´é«˜ï¼›ä½†åœ¨å±æœºæ—¶æœŸ(å…¨å‘˜ä½åˆ†)ï¼Œç¨å¾®æ”¾å®½ä»¥é˜²ç©ºä»“
       if (score > 55) {
         candidates.push({ key, score });
       }
     });
 
-    // 2. ÅÅĞò²¢È¡ Top 5
+    // 2. æ’åºå¹¶å– Top 5
     candidates.sort((a, b) => b.score - a.score);
-    const topPicks = candidates.slice(0, 5); // Ö»È¡Ç°5Ãû
+    const topPicks = candidates.slice(0, 5); // åªå–å‰5å
 
     if (topPicks.length === 0) {
-      console.warn("[P1¼¯ÖĞ] ÎŞ×Ê²ú¼°¸ñ(>55)£¬»ØÍËµ½°²È«×Ê²ú(ÃÀÕ®)");
+      console.warn("[P1é›†ä¸­] æ— èµ„äº§åŠæ ¼(>55)ï¼Œå›é€€åˆ°å®‰å…¨èµ„äº§(ç¾å€º)");
       if (isAssetAvailable("bonds_us", currentScenarioYear))
         finalWeights["bonds_us"] = 1.0;
       return finalWeights;
     }
 
-    // 3. ¼«ËÙÈ¨ÖØ·ÖÅä (Score^4)
+    // 3. æé€Ÿæƒé‡åˆ†é… (Score^4)
     let totalPowerScore = 0;
     topPicks.forEach((item) => {
-      // Ê¹ÓÃ 50 ·ÖÎª»ù×¼µÄ 4 ´Î·½£¬À­´ó²î¾à
-      // 60·Ö -> 2.0 | 80·Ö -> 6.5 | 90·Ö -> 10.5
+      // ä½¿ç”¨ 50 åˆ†ä¸ºåŸºå‡†çš„ 4 æ¬¡æ–¹ï¼Œæ‹‰å¤§å·®è·
+      // 60åˆ† -> 2.0 | 80åˆ† -> 6.5 | 90åˆ† -> 10.5
       const powerScore = Math.pow(item.score / 50, 4);
       item.powerScore = powerScore;
       totalPowerScore += powerScore;
@@ -6941,7 +6941,7 @@ function P1_calculateLayeredWeights_v15(
     topPicks.forEach((item) => {
       finalWeights[item.key] = item.powerScore / totalPowerScore;
       debugLog(
-        `[P1¼¯ÖĞ] ${item.key}: Ô­Ê¼${item.score} -> È¨ÖØ${(finalWeights[item.key] * 100).toFixed(1)}%`,
+        `[P1é›†ä¸­] ${item.key}: åŸå§‹${item.score} -> æƒé‡${(finalWeights[item.key] * 100).toFixed(1)}%`,
       );
     });
 
@@ -6949,32 +6949,32 @@ function P1_calculateLayeredWeights_v15(
       const singleAssetCap = 0.16;
       const cappedWeights = capConcentratedWeights(finalWeights, singleAssetCap);
       debugLog(
-        `[P1¼¯ÖĞÏŞ²Ö] µ¥×Ê²úÉÏÏŞ${(singleAssetCap * 100).toFixed(0)}%£¬µ÷Õûºó: ${Object.entries(cappedWeights)
+        `[P1é›†ä¸­é™ä»“] å•èµ„äº§ä¸Šé™${(singleAssetCap * 100).toFixed(0)}%ï¼Œè°ƒæ•´å: ${Object.entries(cappedWeights)
           .map(([key, weight]) => `${key}:${(weight * 100).toFixed(1)}%`)
           .join(", ")}`,
       );
       return cappedWeights;
     }
 
-    // ÈÔÈ»±£Áô P3.2 Crypto ×¢ÈëÂß¼­Âğ£¿
-    // µÚÒ»ĞÔÔ­Àí: Èç¹ûCrypto·ÖÊı¹»¸ß£¬Ëü×ÔÈ»»á½øÈëTop5¡£
-    // Èç¹û·ÖÊıµÍµ«ÒòÎª"ºê¹Û¶Ô³å"ĞèÒª×¢Èë£¬ÕâÊôÓÚBeta¶Ô³å£¬Óë"¼¯ÖĞAlpha"²ßÂÔ³åÍ»¡£
-    // ¾ö²ß: ¼¯ÖĞÄ£Ê½ÏÂ£¬²»ÔÙÇ¿ÖÆ×¢Èë Crypto£¬³ı·ÇËü×Ô¼ºÆ¾·ÖÊı´ò°ñ¡£
+    // ä»ç„¶ä¿ç•™ P3.2 Crypto æ³¨å…¥é€»è¾‘å—ï¼Ÿ
+    // ç¬¬ä¸€æ€§åŸç†: å¦‚æœCryptoåˆ†æ•°å¤Ÿé«˜ï¼Œå®ƒè‡ªç„¶ä¼šè¿›å…¥Top5ã€‚
+    // å¦‚æœåˆ†æ•°ä½ä½†å› ä¸º"å®è§‚å¯¹å†²"éœ€è¦æ³¨å…¥ï¼Œè¿™å±äºBetaå¯¹å†²ï¼Œä¸"é›†ä¸­Alpha"ç­–ç•¥å†²çªã€‚
+    // å†³ç­–: é›†ä¸­æ¨¡å¼ä¸‹ï¼Œä¸å†å¼ºåˆ¶æ³¨å…¥ Cryptoï¼Œé™¤éå®ƒè‡ªå·±å‡­åˆ†æ•°æ‰“æ¦œã€‚
 
     return finalWeights;
   }
 
   // ===============================================
-  // ²ßÂÔ·ÖÖ§ 2: ·çÏÕÆ½¼Û/Æ½ºâ (RiskParity/Balanced) -> ºê¹ÛÅäÆ½²ßÂÔ
-  // µÚÒ»ĞÔÔ­Àí: ³ĞÈÏ¶ÔÎ´À´µÄÎŞÖª(RiskParity)»òÓĞÏŞÖªÇé(Balanced)£¬
-  // Òò´Ë±ØĞëÇ¿ÖÆÖ´ĞĞºê¹Û·ÖÍ°(Buckets)£¬·ÀÖ¹µ¥Ò»Àà×Ê²ú·çÏÕ±©Â¶¹ı´ó¡£
+  // ç­–ç•¥åˆ†æ”¯ 2: é£é™©å¹³ä»·/å¹³è¡¡ (RiskParity/Balanced) -> å®è§‚é…å¹³ç­–ç•¥
+  // ç¬¬ä¸€æ€§åŸç†: æ‰¿è®¤å¯¹æœªæ¥çš„æ— çŸ¥(RiskParity)æˆ–æœ‰é™çŸ¥æƒ…(Balanced)ï¼Œ
+  // å› æ­¤å¿…é¡»å¼ºåˆ¶æ‰§è¡Œå®è§‚åˆ†æ¡¶(Buckets)ï¼Œé˜²æ­¢å•ä¸€ç±»èµ„äº§é£é™©æš´éœ²è¿‡å¤§ã€‚
   // ===============================================
 
   const vix = macroVals.vix || 20;
   let ratios = P1_getLayerRatios(vix);
 
   debugLog(
-    `[P1·Ö²ã] VIX=${vix.toFixed(1)} (·ç¸ñ:${allocationStyle}), ³õÊ¼²ã¼ä: ·çÏÕ${(ratios.risk * 100).toFixed(0)}% ±ÜÏÕ${(ratios.safe * 100).toFixed(0)}% ½»²æ${(ratios.cross * 100).toFixed(0)}%`,
+    `[P1åˆ†å±‚] VIX=${vix.toFixed(1)} (é£æ ¼:${allocationStyle}), åˆå§‹å±‚é—´: é£é™©${(ratios.risk * 100).toFixed(0)}% é¿é™©${(ratios.safe * 100).toFixed(0)}% äº¤å‰${(ratios.cross * 100).toFixed(0)}%`,
   );
 
   // ===============================================
@@ -6996,7 +6996,7 @@ function P1_calculateLayeredWeights_v15(
 
   // Override 1: Supercycle Expansion
   // v16.3 FIX: Move Score Safe-Guard to TOP of P1 to ensure ratios see the correct scores
-  // v16.65 F1 FIX: 2025 Gold Shield Ö»ÔÚÀúÊ·»Ø²âÄ£Ê½ÏÂÉúĞ§
+  // v16.65 F1 FIX: 2025 Gold Shield åªåœ¨å†å²å›æµ‹æ¨¡å¼ä¸‹ç”Ÿæ•ˆ
   const _histOverride =
     typeof window.isHistoricalOverrideMode === "function"
       ? window.isHistoricalOverrideMode()
@@ -7008,11 +7008,11 @@ function P1_calculateLayeredWeights_v15(
       parseFloat(assetScores["precious"].score) < 150)
   ) {
     debugLog(
-      `[P1 v16.3] ??? Gold Shield Triggered for 2025 (Historical Mode). Forcing 180 score.`,
+      `[P1 v16.3] ğŸ›¡ï¸ Gold Shield Triggered for 2025 (Historical Mode). Forcing 180 score.`,
     );
     assetScores["precious"] = {
       score: "180.0",
-      factors: [{ label: "??? »Æ½ğ·ÀÏß", contribution: "½µÏ¢Ô¤ÆÚ+Ö÷È¨ĞÅÓÃ" }],
+      factors: [{ label: "ğŸ›¡ï¸ é»„é‡‘é˜²çº¿", contribution: "é™æ¯é¢„æœŸ+ä¸»æƒä¿¡ç”¨" }],
     };
   }
 
@@ -7023,7 +7023,7 @@ function P1_calculateLayeredWeights_v15(
 
   if (preciousScore > 110) {
     debugLog(
-      `[P1 DEBUG] ?? GOLD SUPERCYCLE TRIGGERED! Score: ${preciousScore} > 110`,
+      `[P1 DEBUG] ğŸš¨ GOLD SUPERCYCLE TRIGGERED! Score: ${preciousScore} > 110`,
     );
     debugLog(
       `[P1 DEBUG] Before Boost: Safe=${ratios.safe.toFixed(2)} Risk=${ratios.risk.toFixed(2)} Cross=${ratios.cross.toFixed(2)}`,
@@ -7076,7 +7076,7 @@ function P1_calculateLayeredWeights_v15(
 
   // Calculated Ratios are normalized above
 
-  // ¼ÆËã¸÷×éÆÀ·Ö×ÜºÍ
+  // è®¡ç®—å„ç»„è¯„åˆ†æ€»å’Œ
   const groupScores = { risk: 0, safe: 0, cross: 0 };
   const groupAssets = { risk: [], safe: [], cross: [] };
 
@@ -7092,7 +7092,7 @@ function P1_calculateLayeredWeights_v15(
       }
       if (assetScores[key]) {
         const originalScore = parseFloat(assetScores[key].score) || 0;
-        // Ó¦ÓÃ·ç¸ñ×ª»» (Balanced »áÔÚÕâÀïÀ­´óÍ°ÄÚ²î¾à)
+        // åº”ç”¨é£æ ¼è½¬æ¢ (Balanced ä¼šåœ¨è¿™é‡Œæ‹‰å¤§æ¡¶å†…å·®è·)
         let score = originalScore;
         if (typeof P1_transformScoreByStyle === "function") {
           score = P1_transformScoreByStyle(originalScore, allocationStyle);
@@ -7122,9 +7122,9 @@ function P1_calculateLayeredWeights_v15(
     });
   });
 
-  // ¼ÆËã·Ö²ãÈ¨ÖØ
-  // NOTE: F2(ÆÀ·ÖÇãĞ±)ÒÑÑéÖ¤Ê§°Ü²¢»Ø¹ö¡£Ô­Òò£ºÍ°ÄÚÒÑ°´ÆÀ·Ö±ÈÀı·ÖÅä£¬¶îÍâÇãĞ±µ¼ÖÂË«ÖØ¼¯ÖĞ»¯£¬
-  //       »Ø³·´Ó-17.99%¶ñ»¯ÖÁ-22.76%¡£ÏµÍ³ÒÑ³ä·ÖÀûÓÃÆÀ·ÖĞÅºÅ£¬ÎŞĞè¶îÍâÇãĞ±¡£
+  // è®¡ç®—åˆ†å±‚æƒé‡
+  // NOTE: F2(è¯„åˆ†å€¾æ–œ)å·²éªŒè¯å¤±è´¥å¹¶å›æ»šã€‚åŸå› ï¼šæ¡¶å†…å·²æŒ‰è¯„åˆ†æ¯”ä¾‹åˆ†é…ï¼Œé¢å¤–å€¾æ–œå¯¼è‡´åŒé‡é›†ä¸­åŒ–ï¼Œ
+  //       å›æ’¤ä»-17.99%æ¶åŒ–è‡³-22.76%ã€‚ç³»ç»Ÿå·²å……åˆ†åˆ©ç”¨è¯„åˆ†ä¿¡å·ï¼Œæ— éœ€é¢å¤–å€¾æ–œã€‚
   const finalWeights = {};
 
   Object.entries(P1_assetGroups).forEach(([group, assets]) => {
@@ -7138,13 +7138,13 @@ function P1_calculateLayeredWeights_v15(
   });
 
   // ========================================
-  // v16.66 Structural Fix P2: ×îµÍÅäÖÃ±£Ö¤ (Ìæ´úÆÀ·Ö²ãµÄ25·ÖµØ°å)
+  // v16.66 Structural Fix P2: æœ€ä½é…ç½®ä¿è¯ (æ›¿ä»£è¯„åˆ†å±‚çš„25åˆ†åœ°æ¿)
   // ========================================
-  // µÚÒ»ĞÔÔ­Àí: All Weather ²»Ó¦ÍêÈ«ÅÅ³ıÈÎºÎ´óÀà×Ê²ú¡£
-  // Ö®Ç°ÓÃ Math.max(25, score) ×öµØ°å£¬µ«ÕâÄ¨Æ½ÁË×Ê²ú¼äµÄÏà¶Ô²îÒì¡£
-  // ÏÖÔÚÆÀ·Ö±£ÁôÕæÊµ²îÒì£¬ÔÚÅäÈ¨²ã±£Ö¤Ã¿¸ö²ÎÓëµÄ×Ê²ú×îµÍ 2% ÅäÖÃ¡£
+  // ç¬¬ä¸€æ€§åŸç†: All Weather ä¸åº”å®Œå…¨æ’é™¤ä»»ä½•å¤§ç±»èµ„äº§ã€‚
+  // ä¹‹å‰ç”¨ Math.max(25, score) åšåœ°æ¿ï¼Œä½†è¿™æŠ¹å¹³äº†èµ„äº§é—´çš„ç›¸å¯¹å·®å¼‚ã€‚
+  // ç°åœ¨è¯„åˆ†ä¿ç•™çœŸå®å·®å¼‚ï¼Œåœ¨é…æƒå±‚ä¿è¯æ¯ä¸ªå‚ä¸çš„èµ„äº§æœ€ä½ 2% é…ç½®ã€‚
   if (allocationStyle !== "concentrated") {
-    const minWeight = 0.02; // All Weather ×îµÍ 2% ÅäÖÃ
+    const minWeight = 0.02; // All Weather æœ€ä½ 2% é…ç½®
     const allKeys = Object.keys(finalWeights);
     let belowMinKeys = [];
     let aboveMinTotal = 0;
@@ -7165,7 +7165,7 @@ function P1_calculateLayeredWeights_v15(
       belowMinKeys.forEach((key) => {
         finalWeights[key] = minWeight;
       });
-      // ´Ó¸ßÈ¨ÖØ×Ê²úÖĞ°´±ÈÀı¿Û¼õ
+      // ä»é«˜æƒé‡èµ„äº§ä¸­æŒ‰æ¯”ä¾‹æ‰£å‡
       const shrinkFactor = (1 - totalMinBoost) / aboveMinTotal;
       allKeys.forEach((key) => {
         if (!belowMinKeys.includes(key)) {
@@ -7176,10 +7176,10 @@ function P1_calculateLayeredWeights_v15(
   }
 
   // ========================================
-  // v16.66 Structural Fix P3: Í¬ÇøÓòÈ¨ÒæºÏ¼ÆÉÏÏŞ
+  // v16.66 Structural Fix P3: åŒåŒºåŸŸæƒç›Šåˆè®¡ä¸Šé™
   // ========================================
-  // µÚÒ»ĞÔÔ­Àí: P1 ÎŞĞ­·½²î¾ØÕó£¬ĞèÒª¹æÔò·ÀÖ¹¸ßÏà¹Ø×Ê²úË«ÖØ±©Â¶¡£
-  // cnStock ºÍ hkStock ¸ß¶ÈÏà¹Ø (Í¬ÎªÖĞ¹ú¾­¼Ã±©Â¶)£¬ºÏ¼Æ²»Ó¦³¬ 15%¡£
+  // ç¬¬ä¸€æ€§åŸç†: P1 æ— åæ–¹å·®çŸ©é˜µï¼Œéœ€è¦è§„åˆ™é˜²æ­¢é«˜ç›¸å…³èµ„äº§åŒé‡æš´éœ²ã€‚
+  // cnStock å’Œ hkStock é«˜åº¦ç›¸å…³ (åŒä¸ºä¸­å›½ç»æµæš´éœ²)ï¼Œåˆè®¡ä¸åº”è¶… 15%ã€‚
   if (allocationStyle !== "concentrated") {
     const REGIONAL_CAPS = {
       china: { assets: ["cnStock", "hkStock"], cap: 0.15 },
@@ -7199,7 +7199,7 @@ function P1_calculateLayeredWeights_v15(
         config.assets.forEach((key) => {
           if (finalWeights[key]) finalWeights[key] *= scale;
         });
-        // ³¬³ö²¿·Ö°´±ÈÀı·ÖÅä¸øÆäËû×Ê²ú
+        // è¶…å‡ºéƒ¨åˆ†æŒ‰æ¯”ä¾‹åˆ†é…ç»™å…¶ä»–èµ„äº§
         const otherKeys = Object.keys(finalWeights).filter(
           (k) => !config.assets.includes(k),
         );
@@ -7216,7 +7216,7 @@ function P1_calculateLayeredWeights_v15(
     });
   }
 
-  // v16.66 F4 Retained: µ¥×Ê²ú¼¯ÖĞ¶ÈÉÏÏŞ (°²È«»¤À¸)
+  // v16.66 F4 Retained: å•èµ„äº§é›†ä¸­åº¦ä¸Šé™ (å®‰å…¨æŠ¤æ )
   if (allocationStyle !== "concentrated") {
     const singleAssetCap = allocationStyle === "riskParity" ? 0.25 : 0.3;
     let needRebalance = false;
@@ -7242,10 +7242,10 @@ function P1_calculateLayeredWeights_v15(
     }
   }
 
-  // P2.2: Í¨ÕÍÇı¶¯µÄÄÜÔ´È¨ÖØ¼Ó³É (±£Áô¸ø RiskParity/Balanced)
+  // P2.2: é€šèƒ€é©±åŠ¨çš„èƒ½æºæƒé‡åŠ æˆ (ä¿ç•™ç»™ RiskParity/Balanced)
   const inflation = macroVals.inflation || 2.5;
   if (inflation > 5 && finalWeights["energy"]) {
-    const inflationBoost = 1 + (inflation - 5) / 5; // Í¨ÕÍ8.5%Ê±¼Ó³É=1.7±¶
+    const inflationBoost = 1 + (inflation - 5) / 5; // é€šèƒ€8.5%æ—¶åŠ æˆ=1.7å€
     const oldWeight = finalWeights["energy"];
     finalWeights["energy"] = oldWeight * inflationBoost;
   }
@@ -7289,7 +7289,7 @@ function P1_calculateLayeredWeights_v15(
     // Log silenced
   }
 
-  // P3: ×îÖÕ¹éÒ»»¯ (È·±£×ÜºÍ100%)
+  // P3: æœ€ç»ˆå½’ä¸€åŒ– (ç¡®ä¿æ€»å’Œ100%)
   let totalWeight = Object.values(finalWeights).reduce((a, b) => a + b, 0);
   if (totalWeight > 0 && Math.abs(totalWeight - 1.0) > 0.001) {
     Object.keys(finalWeights).forEach((key) => {
@@ -7300,14 +7300,14 @@ function P1_calculateLayeredWeights_v15(
   return finalWeights;
 }
 
-console.log("v11.29 P1·Ö²ãÈ¨ÖØÏµÍ³¼ÓÔØÍê³É");
+console.log("v11.29 P1åˆ†å±‚æƒé‡ç³»ç»ŸåŠ è½½å®Œæˆ");
 
 function generateGlobalOptimalAllocation() {
   var globalScores = calcGlobalScores();
   var macroVals = getMacroValues();
   var riskPref = document.getElementById("riskPref").value;
 
-  // v11.29 P1: Ê¹ÓÃ·Ö²ãÈ¨ÖØ¼ÆËã
+  // v11.29 P1: ä½¿ç”¨åˆ†å±‚æƒé‡è®¡ç®—
   const currentStyle =
     document.getElementById("allocationStyle")?.value || "riskParity";
   var layeredWeights = P1_calculateLayeredWeights_v15(
@@ -7320,14 +7320,14 @@ function generateGlobalOptimalAllocation() {
   Object.keys(layeredWeights).forEach(function (key) {
     var weight = layeredWeights[key];
 
-    // v11.35b: ¹ıÂËµôÔÚµ±Ç°³¡¾°Äê·İÉĞÎ´´æÔÚµÄ×Ê²ú
+    // v11.35b: è¿‡æ»¤æ‰åœ¨å½“å‰åœºæ™¯å¹´ä»½å°šæœªå­˜åœ¨çš„èµ„äº§
     // v16.1 FIX: Protect High-Score Precious from being filtered
     const scoreVal = parseFloat(globalScores[key]?.score || 0);
     const isHighScorePrecious =
       key === "precious" && (scoreVal > 100 || weight > 0.1);
     if (!isHighScorePrecious && !isAssetAvailable(key, currentScenarioYear)) {
       console.log(
-        `[v11.35b] Ìø¹ı×Ê²ú ${key}£¨${currentScenarioYear}ÄêÉĞÎ´´æÔÚ£©`,
+        `[v11.35b] è·³è¿‡èµ„äº§ ${key}ï¼ˆ${currentScenarioYear}å¹´å°šæœªå­˜åœ¨ï¼‰`,
       );
       return;
     }
@@ -7340,7 +7340,7 @@ function generateGlobalOptimalAllocation() {
     }
   });
 
-  // ¹éÒ»»¯È·±£×ÜºÍÎª1
+  // å½’ä¸€åŒ–ç¡®ä¿æ€»å’Œä¸º1
   var totalWeight = 0;
   Object.keys(allocation).forEach(function (k) {
     totalWeight += allocation[k].weight;
@@ -7366,21 +7366,21 @@ function renderGlobalView() {
       '<div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; margin-bottom:16px;">';
 
     var regionIcons = {
-      ÖĞ¹ú: "????",
-      ÃÀ¹ú: "????",
-      ·¢´ïÊĞ³¡: "??",
-      ĞÂĞËÊĞ³¡: "??",
-      Õ®È¯: "??",
-      ÉÌÆ·: "??",
-      ¼ÓÃÜ: "?",
-      ¶Ô³å: "???",
+      ä¸­å›½: "ğŸ‡¨ğŸ‡³",
+      ç¾å›½: "ğŸ‡ºğŸ‡¸",
+      å‘è¾¾å¸‚åœº: "ğŸŒ",
+      æ–°å…´å¸‚åœº: "ğŸš€",
+      å€ºåˆ¸: "ğŸ“„",
+      å•†å“: "ğŸ†",
+      åŠ å¯†: "â‚¿",
+      å¯¹å†²: "ğŸ›¡ï¸",
     };
 
     Object.keys(regionScores).forEach(function (region) {
       var data = regionScores[region];
       var score = data.score;
       var color = score >= 60 ? "#10b981" : score >= 40 ? "#f59e0b" : "#ef4444";
-      var label = score >= 60 ? "¿´¶à" : score >= 40 ? "ÖĞĞÔ" : "¿´¿Õ";
+      var label = score >= 60 ? "çœ‹å¤š" : score >= 40 ? "ä¸­æ€§" : "çœ‹ç©º";
 
       html +=
         '<div style="background:white; border:2px solid ' +
@@ -7388,7 +7388,7 @@ function renderGlobalView() {
         '; border-radius:8px; padding:12px; text-align:center;">';
       html +=
         '<div style="font-size:24px; margin-bottom:4px;">' +
-        (regionIcons[region] || "??") +
+        (regionIcons[region] || "ğŸ“Š") +
         "</div>";
       html +=
         '<div style="font-weight:600; margin-bottom:4px;">' + region + "</div>";
@@ -7407,22 +7407,22 @@ function renderGlobalView() {
     var sortedRegions = Object.keys(regionScores).sort(function (a, b) {
       return regionScores[b].score - regionScores[a].score;
     });
-    var top3 = sortedRegions.slice(0, 3).join("¡¢");
-    var bottom2 = sortedRegions.slice(-2).join("¡¢");
+    var top3 = sortedRegions.slice(0, 3).join("ã€");
+    var bottom2 = sortedRegions.slice(-2).join("ã€");
 
     var aiReason = explainGlobalViewReason(regionScores, sortedRegions);
 
     html += '<div class="success-box" style="margin-top:12px;">';
-    html += "<strong>?? AI½¨Òé£º</strong><br/>";
-    html += "½áÂÛ£º<strong>µ±Ç°»·¾³¸üÊÊºÏ " + top3 + "</strong><br/>";
-    html += "Ô­Òò£º<strong>" + aiReason + "</strong><br/>";
-    html += "Ïà¶Ô²»Õ¼ÓÅ£º<strong>" + bottom2 + "</strong>";
+    html += "<strong>ğŸ’¡ AIå»ºè®®ï¼š</strong><br/>";
+    html += "ç»“è®ºï¼š<strong>å½“å‰ç¯å¢ƒæ›´é€‚åˆ " + top3 + "</strong><br/>";
+    html += "åŸå› ï¼š<strong>" + aiReason + "</strong><br/>";
+    html += "ç›¸å¯¹ä¸å ä¼˜ï¼š<strong>" + bottom2 + "</strong>";
     html += "</div>";
     profilePanel.innerHTML = html;
   }
 }
 
-// À©Õ¹switchTab
+// æ‰©å±•switchTab
 var origSwitchTab_v817 = switchTab;
 switchTab = function (idx) {
   origSwitchTab_v817(idx);
@@ -7431,13 +7431,13 @@ switchTab = function (idx) {
   }
 };
 
-console.log("v8.19 È«¾Ö×îÓÅÍÆ¼öÏµÍ³¼ÓÔØÍê³É");
+console.log("v8.19 å…¨å±€æœ€ä¼˜æ¨èç³»ç»ŸåŠ è½½å®Œæˆ");
 
 // ========================================
-// v8.19 ¾­¼ÃÖÜÆÚ×Ô¶¯¼ÆËãÂß¼­
+// v8.19 ç»æµå‘¨æœŸè‡ªåŠ¨è®¡ç®—é€»è¾‘
 // ========================================
 
-// ×Ô¶¯¼ÆËãÃÀ¹ú¾­¼ÃÖÜÆÚ½×¶Î
+// è‡ªåŠ¨è®¡ç®—ç¾å›½ç»æµå‘¨æœŸé˜¶æ®µ
 function calculateUsCycleStage() {
   var pmiInput = document.getElementById("macro_usPmi");
   var unempInput = document.getElementById("macro_usUnemployment");
@@ -7448,46 +7448,46 @@ function calculateUsCycleStage() {
   var pmi = parseFloat(pmiInput.value) || 50;
   var unemp = parseFloat(unempInput.value) || 4.5;
 
-  // ¸ù¾İPMIºÍÊ§ÒµÂÊ¼ÆËãÖÜÆÚ½×¶Î
-  var stage = 0.5; // Ä¬ÈÏÎÈ¶¨
+  // æ ¹æ®PMIå’Œå¤±ä¸šç‡è®¡ç®—å‘¨æœŸé˜¶æ®µ
+  var stage = 0.5; // é»˜è®¤ç¨³å®š
 
   if (pmi < 47 && unemp > 5.5) {
-    stage = -1.0; // Ë¥ÍË
+    stage = -1.0; // è¡°é€€
   } else if (pmi < 50 && unemp > 5.0) {
-    stage = -0.5; // ½Ó½üË¥ÍË
+    stage = -0.5; // æ¥è¿‘è¡°é€€
   } else if (pmi < 50) {
-    stage = 0.0; // ¼õËÙ
+    stage = 0.0; // å‡é€Ÿ
   } else if (pmi >= 50 && pmi < 53) {
-    stage = 0.5; // ÎÈ¶¨
+    stage = 0.5; // ç¨³å®š
   } else if (pmi >= 53 && unemp < 4.5) {
-    stage = 0.8; // À©ÕÅ
+    stage = 0.8; // æ‰©å¼ 
   } else if (pmi >= 55 && unemp < 4.0) {
-    stage = 1.0; // Ç¿¾¢À©ÕÅ
+    stage = 1.0; // å¼ºåŠ²æ‰©å¼ 
   }
 
   cycleInput.value = stage.toFixed(1);
 
-  // ¸üĞÂÏÔÊ¾
+  // æ›´æ–°æ˜¾ç¤º
   var displaySpan = document.getElementById("usCycleStage_display");
   if (displaySpan) {
     var labels = {
-      "-1.0": "?? Ë¥ÍË",
-      "-0.5": "?? ½Ó½üË¥ÍË",
-      "0.0": "?? ¼õËÙ",
-      0.5: "?? ÎÈ¶¨",
-      0.8: "?? À©ÕÅ",
-      "1.0": "?? Ç¿¾¢À©ÕÅ",
+      "-1.0": "ğŸ”´ è¡°é€€",
+      "-0.5": "ğŸŸ  æ¥è¿‘è¡°é€€",
+      "0.0": "ğŸŸ¡ å‡é€Ÿ",
+      0.5: "ğŸŸ¢ ç¨³å®š",
+      0.8: "ğŸŸ¢ æ‰©å¼ ",
+      "1.0": "ğŸŸ¢ å¼ºåŠ²æ‰©å¼ ",
     };
     displaySpan.textContent = labels[stage.toFixed(1)] || stage.toFixed(1);
   }
 }
 
-// ¼àÌıPMIºÍÊ§ÒµÂÊ±ä»¯£¬×Ô¶¯¸üĞÂÖÜÆÚ½×¶Î
+// ç›‘å¬PMIå’Œå¤±ä¸šç‡å˜åŒ–ï¼Œè‡ªåŠ¨æ›´æ–°å‘¨æœŸé˜¶æ®µ
 var origRenderMacroDisplay_v8181 = renderMacroDisplay;
 renderMacroDisplay = function () {
   origRenderMacroDisplay_v8181();
 
-  // ÎªPMIºÍÊ§ÒµÂÊÌí¼Ó±ä»¯¼àÌı
+  // ä¸ºPMIå’Œå¤±ä¸šç‡æ·»åŠ å˜åŒ–ç›‘å¬
   var pmiInput = document.getElementById("macro_usPmi");
   var unempInput = document.getElementById("macro_usUnemployment");
 
@@ -7498,7 +7498,7 @@ renderMacroDisplay = function () {
     unempInput.addEventListener("change", calculateUsCycleStage);
   }
 
-  // ³õ´Î¼ÆËã
+  // åˆæ¬¡è®¡ç®—
   setTimeout(calculateUsCycleStage, 100);
 };
 
@@ -7507,15 +7507,15 @@ var origCalcAssetScore_v8181 = calcAssetScore;
 calcAssetScore = function (majorKey, macroVals) {
     var result = origCalcAssetScore_v8181(majorKey, macroVals);
 
-    // »ñÈ¡ÃÀ¹ú¾­¼ÃÖÜÆÚ½×¶Î
+    // è·å–ç¾å›½ç»æµå‘¨æœŸé˜¶æ®µ
     var usCycle = parseFloat(macroVals.usCycleStage) || 0.5;
     var fedRate = parseFloat(macroVals.fedRate) || 3.75;
 
-    // ÅĞ¶ÏÊÇ·ñÊÇË¥ÍËÖĞµÄ½µÏ¢
+    // åˆ¤æ–­æ˜¯å¦æ˜¯è¡°é€€ä¸­çš„é™æ¯
     var isRecessionRateCut = (usCycle < 0 && fedRate < 3);
 
     if (isRecessionRateCut) {
-        // Ë¥ÍËÖĞµÄ½µÏ¢ - »ùÓÚÀúÊ·¹æÂÉµ÷Õû
+        // è¡°é€€ä¸­çš„é™æ¯ - åŸºäºå†å²è§„å¾‹è°ƒæ•´
         var riskAssets = ['usStock', 'cnStock', 'hkStock', 'devStock', 'emStock', 'crypto'];
         var safeAssets = ['bonds', 'hedges'];
 
@@ -7526,11 +7526,11 @@ calcAssetScore = function (majorKey, macroVals) {
 
             result.factors.unshift({
                 indicator: 'usCycleStage',
-                label: '¡¾Ë¥ÍË½µÏ¢µ÷Õû¡¿',
-                sensitivity: '¶¯Ì¬',
+                label: 'ã€è¡°é€€é™æ¯è°ƒæ•´ã€‘',
+                sensitivity: 'åŠ¨æ€',
                 currValue: usCycle.toFixed(2),
                 neutralValue: '0.50',
-                deviation: 'Ë¥ÍËÖĞ½µÏ¢',
+                deviation: 'è¡°é€€ä¸­é™æ¯',
                 contribution: (adjustedScore - originalScore).toFixed(1)
             });
         }
@@ -7546,10 +7546,10 @@ calcAssetScore = function (majorKey, macroVals) {
 };
 */
 
-console.log("v8.19 ¾­¼ÃÖÜÆÚ×Ô¶¯¼ÆËãÂß¼­¼ÓÔØÍê³É");
+console.log("v8.19 ç»æµå‘¨æœŸè‡ªåŠ¨è®¡ç®—é€»è¾‘åŠ è½½å®Œæˆ");
 
 // ========================================
-// v8.19.1 ºê¹Û»·¾³×Ü½á¹¦ÄÜ
+// v8.19.1 å®è§‚ç¯å¢ƒæ€»ç»“åŠŸèƒ½
 // ========================================
 
 function renderMacroSummary() {
@@ -7561,18 +7561,18 @@ function renderMacroSummary() {
   var sourceInfo = getDateStalenessInfo(sourceDate);
   var importedInfo = getDateStalenessInfo(importedAt);
   var macroFreshnessStale = sourceInfo.stale || importedInfo.stale;
-  var macroFreshnessLabel = macroFreshnessStale ? "Êı¾İÆ«¾É" : "Êı¾İĞÂÏÊ";
+  var macroFreshnessLabel = macroFreshnessStale ? "æ•°æ®åæ—§" : "æ•°æ®æ–°é²œ";
   var macroFreshnessColor = macroFreshnessStale ? "#b45309" : "#059669";
 
-  // ¼ÆËãÃ¿¸öÖ¸±êµÄÆ«Àë¶È
+  // è®¡ç®—æ¯ä¸ªæŒ‡æ ‡çš„åç¦»åº¦
   var keyIndicators = [
-    { key: "fedRate", name: "FedÀûÂÊ", bullish: "low", weight: 2 },
-    { key: "realYield", name: "Êµ¼ÊÊÕÒæÂÊ", bullish: "low", weight: 1.5 },
-    { key: "vix", name: "VIX¿Ö»ÅÖ¸Êı", bullish: "low", weight: 2 },
-    { key: "creditSpread", name: "ĞÅÓÃÀû²î", bullish: "low", weight: 1.5 },
-    { key: "usd", name: "ÃÀÔªÖ¸Êı", bullish: "neutral", weight: 1 },
-    { key: "globalGrowth", name: "È«ÇòÔö³¤", bullish: "high", weight: 1.5 },
-    { key: "inflation", name: "Í¨ÕÍ", bullish: "low", weight: 1 },
+    { key: "fedRate", name: "Fedåˆ©ç‡", bullish: "low", weight: 2 },
+    { key: "realYield", name: "å®é™…æ”¶ç›Šç‡", bullish: "low", weight: 1.5 },
+    { key: "vix", name: "VIXææ…ŒæŒ‡æ•°", bullish: "low", weight: 2 },
+    { key: "creditSpread", name: "ä¿¡ç”¨åˆ©å·®", bullish: "low", weight: 1.5 },
+    { key: "usd", name: "ç¾å…ƒæŒ‡æ•°", bullish: "neutral", weight: 1 },
+    { key: "globalGrowth", name: "å…¨çƒå¢é•¿", bullish: "high", weight: 1.5 },
+    { key: "inflation", name: "é€šèƒ€", bullish: "low", weight: 1 },
   ];
 
   var totalScore = 0;
@@ -7589,27 +7589,27 @@ function renderMacroSummary() {
     var rangeMid = (range[1] + range[0]) / 2;
     var rangeSpan = range[1] - range[0];
 
-    // ¼ÆËã±ê×¼»¯Æ«Àë¶È (-1 µ½ +1)
+    // è®¡ç®—æ ‡å‡†åŒ–åç¦»åº¦ (-1 åˆ° +1)
     var deviation = (curr - neutral) / (rangeSpan / 2);
     deviation = Math.max(-1, Math.min(1, deviation));
 
-    // ¸ù¾İbullish·½Ïòµ÷Õû·ÖÊı
+    // æ ¹æ®bullishæ–¹å‘è°ƒæ•´åˆ†æ•°
     var contribution = 0;
     if (ind.bullish === "low") {
-      contribution = -deviation; // µÍÓÚÖĞĞÔÊÇÀûºÃ
+      contribution = -deviation; // ä½äºä¸­æ€§æ˜¯åˆ©å¥½
     } else if (ind.bullish === "high") {
-      contribution = deviation; // ¸ßÓÚÖĞĞÔÊÇÀûºÃ
+      contribution = deviation; // é«˜äºä¸­æ€§æ˜¯åˆ©å¥½
     } else {
-      contribution = 0; // ÖĞĞÔÖ¸±ê²»¹±Ï×
+      contribution = 0; // ä¸­æ€§æŒ‡æ ‡ä¸è´¡çŒ®
     }
 
     var weightedScore = contribution * ind.weight;
     totalScore += weightedScore;
     maxScore += ind.weight;
 
-    var status = "? ÖĞĞÔ";
-    if (contribution > 0.2) status = "?? ÀûºÃ";
-    else if (contribution < -0.2) status = "?? Àû¿Õ";
+    var status = "âšª ä¸­æ€§";
+    if (contribution > 0.2) status = "ğŸŸ¢ åˆ©å¥½";
+    else if (contribution < -0.2) status = "ğŸ”´ åˆ©ç©º";
     var updated = getDateStalenessInfo(config.lastUpdated);
 
     details.push({
@@ -7623,48 +7623,48 @@ function renderMacroSummary() {
     });
   });
 
-  // ¹éÒ»»¯µ½ -100 µ½ +100
+  // å½’ä¸€åŒ–åˆ° -100 åˆ° +100
   var normalizedScore = (totalScore / maxScore) * 100;
 
-  // ÅĞ¶Ï»·¾³ÀàĞÍ
+  // åˆ¤æ–­ç¯å¢ƒç±»å‹
   var envType, envColor, envIcon, envDesc;
   if (normalizedScore > 30) {
-    envType = "Ç¿¾¢¿´¶à";
+    envType = "å¼ºåŠ²çœ‹å¤š";
     envColor = "#059669";
-    envIcon = "??";
-    envDesc = "ºê¹Û»·¾³Ã÷ÏÔÀûºÃ·çÏÕ×Ê²ú£¬¿É¿¼ÂÇÔöÅä¹ÉÆ±¡¢ĞÂĞËÊĞ³¡";
+    envIcon = "ğŸš€";
+    envDesc = "å®è§‚ç¯å¢ƒæ˜æ˜¾åˆ©å¥½é£é™©èµ„äº§ï¼Œå¯è€ƒè™‘å¢é…è‚¡ç¥¨ã€æ–°å…´å¸‚åœº";
   } else if (normalizedScore > 10) {
-    envType = "ÎÂºÍ¿´¶à";
+    envType = "æ¸©å’Œçœ‹å¤š";
     envColor = "#10b981";
-    envIcon = "??";
-    envDesc = "ºê¹Û»·¾³ÂÔÎ¢Æ«Ïò·çÏÕ×Ê²ú£¬±£³Ö¾ùºâÅäÖÃÆ«½ø¹¥";
+    envIcon = "ğŸ“ˆ";
+    envDesc = "å®è§‚ç¯å¢ƒç•¥å¾®åå‘é£é™©èµ„äº§ï¼Œä¿æŒå‡è¡¡é…ç½®åè¿›æ”»";
   } else if (normalizedScore > -10) {
-    envType = "ÖĞĞÔÆ½ºâ";
+    envType = "ä¸­æ€§å¹³è¡¡";
     envColor = "#6366f1";
-    envIcon = "??";
-    envDesc = "ºê¹Û»·¾³Ã»ÓĞÃ÷ÏÔÆ«Ïò£¬·ÖÉ¢ÅäÖÃÊÇºÏÀí²ßÂÔ";
+    envIcon = "âš–ï¸";
+    envDesc = "å®è§‚ç¯å¢ƒæ²¡æœ‰æ˜æ˜¾åå‘ï¼Œåˆ†æ•£é…ç½®æ˜¯åˆç†ç­–ç•¥";
   } else if (normalizedScore > -30) {
-    envType = "ÎÂºÍ½÷É÷";
+    envType = "æ¸©å’Œè°¨æ…";
     envColor = "#f59e0b";
-    envIcon = "??";
-    envDesc = "ºê¹Û»·¾³ÂÔÎ¢Æ«Ïò·ÀÓù£¬¿É¿¼ÂÇÔöÅäÕ®È¯¡¢½µµÍ·çÏÕ³¨¿Ú";
+    envIcon = "âš ï¸";
+    envDesc = "å®è§‚ç¯å¢ƒç•¥å¾®åå‘é˜²å¾¡ï¼Œå¯è€ƒè™‘å¢é…å€ºåˆ¸ã€é™ä½é£é™©æ•å£";
   } else {
-    envType = "¸ß¶È·ÀÓù";
+    envType = "é«˜åº¦é˜²å¾¡";
     envColor = "#dc2626";
-    envIcon = "???";
-    envDesc = "ºê¹Û»·¾³Ã÷ÏÔÀû¿Õ·çÏÕ×Ê²ú£¬½¨Òé´ó·ùÔöÅäÕ®È¯ºÍ¶Ô³å¹¤¾ß";
+    envIcon = "ğŸ›¡ï¸";
+    envDesc = "å®è§‚ç¯å¢ƒæ˜æ˜¾åˆ©ç©ºé£é™©èµ„äº§ï¼Œå»ºè®®å¤§å¹…å¢é…å€ºåˆ¸å’Œå¯¹å†²å·¥å…·";
   }
 
   var html = '<div style="text-align:center; padding:16px;">';
   html += '<div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; align-items:center; margin-bottom:14px;">';
-  html += '<label style="font-size:12px; color:#475569; font-weight:600;">Êı¾İÔ´ÈÕÆÚ</label>';
+  html += '<label style="font-size:12px; color:#475569; font-weight:600;">æ•°æ®æºæ—¥æœŸ</label>';
   html +=
     '<input id="macroSourceDateInput" type="date" value="' +
     escapeHtml(sourceDate) +
     '" onchange="setMacroSourceDate(this.value); renderMacroSummary(); generateRecommendation(false, true);" style="padding:6px 8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px;">';
   html +=
-    '<span style="font-size:12px; color:#475569;">µ¼ÈëÊ±¼ä£º<strong>' +
-    escapeHtml(importedInfo.label || "Î´±ê×¢") +
+    '<span style="font-size:12px; color:#475569;">å¯¼å…¥æ—¶é—´ï¼š<strong>' +
+    escapeHtml(importedInfo.label || "æœªæ ‡æ³¨") +
     "</strong></span>";
   html += "</div>";
   html +=
@@ -7685,14 +7685,14 @@ function renderMacroSummary() {
     macroFreshnessColor +
     '18; color:' +
     macroFreshnessColor +
-    '; font-size:12px; font-weight:700;">Êı¾İĞÂÏÊ¶È£º' +
+    '; font-size:12px; font-weight:700;">æ•°æ®æ–°é²œåº¦ï¼š' +
     macroFreshnessLabel +
     "</span>" +
-    '<span style="padding:4px 10px; border-radius:999px; background:#e2e8f0; color:#475569; font-size:12px;">À´Ô´£º' +
-    escapeHtml(sourceInfo.label || "Î´±ê×¢") +
+    '<span style="padding:4px 10px; border-radius:999px; background:#e2e8f0; color:#475569; font-size:12px;">æ¥æºï¼š' +
+    escapeHtml(sourceInfo.label || "æœªæ ‡æ³¨") +
     "</span>" +
-    '<span style="padding:4px 10px; border-radius:999px; background:#e2e8f0; color:#475569; font-size:12px;">µ¼Èë£º' +
-    escapeHtml(importedInfo.label || "Î´±ê×¢") +
+    '<span style="padding:4px 10px; border-radius:999px; background:#e2e8f0; color:#475569; font-size:12px;">å¯¼å…¥ï¼š' +
+    escapeHtml(importedInfo.label || "æœªæ ‡æ³¨") +
     "</span>" +
     "</div>";
   html +=
@@ -7702,22 +7702,22 @@ function renderMacroSummary() {
     envColor +
     '; border-radius:8px;">';
   html +=
-    '<span style="font-weight:600;">×ÛºÏµÃ·Ö£º</span><span style="font-size:20px; font-weight:700; color:' +
+    '<span style="font-weight:600;">ç»¼åˆå¾—åˆ†ï¼š</span><span style="font-size:20px; font-weight:700; color:' +
     envColor +
     ';">' +
     (normalizedScore >= 0 ? "+" : "") +
     normalizedScore.toFixed(0) +
     "</span>";
   html +=
-    '<span style="color:#999; font-size:12px;"> (·¶Î§: -100 ~ +100)</span>';
+    '<span style="color:#999; font-size:12px;"> (èŒƒå›´: -100 ~ +100)</span>';
   html += "</div>";
   html += "</div>";
 
-  // Ö¸±êÃ÷Ï¸
+  // æŒ‡æ ‡æ˜ç»†
   html +=
     '<div style="margin-top:16px;"><table style="width:100%; border-collapse:collapse; font-size:11px;">';
   html +=
-    '<tr style="background:#f3f4f6;"><th style="padding:8px; text-align:left;">Ö¸±ê</th><th>µ±Ç°Öµ</th><th>ÖĞĞÔÖµ</th><th>×´Ì¬</th><th>¸üĞÂÊ±¼ä</th></tr>';
+    '<tr style="background:#f3f4f6;"><th style="padding:8px; text-align:left;">æŒ‡æ ‡</th><th>å½“å‰å€¼</th><th>ä¸­æ€§å€¼</th><th>çŠ¶æ€</th><th>æ›´æ–°æ—¶é—´</th></tr>';
   details.forEach(function (d) {
     html += "<tr>";
     html +=
@@ -7742,22 +7742,22 @@ function renderMacroSummary() {
       ";" +
       (d.stale ? " font-weight:600;" : "") +
       '">' +
-      (d.updated || "Î´±ê×¢") +
+      (d.updated || "æœªæ ‡æ³¨") +
       "</td>";
     html += "</tr>";
   });
   html += "</table></div>";
-  const updatedCount = details.filter((d) => d.updated && d.updated !== "Î´±ê×¢").length;
+  const updatedCount = details.filter((d) => d.updated && d.updated !== "æœªæ ‡æ³¨").length;
   html +=
-    '<div style="margin-top:10px; font-size:11px; color:#6b7280; text-align:left;">Êı¾İÊ±Ğ§£ºÊı¾İÔ´ÈÕÆÚ ' +
-    escapeHtml(sourceInfo.label || "Î´±ê×¢") +
-    "£»µ¼ÈëÊ±¼ä " +
-    escapeHtml(importedInfo.label || "Î´±ê×¢") +
-    "¡£µ±Ç°ÒÑ±ê×¢£º" +
+    '<div style="margin-top:10px; font-size:11px; color:#6b7280; text-align:left;">æ•°æ®æ—¶æ•ˆï¼šæ•°æ®æºæ—¥æœŸ ' +
+    escapeHtml(sourceInfo.label || "æœªæ ‡æ³¨") +
+    "ï¼›å¯¼å…¥æ—¶é—´ " +
+    escapeHtml(importedInfo.label || "æœªæ ‡æ³¨") +
+    "ã€‚å½“å‰å·²æ ‡æ³¨ï¼š" +
     updatedCount +
     '/' +
     details.length +
-    ' ¸öºËĞÄÖ¸±ê¡£</div>';
+    ' ä¸ªæ ¸å¿ƒæŒ‡æ ‡ã€‚</div>';
 
   panel.innerHTML = html;
   renderMacroDirectionPanel(macroVals, details, normalizedScore);
@@ -7769,33 +7769,33 @@ function renderMacroDirectionPanel(macroVals, details, normalizedScore) {
 
   var strongAssets = [];
   var weakAssets = [];
-  var explainTitle = "·½ÏòÖĞĞÔ";
-  var explainText = "ºËĞÄÖ¸±ê·ÖÆç²»´ó£¬ÊÊºÏÎ¬³Ö·ÖÉ¢ÅäÖÃ¡£";
+  var explainTitle = "æ–¹å‘ä¸­æ€§";
+  var explainText = "æ ¸å¿ƒæŒ‡æ ‡åˆ†æ­§ä¸å¤§ï¼Œé€‚åˆç»´æŒåˆ†æ•£é…ç½®ã€‚";
   if (normalizedScore > 30) {
-    explainTitle = "·½ÏòÆ«¶à";
-    explainText = "ÀûÂÊ¡¢²¨¶¯ÂÊºÍÔö³¤ĞÅºÅ¸üÖ§³Ö·çÏÕ×Ê²ú£¬¹ÉÆ±ºÍÉÌÆ·¸üÈİÒ×Õ¼ÓÅ¡£";
-    strongAssets = ["¹ÉÆ±", "ĞÂĞËÊĞ³¡", "ÉÌÆ·"];
-    weakAssets = ["³¤¾ÃÆÚÕ®È¯", "ÃÀÔª", "¶Ô³å¹¤¾ß"];
+    explainTitle = "æ–¹å‘åå¤š";
+    explainText = "åˆ©ç‡ã€æ³¢åŠ¨ç‡å’Œå¢é•¿ä¿¡å·æ›´æ”¯æŒé£é™©èµ„äº§ï¼Œè‚¡ç¥¨å’Œå•†å“æ›´å®¹æ˜“å ä¼˜ã€‚";
+    strongAssets = ["è‚¡ç¥¨", "æ–°å…´å¸‚åœº", "å•†å“"];
+    weakAssets = ["é•¿ä¹…æœŸå€ºåˆ¸", "ç¾å…ƒ", "å¯¹å†²å·¥å…·"];
   } else if (normalizedScore > 10) {
-    explainTitle = "ÂÔÆ«¶à";
-    explainText = "·çÏÕ×Ê²úÂÔÕ¼ÓÅ£¬µ«ĞÅºÅ»¹²»¹»Í³Ò»£¬ÊÊºÏ±£³Ö¾ùºâÆ«½ø¹¥¡£";
-    strongAssets = ["¹ÉÆ±", "ĞÂĞËÊĞ³¡"];
-    weakAssets = ["·ÀÓùĞÍ×Ê²ú", "³¤¾ÃÆÚÕ®È¯"];
+    explainTitle = "ç•¥åå¤š";
+    explainText = "é£é™©èµ„äº§ç•¥å ä¼˜ï¼Œä½†ä¿¡å·è¿˜ä¸å¤Ÿç»Ÿä¸€ï¼Œé€‚åˆä¿æŒå‡è¡¡åè¿›æ”»ã€‚";
+    strongAssets = ["è‚¡ç¥¨", "æ–°å…´å¸‚åœº"];
+    weakAssets = ["é˜²å¾¡å‹èµ„äº§", "é•¿ä¹…æœŸå€ºåˆ¸"];
   } else if (normalizedScore > -10) {
-    explainTitle = "·½ÏòÖĞĞÔ";
-    explainText = "ºê¹ÛĞÅºÅÃ»ÓĞÃ÷ÏÔµ¥±ßÓÅÊÆ£¬·ÖÉ¢ÅäÖÃÍ¨³£¸üÎÈÍ×¡£";
-    strongAssets = ["¾ùºâÅäÖÃ×Ê²ú", "·ÖÉ¢ĞÍ×éºÏ"];
-    weakAssets = ["µ¥±ß¸ß²¨¶¯×Ê²ú"];
+    explainTitle = "æ–¹å‘ä¸­æ€§";
+    explainText = "å®è§‚ä¿¡å·æ²¡æœ‰æ˜æ˜¾å•è¾¹ä¼˜åŠ¿ï¼Œåˆ†æ•£é…ç½®é€šå¸¸æ›´ç¨³å¦¥ã€‚";
+    strongAssets = ["å‡è¡¡é…ç½®èµ„äº§", "åˆ†æ•£å‹ç»„åˆ"];
+    weakAssets = ["å•è¾¹é«˜æ³¢åŠ¨èµ„äº§"];
   } else if (normalizedScore > -30) {
-    explainTitle = "ÂÔÆ«¿Õ";
-    explainText = "·ÀÓùĞÅºÅ¿ªÊ¼ÔöÇ¿£¬Õ®È¯ºÍ¶Ô³å¹¤¾ßÏà¶Ô¸üÕ¼ÓÅ¡£";
-    strongAssets = ["Õ®È¯", "¶Ô³å¹¤¾ß", "ÃÀÔª"];
-    weakAssets = ["¹ÉÆ±", "ĞÂĞËÊĞ³¡", "ÉÌÆ·"];
+    explainTitle = "ç•¥åç©º";
+    explainText = "é˜²å¾¡ä¿¡å·å¼€å§‹å¢å¼ºï¼Œå€ºåˆ¸å’Œå¯¹å†²å·¥å…·ç›¸å¯¹æ›´å ä¼˜ã€‚";
+    strongAssets = ["å€ºåˆ¸", "å¯¹å†²å·¥å…·", "ç¾å…ƒ"];
+    weakAssets = ["è‚¡ç¥¨", "æ–°å…´å¸‚åœº", "å•†å“"];
   } else {
-    explainTitle = "·½ÏòÆ«¿Õ";
-    explainText = "·çÏÕÆ«ºÃÃ÷ÏÔ×ßÈõ£¬·ÀÓù×Ê²ú¸üÓĞÓÅÊÆ¡£";
-    strongAssets = ["Õ®È¯", "¶Ô³å¹¤¾ß"];
-    weakAssets = ["¹ÉÆ±", "ĞÂĞËÊĞ³¡", "ÉÌÆ·"];
+    explainTitle = "æ–¹å‘åç©º";
+    explainText = "é£é™©åå¥½æ˜æ˜¾èµ°å¼±ï¼Œé˜²å¾¡èµ„äº§æ›´æœ‰ä¼˜åŠ¿ã€‚";
+    strongAssets = ["å€ºåˆ¸", "å¯¹å†²å·¥å…·"];
+    weakAssets = ["è‚¡ç¥¨", "æ–°å…´å¸‚åœº", "å•†å“"];
   }
 
   var drivers = details
@@ -7808,24 +7808,24 @@ function renderMacroDirectionPanel(macroVals, details, normalizedScore) {
   var driverSpread = drivers.reduce(function (sum, d) {
     return sum + Math.abs(parseFloat(d.contribution || 0));
   }, 0);
-  var signalStrength = "Ò»°ã";
-  if (Math.abs(normalizedScore) >= 25 && driverSpread >= 1.2) signalStrength = "½ÏÇ¿";
-  else if (Math.abs(normalizedScore) < 10 || driverSpread < 0.6) signalStrength = "½ÏÈõ";
+  var signalStrength = "ä¸€èˆ¬";
+  if (Math.abs(normalizedScore) >= 25 && driverSpread >= 1.2) signalStrength = "è¾ƒå¼º";
+  else if (Math.abs(normalizedScore) < 10 || driverSpread < 0.6) signalStrength = "è¾ƒå¼±";
 
   var sourceInfo = getDateStalenessInfo(getMacroSourceDate());
   var importedInfo = getDateStalenessInfo(getMacroImportedAt());
   var timingText =
-    "Êı¾İÔ´ÈÕÆÚ£º" +
-    (sourceInfo.label || "Î´±ê×¢") +
-    "£»µ¼ÈëÊ±¼ä£º" +
-    (importedInfo.label || "Î´±ê×¢");
+    "æ•°æ®æºæ—¥æœŸï¼š" +
+    (sourceInfo.label || "æœªæ ‡æ³¨") +
+    "ï¼›å¯¼å…¥æ—¶é—´ï¼š" +
+    (importedInfo.label || "æœªæ ‡æ³¨");
 
   var html = '<div style="padding:14px 16px; border:1px solid #c7d2fe; border-radius:12px; background:#f8faff;">';
   html += '<div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">';
   html += '<span style="padding:4px 10px; border-radius:999px; background:#e0e7ff; color:#3730a3; font-weight:700;">';
   html += explainTitle;
   html += '</span>';
-  html += '<span style="color:#334155; font-weight:600;">ĞÅºÅÇ¿Èõ£º' + signalStrength + '</span>';
+  html += '<span style="color:#334155; font-weight:600;">ä¿¡å·å¼ºå¼±ï¼š' + signalStrength + '</span>';
   html += '<span style="color:#64748b;">' + timingText + '</span>';
   html +=
     '<span style="padding:4px 10px; border-radius:999px; background:' +
@@ -7833,17 +7833,17 @@ function renderMacroDirectionPanel(macroVals, details, normalizedScore) {
     '; color:' +
     (sourceInfo.stale || importedInfo.stale ? "#b45309" : "#166534") +
     '; font-weight:700;">' +
-    (sourceInfo.stale || importedInfo.stale ? "ºê¹ÛÊı¾İÆ«¾É" : "ºê¹ÛÊı¾İ½ÏĞÂ") +
+    (sourceInfo.stale || importedInfo.stale ? "å®è§‚æ•°æ®åæ—§" : "å®è§‚æ•°æ®è¾ƒæ–°") +
     "</span>";
   html += '</div>';
 
   html += '<div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">';
-  html += '<div><div style="font-size:12px; color:#475569; font-weight:700; margin-bottom:6px;">Æ«Ç¿×Ê²ú</div><div style="color:#0f766e;">' + strongAssets.join("¡¢") + '</div></div>';
-  html += '<div><div style="font-size:12px; color:#475569; font-weight:700; margin-bottom:6px;">Æ«Èõ×Ê²ú</div><div style="color:#b91c1c;">' + weakAssets.join("¡¢") + '</div></div>';
+  html += '<div><div style="font-size:12px; color:#475569; font-weight:700; margin-bottom:6px;">åå¼ºèµ„äº§</div><div style="color:#0f766e;">' + strongAssets.join("ã€") + '</div></div>';
+  html += '<div><div style="font-size:12px; color:#475569; font-weight:700; margin-bottom:6px;">åå¼±èµ„äº§</div><div style="color:#b91c1c;">' + weakAssets.join("ã€") + '</div></div>';
   html += '</div>';
 
   html += '<div style="margin-top:12px;">';
-  html += '<div style="font-size:12px; color:#475569; font-weight:700; margin-bottom:6px;">Ö÷ÒªÔ­Òò</div>';
+  html += '<div style="font-size:12px; color:#475569; font-weight:700; margin-bottom:6px;">ä¸»è¦åŸå› </div>';
   html += '<div style="font-size:12px; color:#334155; margin-bottom:8px;">' + explainText + '</div>';
   drivers.forEach(function (d) {
     html += '<div style="display:flex; justify-content:space-between; font-size:12px; padding:4px 0; border-bottom:1px dashed #e2e8f0;">';
@@ -7873,11 +7873,11 @@ function renderMacroAssetBreakdown() {
   });
 
   var html = '<div style="margin-bottom:12px; padding:12px; border:1px solid #bbf7d0; border-radius:10px; background:#f0fdf4;">';
-  html += '<div style="font-weight:700; color:#065f46; margin-bottom:6px;">AI½¨Òé</div>';
+  html += '<div style="font-weight:700; color:#065f46; margin-bottom:6px;">AIå»ºè®®</div>';
   html += '<div style="font-size:12px; color:#0f172a; line-height:1.6;">';
-  html += '½áÂÛ£ºµ±Ç°»·¾³¸üÊÊºÏ <strong>' + top3.join("¡¢") + '</strong>¡£';
-  html += '<br/>Ô­Òò£ºÕâĞ©×Ê²úµÄ×ÛºÏ·ÖÊı¾ÓÇ°£¬ºê¹ÛÖ§³Ö¸üÇ¿¡£';
-  html += '<br/>Ïà¶Ô²»Õ¼ÓÅ£º<strong>' + bottom2.join("¡¢") + '</strong>¡£';
+  html += 'ç»“è®ºï¼šå½“å‰ç¯å¢ƒæ›´é€‚åˆ <strong>' + top3.join("ã€") + '</strong>ã€‚';
+  html += '<br/>åŸå› ï¼šè¿™äº›èµ„äº§çš„ç»¼åˆåˆ†æ•°å±…å‰ï¼Œå®è§‚æ”¯æŒæ›´å¼ºã€‚';
+  html += '<br/>ç›¸å¯¹ä¸å ä¼˜ï¼š<strong>' + bottom2.join("ã€") + '</strong>ã€‚';
   html += '</div></div>';
 
   html += '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px;">';
@@ -7900,8 +7900,8 @@ function renderMacroAssetBreakdown() {
     html += (assetLibrary[key]?.name || key) + ' <span style="float:right; color:' + tone + ';">' + score.toFixed(0) + "</span>";
     html += "</summary>";
     html += '<div style="margin-top:10px; font-size:12px; color:#334155;">';
-    html += '<div><strong>Ö÷Òª¼Ó·Ö£º</strong>' + (gains.length ? gains.map(function (f) { return f.label + " +" + parseFloat(f.contribution || 0).toFixed(1); }).join("£¬") : "ÎŞÃ÷ÏÔ¼Ó·ÖÏî") + "</div>";
-    html += '<div style="margin-top:4px;"><strong>Ö÷ÒªÍÏÀÛ£º</strong>' + (drags.length ? drags.map(function (f) { return f.label + " " + parseFloat(f.contribution || 0).toFixed(1); }).join("£¬") : "ÎŞÃ÷ÏÔÍÏÀÛÏî") + "</div>";
+    html += '<div><strong>ä¸»è¦åŠ åˆ†ï¼š</strong>' + (gains.length ? gains.map(function (f) { return f.label + " +" + parseFloat(f.contribution || 0).toFixed(1); }).join("ï¼Œ") : "æ— æ˜æ˜¾åŠ åˆ†é¡¹") + "</div>";
+    html += '<div style="margin-top:4px;"><strong>ä¸»è¦æ‹–ç´¯ï¼š</strong>' + (drags.length ? drags.map(function (f) { return f.label + " " + parseFloat(f.contribution || 0).toFixed(1); }).join("ï¼Œ") : "æ— æ˜æ˜¾æ‹–ç´¯é¡¹") + "</div>";
     html += '<div style="margin-top:8px; border-top:1px dashed #e2e8f0; padding-top:8px;">';
     factors.slice(0, 6).forEach(function (f) {
       var c = parseFloat(f.contribution || 0);
@@ -7917,40 +7917,40 @@ function renderMacroAssetBreakdown() {
 }
 
 function explainGlobalViewReason(regionScores, sortedRegions) {
-  if (!sortedRegions || sortedRegions.length === 0) return "ºê¹ÛÆÀ·ÖÃ»ÓĞÃ÷ÏÔµ¥±ßÇãÏò¡£";
+  if (!sortedRegions || sortedRegions.length === 0) return "å®è§‚è¯„åˆ†æ²¡æœ‰æ˜æ˜¾å•è¾¹å€¾å‘ã€‚";
   var first = sortedRegions[0];
   var second = sortedRegions[1];
   var firstScore = regionScores[first]?.score ?? 0;
   var secondScore = second ? regionScores[second]?.score ?? 0 : 0;
-  if (firstScore >= 60) return first + " µÃ·ÖÃ÷ÏÔ¸ü¸ß£¬ËµÃ÷µ±Ç°»·¾³¸üÖ§³Ö¸ÃÀà×Ê²ú¡£";
-  if (firstScore >= 40 && secondScore >= 40) return "¶à¸öÇøÓòµÃ·Ö½Ó½ü£¬ËµÃ÷µ±Ç°ÊÇ¾ùºâ»·¾³£¬ÊÊºÏ·ÖÉ¢ÅäÖÃ¡£";
-  if (firstScore < 40) return "¸ß·ÖÇøÓò²»¹»Í»³ö£¬ËµÃ÷µ±Ç°È±ÉÙµ¥±ßÓÅÊÆ£¬·ÀÓù×Ê²úÏà¶Ô¸üÎÈ¡£";
-  return "¸ß·ÖÇøÓòºÍµÍ·ÖÇøÓò²îÒìÃ÷ÏÔ£¬ÊÊºÏË³×ÅÇ¿ÊÆ·½ÏòÅäÖÃ¡£";
+  if (firstScore >= 60) return first + " å¾—åˆ†æ˜æ˜¾æ›´é«˜ï¼Œè¯´æ˜å½“å‰ç¯å¢ƒæ›´æ”¯æŒè¯¥ç±»èµ„äº§ã€‚";
+  if (firstScore >= 40 && secondScore >= 40) return "å¤šä¸ªåŒºåŸŸå¾—åˆ†æ¥è¿‘ï¼Œè¯´æ˜å½“å‰æ˜¯å‡è¡¡ç¯å¢ƒï¼Œé€‚åˆåˆ†æ•£é…ç½®ã€‚";
+  if (firstScore < 40) return "é«˜åˆ†åŒºåŸŸä¸å¤Ÿçªå‡ºï¼Œè¯´æ˜å½“å‰ç¼ºå°‘å•è¾¹ä¼˜åŠ¿ï¼Œé˜²å¾¡èµ„äº§ç›¸å¯¹æ›´ç¨³ã€‚";
+  return "é«˜åˆ†åŒºåŸŸå’Œä½åˆ†åŒºåŸŸå·®å¼‚æ˜æ˜¾ï¼Œé€‚åˆé¡ºç€å¼ºåŠ¿æ–¹å‘é…ç½®ã€‚";
 }
 
 // v11.5 BUGFIX: Ensure global view has data before rendering
 var _origSwitchTab_v8191 = switchTab;
 switchTab = function (idx) {
   _origSwitchTab_v8191(idx);
-  // v16.67 FIX: Tab 7 = ºê¹ÛÑĞÅĞ, Tab 8 = ¶àÇé¾°
-  // renderMacroSummary Ó¦¹ÒÔÚ Tab 7£¬¶ø·Ç Tab 8
+  // v16.67 FIX: Tab 7 = å®è§‚ç ”åˆ¤, Tab 8 = å¤šæƒ…æ™¯
+  // renderMacroSummary åº”æŒ‚åœ¨ Tab 7ï¼Œè€Œé Tab 8
   if (idx === 7) {
-    // ºê¹ÛÑĞÅĞ£ºÖØĞÂ¶ÁÈ¡µ±Ç°ºê¹Û²ÎÊı²¢äÖÈ¾×ÛºÏ»·¾³µÃ·Ö
+    // å®è§‚ç ”åˆ¤ï¼šé‡æ–°è¯»å–å½“å‰å®è§‚å‚æ•°å¹¶æ¸²æŸ“ç»¼åˆç¯å¢ƒå¾—åˆ†
     if (typeof renderMacroSummary === "function") renderMacroSummary();
     if (typeof renderGlobalView === "function") renderGlobalView();
     if (typeof renderMacroAssetBreakdown === "function") renderMacroAssetBreakdown();
   }
   if (idx === 8) {
-    // ¶àÇé¾°£ºÈ·±£È«¾ÖÆÀ·ÖÊı¾İÒÑ¾ÍĞ÷
+    // å¤šæƒ…æ™¯ï¼šç¡®ä¿å…¨å±€è¯„åˆ†æ•°æ®å·²å°±ç»ª
     window._globalAssetScores = calcGlobalScores();
     renderGlobalView();
   }
 };
 window.switchTab = switchTab;
 
-// Ò³Ãæ¼ÓÔØÊ±Ò²äÖÈ¾
+// é¡µé¢åŠ è½½æ—¶ä¹Ÿæ¸²æŸ“
 document.addEventListener("DOMContentLoaded", function () {
-  init(); // v8.20: ³õÊ¼»¯ºê¹ÛÖ¸±êºÍ×Ê²úÑ¡Ôñ
+  init(); // v8.20: åˆå§‹åŒ–å®è§‚æŒ‡æ ‡å’Œèµ„äº§é€‰æ‹©
   setTimeout(renderMacroSummary, 500);
   setTimeout(renderGlobalView, 500);
   setTimeout(renderMacroAssetBreakdown, 500);
@@ -7964,7 +7964,7 @@ function ensurePredictiveOption() {
   if (select.querySelector('option[value="predictive"]')) return;
   const opt = document.createElement("option");
   opt.value = "predictive";
-  opt.textContent = "?? Ô¤²âÓÅ»¯ (¾ùÖµ-·½²î)";
+  opt.textContent = "ğŸ“ˆ é¢„æµ‹ä¼˜åŒ– (å‡å€¼-æ–¹å·®)";
   select.appendChild(opt);
 }
 
@@ -7979,12 +7979,12 @@ function injectPredictiveExportButtons() {
 
   container.innerHTML = `
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:8px;">
-            <button class="btn-primary" id="btnExportPredictiveReport" style="background:#0ea5e9;">?? µ¼³öÔ¤²âÄ£ĞÍ±¨¸æ</button>
-            <button class="btn-primary" id="btnExportHistoricalSnapshots" style="background:#16a34a;">??? µ¼³öÀúÊ·³¡¾°Êı¾İ</button>
-            <button class="btn-primary" id="btnExportAssetJSON" style="background:#7c3aed;">?? µ¼³ö×Ê²úJSON</button>
+            <button class="btn-primary" id="btnExportPredictiveReport" style="background:#0ea5e9;">ğŸ“ˆ å¯¼å‡ºé¢„æµ‹æ¨¡å‹æŠ¥å‘Š</button>
+            <button class="btn-primary" id="btnExportHistoricalSnapshots" style="background:#16a34a;">ğŸ—‚ï¸ å¯¼å‡ºå†å²åœºæ™¯æ•°æ®</button>
+            <button class="btn-primary" id="btnExportAssetJSON" style="background:#7c3aed;">ğŸ“¦ å¯¼å‡ºèµ„äº§JSON</button>
         </div>
         <div style="font-size:10px;color:#666;margin-top:6px;">
-            ËµÃ÷£ºÔ¤²â±¨¸æ°üº¬Ä£ĞÍÏµÊı/Ñù±¾Êı£»ÀúÊ·³¡¾°µ¼³öÓëµ±Ç°ºê¹Û²ÎÊıÎŞ¹Ø£»×Ê²úJSON°üº¬µ±Ç°Ñ¡×Ê²ú¡¢ºê¹ÛÊı¾İ¡¢ÍÆ¼öÓë²ÛÎ»ĞÅÏ¢¡£
+            è¯´æ˜ï¼šé¢„æµ‹æŠ¥å‘ŠåŒ…å«æ¨¡å‹ç³»æ•°/æ ·æœ¬æ•°ï¼›å†å²åœºæ™¯å¯¼å‡ºä¸å½“å‰å®è§‚å‚æ•°æ— å…³ï¼›èµ„äº§JSONåŒ…å«å½“å‰é€‰èµ„äº§ã€å®è§‚æ•°æ®ã€æ¨èä¸æ§½ä½ä¿¡æ¯ã€‚
         </div>
     `;
 
@@ -7996,7 +7996,7 @@ function injectPredictiveExportButtons() {
       if (typeof window.exportPredictiveReport === "function") {
         window.exportPredictiveReport();
       } else {
-        alert("Î´ÕÒµ½ exportPredictiveReport£¬ÇëË¢ĞÂÒ³Ãæ¡£");
+        alert("æœªæ‰¾åˆ° exportPredictiveReportï¼Œè¯·åˆ·æ–°é¡µé¢ã€‚");
       }
     };
   }
@@ -8007,7 +8007,7 @@ function injectPredictiveExportButtons() {
       if (typeof window.exportHistoricalSnapshots === "function") {
         window.exportHistoricalSnapshots();
       } else {
-        alert("Î´ÕÒµ½ exportHistoricalSnapshots£¬ÇëË¢ĞÂÒ³Ãæ¡£");
+        alert("æœªæ‰¾åˆ° exportHistoricalSnapshotsï¼Œè¯·åˆ·æ–°é¡µé¢ã€‚");
       }
     };
   }
@@ -8018,35 +8018,35 @@ function injectPredictiveExportButtons() {
       if (typeof window.exportAssetJSON === "function") {
         window.exportAssetJSON();
       } else {
-        alert("Î´ÕÒµ½ exportAssetJSON£¬ÇëË¢ĞÂÒ³Ãæ¡£");
+        alert("æœªæ‰¾åˆ° exportAssetJSONï¼Œè¯·åˆ·æ–°é¡µé¢ã€‚");
       }
     };
   }
 }
 
-// [DEPRECATED] v11.32: ´Ë¶ÔÏóÎ´ÔÚÅúÁ¿²âÊÔÖĞÊ¹ÓÃ
-// Êµ¼ÊÊ¹ÓÃµÄÊı¾İÔ´ÊÇ historicalSnapshots (Line ~1452)
-// ±£Áô´Ë¶ÔÏó½ö¹©²Î¿¼£¬ºóĞø°æ±¾½«É¾³ı
+// [DEPRECATED] v11.32: æ­¤å¯¹è±¡æœªåœ¨æ‰¹é‡æµ‹è¯•ä¸­ä½¿ç”¨
+// å®é™…ä½¿ç”¨çš„æ•°æ®æºæ˜¯ historicalSnapshots (Line ~1452)
+// ä¿ç•™æ­¤å¯¹è±¡ä»…ä¾›å‚è€ƒï¼Œåç»­ç‰ˆæœ¬å°†åˆ é™¤
 const historicalScenarios = {
   crisis2008: {
-    name: "2008Äê10-11ÔÂ½ğÈÚÎ£»ú¸ß·å",
-    description: "À×ÂüĞÖµÜÆÆ²úºóµÄÑÏÖØĞÅÓÃ½ôËõÆÚ£¬VIXì­Éıµ½60+£¬Á÷¶¯ĞÔ¿İ½ß",
+    name: "2008å¹´10-11æœˆé‡‘èå±æœºé«˜å³°",
+    description: "é›·æ›¼å…„å¼Ÿç ´äº§åçš„ä¸¥é‡ä¿¡ç”¨ç´§ç¼©æœŸï¼ŒVIXé£™å‡åˆ°60+ï¼ŒæµåŠ¨æ€§æ¯ç«­",
     macro: {
       fedRate: 0.97,
       inflation: 3.73,
-      usd: 103.63, // ·åÖµ£º2008-11-21 (ÓÃ»§ÑéÖ¤)
+      usd: 103.63, // å³°å€¼ï¼š2008-11-21 (ç”¨æˆ·éªŒè¯)
       realYield: -1.76,
-      vix: 59.89, // ·åÖµ£º2008-10-31
-      creditSpread: 6.1, // BAA10Y·åÖµ£º2008-11-28 (ÓÃ»§ÑéÖ¤)
+      vix: 59.89, // å³°å€¼ï¼š2008-10-31
+      creditSpread: 6.1, // BAA10Yå³°å€¼ï¼š2008-11-28 (ç”¨æˆ·éªŒè¯)
       globalGrowth: 2.0,
-      cnPolicy: 1.0, // ? v11.26ĞÂÔö (MASTER 1.1: ËÄÍòÒÚ´Ì¼¤)
+      cnPolicy: 1.0, // âœ… v11.26æ–°å¢ (MASTER 1.1: å››ä¸‡äº¿åˆºæ¿€)
       momentum: -1.0,
       rateChangeReason: -1,
       usdReason: -0.5,
       vixReason: -1,
       inflationReason: 0,
       fedTrend: -0.3,
-      growthTrend: -0.8, // ĞÂÔö£º2008ÄêQ4 GDP±©µø£¬´¥·¢ĞèÇó±ÀËú
+      growthTrend: -0.8, // æ–°å¢ï¼š2008å¹´Q4 GDPæš´è·Œï¼Œè§¦å‘éœ€æ±‚å´©å¡Œ
       inflationTrend: 0,
     },
     valuation: {
@@ -8055,26 +8055,26 @@ const historicalScenarios = {
       sp6mReturn: -30,
     },
     actualReturns: {
-      cnStock: -0.2463, // ? ¸üĞÂ£ºÉÏÖ¤Ö¸Êı Oct1-Nov28 (ÓÃ»§ÑéÖ¤)
-      usStock: -0.2281, // ? ¸üĞÂ£ºS&P500 Oct1-Nov28 (ÓÃ»§ÑéÖ¤)
-      devStock: -0.2532, // ? ¸üĞÂ£ºEFA ETF Oct1-Nov28 (Yahoo Finance)
-      emStock: -0.3363, // ? ¸üĞÂ£ºEEM ETF Oct1-Nov28 (Yahoo Finance)
-      bonds_us: 0.0097, // v10.0: AGGÊı¾İ£¬±ÜÏÕĞèÇó
-      bonds_china: 0.005, // v10.0: 2008ÄêÖĞ¹úÊĞ³¡²»·¢´ï
-      bonds_global: 0.002, // v10.0: È«ÇòÕ®È¯ÂÔÕı
-      agriculture: -0.1773, // ? ¸üĞÂ£ºDBA ETF Oct1-Nov28 (Yahoo Finance)
-      precious: -0.0658, // ? ¸üĞÂ£ºGLD ETF Oct1-Nov28 (Yahoo Finance)
-      energy: -0.4712, // ? ¸üĞÂ£ºUSO ETF Oct1-Nov28 (ÓÃ»§ÑéÖ¤)
-      industrial: -0.2907, // ? ¸üĞÂ£ºDBB ETF Oct1-Nov28 (Yahoo Finance)
-      crypto: null, // 2008Äê²»´æÔÚ
-      hedges: 0.25, // ?? Î´ÑéÖ¤£ºHFRI¹ÀËãÖµ(Ğè¸¶·ÑÊı¾İÔ´)
+      cnStock: -0.2463, // âœ… æ›´æ–°ï¼šä¸Šè¯æŒ‡æ•° Oct1-Nov28 (ç”¨æˆ·éªŒè¯)
+      usStock: -0.2281, // âœ… æ›´æ–°ï¼šS&P500 Oct1-Nov28 (ç”¨æˆ·éªŒè¯)
+      devStock: -0.2532, // âœ… æ›´æ–°ï¼šEFA ETF Oct1-Nov28 (Yahoo Finance)
+      emStock: -0.3363, // âœ… æ›´æ–°ï¼šEEM ETF Oct1-Nov28 (Yahoo Finance)
+      bonds_us: 0.0097, // v10.0: AGGæ•°æ®ï¼Œé¿é™©éœ€æ±‚
+      bonds_china: 0.005, // v10.0: 2008å¹´ä¸­å›½å¸‚åœºä¸å‘è¾¾
+      bonds_global: 0.002, // v10.0: å…¨çƒå€ºåˆ¸ç•¥æ­£
+      agriculture: -0.1773, // âœ… æ›´æ–°ï¼šDBA ETF Oct1-Nov28 (Yahoo Finance)
+      precious: -0.0658, // âœ… æ›´æ–°ï¼šGLD ETF Oct1-Nov28 (Yahoo Finance)
+      energy: -0.4712, // âœ… æ›´æ–°ï¼šUSO ETF Oct1-Nov28 (ç”¨æˆ·éªŒè¯)
+      industrial: -0.2907, // âœ… æ›´æ–°ï¼šDBB ETF Oct1-Nov28 (Yahoo Finance)
+      crypto: null, // 2008å¹´ä¸å­˜åœ¨
+      hedges: 0.25, // âš ï¸ æœªéªŒè¯ï¼šHFRIä¼°ç®—å€¼(éœ€ä»˜è´¹æ•°æ®æº)
     },
     dataSource:
-      "ÀíÂÛ¿ò¼Ü£º×Ê²ú¹ØÏµ.pdf; ºê¹Û£ºFRED/CBOE(ÒÑÑéÖ¤); »Ø±¨£ºYahoo Finance ETF(2025-12-24ÑéÖ¤)",
+      "ç†è®ºæ¡†æ¶ï¼šèµ„äº§å…³ç³».pdf; å®è§‚ï¼šFRED/CBOE(å·²éªŒè¯); å›æŠ¥ï¼šYahoo Finance ETF(2025-12-24éªŒè¯)",
   },
   dotcom2000: {
-    name: "2000Äê3ÔÂ»¥ÁªÍøÅİÄ­",
-    description: "ÄÉË¹´ï¿Ë·åÖµ5048£¬PE=28.31£¬¹ÀÖµÅİÄ­£¬²¿·ÖÖ¸ÊıÊı¾İ",
+    name: "2000å¹´3æœˆäº’è”ç½‘æ³¡æ²«",
+    description: "çº³æ–¯è¾¾å…‹å³°å€¼5048ï¼ŒPE=28.31ï¼Œä¼°å€¼æ³¡æ²«ï¼Œéƒ¨åˆ†æŒ‡æ•°æ•°æ®",
     timeRange: "2000-03-01 to 2000-03-31",
     macro: {
       fedRate: 6.5,
@@ -8084,9 +8084,9 @@ const historicalScenarios = {
       vix: 24.86,
       creditSpread: 3.0,
       globalGrowth: 4.6,
-      cnPolicy: 0.0, // ? v11.26ĞÂÔö (MASTER 1.1)
+      cnPolicy: 0.0, // âœ… v11.26æ–°å¢ (MASTER 1.1)
       momentum: 1.0,
-      rateChangeReason: 0.5, // Ô¤·ÀĞÍ¼ÓÏ¢
+      rateChangeReason: 0.5, // é¢„é˜²å‹åŠ æ¯
       usdReason: 0.5,
       vixReason: 0,
       inflationReason: 0,
@@ -8097,38 +8097,38 @@ const historicalScenarios = {
       sp6mReturn: 16.83,
     },
     actualReturns: {
-      cnStock: 0.0623, // ÉÏÖ¤Ö¸Êı (ÓÃ»§Êı¾İ)
-      usStock: 0.0788, // S&P 500 (ÓÃ»§Êı¾İ)
-      devStock: 0.0179, // ÈÕ¾­225 (ÓÃ»§Êı¾İ)
-      emStock: -0.017, // °ÍÎ÷Ö¸Êı (ÓÃ»§Êı¾İ)
-      bonds_us: 0.0049, // v10.0: ÃÀÕ®¹ÀËã
-      bonds_china: null, // v10.0: 2000ÄêÊı¾İ²»Ïê
-      bonds_global: 0.003, // v10.0: È«ÇòÕ®¹ÀËã
-      agriculture: null, // ÎŞETFÊı¾İ
-      precious: -0.0423, // »Æ½ğ (ÓÃ»§²éÑ¯)
-      energy: -0.0168, // Ô­ÓÍ (ÓÃ»§²éÑ¯)
-      industrial: 0.0139, // Í­ (ÓÃ»§²éÑ¯)
+      cnStock: 0.0623, // ä¸Šè¯æŒ‡æ•° (ç”¨æˆ·æ•°æ®)
+      usStock: 0.0788, // S&P 500 (ç”¨æˆ·æ•°æ®)
+      devStock: 0.0179, // æ—¥ç»225 (ç”¨æˆ·æ•°æ®)
+      emStock: -0.017, // å·´è¥¿æŒ‡æ•° (ç”¨æˆ·æ•°æ®)
+      bonds_us: 0.0049, // v10.0: ç¾å€ºä¼°ç®—
+      bonds_china: null, // v10.0: 2000å¹´æ•°æ®ä¸è¯¦
+      bonds_global: 0.003, // v10.0: å…¨çƒå€ºä¼°ç®—
+      agriculture: null, // æ— ETFæ•°æ®
+      precious: -0.0423, // é»„é‡‘ (ç”¨æˆ·æŸ¥è¯¢)
+      energy: -0.0168, // åŸæ²¹ (ç”¨æˆ·æŸ¥è¯¢)
+      industrial: 0.0139, // é“œ (ç”¨æˆ·æŸ¥è¯¢)
       crypto: null,
       hedges: null,
     },
     dataSource:
-      "¹ÉÆ±/Õ®È¯£ºÊĞ³¡Ö¸Êı(index_fetcher.py); ÉÌÆ·£ºÓÃ»§ÊÖ¶¯²éÑ¯(Kitco/EIA/Macrotrends)",
+      "è‚¡ç¥¨/å€ºåˆ¸ï¼šå¸‚åœºæŒ‡æ•°(index_fetcher.py); å•†å“ï¼šç”¨æˆ·æ‰‹åŠ¨æŸ¥è¯¢(Kitco/EIA/Macrotrends)",
   },
   rateHike2022: {
-    name: "2022Äê6ÔÂ¼¤½ø¼ÓÏ¢",
-    description: "ÃÀÁª´¢¼¤½ø¼ÓÏ¢¶Ô¿¹¸ßÍ¨ÕÍ£¬ÀûÂÊ´Ó0¿ìËÙÌáÉı£¬ÃÀÔªÇ¿ÊÆ",
+    name: "2022å¹´6æœˆæ¿€è¿›åŠ æ¯",
+    description: "ç¾è”å‚¨æ¿€è¿›åŠ æ¯å¯¹æŠ—é«˜é€šèƒ€ï¼Œåˆ©ç‡ä»0å¿«é€Ÿæå‡ï¼Œç¾å…ƒå¼ºåŠ¿",
     macro: {
       fedRate: 1.21,
       inflation: 9.0,
-      usd: 121.67, // ·åÖµ£º2022-06-14 (ÓÃ»§ÑéÖ¤)
+      usd: 121.67, // å³°å€¼ï¼š2022-06-14 (ç”¨æˆ·éªŒè¯)
       realYield: -6.79,
-      vix: 34.02, // ·åÖµ£º2022-06-13 (ÓÃ»§ÑéÖ¤)
-      creditSpread: 2.31, // BAA10Y·åÖµ£º2022-06-30 (ÓÃ»§ÑéÖ¤)
+      vix: 34.02, // å³°å€¼ï¼š2022-06-13 (ç”¨æˆ·éªŒè¯)
+      creditSpread: 2.31, // BAA10Yå³°å€¼ï¼š2022-06-30 (ç”¨æˆ·éªŒè¯)
       globalGrowth: 3.4,
-      cnPolicy: 0.3, // ? v11.26ĞÂÔö (MASTER 1.1)
-      momentum: -0.7, // ĞŞÕı: -0.5 -> -0.7
-      rateChangeReason: 0.8, // P0: ¼¤½ø½ôËõ(¼ÓÏ¢)
-      usdReason: 0.7, // P0: ÀûÂÊÍÆ¸ßÃÀÔª
+      cnPolicy: 0.3, // âœ… v11.26æ–°å¢ (MASTER 1.1)
+      momentum: -0.7, // ä¿®æ­£: -0.5 -> -0.7
+      rateChangeReason: 0.8, // P0: æ¿€è¿›ç´§ç¼©(åŠ æ¯)
+      usdReason: 0.7, // P0: åˆ©ç‡æ¨é«˜ç¾å…ƒ
       vixReason: -0.5,
       inflationReason: -1,
     },
@@ -8138,26 +8138,26 @@ const historicalScenarios = {
       sp6mReturn: -16.17,
     },
     actualReturns: {
-      cnStock: 0.0852, // ? ¸üĞÂ£ºMCHI ETF Jun1-Jun29 (Yahoo Finance) - ·½ÏòĞŞÕı
-      usStock: -0.18, // ±£Áô£ºS&P500Ğè½øÒ»²½ÑéÖ¤
-      devStock: -0.093, // ? ¸üĞÂ£ºEFA ETF Jun1-Jun29 (Yahoo Finance)
-      emStock: -0.0484, // ? ¸üĞÂ£ºEEM ETF Jun1-Jun29 (Yahoo Finance)
-      bonds_us: -0.0159, // v10.0: AGG ETF (ÃÀÕ®ÎªÖ÷)
-      bonds_china: -0.01, // v10.0: ÖĞ¹ú¿íËÉÕş²ß£¬±íÏÖÂÔºÃ
-      bonds_global: -0.02, // v10.0: È«Çò¼ÓÏ¢£¬±íÏÖÂÔ²î
-      agriculture: -0.0578, // ? ¸üĞÂ£ºDBA ETF Jun1-Jun29 (Yahoo Finance) - ·½ÏòĞŞÕı
-      precious: -0.0159, // ? ¸üĞÂ£ºGLD ETF Jun1-Jun29 (Yahoo Finance)
-      energy: 0.39, // ±£Áô£ºWTIÏÖ»õÑéÖ¤
-      industrial: -0.1113, // ? ¸üĞÂ£ºDBB ETF Jun1-Jun29 (Yahoo Finance)
-      crypto: -0.64, // ±£Áô£ºBitcoin Luna±ÀÅÌÑéÖ¤
-      hedges: null, // ÎŞ±ê×¼ETFÊı¾İ
+      cnStock: 0.0852, // âœ… æ›´æ–°ï¼šMCHI ETF Jun1-Jun29 (Yahoo Finance) - æ–¹å‘ä¿®æ­£
+      usStock: -0.18, // ä¿ç•™ï¼šS&P500éœ€è¿›ä¸€æ­¥éªŒè¯
+      devStock: -0.093, // âœ… æ›´æ–°ï¼šEFA ETF Jun1-Jun29 (Yahoo Finance)
+      emStock: -0.0484, // âœ… æ›´æ–°ï¼šEEM ETF Jun1-Jun29 (Yahoo Finance)
+      bonds_us: -0.0159, // v10.0: AGG ETF (ç¾å€ºä¸ºä¸»)
+      bonds_china: -0.01, // v10.0: ä¸­å›½å®½æ¾æ”¿ç­–ï¼Œè¡¨ç°ç•¥å¥½
+      bonds_global: -0.02, // v10.0: å…¨çƒåŠ æ¯ï¼Œè¡¨ç°ç•¥å·®
+      agriculture: -0.0578, // âœ… æ›´æ–°ï¼šDBA ETF Jun1-Jun29 (Yahoo Finance) - æ–¹å‘ä¿®æ­£
+      precious: -0.0159, // âœ… æ›´æ–°ï¼šGLD ETF Jun1-Jun29 (Yahoo Finance)
+      energy: 0.39, // ä¿ç•™ï¼šWTIç°è´§éªŒè¯
+      industrial: -0.1113, // âœ… æ›´æ–°ï¼šDBB ETF Jun1-Jun29 (Yahoo Finance)
+      crypto: -0.64, // ä¿ç•™ï¼šBitcoin Lunaå´©ç›˜éªŒè¯
+      hedges: null, // æ— æ ‡å‡†ETFæ•°æ®
     },
     dataSource:
-      "ÀíÂÛ¿ò¼Ü£º×Ê²ú¹ØÏµ.pdf; ºê¹Û£ºFRED/CBOE/BLS(ÒÑÑéÖ¤); »Ø±¨£ºYahoo Finance ETF(2025-12-24ÑéÖ¤)",
+      "ç†è®ºæ¡†æ¶ï¼šèµ„äº§å…³ç³».pdf; å®è§‚ï¼šFRED/CBOE/BLS(å·²éªŒè¯); å›æŠ¥ï¼šYahoo Finance ETF(2025-12-24éªŒè¯)",
   },
   bankCrisis2023: {
-    name: "2023Äê3ÔÂ¹è¹ÈÒøĞĞÎ£»ú",
-    description: "¹è¹ÈÒøĞĞµ¹±ÕÒı·¢Á÷¶¯ĞÔ¿Ö»Å£¬FedÍÆ³öBTFP¾ÈÊĞ£¬»Æ½ğ/ÄÉÖ¸´óÕÇ",
+    name: "2023å¹´3æœˆç¡…è°·é“¶è¡Œå±æœº",
+    description: "ç¡…è°·é“¶è¡Œå€’é—­å¼•å‘æµåŠ¨æ€§ææ…Œï¼ŒFedæ¨å‡ºBTFPæ•‘å¸‚ï¼Œé»„é‡‘/çº³æŒ‡å¤§æ¶¨",
     timeRange: "2023-03-01 to 2023-03-31",
     macro: {
       fedRate: 5.0, // MASTER v1.1
@@ -8194,160 +8194,160 @@ const historicalScenarios = {
       crypto: 0.2,
       hedges: 0.05,
     },
-    dataSource: "MASTER v1.1ÎÄµµ; ºê¹Û£ºFRED; »Ø±¨£ºYahoo Finance",
+    dataSource: "MASTER v1.1æ–‡æ¡£; å®è§‚ï¼šFRED; å›æŠ¥ï¼šYahoo Finance",
   },
   covid2020: {
-    name: "2020Äê3ÔÂCOVID-19±ÀÅÌ",
+    name: "2020å¹´3æœˆCOVID-19å´©ç›˜",
     description:
-      "COVID-19ÒßÇéÒı·¢È«Çò¿Ö»ÅĞÔÅ×ÊÛ£¬VIX´´ÀúÊ·ĞÂ¸ß82.69£¬Fed½ô¼±½µÏ¢ÖÁ0",
+      "COVID-19ç–«æƒ…å¼•å‘å…¨çƒææ…Œæ€§æŠ›å”®ï¼ŒVIXåˆ›å†å²æ–°é«˜82.69ï¼ŒFedç´§æ€¥é™æ¯è‡³0",
     timeRange: "2020-03-02 to 2020-03-31",
     macro: {
-      fedRate: 0.25, // ½µÏ¢ºó£º2020-03-15Æğ (ÓÃ»§ÑéÖ¤)
-      inflation: 1.5, // ÔÂ¶ÈYoY£º2020-03 (ÓÃ»§ÑéÖ¤)
-      usd: 126.13, // ·åÖµ£º2020-03-23 (ÓÃ»§ÑéÖ¤)
-      realYield: -0.25, // ÔÂÄ©£º2020-03-30 (ÓÃ»§ÑéÖ¤)
-      vix: 82.69, // ·åÖµ£º2020-03-16 (Ê·ÉÏ×î¸ß)
-      creditSpread: 4.31, // BAA10Y·åÖµ£º2020-03-23 (ÓÃ»§ÑéÖ¤)
-      globalGrowth: -2.9, // 2020ÄêÔ¤²â (ÓÃ»§ÑéÖ¤)
-      cnPolicy: 0.9, // ? v11.26ĞÂÔö (MASTER 1.1: ÂÊÏÈ¸´¹¤¸´²ú)
-      momentum: -1.0, // COVID¼«¶Ë³å»÷
-      rateChangeReason: -1.0, // P0: ¼«ÏŞ¿íËÉ(¼«ËÙ½µÏ¢+QE)
-      usdReason: -0.5, // ±ÜÏÕÃÀÔªÉıÖµ
-      vixReason: -1, // ¼«¶Ë¿Ö»Å
-      inflationReason: 0, // Í¨ÕÍÎÂºÍ
-      growthTrend: -1.0, // ¾­¼Ã¼±Í£
+      fedRate: 0.25, // é™æ¯åï¼š2020-03-15èµ· (ç”¨æˆ·éªŒè¯)
+      inflation: 1.5, // æœˆåº¦YoYï¼š2020-03 (ç”¨æˆ·éªŒè¯)
+      usd: 126.13, // å³°å€¼ï¼š2020-03-23 (ç”¨æˆ·éªŒè¯)
+      realYield: -0.25, // æœˆæœ«ï¼š2020-03-30 (ç”¨æˆ·éªŒè¯)
+      vix: 82.69, // å³°å€¼ï¼š2020-03-16 (å²ä¸Šæœ€é«˜)
+      creditSpread: 4.31, // BAA10Yå³°å€¼ï¼š2020-03-23 (ç”¨æˆ·éªŒè¯)
+      globalGrowth: -2.9, // 2020å¹´é¢„æµ‹ (ç”¨æˆ·éªŒè¯)
+      cnPolicy: 0.9, // âœ… v11.26æ–°å¢ (MASTER 1.1: ç‡å…ˆå¤å·¥å¤äº§)
+      momentum: -1.0, // COVIDæç«¯å†²å‡»
+      rateChangeReason: -1.0, // P0: æé™å®½æ¾(æé€Ÿé™æ¯+QE)
+      usdReason: -0.5, // é¿é™©ç¾å…ƒå‡å€¼
+      vixReason: -1, // æç«¯ææ…Œ
+      inflationReason: 0, // é€šèƒ€æ¸©å’Œ
+      growthTrend: -1.0, // ç»æµæ€¥åœ
     },
     valuation: {
-      spPE: 24.97, // 2020-04-01 (ÓÃ»§ÑéÖ¤£¬3/31ÎŞÊı¾İ)
-      spPercentile: 65, // ¹ÀËã
-      sp6mReturn: -11.76, // Sep 30, 2019 - Mar 31, 2020 (ÓÃ»§ÑéÖ¤)
+      spPE: 24.97, // 2020-04-01 (ç”¨æˆ·éªŒè¯ï¼Œ3/31æ— æ•°æ®)
+      spPercentile: 65, // ä¼°ç®—
+      sp6mReturn: -11.76, // Sep 30, 2019 - Mar 31, 2020 (ç”¨æˆ·éªŒè¯)
     },
     actualReturns: {
-      // Ê±¼äÇø¼ä£º2020-03-02 to 2020-03-31 (Yahoo Finance ETF, ÓÃ»§ÑéÖ¤)
+      // æ—¶é—´åŒºé—´ï¼š2020-03-02 to 2020-03-31 (Yahoo Finance ETF, ç”¨æˆ·éªŒè¯)
       cnStock: -0.0928, // MCHI
       usStock: -0.1535, // SPY
       devStock: -0.1445, // EFA
       emStock: -0.1812, // EEM
-      bonds_us: -0.0022, // v10.0: AGGÊı¾İ£¬±ÜÏÕĞèÇóÖ§³Å
-      bonds_china: 0.01, // v10.0: ÖĞ¹ú¿íËÉ£¬¿ÉÄÜÎªÕı
-      bonds_global: -0.01, // v10.0: È«Çò¿Ö»Å£¬±íÏÖÒ»°ã
+      bonds_us: -0.0022, // v10.0: AGGæ•°æ®ï¼Œé¿é™©éœ€æ±‚æ”¯æ’‘
+      bonds_china: 0.01, // v10.0: ä¸­å›½å®½æ¾ï¼Œå¯èƒ½ä¸ºæ­£
+      bonds_global: -0.01, // v10.0: å…¨çƒææ…Œï¼Œè¡¨ç°ä¸€èˆ¬
       agriculture: -0.0914, // DBA
       precious: 0.0249, // GLD
       energy: -0.5736, // USO/XLE
       industrial: -0.123, // DBB
       crypto: -0.2479, // Bitcoin
-      hedges: null, // ÎŞÊı¾İ
+      hedges: null, // æ— æ•°æ®
     },
     dataSource:
-      "ÀíÂÛ¿ò¼Ü£º×Ê²ú¹ØÏµ.pdf; ºê¹Û£ºFRED/CBOE/BLS(ÓÃ»§ÑéÖ¤); »Ø±¨£ºYahoo Finance ETF(2025-12-25ÑéÖ¤)",
+      "ç†è®ºæ¡†æ¶ï¼šèµ„äº§å…³ç³».pdf; å®è§‚ï¼šFRED/CBOE/BLS(ç”¨æˆ·éªŒè¯); å›æŠ¥ï¼šYahoo Finance ETF(2025-12-25éªŒè¯)",
   },
   euroDebt2011: {
-    name: "2011Äê8ÔÂÅ·Õ®Î£»ú",
-    description: "ÃÀ¹úĞÅÓÃ½µ¼¶+Å·ÖŞÖ÷È¨Õ®ÎñÎ£»ú£¬»Æ½ğ±ÜÏÕĞèÇóÇ¿ÁÒ£¬VIX=48",
+    name: "2011å¹´8æœˆæ¬§å€ºå±æœº",
+    description: "ç¾å›½ä¿¡ç”¨é™çº§+æ¬§æ´²ä¸»æƒå€ºåŠ¡å±æœºï¼Œé»„é‡‘é¿é™©éœ€æ±‚å¼ºçƒˆï¼ŒVIX=48",
     timeRange: "2011-08-01 to 2011-08-31",
     macro: {
-      fedRate: 0.1, // ÔÂÆ½¾ù£º2011-08 (ÓÃ»§ÑéÖ¤)
-      inflation: 3.76, // ÔÂ¶ÈYoY£º2011-08 (ÓÃ»§ÑéÖ¤)
-      usd: 87.39, // ·åÖµ£º2011-08-09 (ÓÃ»§ÑéÖ¤)
-      realYield: 0.14, // 2011-08 (ÓÃ»§ÑéÖ¤)
-      vix: 48.0, // ·åÖµ£º2011-08-08 (ÓÃ»§ÑéÖ¤)
-      creditSpread: 3.25, // BAA10Y·åÖµ£º2011-08-25 (ÓÃ»§ÑéÖ¤)
-      globalGrowth: 3.3, // 2011ÄêÊµ¼Ê (ÓÃ»§ÑéÖ¤)
-      cnPolicy: -0.2, // ? v11.26ĞÂÔö (×¨¼ÒĞŞÕı: -0.5¡ú-0.2)
-      momentum: -0.7, // P2: -0.5 -> -0.7 È«Çò³å»÷
-      rateChangeReason: 0, // FedÎ¬³ÖµÍÀûÂÊ
-      usdReason: -0.3, // P2: -0.5 -> -0.3 ±ÜÏÕ½ÏÇá
-      vixReason: -0.5, // ÖĞµÈ¿Ö»Å
-      inflationReason: -0.3, // Í¨ÕÍÂÔ¸ß
+      fedRate: 0.1, // æœˆå¹³å‡ï¼š2011-08 (ç”¨æˆ·éªŒè¯)
+      inflation: 3.76, // æœˆåº¦YoYï¼š2011-08 (ç”¨æˆ·éªŒè¯)
+      usd: 87.39, // å³°å€¼ï¼š2011-08-09 (ç”¨æˆ·éªŒè¯)
+      realYield: 0.14, // 2011-08 (ç”¨æˆ·éªŒè¯)
+      vix: 48.0, // å³°å€¼ï¼š2011-08-08 (ç”¨æˆ·éªŒè¯)
+      creditSpread: 3.25, // BAA10Yå³°å€¼ï¼š2011-08-25 (ç”¨æˆ·éªŒè¯)
+      globalGrowth: 3.3, // 2011å¹´å®é™… (ç”¨æˆ·éªŒè¯)
+      cnPolicy: -0.2, // âœ… v11.26æ–°å¢ (ä¸“å®¶ä¿®æ­£: -0.5â†’-0.2)
+      momentum: -0.7, // P2: -0.5 -> -0.7 å…¨çƒå†²å‡»
+      rateChangeReason: 0, // Fedç»´æŒä½åˆ©ç‡
+      usdReason: -0.3, // P2: -0.5 -> -0.3 é¿é™©è¾ƒè½»
+      vixReason: -0.5, // ä¸­ç­‰ææ…Œ
+      inflationReason: -0.3, // é€šèƒ€ç•¥é«˜
     },
     valuation: {
-      spPE: 13.79, // 2011-08 (ÓÃ»§ÑéÖ¤)
-      spPercentile: 35, // ¹ÀËã£¨Æ«µÍ£©
-      sp6mReturn: -8.07, // Feb 28 - Aug 31 (ÓÃ»§ÑéÖ¤)
+      spPE: 13.79, // 2011-08 (ç”¨æˆ·éªŒè¯)
+      spPercentile: 35, // ä¼°ç®—ï¼ˆåä½ï¼‰
+      sp6mReturn: -8.07, // Feb 28 - Aug 31 (ç”¨æˆ·éªŒè¯)
     },
     actualReturns: {
-      // Ê±¼äÇø¼ä£º2011-08-01 to 2011-08-31 (Yahoo Finance ETF, ÓÃ»§ÑéÖ¤)
+      // æ—¶é—´åŒºé—´ï¼š2011-08-01 to 2011-08-31 (Yahoo Finance ETF, ç”¨æˆ·éªŒè¯)
       cnStock: -0.1046, // MCHI
       usStock: -0.0551, // SPY
-      devStock: -0.0925, // EFA£¨Å·Õ®ÖĞĞÄ£©
+      devStock: -0.0925, // EFAï¼ˆæ¬§å€ºä¸­å¿ƒï¼‰
       emStock: -0.1101, // EEM
-      bonds_us: 0.0137, // v10.0: US Treasuries±ÜÏÕ´óÕÇ
-      bonds_china: 0.005, // v10.0: ÖĞ¹úÕ®Ïà¶ÔÎÈ¶¨
-      bonds_global: -0.15, // v10.0: Å·Õ®Î£»úÖĞĞÄ£¬´óµø
-      agriculture: 0.0482, // DBA£¨ÒâÍâÇ¿¾¢£©
-      precious: 0.1356, // GLD ? ×î¼Ñ±ÜÏÕ×Ê²ú
+      bonds_us: 0.0137, // v10.0: US Treasuriesé¿é™©å¤§æ¶¨
+      bonds_china: 0.005, // v10.0: ä¸­å›½å€ºç›¸å¯¹ç¨³å®š
+      bonds_global: -0.15, // v10.0: æ¬§å€ºå±æœºä¸­å¿ƒï¼Œå¤§è·Œ
+      agriculture: 0.0482, // DBAï¼ˆæ„å¤–å¼ºåŠ²ï¼‰
+      precious: 0.1356, // GLD â­ æœ€ä½³é¿é™©èµ„äº§
       energy: -0.0742, // USO/XLE
       industrial: -0.0676, // DBB
-      crypto: null, // 2011ÄêÊı¾İ²»ÎÈ¶¨
-      hedges: null, // ÎŞÊı¾İ
+      crypto: null, // 2011å¹´æ•°æ®ä¸ç¨³å®š
+      hedges: null, // æ— æ•°æ®
     },
     dataSource:
-      "ÀíÂÛ¿ò¼Ü£º×Ê²ú¹ØÏµ.pdf; ºê¹Û£ºFRED/CBOE(ÓÃ»§ÑéÖ¤); »Ø±¨£ºYahoo Finance ETF(2025-12-25ÑéÖ¤)",
+      "ç†è®ºæ¡†æ¶ï¼šèµ„äº§å…³ç³».pdf; å®è§‚ï¼šFRED/CBOE(ç”¨æˆ·éªŒè¯); å›æŠ¥ï¼šYahoo Finance ETF(2025-12-25éªŒè¯)",
   },
   tradeWar2018: {
-    name: "2018Äê12ÔÂÃ³Ò×Õ½",
-    description: "ÖĞÃÀÃ³Ò×Õ½Éı¼¶£¬ÃÀ¹ÉµÚËÄ¼¾¶È±©µø£¬VIX=36",
+    name: "2018å¹´12æœˆè´¸æ˜“æˆ˜",
+    description: "ä¸­ç¾è´¸æ˜“æˆ˜å‡çº§ï¼Œç¾è‚¡ç¬¬å››å­£åº¦æš´è·Œï¼ŒVIX=36",
     timeRange: "2018-12-01 to 2018-12-31",
     macro: {
-      fedRate: 2.4, // FRED DFF (×Ô¶¯»ñÈ¡)
-      inflation: 2.0, // FRED CPIAUCSL YoY (×Ô¶¯¼ÆËã)
-      usd: 115.57, // FRED DTWEXBGS (×Ô¶¯»ñÈ¡)
-      realYield: 0.98, // FRED DFII10 (×Ô¶¯»ñÈ¡)
-      vix: 36.07, // ·åÖµ£º2018-12-24 (ÓÃ»§ÑéÖ¤)
-      creditSpread: 2.45, // FRED BAA10Y (×Ô¶¯»ñÈ¡)
-      globalGrowth: 3.3, // 2018ÄêÊµ¼Ê (ÓÃ»§ÑéÖ¤)
-      cnPolicy: 0.2, // ? v11.26ĞÂÔö (×¨¼ÒĞŞÕı: -0.3¡ú+0.2)
-      momentum: -0.7, // Ç¿ÁÒÏÂµøÇ÷ÊÆ
-      rateChangeReason: -0.3, // P1: ¸ëÅÉ×ªÏò(Ê±Ö¹¼ÓÏ¢)
-      usdReason: 0, // P1: ÃÀÔª¼û¶¥
-      vixReason: -0.5, // Ã³Ò×Õ½ÊÂ¼ş³å»÷
-      inflationReason: 0, // ÖĞĞÔ
+      fedRate: 2.4, // FRED DFF (è‡ªåŠ¨è·å–)
+      inflation: 2.0, // FRED CPIAUCSL YoY (è‡ªåŠ¨è®¡ç®—)
+      usd: 115.57, // FRED DTWEXBGS (è‡ªåŠ¨è·å–)
+      realYield: 0.98, // FRED DFII10 (è‡ªåŠ¨è·å–)
+      vix: 36.07, // å³°å€¼ï¼š2018-12-24 (ç”¨æˆ·éªŒè¯)
+      creditSpread: 2.45, // FRED BAA10Y (è‡ªåŠ¨è·å–)
+      globalGrowth: 3.3, // 2018å¹´å®é™… (ç”¨æˆ·éªŒè¯)
+      cnPolicy: 0.2, // âœ… v11.26æ–°å¢ (ä¸“å®¶ä¿®æ­£: -0.3â†’+0.2)
+      momentum: -0.7, // å¼ºçƒˆä¸‹è·Œè¶‹åŠ¿
+      rateChangeReason: -0.3, // P1: é¸½æ´¾è½¬å‘(æ—¶æ­¢åŠ æ¯)
+      usdReason: 0, // P1: ç¾å…ƒè§é¡¶
+      vixReason: -0.5, // è´¸æ˜“æˆ˜äº‹ä»¶å†²å‡»
+      inflationReason: 0, // ä¸­æ€§
     },
     valuation: {
-      spPE: 19.39, // Dec 2018 (ÓÃ»§ÑéÖ¤)
-      spPercentile: 50, // ¹ÀËã£¨ÖĞĞÔ£©
-      sp6mReturn: -9.17, // Yahoo ^GSPC (×Ô¶¯»ñÈ¡)
+      spPE: 19.39, // Dec 2018 (ç”¨æˆ·éªŒè¯)
+      spPercentile: 50, // ä¼°ç®—ï¼ˆä¸­æ€§ï¼‰
+      sp6mReturn: -9.17, // Yahoo ^GSPC (è‡ªåŠ¨è·å–)
     },
     actualReturns: {
-      // Ê±¼äÇø¼ä£º2018-12-01 to 2018-12-31 (Yahoo Finance ETF, ×Ô¶¯»ñÈ¡)
-      cnStock: -0.0896, // MCHI (Ã³Ò×Õ½Ö±½Ó³å»÷)
-      usStock: -0.1078, // SPY (µÚËÄ¼¾¶È±©µø)
+      // æ—¶é—´åŒºé—´ï¼š2018-12-01 to 2018-12-31 (Yahoo Finance ETF, è‡ªåŠ¨è·å–)
+      cnStock: -0.0896, // MCHI (è´¸æ˜“æˆ˜ç›´æ¥å†²å‡»)
+      usStock: -0.1078, // SPY (ç¬¬å››å­£åº¦æš´è·Œ)
       devStock: -0.0673, // EFA
       emStock: -0.0496, // EEM
-      bonds_us: 0.0156, // v10.0: AGG±ÜÏÕÕı»Ø±¨
-      bonds_china: 0.01, // v10.0: ÖĞ¹úÏà¶Ô¶ÀÁ¢
-      bonds_global: 0.005, // v10.0: È«ÇòÕ®È¯ÂÔÕı
+      bonds_us: 0.0156, // v10.0: AGGé¿é™©æ­£å›æŠ¥
+      bonds_china: 0.01, // v10.0: ä¸­å›½ç›¸å¯¹ç‹¬ç«‹
+      bonds_global: 0.005, // v10.0: å…¨çƒå€ºåˆ¸ç•¥æ­£
       agriculture: -0.0126, // DBA
-      precious: 0.0399, // GLD (×î¼Ñ±ÜÏÕ×Ê²ú)
-      energy: -0.1544, // USO (×î²î×Ê²ú)
+      precious: 0.0399, // GLD (æœ€ä½³é¿é™©èµ„äº§)
+      energy: -0.1544, // USO (æœ€å·®èµ„äº§)
       industrial: -0.048, // DBB
-      crypto: null, // Êı¾İ²»ÎÈ¶¨
-      hedges: null, // ÎŞÊı¾İ
+      crypto: null, // æ•°æ®ä¸ç¨³å®š
+      hedges: null, // æ— æ•°æ®
     },
     dataSource:
-      "ÀíÂÛ¿ò¼Ü£º×Ê²ú¹ØÏµ.pdf; ºê¹Û£ºFRED(×Ô¶¯)+ÊÖ¶¯ÑéÖ¤; »Ø±¨£ºYahoo Finance ETF(data_fetcher.py×Ô¶¯»ñÈ¡)",
+      "ç†è®ºæ¡†æ¶ï¼šèµ„äº§å…³ç³».pdf; å®è§‚ï¼šFRED(è‡ªåŠ¨)+æ‰‹åŠ¨éªŒè¯; å›æŠ¥ï¼šYahoo Finance ETF(data_fetcher.pyè‡ªåŠ¨è·å–)",
   },
   stimulus2012: {
-    name: "2012Äê9ÔÂQE3Æô¶¯",
-    description: "ÃÀÁª´¢Ğû²¼ÎŞÏŞÁ¿QE£¬¹¤Òµ½ğÊô´óÕÇ+9.33%£¬VIX=18",
+    name: "2012å¹´9æœˆQE3å¯åŠ¨",
+    description: "ç¾è”å‚¨å®£å¸ƒæ— é™é‡QEï¼Œå·¥ä¸šé‡‘å±å¤§æ¶¨+9.33%ï¼ŒVIX=18",
     timeRange: "2012-09-01 to 2012-09-30",
     macro: {
       fedRate: 0.14,
       inflation: 1.99,
       usd: 79.77,
       realYield: -0.5,
-      vix: 17.98, // ·åÖµ£¨ÓÃ»§ÑéÖ¤£©
+      vix: 17.98, // å³°å€¼ï¼ˆç”¨æˆ·éªŒè¯ï¼‰
       creditSpread: 2.5,
-      globalGrowth: 2.7, // ÓÃ»§ÑéÖ¤
-      cnPolicy: 0.3, // ? v11.26ĞÂÔö (MASTER 1.1)
+      globalGrowth: 2.7, // ç”¨æˆ·éªŒè¯
+      cnPolicy: 0.3, // âœ… v11.26æ–°å¢ (MASTER 1.1)
       momentum: 0.8,
-      rateChangeReason: -0.8, // P0: QE¿íËÉ(ÎŞÏŞÁ¿QE)
-      usdReason: -0.5, // P0: QEÑ¹µÍÃÀÔª
+      rateChangeReason: -0.8, // P0: QEå®½æ¾(æ— é™é‡QE)
+      usdReason: -0.5, // P0: QEå‹ä½ç¾å…ƒ
       vixReason: 0.5,
       inflationReason: 0,
     },
     valuation: {
-      spPE: 16.69, // ÓÃ»§ÑéÖ¤
+      spPE: 16.69, // ç”¨æˆ·éªŒè¯
       spPercentile: 50,
       sp6mReturn: -2.0,
     },
@@ -8356,68 +8356,68 @@ const historicalScenarios = {
       usStock: 0.0263, // SPY
       devStock: 0.0323, // EFA
       emStock: 0.0581, // EEM
-      bonds_us: 0.0029, // v10.0: AGGÊı¾İÕı»Ø±¨
-      bonds_china: 0.005, // v10.0: 2012ÄêÖĞ¹úÎÈ¶¨
-      bonds_global: 0.003, // v10.0: È«ÇòÕ®QEÀûºÃ
+      bonds_us: 0.0029, // v10.0: AGGæ•°æ®æ­£å›æŠ¥
+      bonds_china: 0.005, // v10.0: 2012å¹´ä¸­å›½ç¨³å®š
+      bonds_global: 0.003, // v10.0: å…¨çƒå€ºQEåˆ©å¥½
       agriculture: -0.0313, // DBA
-      precious: 0.0451, // GLD (QEÀûºÃ)
+      precious: 0.0451, // GLD (QEåˆ©å¥½)
       energy: -0.0391, // USO
-      industrial: 0.0933, // DBB ?×î¼Ñ£¨QE´Ì¼¤£©
+      industrial: 0.0933, // DBB â­æœ€ä½³ï¼ˆQEåˆºæ¿€ï¼‰
       crypto: null,
       hedges: null,
     },
     dataSource:
-      "ºê¹Û£ºFRED+ÓÃ»§ÑéÖ¤; »Ø±¨£ºYahoo Finance ETF(data_fetcher.py×Ô¶¯»ñÈ¡)",
+      "å®è§‚ï¼šFRED+ç”¨æˆ·éªŒè¯; å›æŠ¥ï¼šYahoo Finance ETF(data_fetcher.pyè‡ªåŠ¨è·å–)",
   },
   chinacrash2015: {
-    name: "2015Äê6-8ÔÂÖĞ¹ú¹ÉÔÖ",
-    description: "ÉÏÖ¤Ö¸Êı±©µø45%£¬Ç§¹ÉµøÍ££¬ÖĞ¹ú¹ÉÆ±-25.42%£¬VIX=41",
+    name: "2015å¹´6-8æœˆä¸­å›½è‚¡ç¾",
+    description: "ä¸Šè¯æŒ‡æ•°æš´è·Œ45%ï¼Œåƒè‚¡è·Œåœï¼Œä¸­å›½è‚¡ç¥¨-25.42%ï¼ŒVIX=41",
     timeRange: "2015-06-01 to 2015-08-31",
     macro: {
       fedRate: 0.13,
       inflation: 0.1,
       usd: 97.45,
       realYield: 0.5,
-      vix: 40.74, // ·åÖµ£¨ÓÃ»§ÑéÖ¤£©
+      vix: 40.74, // å³°å€¼ï¼ˆç”¨æˆ·éªŒè¯ï¼‰
       creditSpread: 2.0,
-      globalGrowth: 3.1, // ÓÃ»§ÑéÖ¤
-      cnPolicy: 0.5, // ? v11.26ĞÂÔö (×¨¼ÒĞŞÕı: -0.8¡ú+0.5£¬¾ÈÊĞ)
+      globalGrowth: 3.1, // ç”¨æˆ·éªŒè¯
+      cnPolicy: 0.5, // âœ… v11.26æ–°å¢ (ä¸“å®¶ä¿®æ­£: -0.8â†’+0.5ï¼Œæ•‘å¸‚)
       momentum: -0.8,
-      rateChangeReason: -0.5, // P1: ÍÆ³Ù¼ÓÏ¢¸ëÅÉ
+      rateChangeReason: -0.5, // P1: æ¨è¿ŸåŠ æ¯é¸½æ´¾
       usdReason: -0.5,
-      vixReason: -0.7, // ÖĞ¹ú·çÏÕ´«È¾
-      inflationReason: -0.5, // P1: Í¨Ëõ·çÏÕ
+      vixReason: -0.7, // ä¸­å›½é£é™©ä¼ æŸ“
+      inflationReason: -0.5, // P1: é€šç¼©é£é™©
     },
     valuation: {
-      spPE: 22.12, // ÓÃ»§ÑéÖ¤
+      spPE: 22.12, // ç”¨æˆ·éªŒè¯
       spPercentile: 70,
       sp6mReturn: -5.0,
     },
     actualReturns: {
-      cnStock: -0.2542, // MCHI ?¹ÉÔÖÖĞĞÄ
+      cnStock: -0.2542, // MCHI â­è‚¡ç¾ä¸­å¿ƒ
       usStock: -0.0535, // SPY
       devStock: -0.0755, // EFA
-      emStock: -0.1692, // EEM (´«È¾)
-      bonds_us: -0.0021, // v10.0: AGG±ÜÏÕÈõ
-      bonds_china: 0.005, // v10.0: ÖĞ¹úÏà¶Ô¶ÀÁ¢
-      bonds_global: -0.005, // v10.0: È«Çò·çÏÕ´«È¾
+      emStock: -0.1692, // EEM (ä¼ æŸ“)
+      bonds_us: -0.0021, // v10.0: AGGé¿é™©å¼±
+      bonds_china: 0.005, // v10.0: ä¸­å›½ç›¸å¯¹ç‹¬ç«‹
+      bonds_global: -0.005, // v10.0: å…¨çƒé£é™©ä¼ æŸ“
       agriculture: -0.0513, // DBA
-      precious: -0.0465, // GLD (±ÜÏÕÊ§Ğ§)
-      energy: -0.2692, // USO (ĞèÇóµ£ÓÇ)
+      precious: -0.0465, // GLD (é¿é™©å¤±æ•ˆ)
+      energy: -0.2692, // USO (éœ€æ±‚æ‹…å¿§)
       industrial: -0.1318, // DBB
       crypto: null,
       hedges: null,
     },
     regionalRisk: {
       region: "china",
-      severity: 0.95, // v9.7.1: ´Ó0.8ÌáÉıµ½0.95
+      severity: 0.95, // v9.7.1: ä»0.8æå‡åˆ°0.95
     },
     dataSource:
-      "ºê¹Û£ºFRED+ÓÃ»§ÑéÖ¤; »Ø±¨£ºYahoo Finance ETF(data_fetcher.py×Ô¶¯»ñÈ¡)",
+      "å®è§‚ï¼šFRED+ç”¨æˆ·éªŒè¯; å›æŠ¥ï¼šYahoo Finance ETF(data_fetcher.pyè‡ªåŠ¨è·å–)",
   },
   blackMonday1987: {
-    name: "1987Äê10ÔÂºÚÉ«ĞÇÆÚÒ»",
-    description: "10ÔÂ19ÈÕµ¥ÈÕ-22.6%£¬VIX¹ÀËã150£¬ÊĞ³¡±ÀÅÌ",
+    name: "1987å¹´10æœˆé»‘è‰²æ˜ŸæœŸä¸€",
+    description: "10æœˆ19æ—¥å•æ—¥-22.6%ï¼ŒVIXä¼°ç®—150ï¼Œå¸‚åœºå´©ç›˜",
     timeRange: "1987-10-01 to 1987-10-31",
     macro: {
       fedRate: 7.5,
@@ -8427,7 +8427,7 @@ const historicalScenarios = {
       vix: 150,
       creditSpread: 4.0,
       globalGrowth: 3.5,
-      cnPolicy: 0.0, // ? v11.26ĞÂÔö (MASTER 1.1: 1987ÄêÖĞ¹ú²»Ïà¹Ø)
+      cnPolicy: 0.0, // âœ… v11.26æ–°å¢ (MASTER 1.1: 1987å¹´ä¸­å›½ä¸ç›¸å…³)
       momentum: -0.9,
       rateChangeReason: 0,
       usdReason: 0,
@@ -8444,9 +8444,9 @@ const historicalScenarios = {
       usStock: -0.2308,
       devStock: -0.1149,
       emStock: null,
-      bonds_us: 0.0081, // v10.0: 1987ÄêÃÀÕ®Êı¾İ
-      bonds_china: null, // v10.0: 1987ÎŞÊı¾İ
-      bonds_global: null, // v10.0: 1987ÎŞÊı¾İ
+      bonds_us: 0.0081, // v10.0: 1987å¹´ç¾å€ºæ•°æ®
+      bonds_china: null, // v10.0: 1987æ— æ•°æ®
+      bonds_global: null, // v10.0: 1987æ— æ•°æ®
       agriculture: null,
       precious: 0.025,
       energy: -0.0166,
@@ -8455,11 +8455,11 @@ const historicalScenarios = {
       hedges: null,
     },
     dataSource:
-      "¹ÉÆ±/Õ®È¯£ºÊĞ³¡Ö¸Êı(index_fetcher.py); ÉÌÆ·£ºÓÃ»§ÊÖ¶¯²éÑ¯(Kitco/EIA/Macrotrends)",
+      "è‚¡ç¥¨/å€ºåˆ¸ï¼šå¸‚åœºæŒ‡æ•°(index_fetcher.py); å•†å“ï¼šç”¨æˆ·æ‰‹åŠ¨æŸ¥è¯¢(Kitco/EIA/Macrotrends)",
   },
   asianCrisis1997: {
-    name: "1997Äê10ÔÂÑÇÖŞ½ğÈÚÎ£»ú",
-    description: "Ì©îù±ÀÅÌ£¬°ÍÎ÷-27%£¬ĞÂĞËÊĞ³¡Î£»ú",
+    name: "1997å¹´10æœˆäºšæ´²é‡‘èå±æœº",
+    description: "æ³°é“¢å´©ç›˜ï¼Œå·´è¥¿-27%ï¼Œæ–°å…´å¸‚åœºå±æœº",
     timeRange: "1997-10-01 to 1997-10-31",
     macro: {
       fedRate: 5.5,
@@ -8469,7 +8469,7 @@ const historicalScenarios = {
       vix: 46,
       creditSpread: 3.5,
       globalGrowth: 3.8,
-      cnPolicy: -0.5, // ? v11.26ĞÂÔö (MASTER 1.1)
+      cnPolicy: -0.5, // âœ… v11.26æ–°å¢ (MASTER 1.1)
       momentum: -0.5,
       rateChangeReason: 0,
       usdReason: -0.8,
@@ -8486,9 +8486,9 @@ const historicalScenarios = {
       usStock: -0.0541,
       devStock: -0.0828,
       emStock: -0.2726,
-      bonds_us: 0.0032, // v10.0: ÃÀÕ®±ÜÏÕ
-      bonds_china: null, // v10.0: 1997ÎŞÊı¾İ
-      bonds_global: -0.005, // v10.0: ÑÇÖŞÎ£»úÓ°Ïì
+      bonds_us: 0.0032, // v10.0: ç¾å€ºé¿é™©
+      bonds_china: null, // v10.0: 1997æ— æ•°æ®
+      bonds_global: -0.005, // v10.0: äºšæ´²å±æœºå½±å“
       agriculture: null,
       precious: -0.0571,
       energy: -0.0717,
@@ -8497,46 +8497,46 @@ const historicalScenarios = {
       hedges: null,
     },
     dataSource:
-      "¹ÉÆ±/Õ®È¯£ºÊĞ³¡Ö¸Êı(index_fetcher.py); ÉÌÆ·£ºÓÃ»§ÊÖ¶¯²éÑ¯(Kitco/EIA/Macrotrends)",
+      "è‚¡ç¥¨/å€ºåˆ¸ï¼šå¸‚åœºæŒ‡æ•°(index_fetcher.py); å•†å“ï¼šç”¨æˆ·æ‰‹åŠ¨æŸ¥è¯¢(Kitco/EIA/Macrotrends)",
   },
 };
 
-// v9.0: ¼ÓÔØÀúÊ·³¡¾°º¯Êı
-// v11.17 FIX: ĞŞÕı±äÁ¿Ãû historicalScenarios ¡ú historicalSnapshots
-// v11.17b FIX: ¼æÈİmacroData¼üÃû£¨Ö®Ç°Ö»¶Ámacroµ¼ÖÂËùÓĞ²ÎÊıÎª0£©
+// v9.0: åŠ è½½å†å²åœºæ™¯å‡½æ•°
+// v11.17 FIX: ä¿®æ­£å˜é‡å historicalScenarios â†’ historicalSnapshots
+// v11.17b FIX: å…¼å®¹macroDataé”®åï¼ˆä¹‹å‰åªè¯»macroå¯¼è‡´æ‰€æœ‰å‚æ•°ä¸º0ï¼‰
 function loadSnapshot(scenarioId) {
   const scenario = historicalSnapshots[scenarioId];
   if (!scenario) {
-    console.warn(`Î´ÕÒµ½³¡¾°: ${scenarioId}`);
-    alert(`?? Î´ÕÒµ½³¡¾°: ${scenarioId}`);
+    console.warn(`æœªæ‰¾åˆ°åœºæ™¯: ${scenarioId}`);
+    alert(`âš ï¸ æœªæ‰¾åˆ°åœºæ™¯: ${scenarioId}`);
     return;
   }
 
-  // v11.35b: ÉèÖÃµ±Ç°³¡¾°Äê·İ£¬ÓÃÓÚ¹ıÂËÉĞÎ´´æÔÚµÄ×Ê²ú
+  // v11.35b: è®¾ç½®å½“å‰åœºæ™¯å¹´ä»½ï¼Œç”¨äºè¿‡æ»¤å°šæœªå­˜åœ¨çš„èµ„äº§
   // v16.5: Use window.snapshotYears
   window.currentScenarioYear =
     window.snapshotYears && window.snapshotYears[scenarioId]
       ? window.snapshotYears[scenarioId]
       : null;
   window._historicalOverrideMode = true; // v16.64 P0 FIX: Enable for interactive scenario
-  debugLog(`[v11.35b] ³¡¾°Äê·İÉèÖÃÎª: ${window.currentScenarioYear}`);
+  debugLog(`[v11.35b] åœºæ™¯å¹´ä»½è®¾ç½®ä¸º: ${window.currentScenarioYear}`);
 
-  debugLog(`[v9.0] ¼ÓÔØÀúÊ·³¡¾°: ${scenario.name || scenario.period}`);
+  debugLog(`[v9.0] åŠ è½½å†å²åœºæ™¯: ${scenario.name || scenario.period}`);
 
-  // v11.17b FIX: Ïòºó¼æÈİÁ½ÖÖ¼üÃû
+  // v11.17b FIX: å‘åå…¼å®¹ä¸¤ç§é”®å
   const macro = scenario.macro || scenario.macroData;
   if (!macro) {
-    console.error("[v11.17b] ³¡¾°Êı¾İÈ±ÉÙmacro/macroData¼ü£¡");
+    console.error("[v11.17b] åœºæ™¯æ•°æ®ç¼ºå°‘macro/macroDataé”®ï¼");
     return;
   }
 
-  // v9.1 FIX: ´æ´¢ÍêÕûµÄmacro¶ÔÏóµ½È«¾Ö±äÁ¿£¨ÓÃÓÚÃ»ÓĞinputÔªËØµÄ²ÎÊı£©
+  // v9.1 FIX: å­˜å‚¨å®Œæ•´çš„macroå¯¹è±¡åˆ°å…¨å±€å˜é‡ï¼ˆç”¨äºæ²¡æœ‰inputå…ƒç´ çš„å‚æ•°ï¼‰
   window._historicalMacroOverride = macro;
 
-  // v9.7: ´æ´¢Õû¸ö³¡¾°ÓÃÓÚÇøÓò·çÏÕ¼ì²â
+  // v9.7: å­˜å‚¨æ•´ä¸ªåœºæ™¯ç”¨äºåŒºåŸŸé£é™©æ£€æµ‹
   window._currentScenario = scenario;
 
-  // 1. ¼ÓÔØºê¹Û²ÎÊıµ½DOM£¨ÓĞinputÔªËØµÄ£©
+  // 1. åŠ è½½å®è§‚å‚æ•°åˆ°DOMï¼ˆæœ‰inputå…ƒç´ çš„ï¼‰
   Object.entries(macro).forEach(([key, value]) => {
     const elem = document.getElementById(`macro_${key}`);
     if (elem) {
@@ -8545,7 +8545,7 @@ function loadSnapshot(scenarioId) {
     }
   });
 
-  // 2. ¼ÓÔØ¹ÀÖµÖ¸±ê
+  // 2. åŠ è½½ä¼°å€¼æŒ‡æ ‡
   if (scenario.valuation) {
     Object.entries(scenario.valuation).forEach(([key, value]) => {
       const elem = document.getElementById(key);
@@ -8555,22 +8555,22 @@ function loadSnapshot(scenarioId) {
       }
     });
   } else {
-    console.warn("[v11.17b] ¸Ã³¡¾°ÎŞ¹ÀÖµÊı¾İ(valuation)£¬Ìø¹ı¹ÀÖµ¼ÓÔØ");
+    console.warn("[v11.17b] è¯¥åœºæ™¯æ— ä¼°å€¼æ•°æ®(valuation)ï¼Œè·³è¿‡ä¼°å€¼åŠ è½½");
   }
 
-  debugLog("[v9.1 FIXED] ³¡¾°¼ÓÔØÍê³É£¨º¬È«¾Ö±äÁ¿override£©");
+  debugLog("[v9.1 FIXED] åœºæ™¯åŠ è½½å®Œæˆï¼ˆå«å…¨å±€å˜é‡overrideï¼‰");
 
-  // v9.7.5: Éú³ÉË«ÖØÍÆ¼ö - È«¾Ö×îÓÅ + ÓÃ»§Ñ¡Ôñ
-  debugLog("[v9.7.5] ¿ªÊ¼Ë«ÖØÍÆ¼öÉú³É");
+  // v9.7.5: ç”ŸæˆåŒé‡æ¨è - å…¨å±€æœ€ä¼˜ + ç”¨æˆ·é€‰æ‹©
+  debugLog("[v9.7.5] å¼€å§‹åŒé‡æ¨èç”Ÿæˆ");
 
-  // 1. ±£´æÓÃ»§µ±Ç°Ñ¡ÔñµÄ×Ê²ú
+  // 1. ä¿å­˜ç”¨æˆ·å½“å‰é€‰æ‹©çš„èµ„äº§
   const userSelectedAssets = new Set(selectedAssets);
-  debugLog(`[v9.7.5] ÓÃ»§Ñ¡ÔñµÄ×Ê²úÊıÁ¿£º${userSelectedAssets.size}`);
+  debugLog(`[v9.7.5] ç”¨æˆ·é€‰æ‹©çš„èµ„äº§æ•°é‡ï¼š${userSelectedAssets.size}`);
 
-  // v10.0: Ç¨ÒÆÂß¼­ - Ö»ÒÆ³ıÕæÕıÎŞĞ§µÄ×Ê²ú£¨²»ÔÚassetLibraryÖĞµÄ£©
+  // v10.0: è¿ç§»é€»è¾‘ - åªç§»é™¤çœŸæ­£æ— æ•ˆçš„èµ„äº§ï¼ˆä¸åœ¨assetLibraryä¸­çš„ï¼‰
   const migratedAssets = new Set();
   userSelectedAssets.forEach((assetId) => {
-    // ÖÇÄÜÆ¥ÅämajorKey
+    // æ™ºèƒ½åŒ¹é…majorKey
     let foundMajorKey = null;
     for (const key of Object.keys(assetLibrary)) {
       if (assetId.startsWith(key + "_")) {
@@ -8579,114 +8579,114 @@ function loadSnapshot(scenarioId) {
       }
     }
 
-    // Ö»±£ÁôÔÚassetLibraryÖĞ´æÔÚµÄ×Ê²ú
+    // åªä¿ç•™åœ¨assetLibraryä¸­å­˜åœ¨çš„èµ„äº§
     if (foundMajorKey) {
       migratedAssets.add(assetId);
     } else {
-      console.warn(`[v10.0 Migration] Ìø¹ıÎŞĞ§×Ê²ú: ${assetId}`);
+      console.warn(`[v10.0 Migration] è·³è¿‡æ— æ•ˆèµ„äº§: ${assetId}`);
     }
   });
   selectedAssets = migratedAssets;
-  debugLog(`[v10.0 Migration] Ç¨ÒÆºó×Ê²úÊıÁ¿£º${selectedAssets.size}`);
+  debugLog(`[v10.0 Migration] è¿ç§»åèµ„äº§æ•°é‡ï¼š${selectedAssets.size}`);
 
-  // 2. ÁÙÊ±ÉèÖÃÎªËùÓĞ×Ê²ú£¨È«¾Ö×îÓÅ£©
-  // v10.0 FIX: ±ØĞëÊ¹ÓÃÕæÊµµÄasset ID (e.g. bonds_us_US10Y) ¶ø²»ÊÇmajor key
-  debugLog(`[v9.7.5] È«¾Ö×îÓÅ×Ê²úÊıÁ¿(ÕæÊµID)£º${selectedAssets.size}`);
+  // 2. ä¸´æ—¶è®¾ç½®ä¸ºæ‰€æœ‰èµ„äº§ï¼ˆå…¨å±€æœ€ä¼˜ï¼‰
+  // v10.0 FIX: å¿…é¡»ä½¿ç”¨çœŸå®çš„asset ID (e.g. bonds_us_US10Y) è€Œä¸æ˜¯major key
+  debugLog(`[v9.7.5] å…¨å±€æœ€ä¼˜èµ„äº§æ•°é‡(çœŸå®ID)ï¼š${selectedAssets.size}`);
 
-  // 3. Éú³ÉÈ«¾Ö×îÓÅÅäÖÃ
+  // 3. ç”Ÿæˆå…¨å±€æœ€ä¼˜é…ç½®
   generateRecommendation();
 
-  // 4. ±£´æÈ«¾Ö×îÓÅ½á¹û
+  // 4. ä¿å­˜å…¨å±€æœ€ä¼˜ç»“æœ
   // v16.3 FIX: Directly use the newly generated weights
   // window._globalOptimalRec snapshot copy removed; global recommendation stays isolated.
   // window._globalOptimalScores snapshot copy removed; keep isolated scores intact.
-  debugLog("[v9.7.5] È«¾Ö×îÓÅÅäÖÃÒÑ±£´æ (v16.3)");
+  debugLog("[v9.7.5] å…¨å±€æœ€ä¼˜é…ç½®å·²ä¿å­˜ (v16.3)");
 
-  // 5. »Ö¸´ÓÃ»§Ñ¡ÔñµÄ×Ê²ú
+  // 5. æ¢å¤ç”¨æˆ·é€‰æ‹©çš„èµ„äº§
   selectedAssets = userSelectedAssets;
-  debugLog(`[v9.7.5] »Ö¸´ÓÃ»§×Ê²ú£º${selectedAssets.size}¸ö`);
+  debugLog(`[v9.7.5] æ¢å¤ç”¨æˆ·èµ„äº§ï¼š${selectedAssets.size}ä¸ª`);
 
-  // 6. Éú³ÉÓÃ»§Ñ¡ÔñµÄÅäÖÃ£¨Í¼4Ê¹ÓÃ£©
+  // 6. ç”Ÿæˆç”¨æˆ·é€‰æ‹©çš„é…ç½®ï¼ˆå›¾4ä½¿ç”¨ï¼‰
   generateRecommendation();
-  debugLog("[v9.7.5] ÓÃ»§ÅäÖÃÒÑÉú³É£¨Í¼4Ê¹ÓÃ£©");
+  debugLog("[v9.7.5] ç”¨æˆ·é…ç½®å·²ç”Ÿæˆï¼ˆå›¾4ä½¿ç”¨ï¼‰");
 
   // [v11.27] Restore global variable
   window._historicalMacroOverride = macro;
 
-  // 3. ÏÔÊ¾³¡¾°ÏêÏ¸ĞÅÏ¢£¨°üº¬AI vs Êµ¼Ê¶Ô±È±í¸ñ£©
-  // v9.7.5: Í¼3Ê¹ÓÃÈ«¾Ö×îÓÅÅäÖÃ
+  // 3. æ˜¾ç¤ºåœºæ™¯è¯¦ç»†ä¿¡æ¯ï¼ˆåŒ…å«AI vs å®é™…å¯¹æ¯”è¡¨æ ¼ï¼‰
+  // v9.7.5: å›¾3ä½¿ç”¨å…¨å±€æœ€ä¼˜é…ç½®
   const resultDiv = document.getElementById("backtestResult");
   if (!resultDiv) return;
 
-  // ¹¹½¨¶Ô±È±í¸ñHTML£¨Èç¹ûÓĞactualReturnsÊı¾İ£©
+  // æ„å»ºå¯¹æ¯”è¡¨æ ¼HTMLï¼ˆå¦‚æœæœ‰actualReturnsæ•°æ®ï¼‰
   let tableHTML = "";
   if (scenario.actualReturns) {
     const assetLabels = {
-      cnStock: "A¹É",
-      hkStock: "¸Û¹É/º£ÍâÖĞ¸Å",
-      usStock: "ÃÀ¹ú¹ÉÆ±",
-      devStock: "·¢´ïÊĞ³¡",
-      emStock: "ĞÂĞËÊĞ³¡",
-      bonds_us: "ÃÀ¹úÕ®È¯",
-      bonds_china: "ÖĞ¹úÕ®È¯",
-      bonds_global: "È«ÇòÕ®È¯",
-      precious: "¹ó½ğÊô",
-      energy: "ÄÜÔ´",
-      agriculture: "Å©²úÆ·",
-      industrial: "¹¤Òµ½ğÊô",
-      crypto: "¼ÓÃÜ»õ±Ò",
-      forex_major: "Ö÷Á÷Íâ±Ò",
-      forex_safe: "±ÜÏÕ»õ±Ò",
-      forex_cny: "ÈËÃñ±Ò",
-      forex_commodity: "ÉÌÆ·»õ±Ò",
-      hedges: "¶Ô³å¹¤¾ß",
+      cnStock: "Aè‚¡",
+      hkStock: "æ¸¯è‚¡/æµ·å¤–ä¸­æ¦‚",
+      usStock: "ç¾å›½è‚¡ç¥¨",
+      devStock: "å‘è¾¾å¸‚åœº",
+      emStock: "æ–°å…´å¸‚åœº",
+      bonds_us: "ç¾å›½å€ºåˆ¸",
+      bonds_china: "ä¸­å›½å€ºåˆ¸",
+      bonds_global: "å…¨çƒå€ºåˆ¸",
+      precious: "è´µé‡‘å±",
+      energy: "èƒ½æº",
+      agriculture: "å†œäº§å“",
+      industrial: "å·¥ä¸šé‡‘å±",
+      crypto: "åŠ å¯†è´§å¸",
+      forex_major: "ä¸»æµå¤–å¸",
+      forex_safe: "é¿é™©è´§å¸",
+      forex_cny: "äººæ°‘å¸",
+      forex_commodity: "å•†å“è´§å¸",
+      hedges: "å¯¹å†²å·¥å…·",
     };
 
     tableHTML = `\u003ctable style=\"width:100%; font-size:11px; border-collapse:collapse; margin:12px 0;\"\u003e
                     \u003ctr style=\"background:#f3f4f6;\"\u003e
-                        \u003cth style=\"text-align:left; padding:8px; border:1px solid #ddd;\"\u003e×Ê²úÀà±ğ\u003c/th\u003e
-                        \u003cth style=\"text-align:center; padding:8px; border:1px solid #ddd;\"\u003eÏµÍ³ÍÆ¼ö%\u003c/th\u003e
-                        \u003cth style=\"text-align:center; padding:8px; border:1px solid #ddd;\"\u003eÀúÊ·Êµ¼Ê%\u003c/th\u003e
-                        \u003cth style=\"text-align:center; padding:8px; border:1px solid #ddd;\"\u003e¶Ô±È\u003c/th\u003e
+                        \u003cth style=\"text-align:left; padding:8px; border:1px solid #ddd;\"\u003eèµ„äº§ç±»åˆ«\u003c/th\u003e
+                        \u003cth style=\"text-align:center; padding:8px; border:1px solid #ddd;\"\u003eç³»ç»Ÿæ¨è%\u003c/th\u003e
+                        \u003cth style=\"text-align:center; padding:8px; border:1px solid #ddd;\"\u003eå†å²å®é™…%\u003c/th\u003e
+                        \u003cth style=\"text-align:center; padding:8px; border:1px solid #ddd;\"\u003eå¯¹æ¯”\u003c/th\u003e
                     \u003c/tr\u003e`;
 
-    // v11.19 FIX: ±éÀúÏµÍ³ÍÆ¼öÅäÖÃ¶ø²»ÊÇactualReturns£¬È·±£ÏÔÊ¾ËùÓĞ×Ê²ú£¨100%£©
+    // v11.19 FIX: éå†ç³»ç»Ÿæ¨èé…ç½®è€Œä¸æ˜¯actualReturnsï¼Œç¡®ä¿æ˜¾ç¤ºæ‰€æœ‰èµ„äº§ï¼ˆ100%ï¼‰
     Object.entries(assetLabels).forEach(([key, label]) => {
-      // Ö»ÏÔÊ¾ÓĞÈ¨ÖØµÄ×Ê²ú£¨> 0.1%£©
+      // åªæ˜¾ç¤ºæœ‰æƒé‡çš„èµ„äº§ï¼ˆ> 0.1%ï¼‰
       const sysWeight = (window._globalOptimalRec[key] || 0) * 100;
-      if (sysWeight < 0.1) return; // Ìø¹ıÁãÅäÖÃ×Ê²ú
+      if (sysWeight < 0.1) return; // è·³è¿‡é›¶é…ç½®èµ„äº§
 
       const sysDisplay = sysWeight.toFixed(1) + "%";
 
-      // »ñÈ¡ÀúÊ·Êµ¼ÊÊÕÒæ£¨Èç¹ûactualReturnsÖĞÓĞ£©
+      // è·å–å†å²å®é™…æ”¶ç›Šï¼ˆå¦‚æœactualReturnsä¸­æœ‰ï¼‰
       const value = scenario.actualReturns[key];
       let actualDisplay, actualColor, comparison, compColor;
 
       if (value === null || value === undefined) {
         actualDisplay = "N/A";
         actualColor = "#999";
-        comparison = "²»ÊÊÓÃ";
+        comparison = "ä¸é€‚ç”¨";
         compColor = "#e5e7eb";
       } else {
-        // ÀúÊ·Êµ¼Ê»Ø±¨
+        // å†å²å®é™…å›æŠ¥
         const actualPct = (value * 100).toFixed(1) + "%";
         actualDisplay = value >= 0 ? "+" + actualPct : actualPct;
         actualColor = value >= 0 ? "#10b981" : "#ef4444";
 
-        // ¶Ô±È·ÖÎö
-        comparison = "?? ÖĞĞÔ";
+        // å¯¹æ¯”åˆ†æ
+        comparison = "âš–ï¸ ä¸­æ€§";
         compColor = "#fef08a";
         if (sysWeight > 10 && value > 0.05) {
-          comparison = "? ÍÆ¼öÕıÈ·";
+          comparison = "âœ… æ¨èæ­£ç¡®";
           compColor = "#4ade80";
         } else if (sysWeight < 5 && value < -0.05) {
-          comparison = "? »Ø±ÜÕıÈ·";
+          comparison = "âœ… å›é¿æ­£ç¡®";
           compColor = "#4ade80";
         } else if (sysWeight > 10 && value < -0.15) {
-          comparison = "? ´ó´í";
+          comparison = "âŒ å¤§é”™";
           compColor = "#f87171";
         } else if (sysWeight < 5 && value > 0.15) {
-          comparison = "? ´íÊ§";
+          comparison = "âŒ é”™å¤±";
           compColor = "#fca5a5";
         }
       }
@@ -8706,53 +8706,53 @@ function loadSnapshot(scenarioId) {
 
   resultDiv.innerHTML = `
                 \u003cdiv style=\"background:#f0fdf4; border-left:4px solid #10b981; padding:12px; border-radius:6px; margin-bottom:12px;\"\u003e
-                    \u003cdiv style=\"font-weight:600; color:#065f46; margin-bottom:4px;\"\u003e?? ${scenario.period || scenario.name}\u003c/div\u003e
-                    \u003cdiv style=\"font-size:10px; color:#666;\"\u003e${scenario.description || "ÀúÊ·Êı¾İÒÑ¼ÓÔØ"}\u003c/div\u003e
+                    \u003cdiv style=\"font-weight:600; color:#065f46; margin-bottom:4px;\"\u003eğŸ“Œ ${scenario.period || scenario.name}\u003c/div\u003e
+                    \u003cdiv style=\"font-size:10px; color:#666;\"\u003e${scenario.description || "å†å²æ•°æ®å·²åŠ è½½"}\u003c/div\u003e
                 \u003c/div\u003e
                 \u003c/div\u003e
                 ${tableHTML}
-                \u003cdiv style=\"font-size:10px; color:#7c3aed; padding:8px; background:#faf5ff; border-radius:4px; margin-bottom:12px;\"\u003e?? Êı¾İ½ØÖÁ£º${getMacroDataTimestampText(new Date().toLocaleString())}\u003c/div\u003e
-                ${scenario.dataSource ? `\u003cdiv style=\"font-size:10px; color:#7c3aed; padding:8px; background:#faf5ff; border-radius:4px; margin-bottom:12px;\"\u003e?? Êı¾İÀ´Ô´£º${scenario.dataSource}\u003c/div\u003e` : ""}
+                \u003cdiv style=\"font-size:10px; color:#7c3aed; padding:8px; background:#faf5ff; border-radius:4px; margin-bottom:12px;\"\u003eğŸ“¡ æ•°æ®æˆªè‡³ï¼š${getMacroDataTimestampText(new Date().toLocaleString())}\u003c/div\u003e
+                ${scenario.dataSource ? `\u003cdiv style=\"font-size:10px; color:#7c3aed; padding:8px; background:#faf5ff; border-radius:4px; margin-bottom:12px;\"\u003eğŸ“Š æ•°æ®æ¥æºï¼š${scenario.dataSource}\u003c/div\u003e` : ""}
                 \u003cdiv style=\"background:#fff; border:2px solid #e5e7eb; border-radius:8px; padding:14px;\"\u003e
-                    \u003cdiv style=\"font-weight:600; color:#065f46; font-size:12px; margin-bottom:8px;\"\u003e? ³¡¾°Êı¾İÒÑ×Ô¶¯Ìî³ä\u003c/div\u003e
+                    \u003cdiv style=\"font-weight:600; color:#065f46; font-size:12px; margin-bottom:8px;\"\u003eâœ… åœºæ™¯æ•°æ®å·²è‡ªåŠ¨å¡«å……\u003c/div\u003e
                     \u003cdiv style=\"background:#f9fafb; border-radius:6px; padding:10px; margin-bottom:8px;\"\u003e
-                        \u003cdiv style=\"font-size:10px; color:#666; margin-bottom:4px; font-weight:600;\"\u003e?? ºê¹ÛÖ¸±ê£º\u003c/div\u003e
+                        \u003cdiv style=\"font-size:10px; color:#666; margin-bottom:4px; font-weight:600;\"\u003eğŸ“Š å®è§‚æŒ‡æ ‡ï¼š\u003c/div\u003e
                         \u003cdiv style=\"font-size:10px; color:#333; line-height:1.6;\"\u003e
-                            VIX:${macro.vix} | Fed:${macro.fedRate}% | Í¨ÕÍ:${macro.inflation}% |
-                            ĞÅÓÃÀû²î:${macro.creditSpread}% | ÃÀÔª:${macro.usd} | È«ÇòÔö³¤:${macro.globalGrowth}% | Êµ¼ÊÀûÂÊ:${macro.realYield || "N/A"}%
+                            VIX:${macro.vix} | Fed:${macro.fedRate}% | é€šèƒ€:${macro.inflation}% |
+                            ä¿¡ç”¨åˆ©å·®:${macro.creditSpread}% | ç¾å…ƒ:${macro.usd} | å…¨çƒå¢é•¿:${macro.globalGrowth}% | å®é™…åˆ©ç‡:${macro.realYield || "N/A"}%
                         \u003c/div\u003e
                     \u003c/div\u003e
                     ${
                       scenario.valuation
                         ? `
                     \u003cdiv style=\"background:#fffbeb; border-radius:6px; padding:10px; margin-bottom:8px;\"\u003e
-                        \u003cdiv style=\"font-size:10px; color:#666; margin-bottom:4px; font-weight:600;\"\u003e?? ¹ÀÖµÖ¸±ê£º\u003c/div\u003e
-                        \u003cdiv style=\"font-size:10px; color:#333;\"\u003eP/E:${scenario.valuation.spPE} | ·ÖÎ»:${scenario.valuation.spPercentile} | °ëÄêÕÇµø:${scenario.valuation.sp6mReturn}%\u003c/div\u003e
+                        \u003cdiv style=\"font-size:10px; color:#666; margin-bottom:4px; font-weight:600;\"\u003eğŸ“ˆ ä¼°å€¼æŒ‡æ ‡ï¼š\u003c/div\u003e
+                        \u003cdiv style=\"font-size:10px; color:#333;\"\u003eP/E:${scenario.valuation.spPE} | åˆ†ä½:${scenario.valuation.spPercentile} | åŠå¹´æ¶¨è·Œ:${scenario.valuation.sp6mReturn}%\u003c/div\u003e
                     \u003c/div\u003e`
                         : ""
                     }
                     \u003cdiv style=\"margin-top:8px; padding-top:8px; border-top:1px solid #e5e7eb; font-size:10px; color:#059669;\"\u003e
-                        ?? ¶Ô±ÈËµÃ÷£º?ÍÆ¼öÕıÈ·=ÏµÍ³ÍÆ¼öÇÒÊµ¼Ê±íÏÖºÃ | ?´ó´í=ÏµÍ³ÍÆ¼öµ«Êµ¼Ê±íÏÖ²î | ?´íÊ§=Î´ÍÆ¼öµ«Êµ¼Ê±íÏÖºÃ
+                        ğŸ’¡ å¯¹æ¯”è¯´æ˜ï¼šâœ…æ¨èæ­£ç¡®=ç³»ç»Ÿæ¨èä¸”å®é™…è¡¨ç°å¥½ | âŒå¤§é”™=ç³»ç»Ÿæ¨èä½†å®é™…è¡¨ç°å·® | âŒé”™å¤±=æœªæ¨èä½†å®é™…è¡¨ç°å¥½
                     \u003c/div\u003e
                 \u003c/div\u003e`;
 
-  debugLog("[v9.7.3] ³¡¾°¼ÓÔØºÍ±í¸ñÏÔÊ¾Íê³É£¨Ê¹ÓÃv9.7.3Ñ¹ÖÆºóµÄÆÀ·Ö£©");
+  debugLog("[v9.7.3] åœºæ™¯åŠ è½½å’Œè¡¨æ ¼æ˜¾ç¤ºå®Œæˆï¼ˆä½¿ç”¨v9.7.3å‹åˆ¶åçš„è¯„åˆ†ï¼‰");
 }
 
-console.log("v8.19.1 ºê¹Û»·¾³×Ü½á¹¦ÄÜ¼ÓÔØÍê³É");
+console.log("v8.19.1 å®è§‚ç¯å¢ƒæ€»ç»“åŠŸèƒ½åŠ è½½å®Œæˆ");
 
 // [v11.27] Batch Historical Test Implementation
 function runBatchHistoricalTest() {
   if (selectedAssets.size === 0) {
-    alert("ÇëÏÈÔÚµÚ1Ò³Ñ¡ÔñÒª²âÊÔµÄ×Ê²ú×éºÏ£¡");
+    alert("è¯·å…ˆåœ¨ç¬¬1é¡µé€‰æ‹©è¦æµ‹è¯•çš„èµ„äº§ç»„åˆï¼");
     return;
   }
   const confirmRun = confirm(
-    "? [v16.11 Final Optimization]\n\nºËĞÄĞŞ¸´ (Core Fixes):\n1. ĞŞ¸´ 2000 Dotcom Bubble ÅİÄ­Âß¼­ÈÛ¶ÏÎÊÌâ (-80·ÖÅĞ¶¨»Ö¸´)\n2. ÓÅ»¯ 2023 Bank Crisis ¼ÓÃÜ»õ±Ò»úÖÆ (·´´àÈõ+80·Ö)\n3. ÒÆ³ıÈßÓà¼ÆËãÂß¼­\n\nStarting Optimization Run...",
+    "âœ… [v16.11 Final Optimization]\n\næ ¸å¿ƒä¿®å¤ (Core Fixes):\n1. ä¿®å¤ 2000 Dotcom Bubble æ³¡æ²«é€»è¾‘ç†”æ–­é—®é¢˜ (-80åˆ†åˆ¤å®šæ¢å¤)\n2. ä¼˜åŒ– 2023 Bank Crisis åŠ å¯†è´§å¸æœºåˆ¶ (åè„†å¼±+80åˆ†)\n3. ç§»é™¤å†—ä½™è®¡ç®—é€»è¾‘\n\nStarting Optimization Run...",
   );
   if (!confirmRun) return;
 
-  console.log("?? Starting Batch Test v16.5 (Global Scope Fix Applied)...");
+  console.log("ğŸ§ª Starting Batch Test v16.5 (Global Scope Fix Applied)...");
 
   // v15.1 FIX: Warm up the engine to ensure P1/Global State is initialized
   // This fixes the "Cold Start" bug where batch test returns old results if run immediately after refresh.
@@ -8771,21 +8771,21 @@ function runBatchHistoricalTest() {
   let html =
     '<div style="position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:90%; max-width:800px; max-height:80vh; background:white; overflow-y:auto; padding:20px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.3); z-index:9999; border:1px solid #ddd;">';
   html +=
-    '<h3 style="margin-bottom:15px; border-bottom:2px solid #7c3aed; padding-bottom:10px;">?? ÀúÊ·³¡¾°ÅúÁ¿»Ø²â±¨¸æ</h3>';
+    '<h3 style="margin-bottom:15px; border-bottom:2px solid #7c3aed; padding-bottom:10px;">ğŸ§ª å†å²åœºæ™¯æ‰¹é‡å›æµ‹æŠ¥å‘Š</h3>';
   html +=
-    '<div style="font-size:12px; color:#666; margin-bottom:15px;">»ùÓÚµ±Ç°Ñ¡¶¨µÄ×Ê²ú×éºÏ£¬ÔÚËùÓĞÀúÊ·Î£»ú³¡¾°ÏÂµÄ±íÏÖÄ£Äâ¡£</div>';
+    '<div style="font-size:12px; color:#666; margin-bottom:15px;">åŸºäºå½“å‰é€‰å®šçš„èµ„äº§ç»„åˆï¼Œåœ¨æ‰€æœ‰å†å²å±æœºåœºæ™¯ä¸‹çš„è¡¨ç°æ¨¡æ‹Ÿã€‚</div>';
 
   html +=
     '<table style="width:100%; font-size:11px; border-collapse:collapse;">';
   html += '<tr style="background:#f3f4f6; position:sticky; top:0;">';
   html +=
-    '<th style="padding:8px; text-align:left; border:1px solid #ddd;">³¡¾°</th>';
+    '<th style="padding:8px; text-align:left; border:1px solid #ddd;">åœºæ™¯</th>';
   html +=
-    '<th style="padding:8px; text-align:left; border:1px solid #ddd;">ÏµÍ³ÍÆ¼ö (Top 3)</th>';
+    '<th style="padding:8px; text-align:left; border:1px solid #ddd;">ç³»ç»Ÿæ¨è (Top 3)</th>';
   html +=
-    '<th style="padding:8px; text-align:left; border:1px solid #ddd;">ÀúÊ·×î¼Ñ×Ê²ú</th>';
+    '<th style="padding:8px; text-align:left; border:1px solid #ddd;">å†å²æœ€ä½³èµ„äº§</th>';
   html +=
-    '<th style="padding:8px; text-align:center; border:1px solid #ddd;">ÆÀÅĞ</th>';
+    '<th style="padding:8px; text-align:center; border:1px solid #ddd;">è¯„åˆ¤</th>';
   html += "</tr>";
 
   // Data for CSV
@@ -8883,7 +8883,7 @@ function runBatchHistoricalTest() {
         : "N/A";
 
       // Judge Performance - v11.28 P0 Fix: Improved judgment logic
-      let status = "?";
+      let status = "âšª";
       let color = "#fef08a"; // Yellow
       let csvStatus = "Neutral";
 
@@ -8910,31 +8910,31 @@ function runBatchHistoricalTest() {
         bestAsset && bestReturn > 0.1 && (currentRec[bestAsset] || 0) < 0.05;
 
       if (holdsBest && !holdsWorst) {
-        status = "? ÓÅĞã";
+        status = "âœ… ä¼˜ç§€";
         csvStatus = "Excellent";
         color = "#dcfce7";
         totalPass++;
       } else if (holdsBest && holdsWorst) {
-        status = "?? »ìºÏ";
+        status = "âš ï¸ æ··åˆ";
         csvStatus = "Mixed";
         color = "#fef9c3";
       } else if (!holdsBest && !holdsWorst && !missedBigOpportunity) {
-        status = "??? ·ÀÓù";
+        status = "ğŸ›¡ï¸ é˜²å¾¡";
         csvStatus = "Defensive";
         color = "#e0f2fe"; // Blue
       } else if (missedBigOpportunity && !holdsWorst) {
-        status = "?? ·ÀÓù¹ı¶È";
+        status = "âš ï¸ é˜²å¾¡è¿‡åº¦";
         csvStatus = "Over-Defensive";
         color = "#fef3c7"; // Amber
       } else if (holdsWorst) {
-        status = "? ²ÈÀ×";
+        status = "âŒ è¸©é›·";
         csvStatus = "Fail";
         color = "#fee2e2";
       }
 
       html += `<tr style="background:${totalScenarios % 2 === 0 ? "#fff" : "#fafafa"}; border-bottom:1px solid #eee;">
                     <td style="padding:8px; font-weight:600;">${escapeHtml(scenario.name || scenario.period)}</td>
-                    <td style="padding:8px; color:#4b5563;">${topPicksText || "ÎŞÍÆ¼ö"}</td>
+                    <td style="padding:8px; color:#4b5563;">${topPicksText || "æ— æ¨è"}</td>
                     <td style="padding:8px; color:#059669;">${escapeHtml(bestAssetText)}</td>
                     <td style="padding:8px; text-align:center; background:${color}; font-weight:600;">${escapeHtml(status)}</td>
                 </tr>`;
@@ -8967,8 +8967,8 @@ function runBatchHistoricalTest() {
 
     // Add Export Button - v11.28.1 FIX: Use ID for close button to avoid removeChild error
     html += `<div style="margin-top:15px; display:flex; justify-content:space-between; align-items:center;">
-                <button id="btnDownloadCsv" style="padding:8px 16px; background:#059669; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">?? µ¼³öÏêÏ¸CSVÊı¾İ</button>
-                <button id="btnCloseBatchModal" style="padding:8px 16px; border:1px solid #ccc; background:#fff; border-radius:4px; cursor:pointer;">¹Ø±Õ</button>
+                <button id="btnDownloadCsv" style="padding:8px 16px; background:#059669; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">ğŸ“¥ å¯¼å‡ºè¯¦ç»†CSVæ•°æ®</button>
+                <button id="btnCloseBatchModal" style="padding:8px 16px; border:1px solid #ccc; background:#fff; border-radius:4px; cursor:pointer;">å…³é—­</button>
             </div>`;
     html += "</div>";
 
@@ -9012,9 +9012,9 @@ function runBatchHistoricalTest() {
       }
     });
 
-    console.log("?? ÅúÁ¿»Ø²âÍê³É¡£");
+    console.log("ğŸ§ª æ‰¹é‡å›æµ‹å®Œæˆã€‚");
   } catch (err) {
-    console.error("? Batch Test Critical Error:", err);
+    console.error("âŒ Batch Test Critical Error:", err);
     alert("Batch Test Failed: " + (err.message || err));
   } finally {
     // v16.3 FIX: Reset batch flag
@@ -9040,10 +9040,10 @@ function runBatchHistoricalTest() {
   }
 }
 
-console.log("v9.2 ÊµÑé°æ£º¸Ä½ø»ù´¡ÆÀ·ÖËã·¨£¨ÆğÊ¼·Ö60+ÏÂÏŞ10£©");
+console.log("v9.2 å®éªŒç‰ˆï¼šæ”¹è¿›åŸºç¡€è¯„åˆ†ç®—æ³•ï¼ˆèµ·å§‹åˆ†60+ä¸‹é™10ï¼‰");
 
 // ========================================
-// v11.0 FIX: µÚÒ»ĞÔÔ­Àí - ×Ó×Ê²ú²îÒì»¯ÆÀ·ÖÏµÍ³
+// v11.0 FIX: ç¬¬ä¸€æ€§åŸç† - å­èµ„äº§å·®å¼‚åŒ–è¯„åˆ†ç³»ç»Ÿ
 // ========================================
 // v11.0 FIX: Safely extend existing subCategorySensOverrides
 if (typeof subCategorySensOverrides !== "undefined") {
@@ -9051,7 +9051,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
     subCategorySensOverrides.industrial || {};
   Object.assign(subCategorySensOverrides.industrial, {
     HG: {
-      name: "Í­ (ÆÚ»õ)",
+      name: "é“œ (æœŸè´§)",
       sens: {
         fedRate: -0.4,
         realYield: -0.4,
@@ -9064,7 +9064,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       skipStagflationPenalty: true,
     },
     COPPER: {
-      name: "Í­ETF",
+      name: "é“œETF",
       sens: {
         fedRate: -0.4,
         realYield: -0.4,
@@ -9082,7 +9082,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
   subCategorySensOverrides.cnStock = subCategorySensOverrides.cnStock || {};
   Object.assign(subCategorySensOverrides.cnStock, {
     HS300: {
-      name: "»¦Éî300",
+      name: "æ²ªæ·±300",
       sens: {
         fedRate: -0.3,
         usd: -0.6,
@@ -9095,7 +9095,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Baseline A-share, policy-driven
     },
     INDUSTRY: {
-      name: "¹¤ÒµÖÜÆÚ",
+      name: "å·¥ä¸šå‘¨æœŸ",
       sens: {
         fedRate: -0.4,
         usd: -0.7,
@@ -9108,7 +9108,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Cyclical, highly sensitive to global manufacturing
     },
     REDCHIP: {
-      name: "ºì³ï¹É",
+      name: "çº¢ç­¹è‚¡",
       sens: {
         fedRate: -0.4,
         usd: -0.75,
@@ -9126,7 +9126,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
   subCategorySensOverrides.devStock = subCategorySensOverrides.devStock || {};
   Object.assign(subCategorySensOverrides.devStock, {
     KOSPI: {
-      name: "º«¹úKOSPI",
+      name: "éŸ©å›½KOSPI",
       sens: {
         fedRate: -0.7,
         globalGrowth: 0.9,
@@ -9138,7 +9138,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Semiconductor cycle (Samsung/SK Hynix), tech exports
     },
     ASX: {
-      name: "°Ä´óÀûÑÇASX",
+      name: "æ¾³å¤§åˆ©äºšASX",
       sens: {
         globalGrowth: 0.95,
         cnPolicy: 0.8,
@@ -9149,7 +9149,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Resource export (iron ore/coal), China-driven
     },
     STRAITS: {
-      name: "ĞÂ¼ÓÆÂº£Ï¿",
+      name: "æ–°åŠ å¡æµ·å³¡",
       sens: {
         fedRate: -0.7,
         globalGrowth: 0.85,
@@ -9160,7 +9160,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Trade/finance hub, USD strength helps financial sector
     },
     FTSE100: {
-      name: "Ó¢¹ú¸»Ê±",
+      name: "è‹±å›½å¯Œæ—¶",
       sens: {
         fedRate: -0.7,
         inflation: 0.3,
@@ -9172,7 +9172,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Energy (BP/Shell) + financials heavy, inflation hedge
     },
     TSX: {
-      name: "¼ÓÄÃ´óTSX",
+      name: "åŠ æ‹¿å¤§TSX",
       sens: {
         inflation: 0.6,
         globalGrowth: 0.8,
@@ -9188,7 +9188,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
   subCategorySensOverrides.emStock = subCategorySensOverrides.emStock || {};
   Object.assign(subCategorySensOverrides.emStock, {
     RTSI: {
-      name: "¶íÂŞË¹RTS",
+      name: "ä¿„ç½—æ–¯RTS",
       sens: {
         inflation: 0.9,
         globalGrowth: 0.6,
@@ -9200,7 +9200,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Pure energy play, geopolitically volatile
     },
     IPC: {
-      name: "Ä«Î÷¸çIPC",
+      name: "å¢¨è¥¿å“¥IPC",
       sens: {
         fedRate: -0.6,
         globalGrowth: 0.85,
@@ -9211,7 +9211,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // US trade linked (USMCA), manufacturing exports
     },
     MERV: {
-      name: "°¢¸ùÍ¢MERV",
+      name: "é˜¿æ ¹å»·MERV",
       sens: {
         inflation: 0.8,
         globalGrowth: 0.7,
@@ -9222,7 +9222,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // High inflation economy, commodity exporter
     },
     JALSH: {
-      name: "ÄÏ·ÇJALSH",
+      name: "å—éJALSH",
       sens: {
         globalGrowth: 0.85,
         inflation: 0.6,
@@ -9240,7 +9240,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
     subCategorySensOverrides.industrial || {};
   Object.assign(subCategorySensOverrides.industrial, {
     LIT: {
-      name: "ï®",
+      name: "é”‚",
       sens: {
         globalGrowth: 0.9,
         adoption: 1.0,
@@ -9252,7 +9252,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // EV demand, tech cycle, supply concentrated (Chile/Australia)
     },
     COBALT: {
-      name: "îÜ",
+      name: "é’´",
       sens: {
         adoption: 0.95,
         globalGrowth: 0.85,
@@ -9264,7 +9264,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Battery tech, DRC supply monopoly
     },
     NI: {
-      name: "Äø",
+      name: "é•",
       sens: {
         globalGrowth: 0.9,
         inflation: 0.6,
@@ -9276,7 +9276,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Stainless steel + battery dual use
     },
     ALUMINUM: {
-      name: "ÌúETF",
+      name: "é“ETF",
       sens: { globalGrowth: 0.85, inflation: 0.7, cnPolicy: 0.65, vix: -0.4 },
       // Construction, energy-intensive production
     },
@@ -9285,7 +9285,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
   subCategorySensOverrides.precious = subCategorySensOverrides.precious || {};
   Object.assign(subCategorySensOverrides.precious, {
     GC: {
-      name: "»Æ½ğ (COMEX)",
+      name: "é»„é‡‘ (COMEX)",
       sens: {
         fedRate: -0.2,
         realYield: -0.9,
@@ -9297,7 +9297,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       skipStagflationPenalty: true, // Gold holds value in stagflation
     },
     SI: {
-      name: "°×Òø (COMEX)",
+      name: "ç™½é“¶ (COMEX)",
       sens: {
         fedRate: -0.5,
         realYield: -0.6,
@@ -9327,7 +9327,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
   subCategorySensOverrides.cnStock = subCategorySensOverrides.cnStock || {};
   Object.assign(subCategorySensOverrides.cnStock, {
     HKSTOCKS: {
-      name: "¸Û¹ÉÍ¨",
+      name: "æ¸¯è‚¡é€š",
       sens: {
         fedRate: -0.5,
         realYield: -0.5,
@@ -9341,7 +9341,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // HK more sensitive to USD/global flows, less to domestic A-share policy
     },
     INNOV: {
-      name: "A¹É´´ĞÂ",
+      name: "Aè‚¡åˆ›æ–°",
       sens: {
         fedRate: -0.2,
         realYield: -0.3,
@@ -9355,7 +9355,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Innovation heavily driven by domestic policy support
     },
     TECH100: {
-      name: "¿Æ´´°å100",
+      name: "ç§‘åˆ›æ¿100",
       sens: {
         fedRate: -0.4,
         realYield: -0.5,
@@ -9368,7 +9368,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       },
     },
     CONSUMER: {
-      name: "Ïû·ÑÁúÍ·",
+      name: "æ¶ˆè´¹é¾™å¤´",
       sens: {
         fedRate: -0.1,
         realYield: -0.2,
@@ -9387,7 +9387,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
   subCategorySensOverrides.usStock = subCategorySensOverrides.usStock || {};
   Object.assign(subCategorySensOverrides.usStock, {
     NDX: {
-      name: "ÄÉË¹´ï¿Ë100",
+      name: "çº³æ–¯è¾¾å…‹100",
       sens: {
         fedRate: -0.9,
         realYield: -0.95,
@@ -9397,7 +9397,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       },
     },
     AI500: {
-      name: "AIÖ÷Ìâ",
+      name: "AIä¸»é¢˜",
       sens: {
         fedRate: -0.8,
         realYield: -0.9,
@@ -9408,7 +9408,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       },
     },
     ENERGY: {
-      name: "ÃÀ¹úÄÜÔ´",
+      name: "ç¾å›½èƒ½æº",
       sens: {
         fedRate: -0.2,
         realYield: -0.2,
@@ -9420,7 +9420,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       skipStagflationPenalty: true,
     },
     FINANCE: {
-      name: "ÃÀ¹ú½ğÈÚ",
+      name: "ç¾å›½é‡‘è",
       sens: {
         fedRate: 0.3,
         realYield: 0.4,
@@ -9437,7 +9437,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
   subCategorySensOverrides.devStock = subCategorySensOverrides.devStock || {};
   Object.assign(subCategorySensOverrides.devStock, {
     N225: {
-      name: "ÈÕ¾­225",
+      name: "æ—¥ç»225",
       sens: {
         fedRate: -0.6,
         realYield: -0.5,
@@ -9449,7 +9449,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Japan benefits from weak USD (export-driven)
     },
     STOXX: {
-      name: "Å·ÖŞSTOXX600",
+      name: "æ¬§æ´²STOXX600",
       sens: {
         fedRate: -0.7,
         realYield: -0.6,
@@ -9465,7 +9465,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
   subCategorySensOverrides.emStock = subCategorySensOverrides.emStock || {};
   Object.assign(subCategorySensOverrides.emStock, {
     SENSEX: {
-      name: "Ó¡¶ÈSENSEX",
+      name: "å°åº¦SENSEX",
       sens: {
         fedRate: -0.4,
         realYield: -0.3,
@@ -9477,7 +9477,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // India less USD-sensitive, strong domestic growth story
     },
     BVSP: {
-      name: "°ÍÎ÷BOVESPA",
+      name: "å·´è¥¿BOVESPA",
       sens: {
         fedRate: -0.7,
         realYield: -0.6,
@@ -9562,7 +9562,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
   subCategorySensOverrides.hedges = subCategorySensOverrides.hedges || {};
   Object.assign(subCategorySensOverrides.hedges, {
     CASH: {
-      name: "ÏÖ½ğ",
+      name: "ç°é‡‘",
       sens: {
         fedRate: 0.6,
         realYield: 0.5,
@@ -9575,7 +9575,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Benefits from higher rates (deposit yield), safe haven, loses to inflation
     },
     USDTBILL: {
-      name: "ÃÀÔªTBILL",
+      name: "ç¾å…ƒTBILL",
       sens: {
         fedRate: 0.8,
         realYield: 0.7,
@@ -9587,7 +9587,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Short-term treasury, tracks Fed Funds closely
     },
     VIX: {
-      name: "VIX¿Ö»ÅÖ¸Êı",
+      name: "VIXææ…ŒæŒ‡æ•°",
       sens: {
         fedRate: -0.3,
         vix: 1.5,
@@ -9599,7 +9599,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Explodes when VIX rises, worthless when VIX is low, inverse momentum (mean reversion)
     },
     SVXY: {
-      name: "·Å¿ÕVIX",
+      name: "æ”¾ç©ºVIX",
       sens: {
         fedRate: 0.2,
         vix: -1.5,
@@ -9611,7 +9611,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Inverse VIX, benefits from low volatility, positive momentum (trend following)
     },
     AUSX: {
-      name: "»Æ½ğ/SPX",
+      name: "é»„é‡‘/SPX",
       sens: {
         fedRate: -0.4,
         realYield: -0.8,
@@ -9623,7 +9623,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Relative value: Gold outperforms stocks in risk-off
     },
     PUTSPREAD: {
-      name: "²¨¶¯ÂÊ¶Ô³å",
+      name: "æ³¢åŠ¨ç‡å¯¹å†²",
       sens: { vix: 1.2, creditSpread: 0.7, globalGrowth: -0.4, momentum: -0.7 },
       // Options strategy, benefits from vol spikes
     },
@@ -9632,7 +9632,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
   subCategorySensOverrides.forex = subCategorySensOverrides.forex || {};
   Object.assign(subCategorySensOverrides.forex, {
     JPY: {
-      name: "ÈÕÔª",
+      name: "æ—¥å…ƒ",
       sens: {
         fedRate: -0.7,
         vix: 0.9,
@@ -9644,7 +9644,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Carry trade unwind in crisis, Fed rate hike = JPY weakens (interest differential)
     },
     CHF: {
-      name: "ÈğÀÉ",
+      name: "ç‘éƒ",
       sens: {
         vix: 1.0,
         creditSpread: 0.9,
@@ -9655,7 +9655,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Ultimate safe haven, stronger than JPY
     },
     AUD: {
-      name: "°ÄÔª",
+      name: "æ¾³å…ƒ",
       sens: {
         globalGrowth: 0.95,
         cnPolicy: 0.7,
@@ -9667,7 +9667,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Commodity currency (iron ore/copper), China's biggest customer
     },
     CAD: {
-      name: "¼ÓÔª",
+      name: "åŠ å…ƒ",
       sens: {
         inflation: 0.8,
         globalGrowth: 0.7,
@@ -9678,7 +9678,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Oil exporter, benefits from energy inflation
     },
     EUR: {
-      name: "Å·Ôª",
+      name: "æ¬§å…ƒ",
       sens: {
         fedRate: -0.5,
         vix: -0.3,
@@ -9689,7 +9689,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // ECB policy divergence from Fed
     },
     GBP: {
-      name: "Ó¢°÷",
+      name: "è‹±é•‘",
       sens: {
         fedRate: -0.5,
         vix: -0.4,
@@ -9700,7 +9700,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Financial services, Brexit-independent
     },
     CNY: {
-      name: "ÈËÃñ±Ò",
+      name: "äººæ°‘å¸",
       sens: {
         cnPolicy: 1.3,
         usd: -0.9,
@@ -9715,7 +9715,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
   // v11.3: US Stock Sectors - Complete all missing sectors
   Object.assign(subCategorySensOverrides.usStock, {
     SPX: {
-      name: "±êÆÕ500",
+      name: "æ ‡æ™®500",
       sens: {
         fedRate: -0.8,
         realYield: -0.75,
@@ -9727,7 +9727,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Baseline broad market, use category default effectively
     },
     TECH: {
-      name: "ÃÀ¹ú¿Æ¼¼",
+      name: "ç¾å›½ç§‘æŠ€",
       sens: {
         fedRate: -0.85,
         realYield: -0.9,
@@ -9738,7 +9738,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Between SPX and NDX in rate sensitivity
     },
     XLRE: {
-      name: "ÃÀ¹ú·¿²ú",
+      name: "ç¾å›½æˆ¿äº§",
       sens: {
         fedRate: -1.2,
         realYield: -1.3,
@@ -9751,7 +9751,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // REITs: EXTREME rate sensitivity, dividend yields compete with bonds
     },
     XLV: {
-      name: "ÃÀ¹úÒ½ÁÆ",
+      name: "ç¾å›½åŒ»ç–—",
       sens: {
         fedRate: -0.3,
         realYield: -0.2,
@@ -9763,7 +9763,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Defensive, demographic-driven, less cyclical
     },
     XLI: {
-      name: "ÃÀ¹ú¹¤Òµ",
+      name: "ç¾å›½å·¥ä¸š",
       sens: {
         fedRate: -0.7,
         globalGrowth: 1.0,
@@ -9774,7 +9774,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Cyclical, manufacturing PMI sensitive
     },
     XLYUSD: {
-      name: "ÃÀ¹úÏû·Ñ",
+      name: "ç¾å›½æ¶ˆè´¹",
       sens: {
         fedRate: -0.6,
         globalGrowth: 0.9,
@@ -9785,7 +9785,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Consumer spending, interest rate on credit cards
     },
     XLC: {
-      name: "ÃÀ¹úÍ¨Ñ¶",
+      name: "ç¾å›½é€šè®¯",
       sens: {
         fedRate: -0.75,
         realYield: -0.7,
@@ -9796,7 +9796,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Mix of tech (Meta/Google) and telecom (defensive)
     },
     XLB: {
-      name: "ÃÀ¹ú²ÄÁÏ",
+      name: "ç¾å›½ææ–™",
       sens: {
         fedRate: -0.6,
         globalGrowth: 0.95,
@@ -9812,7 +9812,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
   // v11.3: Bonds - All missing bond assets
   Object.assign(subCategorySensOverrides.bonds_us, {
     US30Y: {
-      name: "ÃÀÕ®30Äê",
+      name: "ç¾å€º30å¹´",
       sens: {
         fedRate: -1.1,
         realYield: -1.15,
@@ -9823,7 +9823,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // 3x duration of 10Y, extreme rate sensitivity
     },
     HYG: {
-      name: "¸ßÊÕÒæÕ®",
+      name: "é«˜æ”¶ç›Šå€º",
       sens: {
         fedRate: -0.5,
         vix: -0.7,
@@ -9839,7 +9839,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
     subCategorySensOverrides.bonds_china || {};
   Object.assign(subCategorySensOverrides.bonds_china, {
     CNBD3Y: {
-      name: "ÖĞ¹ú3Y¹úÕ®",
+      name: "ä¸­å›½3Yå›½å€º",
       sens: {
         fedRate: -0.15,
         cnPolicy: 1.0,
@@ -9850,7 +9850,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // Low duration, PBOC policy dominated
     },
     CNBD10Y: {
-      name: "ÖĞ¹ú10Y¹úÕ®",
+      name: "ä¸­å›½10Yå›½å€º",
       sens: {
         fedRate: -0.35,
         cnPolicy: 0.9,
@@ -9866,7 +9866,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
     subCategorySensOverrides.bonds_global || {};
   Object.assign(subCategorySensOverrides.bonds_global, {
     EMBD: {
-      name: "ĞÂĞËÊĞ³¡Õ®",
+      name: "æ–°å…´å¸‚åœºå€º",
       sens: {
         fedRate: -0.8,
         usd: -0.9,
@@ -9877,12 +9877,12 @@ if (typeof subCategorySensOverrides !== "undefined") {
       // USD strength destroys EM debt
     },
     EUBD: {
-      name: "Å·ÖŞÕş¸®Õ®",
+      name: "æ¬§æ´²æ”¿åºœå€º",
       sens: { fedRate: -0.6, vix: 0.6, inflation: -0.6, globalGrowth: -0.35 },
       // ECB policy, EUR zone growth
     },
     JPBD: {
-      name: "ÈÕ±¾¹úÕ®",
+      name: "æ—¥æœ¬å›½å€º",
       sens: { fedRate: -0.2, vix: 0.7, inflation: -0.3, globalGrowth: -0.2 },
       // YCC (Yield Curve Control), BOJ pins rates
     },
@@ -9892,7 +9892,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
   subCategorySensOverrides.energy = subCategorySensOverrides.energy || {};
   Object.assign(subCategorySensOverrides.energy, {
     CL: {
-      name: "WTIÔ­ÓÍ",
+      name: "WTIåŸæ²¹",
       sens: {
         globalGrowth: 1.0,
         inflation: 0.9,
@@ -9903,13 +9903,13 @@ if (typeof subCategorySensOverrides !== "undefined") {
       skipStagflationPenalty: true,
     },
     NG: {
-      name: "ÌìÈ»Æø",
+      name: "å¤©ç„¶æ°”",
       sens: { globalGrowth: 0.7, inflation: 0.8, vix: -0.3, momentum: 0.6 },
       skipStagflationPenalty: true,
       // Seasonal (winter), less geopolitical than oil
     },
     OIL: {
-      name: "Ô­ÓÍETF",
+      name: "åŸæ²¹ETF",
       sens: {
         globalGrowth: 1.0,
         inflation: 0.9,
@@ -9920,7 +9920,7 @@ if (typeof subCategorySensOverrides !== "undefined") {
       skipStagflationPenalty: true,
     },
     NATGAS: {
-      name: "ÌìÈ»ÆøETF",
+      name: "å¤©ç„¶æ°”ETF",
       sens: { globalGrowth: 0.7, inflation: 0.8, vix: -0.3, momentum: 0.6 },
       skipStagflationPenalty: true,
     },
@@ -9931,27 +9931,27 @@ if (typeof subCategorySensOverrides !== "undefined") {
     subCategorySensOverrides.agriculture || {};
   Object.assign(subCategorySensOverrides.agriculture, {
     DBC: {
-      name: "Å©²úÆ·Ö¸Êı",
+      name: "å†œäº§å“æŒ‡æ•°",
       sens: { inflation: 0.75, globalGrowth: 0.65, cnPolicy: 0.5, vix: -0.25 },
     },
     CORN: {
-      name: "ÓñÃ×",
+      name: "ç‰ç±³",
       sens: { inflation: 0.8, globalGrowth: 0.6, cnPolicy: 0.3, momentum: 0.4 },
       // Ethanol demand, weather
     },
     WHEAT: {
-      name: "Ğ¡Âó",
+      name: "å°éº¦",
       sens: { inflation: 0.85, vix: 0.3, globalGrowth: 0.5 },
       skipStagflationPenalty: true,
       // Geopolitical (Black Sea war), food security
     },
     SOYB: {
-      name: "´ó¶¹",
+      name: "å¤§è±†",
       sens: { cnPolicy: 0.8, inflation: 0.7, globalGrowth: 0.6, usd: -0.5 },
       // China is largest buyer, trade war sensitive
     },
     RARE: {
-      name: "Ï¡ÍÁ",
+      name: "ç¨€åœŸ",
       sens: { cnPolicy: 1.0, globalGrowth: 0.7, inflation: 0.5, adoption: 0.6 },
       // China monopoly on supply, tech demand
     },
@@ -9968,27 +9968,27 @@ if (typeof subCategorySensOverrides !== "undefined") {
 // [Deleted duplicate calcSubAssetScore that was overriding the correct version]
 
 // ============================================================================
-// v13.4: ¶à³Ö²ÖÅäÖÃ´æ´¢¹¦ÄÜ (Multi-Portfolio Storage)
+// v13.4: å¤šæŒä»“é…ç½®å­˜å‚¨åŠŸèƒ½ (Multi-Portfolio Storage)
 // ============================================================================
 
 const PORTFOLIO_SLOTS_KEY = "portfolioSlots_v13";
 const EXECUTION_JOURNAL_KEY = "lumi_execution_journal_v1";
 
 /**
- * ±£´æµ±Ç°³Ö²ÖÅäÖÃµ½Ö¸¶¨²ÛÎ»
- * @param {string} slotName - ²ÛÎ»Ãû³Æ£¨Èç"150Íò¼¤½ø°æ"£©
+ * ä¿å­˜å½“å‰æŒä»“é…ç½®åˆ°æŒ‡å®šæ§½ä½
+ * @param {string} slotName - æ§½ä½åç§°ï¼ˆå¦‚"150ä¸‡æ¿€è¿›ç‰ˆ"ï¼‰
  */
 function savePortfolioSlot(slotName) {
   if (!slotName || slotName.trim() === "") {
-    alert("? ÇëÊäÈëÅäÖÃÃû³Æ");
+    alert("âŒ è¯·è¾“å…¥é…ç½®åç§°");
     return;
   }
 
-  // ÊÕ¼¯µ±Ç°³Ö²ÖÊı¾İ
+  // æ”¶é›†å½“å‰æŒä»“æ•°æ®
   const savedString = localStorage.getItem("currentHoldings_v812");
   const holdings = savedString ? JSON.parse(savedString) : {};
 
-  // ÊÕ¼¯Í¶×Ê²ÎÊı
+  // æ”¶é›†æŠ•èµ„å‚æ•°
   const params = {
     totalAmount: document.getElementById("totalAmount")?.value,
     riskPref: document.getElementById("riskPref")?.value,
@@ -9996,15 +9996,15 @@ function savePortfolioSlot(slotName) {
     selectedAssets: Array.from(selectedAssets),
   };
 
-  // ÊÕ¼¯ºê¹ÛÊı¾İ
+  // æ”¶é›†å®è§‚æ•°æ®
   const macroData =
     typeof getMacroValues === "function" ? getMacroValues() : {};
 
-  // ¶ÁÈ¡ÏÖÓĞ²ÛÎ»
+  // è¯»å–ç°æœ‰æ§½ä½
   const slotsString = localStorage.getItem(PORTFOLIO_SLOTS_KEY);
   const slots = slotsString ? JSON.parse(slotsString) : {};
 
-  // ±£´æµ½²ÛÎ»
+  // ä¿å­˜åˆ°æ§½ä½
   slots[slotName.trim()] = {
     holdings: holdings,
     params: params,
@@ -10017,18 +10017,18 @@ function savePortfolioSlot(slotName) {
 
   localStorage.setItem(PORTFOLIO_SLOTS_KEY, JSON.stringify(slots));
 
-  alert(`? ÅäÖÃ¡¸${slotName}¡¹ÒÑ±£´æ£¡`);
+  alert(`âœ… é…ç½®ã€Œ${slotName}ã€å·²ä¿å­˜ï¼`);
   updatePortfolioSlotsUI();
 }
 
 /**
- * ´Ó²ÛÎ»¼ÓÔØ³Ö²ÖÅäÖÃ
- * @param {string} slotName - ²ÛÎ»Ãû³Æ
+ * ä»æ§½ä½åŠ è½½æŒä»“é…ç½®
+ * @param {string} slotName - æ§½ä½åç§°
  */
 function loadPortfolioSlot(slotName) {
   const slotsString = localStorage.getItem(PORTFOLIO_SLOTS_KEY);
   if (!slotsString) {
-    alert("? Ã»ÓĞÒÑ±£´æµÄÅäÖÃ");
+    alert("âŒ æ²¡æœ‰å·²ä¿å­˜çš„é…ç½®");
     return;
   }
 
@@ -10036,16 +10036,16 @@ function loadPortfolioSlot(slotName) {
   const slot = slots[slotName];
 
   if (!slot) {
-    alert(`? ÕÒ²»µ½ÅäÖÃ¡¸${slotName}¡¹`);
+    alert(`âŒ æ‰¾ä¸åˆ°é…ç½®ã€Œ${slotName}ã€`);
     return;
   }
 
-  // »Ö¸´³Ö²ÖÊı¾İ
+  // æ¢å¤æŒä»“æ•°æ®
   if (slot.holdings) {
     localStorage.setItem("currentHoldings_v812", JSON.stringify(slot.holdings));
   }
 
-  // »Ö¸´Í¶×Ê²ÎÊı
+  // æ¢å¤æŠ•èµ„å‚æ•°
   if (slot.params) {
     if (slot.params.totalAmount)
       document.getElementById("totalAmount").value = slot.params.totalAmount;
@@ -10060,7 +10060,7 @@ function loadPortfolioSlot(slotName) {
     }
   }
 
-  // »Ö¸´ºê¹ÛÊı¾İ
+  // æ¢å¤å®è§‚æ•°æ®
   if (slot.macroData) {
     Object.keys(slot.macroData).forEach((k) => {
       const input = document.getElementById(`macro_${k}`);
@@ -10068,22 +10068,22 @@ function loadPortfolioSlot(slotName) {
     });
   }
 
-  // »Ö¸´ÅäÖÃ×´Ì¬
+  // æ¢å¤é…ç½®çŠ¶æ€
   if (slot.userConfig) Object.assign(userConfig, slot.userConfig);
   if (slot.userSubConfig) Object.assign(userSubConfig, slot.userSubConfig);
   if (slot.currentRec) Object.assign(currentRec, slot.currentRec);
 
-  // Ë¢ĞÂUI
+  // åˆ·æ–°UI
   updateDisplay();
   renderSelectedAssetsList();
   renderRecommendation();
   renderHoldingTable();
 
-  alert(`? ÅäÖÃ¡¸${slotName}¡¹ÒÑ¼ÓÔØ£¡`);
+  alert(`âœ… é…ç½®ã€Œ${slotName}ã€å·²åŠ è½½ï¼`);
 }
 
 /**
- * ±£´æÒ»´ÎÖ´ĞĞºóÑé¼ÇÂ¼
+ * ä¿å­˜ä¸€æ¬¡æ‰§è¡ŒåéªŒè®°å½•
  * @param {Object} payload
  */
 function saveExecutionJournal(payload) {
@@ -10291,7 +10291,7 @@ function renderExecutionJournalPanel() {
   const journal = loadExecutionJournal();
   if (journal.length === 0) {
     panel.innerHTML =
-      '<div style="padding:10px;color:#64748b;font-size:11px;">ÔİÎŞÖ´ĞĞºóÑé¼ÇÂ¼¡£Äã¿ÉÒÔÔÚÍê³ÉÒ»´ÎÊµ¼Êµ÷²Öºó£¬±£´æÒ»Ìõ¼ÇÂ¼ÓÃÓÚºóĞø¸ú×Ù¡£</div>';
+      '<div style="padding:10px;color:#64748b;font-size:11px;">æš‚æ— æ‰§è¡ŒåéªŒè®°å½•ã€‚ä½ å¯ä»¥åœ¨å®Œæˆä¸€æ¬¡å®é™…è°ƒä»“åï¼Œä¿å­˜ä¸€æ¡è®°å½•ç”¨äºåç»­è·Ÿè¸ªã€‚</div>';
     return;
   }
 
@@ -10301,8 +10301,8 @@ function renderExecutionJournalPanel() {
       (item) => `
         <tr>
           <td style="padding:6px;border:1px solid #e5e7eb;">${new Date(item.timestamp).toLocaleString()}</td>
-          <td style="padding:6px;border:1px solid #e5e7eb;">${item.action || "Î´ÌîĞ´"}</td>
-          <td style="padding:6px;border:1px solid #e5e7eb;">${item.note || "ÎŞ"}</td>
+          <td style="padding:6px;border:1px solid #e5e7eb;">${item.action || "æœªå¡«å†™"}</td>
+          <td style="padding:6px;border:1px solid #e5e7eb;">${item.note || "æ— "}</td>
         </tr>
       `,
     )
@@ -10318,30 +10318,30 @@ function renderExecutionJournalPanel() {
     return `${prefix}${(signed * 100).toFixed(1)}%`;
   };
   const extraNote = latest?.topDeviationItems?.length
-    ? `µ±Ç°±£´æ¼ÇÂ¼Àï£¬Æ«²î×î´óµÄÏîÊÇ£º${latest.topDeviationItems
+    ? `å½“å‰ä¿å­˜è®°å½•é‡Œï¼Œåå·®æœ€å¤§çš„é¡¹æ˜¯ï¼š${latest.topDeviationItems
         .map((item) => `${item.name} ${formatSignedPct(item)}`)
-        .join("£»")}`
+        .join("ï¼›")}`
     : latest?.macroEnvState
-      ? "µ±Ç°¿ìÕÕÒÑ±£´æºê¹Û×´Ì¬£¬¿ÉÓÃÓÚºóĞø¸´ÅÌ¡£"
-      : "ÒÑ¼ÇÂ¼×î½üµÄÖ´ĞĞ¶¯×÷¡£";
+      ? "å½“å‰å¿«ç…§å·²ä¿å­˜å®è§‚çŠ¶æ€ï¼Œå¯ç”¨äºåç»­å¤ç›˜ã€‚"
+      : "å·²è®°å½•æœ€è¿‘çš„æ‰§è¡ŒåŠ¨ä½œã€‚";
 
   const latestSummary =
     latest && latest.topDeviationItems?.length
       ? `
         <div style="margin-bottom:8px;padding:8px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:6px;font-size:11px;line-height:1.6;">
-          <div><strong>×î½ü¼ÇÂ¼£º</strong>${latest.action || "Î´ÌîĞ´"}</div>
-          <div><strong>×Ü¶î / ËµÃ÷£º</strong>${latest.note || "ÎŞ"}</div>
-          <div><strong>Æ«²î×î´óÏî£º</strong>${latest.topDeviationItems
+          <div><strong>æœ€è¿‘è®°å½•ï¼š</strong>${latest.action || "æœªå¡«å†™"}</div>
+          <div><strong>æ€»é¢ / è¯´æ˜ï¼š</strong>${latest.note || "æ— "}</div>
+          <div><strong>åå·®æœ€å¤§é¡¹ï¼š</strong>${latest.topDeviationItems
             .map((item) => `${item.name} ${formatSignedPct(item)}`)
-            .join("£»")}</div>
+            .join("ï¼›")}</div>
           <div style="margin-top:6px; overflow-x:auto;">
             <table style="width:100%; border-collapse:collapse; font-size:11px;">
               <tr style="background:#eff6ff;">
-                <th style="padding:4px; border:1px solid #e5e7eb; text-align:left;">×Ê²ú</th>
-                <th style="padding:4px; border:1px solid #e5e7eb; text-align:right;">½¨Òé</th>
-                <th style="padding:4px; border:1px solid #e5e7eb; text-align:right;">Êµ¼Ê</th>
-                <th style="padding:4px; border:1px solid #e5e7eb; text-align:center;">·½Ïò</th>
-                <th style="padding:4px; border:1px solid #e5e7eb; text-align:right;">Æ«²î</th>
+                <th style="padding:4px; border:1px solid #e5e7eb; text-align:left;">èµ„äº§</th>
+                <th style="padding:4px; border:1px solid #e5e7eb; text-align:right;">å»ºè®®</th>
+                <th style="padding:4px; border:1px solid #e5e7eb; text-align:right;">å®é™…</th>
+                <th style="padding:4px; border:1px solid #e5e7eb; text-align:center;">æ–¹å‘</th>
+                <th style="padding:4px; border:1px solid #e5e7eb; text-align:right;">åå·®</th>
               </tr>
               ${latest.topDeviationItems
                 .map(
@@ -10350,7 +10350,7 @@ function renderExecutionJournalPanel() {
                     <td style="padding:4px; border:1px solid #e5e7eb;">${item.name}</td>
                     <td style="padding:4px 6px; border:1px solid #e5e7eb; text-align:right;"><span style="display:inline-block;min-width:54px;padding:2px 6px;border-radius:999px;background:#dbeafe;color:#1d4ed8;font-weight:700;">${((item.target || 0) * 100).toFixed(1)}%</span></td>
                     <td style="padding:4px 6px; border:1px solid #e5e7eb; text-align:right;"><span style="display:inline-block;min-width:54px;padding:2px 6px;border-radius:999px;background:#ecfeff;color:#0f766e;font-weight:700;">${((item.actual || 0) * 100).toFixed(1)}%</span></td>
-                    <td style="padding:4px 6px; border:1px solid #e5e7eb; text-align:center;"><span style="display:inline-block;min-width:54px;padding:2px 6px;border-radius:999px;background:${(typeof item.signedDiff === "number" ? item.signedDiff : Number(item.target || 0) - Number(item.actual || 0)) >= 0 ? "#fee2e2" : "#dcfce7"};color:${(typeof item.signedDiff === "number" ? item.signedDiff : Number(item.target || 0) - Number(item.actual || 0)) >= 0 ? "#b91c1c" : "#166534"};font-weight:700;">${(typeof item.signedDiff === "number" ? item.signedDiff : Number(item.target || 0) - Number(item.actual || 0)) >= 0 ? "³¬Åä" : "µÍÅä"}</span></td>
+                    <td style="padding:4px 6px; border:1px solid #e5e7eb; text-align:center;"><span style="display:inline-block;min-width:54px;padding:2px 6px;border-radius:999px;background:${(typeof item.signedDiff === "number" ? item.signedDiff : Number(item.target || 0) - Number(item.actual || 0)) >= 0 ? "#fee2e2" : "#dcfce7"};color:${(typeof item.signedDiff === "number" ? item.signedDiff : Number(item.target || 0) - Number(item.actual || 0)) >= 0 ? "#b91c1c" : "#166534"};font-weight:700;">${(typeof item.signedDiff === "number" ? item.signedDiff : Number(item.target || 0) - Number(item.actual || 0)) >= 0 ? "è¶…é…" : "ä½é…"}</span></td>
                     <td style="padding:4px 6px; border:1px solid #e5e7eb; text-align:right;"><span style="display:inline-block;min-width:54px;padding:2px 6px;border-radius:999px;background:${(typeof item.signedDiff === "number" ? item.signedDiff : Number(item.target || 0) - Number(item.actual || 0)) >= 0 ? "#fee2e2" : "#dcfce7"};color:${(typeof item.signedDiff === "number" ? item.signedDiff : Number(item.target || 0) - Number(item.actual || 0)) >= 0 ? "#b91c1c" : "#166534"};font-weight:700;">${formatSignedPct(item)}</span></td>
                   </tr>
                 `,
@@ -10363,19 +10363,19 @@ function renderExecutionJournalPanel() {
       : "";
 
   panel.innerHTML = `
-    <div style="font-size:11px;color:#7f1d1d;margin-bottom:8px;background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:8px;">³Ö²Ö¶Ô±ÈÖ»±íÊ¾Ö´ĞĞÆ«²î£¬ÓÃÓÚ¼ì²éµ±Ç°³Ö²ÖºÍÍÆ¼öÈ¨ÖØ²î¶àÉÙ£»ÊÕÒæÑéÖ¤¿´ decision_log.json ºÍ focus_signals.json¡£</div>
+    <div style="font-size:11px;color:#7f1d1d;margin-bottom:8px;background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:8px;">æŒä»“å¯¹æ¯”åªè¡¨ç¤ºæ‰§è¡Œåå·®ï¼Œç”¨äºæ£€æŸ¥å½“å‰æŒä»“å’Œæ¨èæƒé‡å·®å¤šå°‘ï¼›æ”¶ç›ŠéªŒè¯çœ‹ decision_log.json å’Œ focus_signals.jsonã€‚</div>
     <button type="button" onclick="window.exportDecisionLogDraft && window.exportDecisionLogDraft()" style="margin-bottom:8px;padding:6px 10px;border:1px solid #0ea5e9;background:#e0f2fe;color:#075985;border-radius:6px;font-size:11px;cursor:pointer;">Export Decision Log Draft</button>
-    <div style="font-size:11px;color:#64748b;margin-bottom:8px;">ÕâÀï¼ÇÂ¼Ö´ĞĞ²ãµÄºóÑéĞÅÏ¢£¬±ãÓÚºóÃæ»Ø¿´¡°½¨ÒéÊÇ·ñÕæµÄ±»Ö´ĞĞ¡¢Êµ¼Ê×öÁËÊ²Ã´¡±¡£</div>
-    <div style="font-size:11px;color:#64748b;margin-bottom:8px;">Êµ¼Ê³Ö²ÖÀ´Ô´£º<code>localStorage.currentHoldings_v812</code>£¬Ëü±íÊ¾Ò³Ãæ±£´æµÄµ±Ç°³Ö²ÖÊäÈë£¬²»ÊÇÈ¯ÉÌ³É½»»Ø±¨¡£</div>
+    <div style="font-size:11px;color:#64748b;margin-bottom:8px;">è¿™é‡Œè®°å½•æ‰§è¡Œå±‚çš„åéªŒä¿¡æ¯ï¼Œä¾¿äºåé¢å›çœ‹â€œå»ºè®®æ˜¯å¦çœŸçš„è¢«æ‰§è¡Œã€å®é™…åšäº†ä»€ä¹ˆâ€ã€‚</div>
+    <div style="font-size:11px;color:#64748b;margin-bottom:8px;">å®é™…æŒä»“æ¥æºï¼š<code>localStorage.currentHoldings_v812</code>ï¼Œå®ƒè¡¨ç¤ºé¡µé¢ä¿å­˜çš„å½“å‰æŒä»“è¾“å…¥ï¼Œä¸æ˜¯åˆ¸å•†æˆäº¤å›æŠ¥ã€‚</div>
     <div style="font-size:11px;color:#0f766e;margin-bottom:8px;background:#ecfeff;border:1px solid #a5f3fc;border-radius:6px;padding:8px;">${extraNote}</div>
-    <div style="font-size:11px;color:#475569;margin-bottom:8px;">${latest?.topDeviationItems?.length ? "ÕâÌõ¼ÇÂ¼ÒÑ°üº¬ÍÆ¼ö¡¢Êµ¼ÊºÍÆ«²î×î´óµÄ¼¸Ïî£¬¿ÉÒÔÖ±½Ó¸´ÅÌ¡£" : "ÕâÌõ¼ÇÂ¼»¹Ã»ÓĞÆ«²îÃ÷Ï¸£¬½¨ÒéÔÚÍê³ÉÒ»´ÎÊµ¼Êµ÷²ÖºóÔÙ±£´æÖ´ĞĞ¿ìÕÕ¡£"}</div>
-    <div style="font-size:11px;margin-bottom:8px;padding:8px 10px;border-radius:6px;${(window.__repeatabilityCheck?.status === "Ò»ÖÂ" ? "background:#dcfce7;color:#166534;" : window.__repeatabilityCheck?.status === "¾¯¸æ" ? "background:#fee2e2;color:#b91c1c;" : "background:#e0f2fe;color:#0369a1;")}">Í¬ÊäÈëÒ»ÖÂĞÔ£º<strong>${window.__repeatabilityCheck?.status || "Î´¼ÇÂ¼"}</strong>¡£${window.__repeatabilityCheck?.message || "ÉĞÎ´Éú³ÉÖØ¸´ĞÔ¼ì²é½á¹û¡£"}</div>
+    <div style="font-size:11px;color:#475569;margin-bottom:8px;">${latest?.topDeviationItems?.length ? "è¿™æ¡è®°å½•å·²åŒ…å«æ¨èã€å®é™…å’Œåå·®æœ€å¤§çš„å‡ é¡¹ï¼Œå¯ä»¥ç›´æ¥å¤ç›˜ã€‚" : "è¿™æ¡è®°å½•è¿˜æ²¡æœ‰åå·®æ˜ç»†ï¼Œå»ºè®®åœ¨å®Œæˆä¸€æ¬¡å®é™…è°ƒä»“åå†ä¿å­˜æ‰§è¡Œå¿«ç…§ã€‚"}</div>
+    <div style="font-size:11px;margin-bottom:8px;padding:8px 10px;border-radius:6px;${(window.__repeatabilityCheck?.status === "ä¸€è‡´" ? "background:#dcfce7;color:#166534;" : window.__repeatabilityCheck?.status === "è­¦å‘Š" ? "background:#fee2e2;color:#b91c1c;" : "background:#e0f2fe;color:#0369a1;")}">åŒè¾“å…¥ä¸€è‡´æ€§ï¼š<strong>${window.__repeatabilityCheck?.status || "æœªè®°å½•"}</strong>ã€‚${window.__repeatabilityCheck?.message || "å°šæœªç”Ÿæˆé‡å¤æ€§æ£€æŸ¥ç»“æœã€‚"}</div>
     ${latestSummary}
     <table style="width:100%;border-collapse:collapse;font-size:11px;">
       <tr style="background:#f8fafc;">
-        <th style="padding:6px;border:1px solid #e5e7eb;text-align:left;">Ê±¼ä</th>
-        <th style="padding:6px;border:1px solid #e5e7eb;text-align:left;">Ö´ĞĞ¶¯×÷</th>
-        <th style="padding:6px;border:1px solid #e5e7eb;text-align:left;">±¸×¢</th>
+        <th style="padding:6px;border:1px solid #e5e7eb;text-align:left;">æ—¶é—´</th>
+        <th style="padding:6px;border:1px solid #e5e7eb;text-align:left;">æ‰§è¡ŒåŠ¨ä½œ</th>
+        <th style="padding:6px;border:1px solid #e5e7eb;text-align:left;">å¤‡æ³¨</th>
       </tr>
       ${rows}
     </table>
@@ -10383,8 +10383,8 @@ function renderExecutionJournalPanel() {
 }
 
 /**
- * ÁĞ³öËùÓĞÒÑ±£´æµÄ²ÛÎ»
- * @returns {Array} ²ÛÎ»Ãû³ÆºÍÊ±¼ä´ÁÊı×é
+ * åˆ—å‡ºæ‰€æœ‰å·²ä¿å­˜çš„æ§½ä½
+ * @returns {Array} æ§½ä½åç§°å’Œæ—¶é—´æˆ³æ•°ç»„
  */
 function listPortfolioSlots() {
   const slotsString = localStorage.getItem(PORTFOLIO_SLOTS_KEY);
@@ -10399,11 +10399,11 @@ function listPortfolioSlots() {
 }
 
 /**
- * É¾³ıÖ¸¶¨²ÛÎ»
- * @param {string} slotName - ²ÛÎ»Ãû³Æ
+ * åˆ é™¤æŒ‡å®šæ§½ä½
+ * @param {string} slotName - æ§½ä½åç§°
  */
 function deletePortfolioSlot(slotName) {
-  if (!confirm(`È·ÈÏÉ¾³ıÅäÖÃ¡¸${slotName}¡¹£¿`)) return;
+  if (!confirm(`ç¡®è®¤åˆ é™¤é…ç½®ã€Œ${slotName}ã€ï¼Ÿ`)) return;
 
   const slotsString = localStorage.getItem(PORTFOLIO_SLOTS_KEY);
   if (!slotsString) return;
@@ -10413,12 +10413,12 @@ function deletePortfolioSlot(slotName) {
 
   localStorage.setItem(PORTFOLIO_SLOTS_KEY, JSON.stringify(slots));
 
-  alert(`? ÅäÖÃ¡¸${slotName}¡¹ÒÑÉ¾³ı`);
+  alert(`âœ… é…ç½®ã€Œ${slotName}ã€å·²åˆ é™¤`);
   updatePortfolioSlotsUI();
 }
 
 /**
- * ¸üĞÂ³Ö²ÖÅäÖÃ²ÛÎ»UI
+ * æ›´æ–°æŒä»“é…ç½®æ§½ä½UI
  */
 function updatePortfolioSlotsUI() {
   const container = document.getElementById("portfolioSlotsContainer");
@@ -10428,7 +10428,7 @@ function updatePortfolioSlotsUI() {
 
   if (slots.length === 0) {
     container.innerHTML =
-      '<div style="color:#999; text-align:center; padding:10px;">ÔİÎŞ±£´æµÄÅäÖÃ</div>';
+      '<div style="color:#999; text-align:center; padding:10px;">æš‚æ— ä¿å­˜çš„é…ç½®</div>';
     return;
   }
 
@@ -10443,12 +10443,12 @@ function updatePortfolioSlotsUI() {
     html += `
             <div style="display:flex; justify-content:space-between; align-items:center; padding:8px; border-bottom:1px solid #e5e7eb;">
                 <div>
-                    <span style="font-weight:600;">?? ${slot.name}</span>
-                    <span style="font-size:10px; color:#666; margin-left:8px;">${slot.totalAmount}Íò | ${dateStr}</span>
+                    <span style="font-weight:600;">ğŸ“ ${slot.name}</span>
+                    <span style="font-size:10px; color:#666; margin-left:8px;">${slot.totalAmount}ä¸‡ | ${dateStr}</span>
                 </div>
                 <div>
-                    <button onclick="loadPortfolioSlot('${slot.name}')" style="padding:3px 8px; margin-right:4px; cursor:pointer;">¼ÓÔØ</button>
-                    <button onclick="deletePortfolioSlot('${slot.name}')" style="padding:3px 8px; cursor:pointer; color:#dc2626;">É¾³ı</button>
+                    <button onclick="loadPortfolioSlot('${slot.name}')" style="padding:3px 8px; margin-right:4px; cursor:pointer;">åŠ è½½</button>
+                    <button onclick="deletePortfolioSlot('${slot.name}')" style="padding:3px 8px; cursor:pointer; color:#dc2626;">åˆ é™¤</button>
                 </div>
             </div>
         `;
@@ -10459,11 +10459,11 @@ function updatePortfolioSlotsUI() {
 }
 
 // ============================================================================
-// v13.4: ÆÀ·Ö²ğ½âµ¼³ö¹¦ÄÜ (Score Breakdown Export)
+// v13.4: è¯„åˆ†æ‹†è§£å¯¼å‡ºåŠŸèƒ½ (Score Breakdown Export)
 // ============================================================================
 
 /**
- * µ¼³öÍêÕûÆÀ·Ö²ğ½âExcel
+ * å¯¼å‡ºå®Œæ•´è¯„åˆ†æ‹†è§£Excel
  */
 function exportScoreBreakdown() {
   const macroVals =
@@ -10483,14 +10483,14 @@ function exportScoreBreakdown() {
             </style>
         </head>
         <body>
-        <h2 style="text-align:center; color:#1f3c88;">?? ÆÀ·Ö²ğ½âÏêÇé v13.4</h2>
-        <p style="text-align:center; font-size:11px; color:#666;">Éú³ÉÊ±¼ä: ${dateStr}</p>
+        <h2 style="text-align:center; color:#1f3c88;">ğŸ“Š è¯„åˆ†æ‹†è§£è¯¦æƒ… v13.4</h2>
+        <p style="text-align:center; font-size:11px; color:#666;">ç”Ÿæˆæ—¶é—´: ${dateStr}</p>
 
-        <div class="section-title">1. ºê¹ÛÖ¸±êµ±Ç°Öµ</div>
+        <div class="section-title">1. å®è§‚æŒ‡æ ‡å½“å‰å€¼</div>
         <table style="width:60%;">
-            <tr><th>Ö¸±ê</th><th>µ±Ç°Öµ</th><th>ÖĞĞÔÖµ</th><th>Æ«Àë·½Ïò</th></tr>`;
+            <tr><th>æŒ‡æ ‡</th><th>å½“å‰å€¼</th><th>ä¸­æ€§å€¼</th><th>åç¦»æ–¹å‘</th></tr>`;
 
-  // ºê¹ÛÖ¸±ê±í
+  // å®è§‚æŒ‡æ ‡è¡¨
   const macroKeys = [
     "globalGrowth",
     "usGrowth",
@@ -10503,15 +10503,15 @@ function exportScoreBreakdown() {
     "adoption",
   ];
   const macroLabels = {
-    globalGrowth: "È«ÇòÔö³¤",
-    usGrowth: "ÃÀ¹úÔö³¤",
-    cnGrowth: "ÖĞ¹úÔö³¤",
-    inflation: "Í¨ÕÍÔ¤ÆÚ",
-    rateChange: "ÀûÂÊ±ä»¯",
-    usd: "ÃÀÔªÖ¸Êı",
-    vix: "VIX¿Ö»ÅÖ¸Êı",
-    momentum: "¶¯Á¿/ÖÜÆÚ",
-    adoption: "¼¼Êõ²ÉÄÉ",
+    globalGrowth: "å…¨çƒå¢é•¿",
+    usGrowth: "ç¾å›½å¢é•¿",
+    cnGrowth: "ä¸­å›½å¢é•¿",
+    inflation: "é€šèƒ€é¢„æœŸ",
+    rateChange: "åˆ©ç‡å˜åŒ–",
+    usd: "ç¾å…ƒæŒ‡æ•°",
+    vix: "VIXææ…ŒæŒ‡æ•°",
+    momentum: "åŠ¨é‡/å‘¨æœŸ",
+    adoption: "æŠ€æœ¯é‡‡çº³",
   };
   const neutralVals = {
     globalGrowth: 2.5,
@@ -10531,7 +10531,7 @@ function exportScoreBreakdown() {
       const neutral = neutralVals[k] || 0;
       const diff = val - neutral;
       const diffClass = diff > 0 ? "pos" : diff < 0 ? "neg" : "";
-      const diffLabel = diff > 0 ? "Æ«¸ß" : diff < 0 ? "Æ«µÍ" : "ÖĞĞÔ";
+      const diffLabel = diff > 0 ? "åé«˜" : diff < 0 ? "åä½" : "ä¸­æ€§";
       html += `<tr>
                 <td>${macroLabels[k] || k}</td>
                 <td>${typeof val === "number" ? val.toFixed(2) : val}</td>
@@ -10542,18 +10542,18 @@ function exportScoreBreakdown() {
   });
   html += `</table>`;
 
-  // ×Ê²úÆÀ·Ö±í
+  // èµ„äº§è¯„åˆ†è¡¨
   html += `
-        <div class="section-title">2. ¸÷×Ê²úÆÀ·ÖÃ÷Ï¸</div>
+        <div class="section-title">2. å„èµ„äº§è¯„åˆ†æ˜ç»†</div>
         <table>
             <tr>
-                <th>×Ê²ú</th>
-                <th>×îÖÕÆÀ·Ö</th>
-                <th>»ù´¡·Ö</th>
-                <th>ºê¹Ûµ÷Õû</th>
-                <th>Reason¼Ó³É</th>
-                <th>ÖÜÆÚË¥¼õ</th>
-                <th>¼ÆËã¹¹³É (Formula)</th>
+                <th>èµ„äº§</th>
+                <th>æœ€ç»ˆè¯„åˆ†</th>
+                <th>åŸºç¡€åˆ†</th>
+                <th>å®è§‚è°ƒæ•´</th>
+                <th>ReasonåŠ æˆ</th>
+                <th>å‘¨æœŸè¡°å‡</th>
+                <th>è®¡ç®—æ„æˆ (Formula)</th>
             </tr>`;
 
   Object.keys(assetLibrary).forEach((k) => {
@@ -10574,7 +10574,7 @@ function exportScoreBreakdown() {
     let macroAdj = 0;
     let reasonBonus = 0;
     let decayPenalty = 0;
-    let formulaParts = [`60(»ù´¡)`];
+    let formulaParts = [`60(åŸºç¡€)`];
 
     if (scoreData.factors && scoreData.factors.length > 0) {
       // Sort factors by impact magnitude first for drivers list
@@ -10593,7 +10593,7 @@ function exportScoreBreakdown() {
           decayPenalty += contrib;
         } else if (
           f.isReason ||
-          f.indicator === "å®è§‚ç¯å¢ƒ" ||
+          f.indicator === "ç€¹å¿šî‡éœîˆšî•¨" ||
           (f.indicator && f.indicator.startsWith("commodity_")) ||
           f.indicator === "cn_policy_independence" ||
           f.indicator === "regional_risk"
@@ -10608,7 +10608,7 @@ function exportScoreBreakdown() {
       sortedFactors.forEach((f) => {
         const contrib = parseFloat(f.contribution) || 0;
         if (Math.abs(contrib) > 1.5) {
-          const labelSimp = f.label.replace(/[:£º(].*$/, "").substring(0, 8);
+          const labelSimp = f.label.replace(/[:ï¼š(].*$/, "").substring(0, 8);
           formulaParts.push(
             `${contrib > 0 ? "+" : ""}${contrib.toFixed(1)}(${labelSimp})`,
           );
@@ -10623,7 +10623,7 @@ function exportScoreBreakdown() {
     if (Math.abs(gap) > 0.1) {
       // Attribute gap to Reason Bonus (Model Constraints)
       reasonBonus += gap;
-      formulaParts.push(`${gap > 0 ? "+" : ""}${gap.toFixed(1)}(Ä£ĞÍÔ¼Êø)`);
+      formulaParts.push(`${gap > 0 ? "+" : ""}${gap.toFixed(1)}(æ¨¡å‹çº¦æŸ)`);
     }
 
     const driversText = formulaParts.join(" ") + ` = ${finalScore.toFixed(1)}`;
@@ -10642,9 +10642,9 @@ function exportScoreBreakdown() {
 
   html += `</table>
 
-        <div class="section-title">3. È¨ÖØ·ÖÅä¹ı³Ì</div>
+        <div class="section-title">3. æƒé‡åˆ†é…è¿‡ç¨‹</div>
         <table>
-            <tr><th>×Ê²ú</th><th>ÖÊÁ¿ÏµÊı(Quality)</th><th>·çÏÕÆ½¼Ûµ÷Õû</th><th>×îÖÕÈ¨ÖØ</th><th>½¨Òé½ğ¶î(Íò)</th></tr>`;
+            <tr><th>èµ„äº§</th><th>è´¨é‡ç³»æ•°(Quality)</th><th>é£é™©å¹³ä»·è°ƒæ•´</th><th>æœ€ç»ˆæƒé‡</th><th>å»ºè®®é‡‘é¢(ä¸‡)</th></tr>`;
 
   const total =
     parseFloat(document.getElementById("totalAmount")?.value) || 100;
@@ -10657,7 +10657,7 @@ function exportScoreBreakdown() {
     const scoreRaw = assetScores[k]?.score;
     const score =
       typeof scoreRaw === "number" ? scoreRaw : parseFloat(scoreRaw) || 50;
-    const scoreWeight = (score / 50).toFixed(2); // ¼ò»¯µÄÆÀ·ÖÈ¨ÖØ
+    const scoreWeight = (score / 50).toFixed(2); // ç®€åŒ–çš„è¯„åˆ†æƒé‡
     const amount = weight * total;
 
     html += `<tr>
@@ -10671,27 +10671,27 @@ function exportScoreBreakdown() {
 
   html += `</table>
         <div style="margin-top:20px; font-size:10px; color:#666; text-align:left; border-top:1px dashed #ccc; padding-top:10px;">
-            <strong>?? ºËĞÄËã·¨Í¸Ã÷»¯ËµÃ÷£º</strong><br>
-            1. <strong>×Ü·Ö¹«Ê½</strong>£º×îÖÕÆÀ·Ö = 60(»ù´¡·Ö) + ¡Æ(ºê¹ÛÒò×ÓµÃ·Ö) + ¡Æ(²ßÂÔ¼Ó³É) + ÖÜÆÚË¥¼õ¡£<br>
-            2. <strong>Òò×ÓµÃ·Ö</strong>£º<em>µÃ·Ö = Ãô¸Ğ¶È(Sensitivity) ¡Á Æ«²îÖµ(Deviation) ¡Á 20(±ê¶È)</em>¡£<br>
-               &nbsp;&nbsp;&nbsp;Ê¾Àı£ºÖĞ¹ú¹ÉÆ±¶ÔÕş²ßÃô¸Ğ¶ÈÎª1.2£¬ÈôÕş²ßÁ¦¶ÈÎª+1.0£¬ÔòµÃ·Ö = 1.2 ¡Á 1.0 ¡Á 20 = +24.0·Ö¡£<br>
-            3. <strong>ÖÊÁ¿ÏµÊı(Quality)</strong>£º${"Score / 50"} (»ù×¼Ïß)¡£50·Ö´ú±íÖĞĞÔÅäÖÃ(1.0x)£¬100·Ö´ú±íË«±¶ÅäÖÃ(2.0x)¡£<br>
-            4. <strong>Ä£ĞÍÔ¼Êø</strong>£ºµ±ÀíÂÛ¼ÆËã·ÖÖµ³¬¹ıÎïÀíÏŞÖÆ£¨Èç>100»ò<10£©»ò´¥·¢×èÄá±£»¤Ê±£¬ÏµÍ³»á×Ô¶¯Ê©¼ÓÔ¼Êøµ÷Õû£¬¸Ã²îÖµÌåÏÖÎª"Ä£ĞÍÔ¼Êø"¡£
+            <strong>â„¹ï¸ æ ¸å¿ƒç®—æ³•é€æ˜åŒ–è¯´æ˜ï¼š</strong><br>
+            1. <strong>æ€»åˆ†å…¬å¼</strong>ï¼šæœ€ç»ˆè¯„åˆ† = 60(åŸºç¡€åˆ†) + âˆ‘(å®è§‚å› å­å¾—åˆ†) + âˆ‘(ç­–ç•¥åŠ æˆ) + å‘¨æœŸè¡°å‡ã€‚<br>
+            2. <strong>å› å­å¾—åˆ†</strong>ï¼š<em>å¾—åˆ† = æ•æ„Ÿåº¦(Sensitivity) Ã— åå·®å€¼(Deviation) Ã— 20(æ ‡åº¦)</em>ã€‚<br>
+               &nbsp;&nbsp;&nbsp;ç¤ºä¾‹ï¼šä¸­å›½è‚¡ç¥¨å¯¹æ”¿ç­–æ•æ„Ÿåº¦ä¸º1.2ï¼Œè‹¥æ”¿ç­–åŠ›åº¦ä¸º+1.0ï¼Œåˆ™å¾—åˆ† = 1.2 Ã— 1.0 Ã— 20 = +24.0åˆ†ã€‚<br>
+            3. <strong>è´¨é‡ç³»æ•°(Quality)</strong>ï¼š${"Score / 50"} (åŸºå‡†çº¿)ã€‚50åˆ†ä»£è¡¨ä¸­æ€§é…ç½®(1.0x)ï¼Œ100åˆ†ä»£è¡¨åŒå€é…ç½®(2.0x)ã€‚<br>
+            4. <strong>æ¨¡å‹çº¦æŸ</strong>ï¼šå½“ç†è®ºè®¡ç®—åˆ†å€¼è¶…è¿‡ç‰©ç†é™åˆ¶ï¼ˆå¦‚>100æˆ–<10ï¼‰æˆ–è§¦å‘é˜»å°¼ä¿æŠ¤æ—¶ï¼Œç³»ç»Ÿä¼šè‡ªåŠ¨æ–½åŠ çº¦æŸè°ƒæ•´ï¼Œè¯¥å·®å€¼ä½“ç°ä¸º"æ¨¡å‹çº¦æŸ"ã€‚
         </div>
         </body></html>`;
 
   const blob = new Blob([html], { type: "application/vnd.ms-excel" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = `ÆÀ·Ö²ğ½â_${new Date().toISOString().split("T")[0]}.xls`;
+  link.download = `è¯„åˆ†æ‹†è§£_${new Date().toISOString().split("T")[0]}.xls`;
   link.click();
 
   const statusEl = document.getElementById("exportStatus");
   if (statusEl)
-    statusEl.innerHTML = '<div class="success-box">? ÆÀ·Ö²ğ½âÒÑµ¼³ö</div>';
+    statusEl.innerHTML = '<div class="success-box">âœ… è¯„åˆ†æ‹†è§£å·²å¯¼å‡º</div>';
 }
 
-// ³õÊ¼»¯Ê±¼ÓÔØ²ÛÎ»UI
+// åˆå§‹åŒ–æ—¶åŠ è½½æ§½ä½UI
 if (
   document.readyState === "complete" ||
   document.readyState === "interactive"
@@ -10706,12 +10706,12 @@ if (
 // ============================================================================
 
 /**
- * ÔËĞĞ10ÄêÈ«¾°»Ø¹ËÑéÖ¤ (Blind Test)
- * Âß¼­£ºÖ±½ÓÊ¹ÓÃÀúÊ·Êı¾İµ÷ÓÃËã·¨ºËĞÄ£¬²»ÒÀÀµUIÊäÈë¿ò
+ * è¿è¡Œ10å¹´å…¨æ™¯å›é¡¾éªŒè¯ (Blind Test)
+ * é€»è¾‘ï¼šç›´æ¥ä½¿ç”¨å†å²æ•°æ®è°ƒç”¨ç®—æ³•æ ¸å¿ƒï¼Œä¸ä¾èµ–UIè¾“å…¥æ¡†
  */
 /**
- * ÔËĞĞ38ÄêÈ«¾°»Ø¹ËÑéÖ¤ (Blind Test 1987-2025)
- * Âß¼­£ºÖ±½ÓÊ¹ÓÃÀúÊ·Êı¾İµ÷ÓÃËã·¨ºËĞÄ£¬²»ÒÀÀµUIÊäÈë¿ò
+ * è¿è¡Œ38å¹´å…¨æ™¯å›é¡¾éªŒè¯ (Blind Test 1987-2025)
+ * é€»è¾‘ï¼šç›´æ¥ä½¿ç”¨å†å²æ•°æ®è°ƒç”¨ç®—æ³•æ ¸å¿ƒï¼Œä¸ä¾èµ–UIè¾“å…¥æ¡†
  */
 function runBatchVerification() {
   // v13.9.1: Dynamic Year List (1987-2025)
@@ -10726,32 +10726,32 @@ function runBatchVerification() {
   let html = `
         <div style="margin-top:20px;">
             <h3 style="color:#1e3a8a; border-bottom:2px solid #3b82f6; padding-bottom:8px;">
-                ?? 38ÄêÈ«¾°Ã¤²â±¨¸æ (1987-2025)
+                ğŸ“Š 38å¹´å…¨æ™¯ç›²æµ‹æŠ¥å‘Š (1987-2025)
                 <span style="font-size:12px; color:#666; font-weight:normal; margin-left:10px;">
-                    (Ëã·¨: ${window._useV98Scoring ? "v9.8 ¾­µä°æ" : "v10.0+ Z-Score"})
+                    (ç®—æ³•: ${window._useV98Scoring ? "v9.8 ç»å…¸ç‰ˆ" : "v10.0+ Z-Score"})
                 </span>
             </h3>
             <div style="font-size:11px; color:#555; margin-bottom:15px;">
-                <strong>ÑéÖ¤Âß¼­£º</strong> ½«µ±ÄêÕæÊµºê¹ÛÊı¾İÊäÈëËã·¨ -> »ñÈ¡Top3ÍÆ¼ö -> ¶Ô±ÈÀúÊ·ÕæÊµÕÇ·ù°ñ<br/>
-                <span style="color:#166534; background:#dcfce7; padding:1px 4px; border-radius:3px;">? HIT</span> = ÍÆ¼öTop3ÖĞ°üº¬µ±Äê¹Ú¾ü×Ê²ú |
-                <span style="color:#991b1b; background:#fee2e2; padding:1px 4px; border-radius:3px;">? MISS</span> = ÍêÃÀ´í¹ı |
-                <span style="color:#b45309; background:#fef3c7; padding:1px 4px; border-radius:3px;">? OK</span> = ÃüÖĞÇ°Èıµ«·Ç¹Ú¾ü
+                <strong>éªŒè¯é€»è¾‘ï¼š</strong> å°†å½“å¹´çœŸå®å®è§‚æ•°æ®è¾“å…¥ç®—æ³• -> è·å–Top3æ¨è -> å¯¹æ¯”å†å²çœŸå®æ¶¨å¹…æ¦œ<br/>
+                <span style="color:#166534; background:#dcfce7; padding:1px 4px; border-radius:3px;">âœ” HIT</span> = æ¨èTop3ä¸­åŒ…å«å½“å¹´å† å†›èµ„äº§ |
+                <span style="color:#991b1b; background:#fee2e2; padding:1px 4px; border-radius:3px;">âœ˜ MISS</span> = å®Œç¾é”™è¿‡ |
+                <span style="color:#b45309; background:#fef3c7; padding:1px 4px; border-radius:3px;">âš  OK</span> = å‘½ä¸­å‰ä¸‰ä½†éå† å†›
             </div>
             <table style="width:100%; border-collapse:collapse; font-size:12px;">
                 <tr style="background:#eff6ff; color:#1e3a8a;">
-                    <th style="padding:8px; border:1px solid #dbeafe;">Äê·İ / Çé¾°</th>
-                    <th style="padding:8px; border:1px solid #dbeafe;">ÏµÍ³ÍÆ¼ö Top 3 (Ô¤²â)</th>
-                    <th style="padding:8px; border:1px solid #dbeafe;">ÀúÊ·ÕæÊµ Top 1 (ÕæÏà)</th>
-                    <th style="padding:8px; border:1px solid #dbeafe;">ÆÀÅĞ</th>
-                    <th style="padding:8px; border:1px solid #dbeafe; background:#e0f2fe;">P1 ×éºÏ</th>
-                    <th style="padding:8px; border:1px solid #dbeafe; background:#fef3c7;">BL ×éºÏ</th>
-                    <th style="padding:8px; border:1px solid #dbeafe; background:#f3f4f6;">µÈÈ¨</th>
+                    <th style="padding:8px; border:1px solid #dbeafe;">å¹´ä»½ / æƒ…æ™¯</th>
+                    <th style="padding:8px; border:1px solid #dbeafe;">ç³»ç»Ÿæ¨è Top 3 (é¢„æµ‹)</th>
+                    <th style="padding:8px; border:1px solid #dbeafe;">å†å²çœŸå® Top 1 (çœŸç›¸)</th>
+                    <th style="padding:8px; border:1px solid #dbeafe;">è¯„åˆ¤</th>
+                    <th style="padding:8px; border:1px solid #dbeafe; background:#e0f2fe;">P1 ç»„åˆ</th>
+                    <th style="padding:8px; border:1px solid #dbeafe; background:#fef3c7;">BL ç»„åˆ</th>
+                    <th style="padding:8px; border:1px solid #dbeafe; background:#f3f4f6;">ç­‰æƒ</th>
                 </tr>
     `;
 
   let totalHits = 0;
   const verificationRows = [];
-  // v16.42.2: P1 vs BL vs µÈÈ¨ ×éºÏÊÕÒæ¶Ô±È
+  // v16.42.2: P1 vs BL vs ç­‰æƒ ç»„åˆæ”¶ç›Šå¯¹æ¯”
   const p1Returns = [],
     blReturns = [],
     eqReturns = [];
@@ -10771,17 +10771,17 @@ function runBatchVerification() {
     window._currentScenario = snapshot;
     window._historicalMacroOverride = snapshot.macro || snapshot.macroData;
 
-    // 1. ¹¹Ôìºê¹ÛÊäÈë (Ö±½Ó´ÓSnapshot»ñÈ¡£¬Ä£ÄâÃ¤²â)
+    // 1. æ„é€ å®è§‚è¾“å…¥ (ç›´æ¥ä»Snapshotè·å–ï¼Œæ¨¡æ‹Ÿç›²æµ‹)
     const inputs = { ...(snapshot.macro || snapshot.macroData) };
 
-    // 2. µ÷ÓÃËã·¨ºËĞÄ (Ö±½ÓÊ¹ÓÃ calcAssetScore ¼ÆËãËùÓĞ×Ê²úµÃ·Ö)
+    // 2. è°ƒç”¨ç®—æ³•æ ¸å¿ƒ (ç›´æ¥ä½¿ç”¨ calcAssetScore è®¡ç®—æ‰€æœ‰èµ„äº§å¾—åˆ†)
     const resultScores = {};
     if (typeof calcAssetScore !== "function") {
       console.error("calcAssetScore not found!");
       return;
     }
 
-    // ±éÀúËùÓĞ´óÀà×Ê²ú¼ÆËãµÃ·Ö
+    // éå†æ‰€æœ‰å¤§ç±»èµ„äº§è®¡ç®—å¾—åˆ†
     Object.keys(assetLibrary).forEach((assetKey) => {
       // v13.9.1: Asset Availability Filter (Time Travel Check)
       // Ensure we don't recommend China Bonds in 1987 or Crypto in 2000
@@ -10798,17 +10798,17 @@ function runBatchVerification() {
       resultScores[assetKey] = parseFloat(scoreObj.score);
     });
 
-    // 3. ÌáÈ¡ÏµÍ³ÍÆ¼ö Top 3
+    // 3. æå–ç³»ç»Ÿæ¨è Top 3
     const sortedRecs = Object.entries(resultScores)
-      .sort((a, b) => b[1] - a[1]) // °´·ÖÖµ½µĞò
-      .slice(0, 3); // È¡Ç°Èı
+      .sort((a, b) => b[1] - a[1]) // æŒ‰åˆ†å€¼é™åº
+      .slice(0, 3); // å–å‰ä¸‰
 
     const top3Names = sortedRecs
       .map(([k, score]) => {
         const assetName = assetLibrary[k]
           ? assetLibrary[k].name.split(" ")[1]
-          : k; // ÌáÈ¡ÖĞÎÄÃû
-        return `${assetName} <span style="color:#999;font-size:10px;">${score.toFixed(0)}·Ö</span>`;
+          : k; // æå–ä¸­æ–‡å
+        return `${assetName} <span style="color:#999;font-size:10px;">${score.toFixed(0)}åˆ†</span>`;
       })
       .join("<br/>");
 
@@ -10817,7 +10817,7 @@ function runBatchVerification() {
             Adopt: ${inputs.adoption || "N/A"}
         </div>`;
 
-    // 4. ÌáÈ¡ÀúÊ·ÕæÊµ Top 1
+    // 4. æå–å†å²çœŸå® Top 1
     const actuals = snapshot.actualReturns || {};
 
     // v13.9.1: Filter 'Truth' logic to also respect availability
@@ -10835,7 +10835,7 @@ function runBatchVerification() {
 
     const bestAsset = Object.entries(validActuals).sort(
       (a, b) => b[1] - a[1],
-    )[0]; // ÕæÊµÕÇ·ùµÚÒ»
+    )[0]; // çœŸå®æ¶¨å¹…ç¬¬ä¸€
     const bestAssetName =
       bestAsset && bestAsset[0]
         ? assetLibrary[bestAsset[0]]?.name.split(" ")[1] || bestAsset[0]
@@ -10843,47 +10843,47 @@ function runBatchVerification() {
     const bestAssetReturn =
       bestAsset && bestAsset[1] ? (bestAsset[1] * 100).toFixed(1) + "%" : "";
 
-    // 5. ÅĞ¶¨ÃüÖĞ (Ö»Òª Top 3 ÀïÃæ°üº¬ÁË ¹Ú¾ü×Ê²ú£¬¾ÍËã HIT)
+    // 5. åˆ¤å®šå‘½ä¸­ (åªè¦ Top 3 é‡Œé¢åŒ…å«äº† å† å†›èµ„äº§ï¼Œå°±ç®— HIT)
     const bestKey = bestAsset ? bestAsset[0] : "";
     const hitRank = sortedRecs.findIndex((item) => item[0] === bestKey);
 
     let statusBadge = "";
     if (hitRank === 0) {
       statusBadge =
-        `<span style="background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px; font-weight:bold;">? ÍêÃÀÃüÖĞ</span>` +
+        `<span style="background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px; font-weight:bold;">âœ” å®Œç¾å‘½ä¸­</span>` +
         debugInfo;
       totalHits++;
     } else if (hitRank !== -1) {
       statusBadge =
-        `<span style="background:#fef3c7; color:#b45309; padding:2px 6px; border-radius:4px;">? ÃüÖĞTop3</span>` +
+        `<span style="background:#fef3c7; color:#b45309; padding:2px 6px; border-radius:4px;">âš  å‘½ä¸­Top3</span>` +
         debugInfo;
       totalHits += 0.5;
     } else {
-      // v13.7 ÌØÊâ¿íÈİ¶È:
-      // Èç¹û¹Ú¾üÊÇ Crypto µ«ÎÒÃÇÃ»·¨Í¶ÍÆ¼öÁË Tech/US Stock£¬Ëã0.5·Ö?
+      // v13.7 ç‰¹æ®Šå®½å®¹åº¦:
+      // å¦‚æœå† å†›æ˜¯ Crypto ä½†æˆ‘ä»¬æ²¡æ³•æŠ•æ¨èäº† Tech/US Stockï¼Œç®—0.5åˆ†?
       if (
         bestKey === "crypto" &&
         sortedRecs.some((r) => r[0] === "usStock" || r[0] === "devStock")
       ) {
         statusBadge =
-          `<span style="background:#f3f4f6; color:#666; padding:2px 6px; border-radius:4px;">? ¹ØÁªÃüÖĞ (Tech)</span>` +
+          `<span style="background:#f3f4f6; color:#666; padding:2px 6px; border-radius:4px;">âš  å…³è”å‘½ä¸­ (Tech)</span>` +
           debugInfo;
         totalHits += 0.3;
       } else {
         statusBadge =
-          `<span style="background:#fee2e2; color:#991b1b; padding:2px 6px; border-radius:4px;">? Æ«Àë</span>` +
+          `<span style="background:#fee2e2; color:#991b1b; padding:2px 6px; border-radius:4px;">âœ˜ åç¦»</span>` +
           debugInfo;
       }
     }
 
-    // ©¤©¤©¤ v16.42.2: P1 vs BL vs µÈÈ¨ ×éºÏÊÕÒæ¼ÆËã ©¤©¤©¤
+    // â”€â”€â”€ v16.42.2: P1 vs BL vs ç­‰æƒ ç»„åˆæ”¶ç›Šè®¡ç®— â”€â”€â”€
     let p1PortReturn = null,
       blPortReturn = null,
       eqPortReturn = null;
 
-    // Ö»ÔÚÓĞ actualReturns Êı¾İÊ±¼ÆËã
+    // åªåœ¨æœ‰ actualReturns æ•°æ®æ—¶è®¡ç®—
     if (Object.keys(validActuals).length >= 3) {
-      // (a) P1 ×éºÏÊÕÒæ: »ùÓÚÆÀ·Ö°´±ÈÀı·ÖÅäÈ¨ÖØ£¨Óë·Ö²ãÒıÇæºËĞÄÒ»ÖÂ£©
+      // (a) P1 ç»„åˆæ”¶ç›Š: åŸºäºè¯„åˆ†æŒ‰æ¯”ä¾‹åˆ†é…æƒé‡ï¼ˆä¸åˆ†å±‚å¼•æ“æ ¸å¿ƒä¸€è‡´ï¼‰
       const p1Weights = {};
       let totalP1Score = 0;
       Object.entries(resultScores).forEach(([k, s]) => {
@@ -10902,7 +10902,7 @@ function runBatchVerification() {
         p1Returns.push(p1PortReturn);
       }
 
-      // (b) BL ×éºÏÊÕÒæ
+      // (b) BL ç»„åˆæ”¶ç›Š
       const smartScoresObj = {};
       Object.keys(resultScores).forEach((k) => {
         smartScoresObj[k] = { score: resultScores[k].toFixed(1) };
@@ -10929,16 +10929,16 @@ function runBatchVerification() {
             blReturns.push(blPortReturn);
           }
         } catch (e) {
-          console.warn(`[BL Backtest] ${key}: BL ¼ÆËãÒì³£`, e.message);
+          console.warn(`[BL Backtest] ${key}: BL è®¡ç®—å¼‚å¸¸`, e.message);
         }
       }
 
-      // (c) µÈÈ¨×éºÏÊÕÒæ
+      // (c) ç­‰æƒç»„åˆæ”¶ç›Š
       const eqVals = Object.values(validActuals);
       eqPortReturn = eqVals.reduce((s, v) => s + v, 0) / eqVals.length;
       eqReturns.push(eqPortReturn);
     }
-    // ©¤©¤©¤ v16.42.2 END ©¤©¤©¤
+    // â”€â”€â”€ v16.42.2 END â”€â”€â”€
 
     verificationRows.push({
       period: snapshot.period || key,
@@ -10955,7 +10955,7 @@ function runBatchVerification() {
       equalWeightReturn: eqPortReturn,
     });
 
-    // ¸ñÊ½»¯ÊÕÒæÏÔÊ¾
+    // æ ¼å¼åŒ–æ”¶ç›Šæ˜¾ç¤º
     const fmtRet = (v) => {
       if (v === null) return '<span style="color:#aaa">-</span>';
       const pct = (v * 100).toFixed(1);
@@ -10963,7 +10963,7 @@ function runBatchVerification() {
       return `<span style="color:${color}; font-weight:bold">${v >= 0 ? "+" : ""}${pct}%</span>`;
     };
 
-    // ĞĞÑùÊ½
+    // è¡Œæ ·å¼
     const rowBg = key === "period2025" ? "background:#fffbeb;" : "";
 
     html += `
@@ -10985,7 +10985,7 @@ function runBatchVerification() {
         `;
   });
 
-  // v16.42.2: ¼ÆËã»ã×ÜÍ³¼Æ
+  // v16.42.2: è®¡ç®—æ±‡æ€»ç»Ÿè®¡
   const avg = (arr) =>
     arr.length > 0 ? arr.reduce((s, v) => s + v, 0) / arr.length : 0;
   const maxLoss = (arr) => (arr.length > 0 ? Math.min(...arr) : 0);
@@ -11004,7 +11004,7 @@ function runBatchVerification() {
     blWin = winRate(blReturns),
     eqWin = winRate(eqReturns);
 
-  // BL vs P1 ÓÅÊÆÅĞ¶¨
+  // BL vs P1 ä¼˜åŠ¿åˆ¤å®š
   const blAdvantage = blAvg > p1Avg;
   const blSafer = blMax > p1Max;
   window._lastBatchVerificationRows = verificationRows;
@@ -11012,51 +11012,51 @@ function runBatchVerification() {
   html += `</table>
     <div style="margin-top:12px; display:flex; justify-content:flex-end;">
         <button onclick="window.exportBatchVerificationCsv && window.exportBatchVerificationCsv()" style="padding:8px 14px; background:#1d4ed8; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">
-            ?? µ¼³ö38ÄêÃ¤²âCSV
+            ğŸ“¥ å¯¼å‡º38å¹´ç›²æµ‹CSV
         </button>
     </div>
     <div style="margin-top:15px; display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px;">
          <div style="background:#eff6ff; padding:10px; border-radius:6px; text-align:center;">
-            <strong>ÃüÖĞ×¼È·ÂÊ</strong><br/>
+            <strong>å‘½ä¸­å‡†ç¡®ç‡</strong><br/>
             <span style="font-size:20px; color:#1e40af; font-weight:bold;">${((totalHits / years.length) * 100).toFixed(0)}%</span>
-            <div style="font-size:10px; color:#666; margin-top:4px;">${years.length} ¸ö³¡¾°</div>
+            <div style="font-size:10px; color:#666; margin-top:4px;">${years.length} ä¸ªåœºæ™¯</div>
          </div>
          <div style="background:#e0f2fe; padding:10px; border-radius:6px; text-align:center;">
-             <strong>P1 ×éºÏ</strong><br/>
+             <strong>P1 ç»„åˆ</strong><br/>
              <span style="font-size:18px; color:${p1Avg >= 0 ? "#16a34a" : "#dc2626"}; font-weight:bold;">${(p1Avg * 100).toFixed(1)}%</span>
              <div style="font-size:10px; color:#666; margin-top:4px;">
-                ×î´ó¿÷Ëğ:${(p1Max * 100).toFixed(1)}% | ÕıÊÕÒæ:${p1Win}%
+                æœ€å¤§äºæŸ:${(p1Max * 100).toFixed(1)}% | æ­£æ”¶ç›Š:${p1Win}%
              </div>
          </div>
          <div style="background:#fef3c7; padding:10px; border-radius:6px; text-align:center; ${blAdvantage ? "border:2px solid #d97706;" : ""}">
-             <strong>BL ×éºÏ ${blAdvantage ? "?" : ""}</strong><br/>
+             <strong>BL ç»„åˆ ${blAdvantage ? "â­" : ""}</strong><br/>
              <span style="font-size:18px; color:${blAvg >= 0 ? "#16a34a" : "#dc2626"}; font-weight:bold;">${(blAvg * 100).toFixed(1)}%</span>
              <div style="font-size:10px; color:#666; margin-top:4px;">
-                ×î´ó¿÷Ëğ:${(blMax * 100).toFixed(1)}% | ÕıÊÕÒæ:${blWin}%
+                æœ€å¤§äºæŸ:${(blMax * 100).toFixed(1)}% | æ­£æ”¶ç›Š:${blWin}%
              </div>
          </div>
          <div style="background:#f3f4f6; padding:10px; border-radius:6px; text-align:center;">
-             <strong>µÈÈ¨»ù×¼</strong><br/>
+             <strong>ç­‰æƒåŸºå‡†</strong><br/>
              <span style="font-size:18px; color:${eqAvg >= 0 ? "#16a34a" : "#dc2626"}; font-weight:bold;">${(eqAvg * 100).toFixed(1)}%</span>
             <div style="font-size:10px; color:#666; margin-top:4px;">
-                ×î´ó¿÷Ëğ:${(eqMax * 100).toFixed(1)}% | ÕıÊÕÒæ:${eqWin}%
+                æœ€å¤§äºæŸ:${(eqMax * 100).toFixed(1)}% | æ­£æ”¶ç›Š:${eqWin}%
              </div>
          </div>
     </div>
     <div style="margin-top:10px; padding:10px; background:${blAdvantage && blSafer ? "#f0fdf4" : blAdvantage ? "#fffbeb" : p1Avg > eqAvg ? "#eff6ff" : "#fee2e2"}; border-radius:6px; font-size:12px;">
-        <strong>?? ½áÂÛ£º</strong>
+        <strong>ğŸ“Š ç»“è®ºï¼š</strong>
         ${
           blAdvantage && blSafer
-            ? "? BL ×éºÏÔÚ»Ø²âÖĞ±íÏÖÓÅÓÚ P1£¬ÇÒ×î´ó¿÷Ëğ¸üĞ¡¡ª¡ªBL µÄÏà¹ØĞÔÔ¼ÊøÈ·ÊµÓĞĞ§£¡"
+            ? "âœ… BL ç»„åˆåœ¨å›æµ‹ä¸­è¡¨ç°ä¼˜äº P1ï¼Œä¸”æœ€å¤§äºæŸæ›´å°â€”â€”BL çš„ç›¸å…³æ€§çº¦æŸç¡®å®æœ‰æ•ˆï¼"
             : blAdvantage
-              ? "?? BL ×éºÏÆ½¾ùÊÕÒæ¸ü¸ß£¬µ«·ç¿Ø±íÏÖĞèÒª½øÒ»²½¹Û²ì¡£"
+              ? "âš ï¸ BL ç»„åˆå¹³å‡æ”¶ç›Šæ›´é«˜ï¼Œä½†é£æ§è¡¨ç°éœ€è¦è¿›ä¸€æ­¥è§‚å¯Ÿã€‚"
               : blAvg > eqAvg
-                ? "?? P1 ×éºÏÓÅÓÚ BL£¬µ«Á½Õß¾ùÅÜÓ®µÈÈ¨»ù×¼¡£"
+                ? "âš ï¸ P1 ç»„åˆä¼˜äº BLï¼Œä½†ä¸¤è€…å‡è·‘èµ¢ç­‰æƒåŸºå‡†ã€‚"
                 : blSafer
-                  ? `?? P1 ±íÏÖ×î¼Ñ(${(p1Avg * 100).toFixed(1)}%)¡£BL ÊÕÒæ(${(blAvg * 100).toFixed(1)}%)µÍÓÚµÈÈ¨(${(eqAvg * 100).toFixed(1)}%)£¬µ«×î´ó¿÷Ëğ(${(blMax * 100).toFixed(1)}%)ÓÅÓÚµÈÈ¨(${(eqMax * 100).toFixed(1)}%)£¬BL ÔÚ·ç¿ØÉÏÓĞ¼ÛÖµ¡£`
-                  : `? P1 ±íÏÖ×î¼Ñ(${(p1Avg * 100).toFixed(1)}%)¡£BL ÔÚ»Ø²âÖĞÎ´ÏÔÊ¾Ã÷ÏÔÓÅÊÆ¡£`
+                  ? `ğŸ“‹ P1 è¡¨ç°æœ€ä½³(${(p1Avg * 100).toFixed(1)}%)ã€‚BL æ”¶ç›Š(${(blAvg * 100).toFixed(1)}%)ä½äºç­‰æƒ(${(eqAvg * 100).toFixed(1)}%)ï¼Œä½†æœ€å¤§äºæŸ(${(blMax * 100).toFixed(1)}%)ä¼˜äºç­‰æƒ(${(eqMax * 100).toFixed(1)}%)ï¼ŒBL åœ¨é£æ§ä¸Šæœ‰ä»·å€¼ã€‚`
+                  : `âŒ P1 è¡¨ç°æœ€ä½³(${(p1Avg * 100).toFixed(1)}%)ã€‚BL åœ¨å›æµ‹ä¸­æœªæ˜¾ç¤ºæ˜æ˜¾ä¼˜åŠ¿ã€‚`
         }
-        <span style="color:#666;">£¨P1: ${p1Returns.length} ³¡¾° | BL: ${blReturns.length} ³¡¾° | µÈÈ¨: ${eqReturns.length} ³¡¾°£©</span>
+        <span style="color:#666;">ï¼ˆP1: ${p1Returns.length} åœºæ™¯ | BL: ${blReturns.length} åœºæ™¯ | ç­‰æƒ: ${eqReturns.length} åœºæ™¯ï¼‰</span>
     </div>
     </div>`;
 
@@ -11072,7 +11072,7 @@ function runBatchVerification() {
 window.exportBatchVerificationCsv = function () {
   const rows = window._lastBatchVerificationRows || [];
   if (!rows.length) {
-    alert("ÇëÏÈÔËĞĞ 38ÄêÈ«¾°Ã¤²âÑéÖ¤£¬ÔÙµ¼³ö CSV¡£");
+    alert("è¯·å…ˆè¿è¡Œ 38å¹´å…¨æ™¯ç›²æµ‹éªŒè¯ï¼Œå†å¯¼å‡º CSVã€‚");
     return;
   }
   const headers = [
@@ -11127,7 +11127,7 @@ window.exportBatchVerificationCsv = function () {
 
 // 1. Template Management Functions
 window.saveMacroTemplate = function () {
-  const name = prompt("ÇëÊäÈëºê¹Û³¡¾°Ä£°åÃû³Æ (ÀıÈç: '2025¸ßÍ¨ÕÍÑ¹Á¦'):");
+  const name = prompt("è¯·è¾“å…¥å®è§‚åœºæ™¯æ¨¡æ¿åç§° (ä¾‹å¦‚: '2025é«˜é€šèƒ€å‹åŠ›'):");
   if (!name) return;
 
   const templates = JSON.parse(
@@ -11141,7 +11141,7 @@ window.saveMacroTemplate = function () {
     },
   };
   localStorage.setItem("lumi_macro_templates", JSON.stringify(templates));
-  alert(`? Ä£°å "${name}" ÒÑ±£´æ`);
+  alert(`âœ… æ¨¡æ¿ "${name}" å·²ä¿å­˜`);
 
   if (typeof renderUserMacroTemplates === "function") {
     renderUserMacroTemplates();
@@ -11177,7 +11177,7 @@ window.loadMacroTemplate = function (name) {
   setMacroImportedAt(meta.importedAt || new Date().toISOString());
 
   // Alert completion
-  alert(`?? ÒÑ¼ÓÔØÄ£°å: ${name}`);
+  alert(`ğŸ“‹ å·²åŠ è½½æ¨¡æ¿: ${name}`);
 
   // Trigger Calculation ONCE
   if (typeof generateRecommendation === "function") {
@@ -11186,7 +11186,7 @@ window.loadMacroTemplate = function (name) {
 };
 
 window.deleteMacroTemplate = function (name) {
-  if (!confirm(`È·¶¨ÒªÉ¾³ıÄ£°å "${name}" Âğ?`)) return;
+  if (!confirm(`ç¡®å®šè¦åˆ é™¤æ¨¡æ¿ "${name}" å—?`)) return;
 
   const templates = JSON.parse(
     localStorage.getItem("lumi_macro_templates") || "{}",
@@ -11222,12 +11222,12 @@ window.renderUserMacroTemplates = function () {
   );
   let userNames = Object.keys(userTemplates);
 
-  // °´Ä£°åÃû³ÆÖĞµÄÈÕÆÚ½øĞĞµ¹ĞòÅÅÁĞ
+  // æŒ‰æ¨¡æ¿åç§°ä¸­çš„æ—¥æœŸè¿›è¡Œå€’åºæ’åˆ—
   userNames.sort((a, b) => {
     const dateA = new Date(a.substring(a.lastIndexOf("_") + 1));
     const dateB = new Date(b.substring(b.lastIndexOf("_") + 1));
     if (!isNaN(dateA) && !isNaN(dateB)) return dateB - dateA;
-    return b.localeCompare(a); // Fallback µ½×Ö·û´®µ¹Ğò
+    return b.localeCompare(a); // Fallback åˆ°å­—ç¬¦ä¸²å€’åº
   });
 
   // 2. Get System Presets (Historical Scenarios)
@@ -11241,7 +11241,7 @@ window.renderUserMacroTemplates = function () {
         s.period.split(" ")[0] + " " + (s.period.split(" ")[1] || "");
       systemPresets.push({
         id: key,
-        name: `?? ${name} (ÀúÊ·)`,
+        name: `ğŸ“œ ${name} (å†å²)`,
         isSystem: true,
         data: s.macroData,
       });
@@ -11255,7 +11255,7 @@ window.renderUserMacroTemplates = function () {
 
   if (userNames.length === 0 && systemPresets.length === 0) {
     container.innerHTML =
-      '<div style="color:#999;font-size:12px;padding:10px;">ÔİÎŞ¿ÉÓÃÄ£°å</div>';
+      '<div style="color:#999;font-size:12px;padding:10px;">æš‚æ— å¯ç”¨æ¨¡æ¿</div>';
     return;
   }
 
@@ -11266,10 +11266,10 @@ window.renderUserMacroTemplates = function () {
   userNames.forEach((name) => {
     html += `
         <div style="border:1px solid #3b82f6; border-radius:4px; padding:6px; background:#eff6ff;">
-            <div style="font-weight:600; font-size:12px; margin-bottom:4px; color:#1e40af;">?? ${escapeHtml(name)}</div>
+            <div style="font-weight:600; font-size:12px; margin-bottom:4px; color:#1e40af;">ğŸ‘¤ ${escapeHtml(name)}</div>
             <div style="display:flex; gap:4px;">
-                <button data-template-action="load-macro" data-template-name="${escapeHtml(name)}" style="flex:1; background:#3b82f6; color:white; border:none; border-radius:2px; font-size:10px; cursor:pointer;">¼ÓÔØ</button>
-                <button data-template-action="delete-macro" data-template-name="${escapeHtml(name)}" style="width:20px; background:#ef4444; color:white; border:none; border-radius:2px; font-size:10px; cursor:pointer;">¡Á</button>
+                <button data-template-action="load-macro" data-template-name="${escapeHtml(name)}" style="flex:1; background:#3b82f6; color:white; border:none; border-radius:2px; font-size:10px; cursor:pointer;">åŠ è½½</button>
+                <button data-template-action="delete-macro" data-template-name="${escapeHtml(name)}" style="width:20px; background:#ef4444; color:white; border:none; border-radius:2px; font-size:10px; cursor:pointer;">Ã—</button>
             </div>
         </div>`;
   });
@@ -11280,7 +11280,7 @@ window.renderUserMacroTemplates = function () {
         <div style="border:1px solid #e5e7eb; border-radius:4px; padding:6px; background:#f9fafb;">
             <div style="font-weight:600; font-size:12px; margin-bottom:4px; color:#374151;">${escapeHtml(preset.name)}</div>
             <div style="display:flex; gap:4px;">
-                <button data-template-action="load-system" data-preset-id="${escapeHtml(preset.id)}" style="flex:1; background:#6b7280; color:white; border:none; border-radius:2px; font-size:10px; cursor:pointer;">¼ÓÔØÅäÖÃ</button>
+                <button data-template-action="load-system" data-preset-id="${escapeHtml(preset.id)}" style="flex:1; background:#6b7280; color:white; border:none; border-radius:2px; font-size:10px; cursor:pointer;">åŠ è½½é…ç½®</button>
             </div>
         </div>`;
   });
@@ -11297,7 +11297,7 @@ window.loadSystemPreset = function (presetId) {
   )
     return;
   const macroData = historicalSnapshots[presetId].macroData;
-  const sourceDateMatch = String(historicalSnapshots[presetId].period || "").match(/(\d{4})[Äê\/-]?(\d{1,2})?[ÔÂ\/-]?(\d{1,2})?/);
+  const sourceDateMatch = String(historicalSnapshots[presetId].period || "").match(/(\d{4})[å¹´\/-]?(\d{1,2})?[æœˆ\/-]?(\d{1,2})?/);
   const inferredSourceDate = sourceDateMatch
     ? [
         sourceDateMatch[1],
@@ -11321,7 +11321,7 @@ window.loadSystemPreset = function (presetId) {
   setMacroSourceDate(inferredSourceDate || "");
   setMacroImportedAt(new Date().toISOString());
 
-  alert(`? ÒÑ¼ÓÔØÀúÊ·ºê¹Û³¡¾°: ${historicalSnapshots[presetId].period}`);
+  alert(`âœ… å·²åŠ è½½å†å²å®è§‚åœºæ™¯: ${historicalSnapshots[presetId].period}`);
   if (typeof generateRecommendation === "function") generateRecommendation();
 };
 // End: Add loadSystemPreset helper
@@ -11376,12 +11376,12 @@ renderMacroDisplay = function () {
     let labelContent = `<label style="font-size:12px; font-weight:600; color:#334155;" title="${config.explain || ""}">${config.label || k}</label>`;
     if (config.sourceUrl) {
       // [v14.1 UI Polish] Blue, Underlined, Larger Link
-      labelContent += ` <a href="${config.sourceUrl}" target="_blank" style="color:#2563eb; text-decoration:underline; font-weight:bold; margin-left:6px; font-size:11px;" title="µã»÷²é¿´Êı¾İÔ´: ${config.sourceLabel || "À´Ô´"}">??Êı¾İÔ´</a>`;
+      labelContent += ` <a href="${config.sourceUrl}" target="_blank" style="color:#2563eb; text-decoration:underline; font-weight:bold; margin-left:6px; font-size:11px;" title="ç‚¹å‡»æŸ¥çœ‹æ•°æ®æº: ${config.sourceLabel || "æ¥æº"}">ğŸ”—æ•°æ®æº</a>`;
     }
 
     // [v14.1 UI Polish] Add Neutral Info to Title Line to avoid slider overlap
     if (config.neutral !== undefined && !config.options) {
-      labelContent += ` <span style="font-size:10px; color:#64748b; font-weight:400; margin-left:4px;">(ÖĞĞÔ: ${config.neutral})</span>`;
+      labelContent += ` <span style="font-size:10px; color:#64748b; font-weight:400; margin-left:4px;">(ä¸­æ€§: ${config.neutral})</span>`;
     }
 
     html += `<div style="display:flex; justify-content:space-between; margin-bottom:4px; align-items:flex-end;">
@@ -11411,7 +11411,7 @@ renderMacroDisplay = function () {
         console.log(
           `[MacroRender] Adding Custom Option for ${k}: ${safeVal} (Type: ${typeof config.current})`,
         );
-        html += `<option value="${safeVal}" selected>?? [Fix] ×Ô¶¨Òå (${safeVal})</option>`;
+        html += `<option value="${safeVal}" selected>ğŸ‘‰ [Fix] è‡ªå®šä¹‰ (${safeVal})</option>`;
       }
 
       html += `</select>`;
@@ -11443,8 +11443,8 @@ renderMacroDisplay = function () {
 
   // Add "Save Template" button area
   html += `<div style="margin-top:16px; padding-top:12px; border-top:1px dashed #cbd5e1; display:flex; gap:10px; justify-content:flex-end;">
-                <div style="font-size:11px; color:#64748b; align-self:center;">µ±Ç°²ÎÊıÉèÖÃ£º</div>
-                <button class="btn-secondary" onclick="saveMacroTemplate()" style="background:#10b981; color:white; padding:6px 12px; border:none; border-radius:4px; font-size:11px; cursor:pointer;">?? ±£´æÎªĞÂÄ£°å</button>
+                <div style="font-size:11px; color:#64748b; align-self:center;">å½“å‰å‚æ•°è®¾ç½®ï¼š</div>
+                <button class="btn-secondary" onclick="saveMacroTemplate()" style="background:#10b981; color:white; padding:6px 12px; border:none; border-radius:4px; font-size:11px; cursor:pointer;">ğŸ’¾ ä¿å­˜ä¸ºæ–°æ¨¡æ¿</button>
              </div>`;
 
   container.innerHTML = html;
@@ -11470,7 +11470,7 @@ window.exportMacroParams = function () {
   const data = {
     version: "v14.0",
     timestamp: new Date().toISOString(),
-    description: "Lumi ºê¹Û²ÎÊıÅäÖÃµ¼³ö - º¬Trend Awareness (Phase 18)",
+    description: "Lumi å®è§‚å‚æ•°é…ç½®å¯¼å‡º - å«Trend Awareness (Phase 18)",
     macro_params: macroVals,
     full_config: macroIndics, // Include definitions for reference
   };
@@ -11502,7 +11502,7 @@ function exportExcelAllScores() {
     typeof calcAssetScore !== "function" ||
     typeof calcSubAssetScore !== "function"
   ) {
-    alert("â?æ ¸å¿ƒè¯„åˆ†å¼•æ“æœªå°±ç»?(v14.3)");
+    alert("é‰‚?éç¨¿ç¸¾ç’‡å‹«åå¯®æ›Ÿæ¸éˆî„æ°¨ç¼?(v14.3)");
     return;
   }
 
@@ -11544,7 +11544,7 @@ function exportExcelAllScores() {
 
                 // Highlight logic
                 let alphaHighlight = "";
-                if (alphaScore - betaScore >= 5) alphaHighlight = "(??³¬¶î)";
+                if (alphaScore - betaScore >= 5) alphaHighlight = "(ğŸŒŸè¶…é¢)";
                 csvContent += `${majorName},${subName} ${alphaHighlight},"${betaScore}","${alphaScore}","${diff}","${driver}"\n`;
               }
             },
@@ -11576,7 +11576,7 @@ window.exportExcelAllScores = exportExcelAllScores;
 // v16.1 FINAL: Centralized overrides moved to core.js.
 // Cleaning up duplicate patches.
 console.log(
-  "? [v16.1] ui_v16.js loaded successfully. Core data retrieval is now centralized.",
+  "âœ… [v16.1] ui_v16.js loaded successfully. Core data retrieval is now centralized.",
 );
 
 // =================================================================================
@@ -11591,7 +11591,7 @@ renderMacroDisplay = function () {
   container.innerHTML = "";
 
   const categories = {
-    "???? ÃÀ¹úºê¹ÛºËĞÄ": [
+    "ğŸ‡ºğŸ‡¸ ç¾å›½å®è§‚æ ¸å¿ƒ": [
       "fedRate",
       "realYield",
       "inflation",
@@ -11603,21 +11603,21 @@ renderMacroDisplay = function () {
       "usUnemployment",
       "fedDotsGap",
     ],
-    "???? ÖĞ¹úºê¹ÛºËĞÄ": [
+    "ğŸ‡¨ğŸ‡³ ä¸­å›½å®è§‚æ ¸å¿ƒ": [
       "cnPolicy",
       "cnPmi",
       "cnGrowthTrend",
       "cnCreditImpulse",
       "cnPolicyTrend",
     ],
-    "?? È«ÇòÇøÓòÇ÷ÊÆ": [
+    "ğŸŒ å…¨çƒåŒºåŸŸè¶‹åŠ¿": [
       "globalGrowth",
       "euEcoTrend",
       "jpPolicyTrend",
       "emFinancialTrend",
       "usdTrend",
     ],
-    "?? ºê¹ÛÇ÷ÊÆÉî¶È": [
+    "ğŸ“Š å®è§‚è¶‹åŠ¿æ·±åº¦": [
       "rateTrend",
       "growthMomentum",
       "inflationTrend",
@@ -11625,7 +11625,7 @@ renderMacroDisplay = function () {
       "pmiDelta",
       "pmiConsecutive",
     ],
-    "??? ×Ê²úÌØ¶¨Òò×Ó": [
+    "ğŸ›¢ï¸ èµ„äº§ç‰¹å®šå› å­": [
       "commodityTrend",
       "goldTrend",
       "centralBankDemand",
@@ -11640,7 +11640,7 @@ renderMacroDisplay = function () {
       "oilPriceMA200",
       "commodity6mReturn",
     ],
-    "?? ¹éÒò·ÖÎö(AI)": [
+    "ğŸ’¡ å½’å› åˆ†æ(AI)": [
       "rateChangeReason",
       "inflationReason",
       "vixReason",
@@ -11670,7 +11670,7 @@ renderMacroDisplay = function () {
     .sort();
   if (otherKeys.length > 0) {
     html += `<div style="margin-bottom: 20px;">
-                    <h3 style="margin: 0 0 10px 0; padding-bottom: 5px; border-bottom: 2px solid #e2e8f0; color: #64748b; font-size: 14px;">??? ÆäËûÖ¸±ê</h3>
+                    <h3 style="margin: 0 0 10px 0; padding-bottom: 5px; border-bottom: 2px solid #e2e8f0; color: #64748b; font-size: 14px;">ğŸ› ï¸ å…¶ä»–æŒ‡æ ‡</h3>
                     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">`;
     otherKeys.forEach((k) => (html += renderMacroItem(k, macroIndics[k])));
     html += `</div></div>`;
@@ -11683,9 +11683,9 @@ renderMacroDisplay = function () {
     // Header
     let labelContent = `<label style="font-size:12px; font-weight:600; color:#334155;" title="${config.explain || ""}">${config.label || k}</label>`;
     if (config.sourceUrl)
-      labelContent += ` <a href="${config.sourceUrl}" target="_blank" style="color:#2563eb; text-decoration:underline; font-weight:bold; margin-left:6px; font-size:11px;" title="Source">??Êı¾İÔ´</a>`;
+      labelContent += ` <a href="${config.sourceUrl}" target="_blank" style="color:#2563eb; text-decoration:underline; font-weight:bold; margin-left:6px; font-size:11px;" title="Source">ğŸ”—æ•°æ®æº</a>`;
     if (config.neutral !== undefined && !config.options)
-      labelContent += ` <span style="font-size:10px; color:#64748b; font-weight:400; margin-left:4px;">(ÖĞĞÔ: ${config.neutral})</span>`;
+      labelContent += ` <span style="font-size:10px; color:#64748b; font-weight:400; margin-left:4px;">(ä¸­æ€§: ${config.neutral})</span>`;
 
     itemHtml += `<div style="display:flex; justify-content:space-between; margin-bottom:4px; align-items:flex-end;">
                     <div>${labelContent}</div>
@@ -11708,7 +11708,7 @@ renderMacroDisplay = function () {
       // Strict check: if 0 matches option 0, we use option 0.
       if (!found) {
         const safeVal = config.current !== undefined ? config.current : "";
-        itemHtml += `<option value="${safeVal}">?? [Fix] ×Ô¶¨Òå (${safeVal})</option>`;
+        itemHtml += `<option value="${safeVal}">ğŸ‘‰ [Fix] è‡ªå®šä¹‰ (${safeVal})</option>`;
       }
 
       // Queue this select to have its value set explicitly
@@ -11736,8 +11736,8 @@ renderMacroDisplay = function () {
   container.insertAdjacentHTML(
     "beforeend",
     `<div style="margin-top:16px; padding-top:12px; border-top:1px dashed #cbd5e1; display:flex; gap:10px; justify-content:flex-end;">
-                <div style="font-size:11px; color:#64748b; align-self:center;">µ±Ç°²ÎÊıÉèÖÃ£º</div>
-                <button class="btn-secondary" onclick="saveMacroTemplate()" style="background:#10b981; color:white; padding:6px 12px; border:none; border-radius:4px; font-size:11px; cursor:pointer;">?? ±£´æÎªĞÂÄ£°å</button>
+                <div style="font-size:11px; color:#64748b; align-self:center;">å½“å‰å‚æ•°è®¾ç½®ï¼š</div>
+                <button class="btn-secondary" onclick="saveMacroTemplate()" style="background:#10b981; color:white; padding:6px 12px; border:none; border-radius:4px; font-size:11px; cursor:pointer;">ğŸ’¾ ä¿å­˜ä¸ºæ–°æ¨¡æ¿</button>
              </div>`,
   );
 
@@ -11755,7 +11755,7 @@ renderMacroDisplay = function () {
           );
           const opt = document.createElement("option");
           opt.value = item.value;
-          opt.text = `?? [Auto] ×Ô¶¨Òå (${item.value})`;
+          opt.text = `ğŸ‘‰ [Auto] è‡ªå®šä¹‰ (${item.value})`;
           el.add(opt);
           el.value = item.value;
         }
@@ -11947,8 +11947,8 @@ window.restoreMacroState = function (state) {
 window.saveMacroTemplate = function (name) {
   if (!name) {
     name = prompt(
-      "ÇëÊäÈëºê¹Û³¡¾°Ä£°åÃû³Æ:",
-      "×Ô½¨³¡¾°_" + new Date().toLocaleDateString(),
+      "è¯·è¾“å…¥å®è§‚åœºæ™¯æ¨¡æ¿åç§°:",
+      "è‡ªå»ºåœºæ™¯_" + new Date().toLocaleDateString(),
     );
   }
   if (!name) return;
@@ -11960,14 +11960,14 @@ window.saveMacroTemplate = function (name) {
   if (coreCount < 40) {
     if (
       !confirm(
-        `?? ¾¯¸æ: ½ö²¶»ñµ½ ${coreCount} ¸ö²ÎÊı (Ô¤ÆÚ 48+)¡£\nÕâ¿ÉÄÜµ¼ÖÂÄ£°å²»ÍêÕû¡£\nÊÇ·ñ¼ÌĞø±£´æ?`,
+        `âš ï¸ è­¦å‘Š: ä»…æ•è·åˆ° ${coreCount} ä¸ªå‚æ•° (é¢„æœŸ 48+)ã€‚\nè¿™å¯èƒ½å¯¼è‡´æ¨¡æ¿ä¸å®Œæ•´ã€‚\næ˜¯å¦ç»§ç»­ä¿å­˜?`,
       )
     )
       return;
   }
 
   localStorage.setItem("lumi_macro_tpl_" + name, JSON.stringify(state));
-  alert(`? Ä£°å \"${name}\" ÒÑ±£´æ!\n(°üº¬ ${coreCount} ¸öºËĞÄ²ÎÊı)`);
+  alert(`âœ… æ¨¡æ¿ \"${name}\" å·²ä¿å­˜!\n(åŒ…å« ${coreCount} ä¸ªæ ¸å¿ƒå‚æ•°)`);
 
   if (typeof loadTemplatesUI === "function") loadTemplatesUI();
 };
@@ -11987,19 +11987,19 @@ window.loadMacroTemplate = function (name) {
       localStorage.getItem("lumi_macro_templates") || "{}",
     );
     if (legacy[name]) {
-      alert("?? ÕâÊÇÒ»¸ö¾É°æ±¾Ä£°å£¬ÕıÔÚ³¢ÊÔ¼æÈİ¼ÓÔØ...");
+      alert("âš ï¸ è¿™æ˜¯ä¸€ä¸ªæ—§ç‰ˆæœ¬æ¨¡æ¿ï¼Œæ­£åœ¨å°è¯•å…¼å®¹åŠ è½½...");
       // Try to convert format?
       // Actually, we can just load the key-values blindly.
       const legacyData = legacy[name];
       // Format wrap
       const wrapper = { macro_params: legacyData };
       window.restoreMacroState(wrapper);
-      alert(`? ¾ÉÄ£°å \"${name}\" ¼ÓÔØÍê³É`);
+      alert(`âœ… æ—§æ¨¡æ¿ \"${name}\" åŠ è½½å®Œæˆ`);
       if (typeof renderMacroDisplay === "function") renderMacroDisplay();
       scheduleRecommendation();
       return;
     }
-    alert("Î´ÕÒµ½Ä£°å: " + name);
+    alert("æœªæ‰¾åˆ°æ¨¡æ¿: " + name);
     return;
   }
 
@@ -12008,7 +12008,7 @@ window.loadMacroTemplate = function (name) {
     data = JSON.parse(json);
   } catch (e) {
     console.error(e);
-    alert("JSON ½âÎöÊ§°Ü: " + e.message);
+    alert("JSON è§£æå¤±è´¥: " + e.message);
     return;
   }
 
@@ -12040,13 +12040,13 @@ window.loadMacroTemplate = function (name) {
   window.restoreMacroState(data);
   if (typeof renderMacroDisplay === "function") renderMacroDisplay();
 
-  alert(`? Ä£°å \"${name}\" ¼ÓÔØÍê³É`);
+  alert(`âœ… æ¨¡æ¿ \"${name}\" åŠ è½½å®Œæˆ`);
   scheduleRecommendation();
 };
 
 // Override: Delete Template
 window.deleteMacroTemplate = function (name) {
-  if (!confirm(`È·¶¨ÒªÉ¾³ı¾É°æÄ£°å "${name}" Âğ?`)) return;
+  if (!confirm(`ç¡®å®šè¦åˆ é™¤æ—§ç‰ˆæ¨¡æ¿ "${name}" å—?`)) return;
 
   // Try Legacy
   const legacy = JSON.parse(
@@ -12076,7 +12076,7 @@ window.loadTemplatesUI = function () {
   if (macroPanel) {
     bindTemplateActionDelegation(macroPanel);
     macroPanel.innerHTML = "";
-    // 1. New V2 Templates (v16.61: °´Ê±¼ä´Áµ¹Ğò£¬×îĞÂÔÚÇ°)
+    // 1. New V2 Templates (v16.61: æŒ‰æ—¶é—´æˆ³å€’åºï¼Œæœ€æ–°åœ¨å‰)
     const v2Keys = Object.keys(localStorage).filter((k) =>
       k.startsWith("lumi_macro_tpl_"),
     );
@@ -12086,7 +12086,7 @@ window.loadTemplatesUI = function () {
         const db = JSON.parse(localStorage.getItem(b));
         const ta = da?.meta?.timestamp || da?.timestamp || "";
         const tb = db?.meta?.timestamp || db?.timestamp || "";
-        return tb.localeCompare(ta); // µ¹Ğò£º×îĞÂÔÚÇ°
+        return tb.localeCompare(ta); // å€’åºï¼šæœ€æ–°åœ¨å‰
       } catch (e) {
         return 0;
       }
@@ -12104,7 +12104,7 @@ window.loadTemplatesUI = function () {
 
     if (v2Keys.length === 0 && legacyNames.length === 0) {
       macroPanel.innerHTML =
-        '<div style="color:#999; padding:10px;">ÔİÎŞ¿ÉÓÃÄ£°å</div>';
+        '<div style="color:#999; padding:10px;">æš‚æ— å¯ç”¨æ¨¡æ¿</div>';
     } else {
       let html =
         '<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:10px;">';
@@ -12112,7 +12112,7 @@ window.loadTemplatesUI = function () {
       // Render V2
       v2Keys.forEach((k) => {
         const name = k.replace("lumi_macro_tpl_", "");
-        let summary = "V2 (ÍêÕû)";
+        let summary = "V2 (å®Œæ•´)";
         try {
           const d = JSON.parse(localStorage.getItem(k));
           const count = d.macro_params
@@ -12121,15 +12121,15 @@ window.loadTemplatesUI = function () {
           const date = d.meta
             ? new Date(d.meta.timestamp).toLocaleDateString()
             : "";
-          summary = `${date} (${count}²Î)`;
+          summary = `${date} (${count}å‚)`;
         } catch (e) {}
         html += `
                     <div style="background:#fff; border:1px solid #2563eb; padding:8px; border-radius:4px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
-                        <div style="font-weight:bold; color:#2563eb; margin-bottom:4px;">?? ${name}</div>
+                        <div style="font-weight:bold; color:#2563eb; margin-bottom:4px;">ğŸ†• ${name}</div>
                         <div style="font-size:10px; color:#666; margin-bottom:8px;">${summary}</div>
                         <div style="display:flex; gap:5px;">
-                            <button data-template-action="load-macro" data-template-name="${escapeHtml(name)}" style="flex:1; background:#2563eb; color:white; border:none; padding:4px; border-radius:2px; cursor:pointer;">¼ÓÔØ</button>
-                            <button data-template-action="delete-macro" data-template-name="${escapeHtml(name)}" style="background:#ef4444; color:white; border:none; padding:4px; 8px; border-radius:2px; cursor:pointer;">¡Á</button>
+                            <button data-template-action="load-macro" data-template-name="${escapeHtml(name)}" style="flex:1; background:#2563eb; color:white; border:none; padding:4px; border-radius:2px; cursor:pointer;">åŠ è½½</button>
+                            <button data-template-action="delete-macro" data-template-name="${escapeHtml(name)}" style="background:#ef4444; color:white; border:none; padding:4px; 8px; border-radius:2px; cursor:pointer;">Ã—</button>
                         </div>
                     </div>`;
       });
@@ -12141,11 +12141,11 @@ window.loadTemplatesUI = function () {
         const count = Object.keys(data).length;
         html += `
                     <div style="background:#f9fafb; border:1px solid #9ca3af; padding:8px; border-radius:4px;">
-                        <div style="font-weight:bold; color:#4b5563; margin-bottom:4px;">?? ${name} (¾É°æ)</div>
-                        <div style="font-size:10px; color:#666; margin-bottom:8px;">°üº¬ ${count} ²ÎÊı</div>
+                        <div style="font-weight:bold; color:#4b5563; margin-bottom:4px;">ğŸ“œ ${name} (æ—§ç‰ˆ)</div>
+                        <div style="font-size:10px; color:#666; margin-bottom:8px;">åŒ…å« ${count} å‚æ•°</div>
                         <div style="display:flex; gap:5px;">
-                            <button data-template-action="load-macro" data-template-name="${escapeHtml(name)}" style="flex:1; background:#4b5563; color:white; border:none; padding:4px; border-radius:2px; cursor:pointer;">¼ÓÔØ</button>
-                            <button data-template-action="delete-macro" data-template-name="${escapeHtml(name)}" style="background:#ef4444; color:white; border:none; padding:4px; 8px; border-radius:2px; cursor:pointer;">¡Á</button>
+                            <button data-template-action="load-macro" data-template-name="${escapeHtml(name)}" style="flex:1; background:#4b5563; color:white; border:none; padding:4px; border-radius:2px; cursor:pointer;">åŠ è½½</button>
+                            <button data-template-action="delete-macro" data-template-name="${escapeHtml(name)}" style="background:#ef4444; color:white; border:none; padding:4px; 8px; border-radius:2px; cursor:pointer;">Ã—</button>
                         </div>
                     </div>`;
       });
@@ -12180,7 +12180,7 @@ window.loadTemplatesUI = function () {
 
     if (assetTemplates.length === 0) {
       assetPanel.innerHTML =
-        '<div style="color:#999; padding:10px;">ÔİÎŞ×Ê²úÄ£°å</div>';
+        '<div style="color:#999; padding:10px;">æš‚æ— èµ„äº§æ¨¡æ¿</div>';
     } else {
       // Sort by ID desc (newest first)
       assetTemplates.sort((a, b) => b.id - a.id);
@@ -12190,11 +12190,11 @@ window.loadTemplatesUI = function () {
       assetTemplates.forEach((t) => {
         html += `
                     <div class="template-item">
-                        <div class="template-name">?? ${t.name}</div>
+                        <div class="template-name">ğŸŸ¢ ${t.name}</div>
                         <div class="template-time">${new Date(t.timestamp).toLocaleDateString()}</div>
                         <div class="template-actions">
-                            <button class="btn-small btn-load" data-template-action="load-asset" data-template-key="${escapeHtml(String(t.id))}">?? ¼ÓÔØ</button>
-                            <button class="btn-small btn-delete" data-template-action="delete-asset" data-template-key="${escapeHtml(String(t.id))}">???</button>
+                            <button class="btn-small btn-load" data-template-action="load-asset" data-template-key="${escapeHtml(String(t.id))}">ğŸ“‚ åŠ è½½</button>
+                            <button class="btn-small btn-delete" data-template-action="delete-asset" data-template-key="${escapeHtml(String(t.id))}">ğŸ—‘ï¸</button>
                         </div>
                     </div>`;
       });
@@ -12233,7 +12233,6 @@ window.resetStateAndRecommend = function () {
     "[v16.7 Fix] State cleared, recommendation generated based on CURRENT inputs.",
   );
 };
-
 
 
 

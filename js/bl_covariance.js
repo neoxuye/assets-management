@@ -1,25 +1,25 @@
 // ============================================================================
-// bl_covariance.js �?Black-Litterman 协方差矩阵数据层
+// bl_covariance.js — Black-Litterman 协方差矩阵数据层
 // v16.42 | 2026-02-13
 // ============================================================================
 // 职责:
-//   1. 从月度收益率数据计算协方差矩�?�?Ledoit-Wolf 收缩)
-//   2. VIX 动态缩�?危机时相关性升�?
-//   3. JSON 导入/导出(与宏观参数模板同一工作�?
+//   1. 从月度收益率数据计算协方差矩阵(含 Ledoit-Wolf 收缩)
+//   2. VIX 动态缩放(危机时相关性升高)
+//   3. JSON 导入/导出(与宏观参数模板同一工作流)
 //   4. 预设默认均衡权重(全球市值比近似)
 // ============================================================================
 
 'use strict';
 
 // ─────────────────────────────
-// 1. 常量与默认配�?
+// 1. 常量与默认配置
 // ─────────────────────────────
 
 /**
- * BL 资产宇宙: 系统 18 个大类资产与 BL 计算�?1:1 映射
- * v16.48: �?17 个扩展为 18 个，cnStock(A�? �?hkStock(港股) 独立核算
+ * BL 资产宇宙: 系统 18 个大类资产与 BL 计算的 1:1 映射
+ * v16.48: 从 17 个扩展为 18 个，cnStock(A股) 与 hkStock(港股) 独立核算
  *
- * 18 �?BL 资产 = 18 个系统资�?(完全一�?
+ * 18 个 BL 资产 = 18 个系统资产 (完全一致)
  */
 window.BL_ASSET_MAP = {
     cnStock: ['cnStock'],
@@ -42,42 +42,42 @@ window.BL_ASSET_MAP = {
     hedges: ['hedges']
 };
 
-// BL 资产键顺�?矩阵�?列顺�? �?18 �?
+// BL 资产键顺序(矩阵行/列顺序) — 18 个
 window.BL_ASSET_KEYS = Object.keys(window.BL_ASSET_MAP);
 
 /**
- * 默认市场均衡权重 (全球资产市值比近似, 2025年数�?
- * v16.48: 扩展�?18 类独立权重，cnStock/hkStock 分离
- * 来源: MSCI ACWI + Bloomberg Barclays Aggregate + 商品/外汇市值估�?
+ * 默认市场均衡权重 (全球资产市值比近似, 2025年数据)
+ * v16.48: 扩展为 18 类独立权重，cnStock/hkStock 分离
+ * 来源: MSCI ACWI + Bloomberg Barclays Aggregate + 商品/外汇市值估算
  */
 window.BL_DEFAULT_EQUILIBRIUM = {
     cnStock: 0.03,        // A股在全球股票中占比约3%
-    hkStock: 0.03,        // 港股/海外中概占比�?%
-    usStock: 0.30,        // 美股占比最�?
-    devStock: 0.13,       // 发达市场(欧日�?
-    emStock: 0.04,        // 新兴市场(除中�?
-    bonds_us: 0.15,       // 美债在全球债券中占比最�?
+    hkStock: 0.03,        // 港股/海外中概占比约3%
+    usStock: 0.30,        // 美股占比最大
+    devStock: 0.13,       // 发达市场(欧日澳)
+    emStock: 0.04,        // 新兴市场(除中国)
+    bonds_us: 0.15,       // 美债在全球债券中占比最大
     bonds_china: 0.04,    // 中国债券市场
     bonds_global: 0.07,   // 其他全球债券
     precious: 0.04,       // 黄金
     energy: 0.03,         // 能源商品
     industrial: 0.01,     // 工业金属
-    agriculture: 0.01,    // 农产�?
+    agriculture: 0.01,    // 农产品
     crypto: 0.02,         // 加密资产
     forex_major: 0.03,    // 主流外币
     forex_safe: 0.02,     // 避险货币
-    forex_cny: 0.02,      // 人民�?
+    forex_cny: 0.02,      // 人民币
     forex_commodity: 0.02, // 商品货币
     hedges: 0.02          // 对冲/现金
 };
 
 /**
- * 默认年化协方差矩�?(18×18)
- * v16.48: �?17×17 扩展�?18×18 (cnStock/hkStock 拆分)
- * v16.55: �?120 个月 (10�? 真实 ETF 数据重新生成，hedges 对角线强�?�?.0009
+ * 默认年化协方差矩阵 (18×18)
+ * v16.48: 从 17×17 扩展为 18×18 (cnStock/hkStock 拆分)
+ * v16.55: 用 120 个月 (10年) 真实 ETF 数据重新生成，hedges 对角线强制 ≥0.0009
  *
- * 数据来源: generate_bl_covariance.py �?update_bl_cov_matrix.py
- * 波动率校�?(v16.55): assetLibrary 中各资产�?volatility 字段
+ * 数据来源: generate_bl_covariance.py → update_bl_cov_matrix.py
+ * 波动率校准 (v16.55): assetLibrary 中各资产的 volatility 字段
  *   energy σ=30%, industrial σ=36%, agriculture σ=12%
  *   crypto σ=65%, forex_major σ=7%, forex_safe σ=10%
  *   forex_cny σ=5%, forex_commodity σ=10%, hedges σ=3% (强制下限)
@@ -101,24 +101,24 @@ window.BL_DEFAULT_COV = [
     [0.004033, 0.006843, 0.001444, 0.004723, 0.005624, 0.003296, 0.002466, 0.002116, 0.006707, -0.001887, 0.008161, 0.001043, 0.005213, 0.003846, 0.009028, -0.001998, 0.003926, 0.000081],  // forex_safe
     [-0.005446, -0.005945, -0.002326, -0.003640, -0.004817, -0.000961, -0.002342, -0.000594, -0.002756, -0.002142, -0.008279, -0.001314, -0.002663, -0.001898, -0.001998, 0.002423, -0.002556, -0.000065],  // forex_cny
     [0.011033, 0.012660, 0.008898, 0.010541, 0.013137, 0.002188, 0.002859, 0.001091, 0.006110, 0.013133, 0.026413, 0.003226, 0.007717, 0.004555, 0.003926, -0.002556, 0.009810, 0.000074],  // forex_commodity
-    [0.000091, 0.000312, 0.000166, 0.000232, 0.000265, 0.000138, 0.000079, 0.000188, 0.000408, -0.000057, 0.000120, 0.000253, -0.000270, 0.000086, 0.000081, -0.000065, 0.000074, 0.000900],  // hedges (v16.55 强制3%²波动率下�?
+    [0.000091, 0.000312, 0.000166, 0.000232, 0.000265, 0.000138, 0.000079, 0.000188, 0.000408, -0.000057, 0.000120, 0.000253, -0.000270, 0.000086, 0.000081, -0.000065, 0.000074, 0.000900],  // hedges (v16.55 强制3%²波动率下限)
 ];
 
 // ─────────────────────────────
-// 2. 协方差矩阵计�?从月度收益率)
+// 2. 协方差矩阵计算(从月度收益率)
 // ─────────────────────────────
 
 /**
- * 从月度收益率数据计算年化协方差矩�?
+ * 从月度收益率数据计算年化协方差矩阵
  *
  * @param {Object} monthlyData - 各资产月度收益率, 格式:
  *   { cnStock: { monthlyReturns: [0.02, -0.01, ...] }, usStock: {...}, ... }
- * @param {string[]} assetKeys - BL 资产键顺�?
- * @param {Object} options - 可选参�?
+ * @param {string[]} assetKeys - BL 资产键顺序
+ * @param {Object} options - 可选参数
  *   - shrinkage {boolean} 是否使用 Ledoit-Wolf 收缩, 默认 true
- *   - minMonths {number} 最少月�? 默认 36
+ *   - minMonths {number} 最少月数, 默认 36
  * @returns {Object} { covMatrix, correlationMatrix, volatilities, monthsUsed }
- *   �?null(数据不足)
+ *   或 null(数据不足)
  */
 function calculateCovarianceMatrix(monthlyData, assetKeys, options = {}) {
     const shrinkage = options.shrinkage !== false;
@@ -132,7 +132,7 @@ function calculateCovarianceMatrix(monthlyData, assetKeys, options = {}) {
     for (const key of assetKeys) {
         const asset = monthlyData[key];
         if (!asset || !asset.monthlyReturns || asset.monthlyReturns.length < minMonths) {
-            console.warn(`[BL Covariance] ${key}: 数据不足 (需�?${minMonths} 个月, 实际 ${asset?.monthlyReturns?.length || 0})`);
+            console.warn(`[BL Covariance] ${key}: 数据不足 (需要 ${minMonths} 个月, 实际 ${asset?.monthlyReturns?.length || 0})`);
             return null;
         }
         returnArrays.push(asset.monthlyReturns);
@@ -143,12 +143,12 @@ function calculateCovarianceMatrix(monthlyData, assetKeys, options = {}) {
     const T = commonLength;
     const aligned = returnArrays.map(arr => arr.slice(arr.length - T));
 
-    console.log(`[BL Covariance] 计算协方差矩�? ${n} 资产, ${T} 个月`);
+    console.log(`[BL Covariance] 计算协方差矩阵: ${n} 资产, ${T} 个月`);
 
-    // 2. 计算均值向�?
+    // 2. 计算均值向量
     const means = aligned.map(arr => arr.reduce((s, v) => s + v, 0) / T);
 
-    // 3. 计算样本协方差矩�?(月度)
+    // 3. 计算样本协方差矩阵 (月度)
     const sampleCov = [];
     for (let i = 0; i < n; i++) {
         sampleCov[i] = [];
@@ -161,11 +161,11 @@ function calculateCovarianceMatrix(monthlyData, assetKeys, options = {}) {
         }
     }
 
-    // 4. Ledoit-Wolf 收缩估计 (提高小样本稳定�?
+    // 4. Ledoit-Wolf 收缩估计 (提高小样本稳定性)
     let finalCovMonthly;
     if (shrinkage) {
         finalCovMonthly = ledoitWolfShrinkage(sampleCov, T);
-        console.log('[BL Covariance] Ledoit-Wolf 收缩已应�?);
+        console.log('[BL Covariance] Ledoit-Wolf 收缩已应用');
     } else {
         finalCovMonthly = sampleCov;
     }
@@ -173,7 +173,7 @@ function calculateCovarianceMatrix(monthlyData, assetKeys, options = {}) {
     // 5. 年化: Σ_annual = Σ_monthly × 12
     const covMatrix = finalCovMonthly.map(row => row.map(v => v * 12));
 
-    // 6. 提取波动率和相关性矩�?
+    // 6. 提取波动率和相关性矩阵
     const volatilities = covMatrix.map((row, i) => Math.sqrt(row[i]));
     const correlationMatrix = [];
     for (let i = 0; i < n; i++) {
@@ -187,9 +187,9 @@ function calculateCovarianceMatrix(monthlyData, assetKeys, options = {}) {
         }
     }
 
-    // 7. 验证正定�?
+    // 7. 验证正定性
     if (!isPositiveDefinite(covMatrix)) {
-        console.warn('[BL Covariance] ⚠️ 协方差矩阵非正定，尝试修�?..');
+        console.warn('[BL Covariance] ⚠️ 协方差矩阵非正定，尝试修复...');
         makePositiveDefinite(covMatrix);
     }
 
@@ -201,9 +201,9 @@ function calculateCovarianceMatrix(monthlyData, assetKeys, options = {}) {
  * 将样本协方差矩阵向一个结构化目标(对角矩阵)收缩
  * 公式: Σ_shrunk = α × Target + (1-α) × Sample
  *
- * @param {number[][]} sampleCov - 样本协方差矩�?月度)
+ * @param {number[][]} sampleCov - 样本协方差矩阵(月度)
  * @param {number} T - 样本数量
- * @returns {number[][]} 收缩后的协方差矩�?
+ * @returns {number[][]} 收缩后的协方差矩阵
  */
 function ledoitWolfShrinkage(sampleCov, T) {
     const n = sampleCov.length;
@@ -218,7 +218,7 @@ function ledoitWolfShrinkage(sampleCov, T) {
         }
     }
 
-    // 计算最优收缩强�?(简化版 Ledoit-Wolf 2004)
+    // 计算最优收缩强度 (简化版 Ledoit-Wolf 2004)
     // α = min(β/γ, 1), 其中:
     //   β = sum of squared deviations of sample from target
     //   γ = sum of squared Frobenius norms
@@ -231,8 +231,8 @@ function ledoitWolfShrinkage(sampleCov, T) {
         }
     }
 
-    // 使用简化公�? α = n / (n + T)
-    // 这是 Oracle Approximating Shrinkage 的一个常用简�?
+    // 使用简化公式: α = n / (n + T)
+    // 这是 Oracle Approximating Shrinkage 的一个常用简化
     const alpha = Math.min(1, Math.max(0, n / (n + T)));
 
     console.log(`[BL Covariance] Ledoit-Wolf 收缩强度 α = ${alpha.toFixed(4)}`);
@@ -253,11 +253,11 @@ function ledoitWolfShrinkage(sampleCov, T) {
 // ─────────────────────────────
 
 /**
- * 检查矩阵是否正�?(简�? 检查所有对角元�?0 �?Cholesky 分解可行)
+ * 检查矩阵是否正定 (简化: 检查所有对角元素>0 且 Cholesky 分解可行)
  */
 function isPositiveDefinite(matrix) {
     const n = matrix.length;
-    // 基础检�? 对角元素必须为正
+    // 基础检查: 对角元素必须为正
     for (let i = 0; i < n; i++) {
         if (matrix[i][i] <= 0) return false;
     }
@@ -271,8 +271,8 @@ function isPositiveDefinite(matrix) {
 }
 
 /**
- * Cholesky 分解 (用于正定性检�?
- * @throws {Error} 如果矩阵非正�?
+ * Cholesky 分解 (用于正定性检验)
+ * @throws {Error} 如果矩阵非正定
  */
 function choleskyDecomposition(matrix) {
     const n = matrix.length;
@@ -294,7 +294,7 @@ function choleskyDecomposition(matrix) {
 }
 
 /**
- * 修复非正定矩�? 对角线加一个小的正�?(ridge)
+ * 修复非正定矩阵: 对角线加一个小的正数 (ridge)
  */
 function makePositiveDefinite(matrix) {
     const n = matrix.length;
@@ -307,43 +307,43 @@ function makePositiveDefinite(matrix) {
         attempts++;
     }
     if (attempts > 0) {
-        console.log(`[BL Covariance] 正定性修�? 添加�?ridge=${(ridge * Math.pow(10, attempts - 1)).toExponential()}`);
+        console.log(`[BL Covariance] 正定性修复: 添加了 ridge=${(ridge * Math.pow(10, attempts - 1)).toExponential()}`);
     }
 }
 
 // ─────────────────────────────
-// 4. VIX 动态缩�?
+// 4. VIX 动态缩放
 // ─────────────────────────────
 
 /**
- * 根据当前 VIX 水平调整协方差矩�?
+ * 根据当前 VIX 水平调整协方差矩阵
  *
- * 第一性原�? 危机时期资产相关性趋�?1 (同涨同跌),
- * 波动率也会放大。这�?相关性危�?的经验事实�?
+ * 第一性原理: 危机时期资产相关性趋向 1 (同涨同跌),
+ * 波动率也会放大。这是"相关性危机"的经验事实。
  *
- * @param {number[][]} baseCov - 基础协方差矩�?
- * @param {number} currentVix - 当前 VIX �?
- * @returns {number[][]} 调整后的协方差矩�?
+ * @param {number[][]} baseCov - 基础协方差矩阵
+ * @param {number} currentVix - 当前 VIX 值
+ * @returns {number[][]} 调整后的协方差矩阵
  */
 function adjustCovForVix(baseCov, currentVix) {
     const VIX_NORMAL = 18;
     const n = baseCov.length;
 
     if (currentVix <= VIX_NORMAL) {
-        // 正常/低波动市�? 返回原始矩阵
+        // 正常/低波动市况: 返回原始矩阵
         return baseCov.map(row => [...row]);
     }
 
-    // 波动率缩放因�? VIX 30 �?1.5x, VIX 50 �?2.6x
+    // 波动率缩放因子: VIX 30 → 1.5x, VIX 50 → 2.6x
     const volScale = 1 + (currentVix - VIX_NORMAL) / 20;
 
-    // 相关性增强因�? VIX 30 �?+0.12, VIX 50 �?+0.32
-    // 上限 0.4 防止相关性超�?1
+    // 相关性增强因子: VIX 30 → +0.12, VIX 50 → +0.32
+    // 上限 0.4 防止相关性超过 1
     const corrBoost = Math.min(0.4, (currentVix - VIX_NORMAL) / 100);
 
     console.log(`[BL Covariance] VIX=${currentVix}: volScale=${volScale.toFixed(2)}, corrBoost=+${corrBoost.toFixed(3)}`);
 
-    // 1. 提取基础波动率和相关�?
+    // 1. 提取基础波动率和相关性
     const baseVol = baseCov.map((row, i) => Math.sqrt(row[i]));
     const baseCorr = [];
     for (let i = 0; i < n; i++) {
@@ -357,15 +357,15 @@ function adjustCovForVix(baseCov, currentVix) {
         }
     }
 
-    // 2. 调整波动率和相关�?
+    // 2. 调整波动率和相关性
     const adjVol = baseVol.map(v => v * Math.sqrt(volScale));
     const adjCorr = baseCorr.map((row, i) => row.map((c, j) => {
         if (i === j) return 1;
-        // 增强相关�? 但不超过 0.95
+        // 增强相关性, 但不超过 0.95
         return Math.min(0.95, c + corrBoost * (1 - Math.abs(c)));
     }));
 
-    // 3. 重构协方差矩�?
+    // 3. 重构协方差矩阵
     const adjusted = [];
     for (let i = 0; i < n; i++) {
         adjusted[i] = [];
@@ -381,23 +381,23 @@ function adjustCovForVix(baseCov, currentVix) {
 // 5. JSON 导入/导出
 // ─────────────────────────────
 
-// 内部存储: 用户导入的数�?
-window._blCovData = null;     // 导入的原始月度数�?
-window._blCovMatrix = null;   // 计算出的协方差矩�?
-window._blEquilibrium = null; // 均衡权重(可覆盖默认�?
+// 内部存储: 用户导入的数据
+window._blCovData = null;     // 导入的原始月度数据
+window._blCovMatrix = null;   // 计算出的协方差矩阵
+window._blEquilibrium = null; // 均衡权重(可覆盖默认值)
 window._blCovDate = null;     // 数据更新日期
 
 /**
- * 导入协方差数�?JSON
+ * 导入协方差数据 JSON
  *
- * @param {Object} json - 导入�?JSON 对象, 格式见实现方案文�?
+ * @param {Object} json - 导入的 JSON 对象, 格式见实现方案文档
  * @returns {Object} { success, message, covMatrix, equilibriumWeights }
  */
 function importCovData(json) {
     try {
         // 验证格式
         if (!json || !json.assets) {
-            return { success: false, message: '�?JSON 格式错误: 缺少 assets 字段' };
+            return { success: false, message: '❌ JSON 格式错误: 缺少 assets 字段' };
         }
 
         const blKeys = window.BL_ASSET_KEYS;
@@ -407,7 +407,7 @@ function importCovData(json) {
         // 遍历 BL 资产
         for (const blKey of blKeys) {
             const sysKeys = window.BL_ASSET_MAP[blKey];
-            // 查找对应的数�? 优先�?BL �? 否则用系统键
+            // 查找对应的数据: 优先用 BL 键, 否则用系统键
             const assetData = json.assets[blKey] || json.assets[sysKeys[0]];
             if (assetData && assetData.monthlyReturns && assetData.monthlyReturns.length > 0) {
                 monthlyData[blKey] = assetData;
@@ -415,36 +415,36 @@ function importCovData(json) {
             }
         }
 
-        // 如果有月度数�? 计算协方差矩�?
+        // 如果有月度数据, 计算协方差矩阵
         if (hasMonthlyData) {
             const result = calculateCovarianceMatrix(monthlyData, blKeys);
             if (result) {
                 window._blCovMatrix = result.covMatrix;
                 window._blCovData = monthlyData;
                 window._blCovDate = json.updateDate || new Date().toISOString().slice(0, 10);
-                console.log('[BL Covariance] �?从月度数据计算协方差矩阵成功');
-                console.log(`[BL Covariance] 资产波动�?年化):`, blKeys.map((k, i) =>
+                console.log('[BL Covariance] ✅ 从月度数据计算协方差矩阵成功');
+                console.log(`[BL Covariance] 资产波动率(年化):`, blKeys.map((k, i) =>
                     `${k}=${(result.volatilities[i] * 100).toFixed(1)}%`
                 ).join(', '));
             } else {
-                return { success: false, message: '�?月度数据不足,需要至�?6个月' };
+                return { success: false, message: '❌ 月度数据不足,需要至少36个月' };
             }
         }
 
-        // 如果 JSON 包含预计算的协方差矩�? 直接使用(优先级低于月度数�?
+        // 如果 JSON 包含预计算的协方差矩阵, 直接使用(优先级低于月度数据)
         if (!window._blCovMatrix && json.covarianceMatrix) {
             window._blCovMatrix = json.covarianceMatrix;
             window._blCovDate = json.updateDate || new Date().toISOString().slice(0, 10);
-            console.log('[BL Covariance] �?使用预计算的协方差矩�?);
+            console.log('[BL Covariance] ✅ 使用预计算的协方差矩阵');
         }
 
-        // 导入均衡权重 (如果�?
+        // 导入均衡权重 (如果有)
         if (json.equilibriumWeights) {
             window._blEquilibrium = json.equilibriumWeights;
-            console.log('[BL Covariance] �?均衡权重已导�?);
+            console.log('[BL Covariance] ✅ 均衡权重已导入');
         }
 
-        // 保存�?localStorage
+        // 保存到 localStorage
         try {
             localStorage.setItem('lumi_bl_cov', JSON.stringify({
                 covMatrix: window._blCovMatrix,
@@ -458,13 +458,13 @@ function importCovData(json) {
 
         return {
             success: true,
-            message: `�?协方差矩阵导入成�?(更新日期: ${window._blCovDate})`,
+            message: `✅ 协方差矩阵导入成功 (更新日期: ${window._blCovDate})`,
             covMatrix: window._blCovMatrix,
             equilibriumWeights: window._blEquilibrium || window.BL_DEFAULT_EQUILIBRIUM
         };
     } catch (e) {
         console.error('[BL Covariance] 导入失败:', e);
-        return { success: false, message: '�?导入失败: ' + e.message };
+        return { success: false, message: '❌ 导入失败: ' + e.message };
     }
 }
 
@@ -483,7 +483,7 @@ function exportCovData() {
 }
 
 /**
- * �?localStorage 加载已保存的协方差数�?
+ * 从 localStorage 加载已保存的协方差数据
  */
 function loadCovFromStorage() {
     try {
@@ -495,7 +495,7 @@ function loadCovFromStorage() {
             window._blEquilibrium = data.equilibrium;
             window._blCovDate = data.updateDate;
             window._blCovData = data.monthlyData;
-            console.log(`[BL Covariance] �?�?localStorage 加载协方差数�?(日期: ${window._blCovDate})`);
+            console.log(`[BL Covariance] ✅ 从 localStorage 加载协方差数据 (日期: ${window._blCovDate})`);
             return true;
         }
     } catch (e) {
@@ -510,8 +510,8 @@ function loadCovFromStorage() {
 
 /**
  * 获取当前可用的协方差矩阵 (用户导入 > 默认)
- * @param {number} [currentVix] - 当前 VIX, 传入则进行动态缩�?
- * @returns {number[][]} 协方差矩�?
+ * @param {number} [currentVix] - 当前 VIX, 传入则进行动态缩放
+ * @returns {number[][]} 协方差矩阵
  */
 function getCovarianceMatrix(currentVix) {
     let cov = window._blCovMatrix || window.BL_DEFAULT_COV;
@@ -530,7 +530,7 @@ function getEquilibriumWeights() {
 }
 
 /**
- * 获取协方差矩阵更新状态信�?
+ * 获取协方差矩阵更新状态信息
  */
 function getCovStatus() {
     const isCustom = !!window._blCovMatrix;
@@ -540,8 +540,8 @@ function getCovStatus() {
         daysOld = Math.floor((Date.now() - new Date(date).getTime()) / (1000 * 60 * 60 * 24));
     }
     return {
-        source: isCustom ? '用户导入' : '预设默认�?,
-        updateDate: date || '�?,
+        source: isCustom ? '用户导入' : '预设默认值',
+        updateDate: date || '无',
         daysOld: daysOld,
         isStale: daysOld !== null && daysOld > 180,  // 超过6个月视为过期
         assetCount: window.BL_ASSET_KEYS.length
@@ -549,7 +549,7 @@ function getCovStatus() {
 }
 
 // ─────────────────────────────
-// 7. 初始�?
+// 7. 初始化
 // ─────────────────────────────
 
 // 启动时尝试从 localStorage 加载
@@ -564,7 +564,6 @@ window.getCovarianceMatrix = getCovarianceMatrix;
 window.getEquilibriumWeights = getEquilibriumWeights;
 window.getCovStatus = getCovStatus;
 
-console.log('�?[v1.0] bl_covariance.js 加载完成');
+console.log('✅ [v1.0] bl_covariance.js 加载完成');
 const covStatus = getCovStatus();
-console.log(`[BL Covariance] 状�? ${covStatus.source} | 更新: ${covStatus.updateDate} | ${covStatus.isStale ? '⚠️ 数据过期' : '�?数据有效'}`);
-
+console.log(`[BL Covariance] 状态: ${covStatus.source} | 更新: ${covStatus.updateDate} | ${covStatus.isStale ? '⚠️ 数据过期' : '✅ 数据有效'}`);
