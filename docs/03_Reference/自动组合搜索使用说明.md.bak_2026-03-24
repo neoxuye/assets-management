@@ -1,0 +1,499 @@
+# 自动组合搜索使用说明
+
+这份说明对应本次新增的“策略自动组合搜索”功能。  
+目标是批量测试不同配置组合，自动找出更优路径，并保留完整可回溯结果。
+
+## 1. 这个是干什么用的
+
+它用于自动遍历一组候选策略参数，并调用现有 Walk-Forward 回测，比较不同组合在同一套历史样本上的表现。
+
+当前它主要解决这几个问题：
+
+- 不再手工一个个改参数去试
+- 不再把结果混在同一份回测输出里
+- 每个候选都有独立结果，便于回看和复现
+- 搜索结果会保留参数快照，方便以后追溯“为什么选了这组”
+
+## 2. 执行的命令是什么
+
+在仓库根目录执行：
+
+```bash
+node scripts/search_strategy_grid.js
+```
+
+## 3. 怎么运行
+
+直接在项目根目录打开终端，运行上面的命令即可。
+
+这个脚本会自动：
+
+- 生成一批候选组合
+- 逐个调用 `scripts/walk_forward_backtest.js`
+- 把候选参数通过环境变量传给回测脚本
+- 为每个候选生成独立结果文件
+
+如果你以后要扩展候选范围，优先改 `scripts/search_strategy_grid.js` 里的 `searchSpace`，不要把分支散落到主回测逻辑里。
+
+## 4. 结果在哪里看
+
+运行完成后，结果会出现在：
+
+- `test result/strategy_search_YYYY-MM-DD.manifest.json`
+- `test result/strategy_search_YYYY-MM-DD.csv`
+- `test result/strategy_search_YYYY-MM-DD.md`
+
+其中：
+
+- `manifest.json`：最重要，记录每个候选的参数、指标、输出文件路径，便于回溯
+- `csv`：适合排序和快速筛选
+- `md`：适合直接阅读结论
+
+另外，每个候选还会单独生成对应的 Walk-Forward 输出文件，通常位于：
+
+- `test result/walk_forward_backtest_report_YYYY-MM-DD_<experimentTag>.json`
+- `test result/walk_forward_backtest_report_YYYY-MM-DD_<experimentTag>.md`
+- `test result/walk_forward_backtest_report_YYYY-MM-DD_<experimentTag>.csv`
+
+## 5. 结果怎么理解
+
+默认排序规则是：
+
+1. 先看 `Sharpe`
+2. 再看平均回报
+
+如果后续你要改成更完整的筛选，可以继续加：
+
+- `CAGR`
+- `Max Drawdown`
+- `Hit Rate`
+- `Turnover`
+
+## 6. 这次脚本接了哪些环境变量
+
+`scripts/walk_forward_backtest.js` 现在支持这些覆盖项：
+
+- `WF_ALLOCATION_STYLE`
+- `WF_RISK_PREF`
+- `WF_TURNOVER_COST`
+- `WF_MAX_TURNOVER_PER_ASSET`
+- `WF_SMOOTHING_ALPHA`
+- `WF_EXPERIMENT_TAG`
+
+它们由 `scripts/search_strategy_grid.js` 自动传入。  
+如果你手工想复跑某个候选，也可以自己传这些环境变量再跑 `walk_forward_backtest.js`。
+
+## 7. 设计原则
+
+- 优先收口，不要把搜索分支散进 UI
+- 每个候选必须可回溯
+- 每次实验尽量只改少数变量
+- 结果必须能从文件里恢复出参数和路径
+
+## 8. 本轮结果记录
+
+本轮搜索输出文件：
+
+- `test result/strategy_search_2026-03-24.manifest.json`
+- `test result/strategy_search_2026-03-24.csv`
+- `test result/strategy_search_2026-03-24.md`
+
+当前读取到的最优候选为：
+
+- `riskParity / balanced`
+- `turnoverCost = 0.003`
+- `maxTurnoverPerAsset = 0.2`
+- `smoothingAlpha = 0.3`
+- `Sharpe = 0.6536892815703372`
+
+注意：
+
+- 本轮已经验证搜索框架和输出落盘正常
+- 但后续仍要继续确认不同候选是否真的进入了不同的回测路径
+- 如果同类实验再次产出结果，应持续把结果补写到这份文档里，避免历史记录只留在临时输出中
+
+## 9. 下一轮局部搜索方向
+
+根据本轮结果，下一轮建议围绕当前最优附近做局部收窄：
+
+- `allocationStyle`: `balanced` / `concentrated`
+- `riskPref`: 固定 `balanced`
+- `maxTurnoverPerAsset`: `0.25` / `0.30` / `0.35`
+- `smoothingAlpha`: `0.40` / `0.45` / `0.50`
+- `turnoverCost`: `0.0025` / `0.003` / `0.0035`
+
+目的不是继续大范围扫，而是更精细地确认：
+
+- `concentrated` 是否持续优于 `balanced`
+- 稳定器是否在 `0.30 / 0.45` 附近最优
+- 结果是否还能在保持可回溯的前提下继续向 `Sharpe >= 0.3` 之外的更高区间推进
+## 10. 下一轮怎么测
+
+下一轮不要再做大范围全排列，直接围绕当前最优点做局部微调。目标是确认这条路径是否还能继续稳住，或者是否存在更好的邻近点。
+
+### 10.1 当前最优基点
+
+- `allocationStyle = concentrated`
+- `riskPref = balanced`
+- `turnoverCost = 0.0025`
+- `maxTurnoverPerAsset = 0.3`
+- `smoothingAlpha = 0.45`
+
+### 10.2 下一轮测试目标
+
+1. 验证 `concentrated / balanced` 是否仍然优于 `balanced / balanced`
+2. 验证 `maxTurnoverPerAsset` 在 `0.25 / 0.30 / 0.35` 三档中是否仍以 `0.30` 最好
+3. 验证 `smoothingAlpha` 在 `0.40 / 0.45 / 0.50` 中是否仍以 `0.45` 最稳
+4. 验证 `turnoverCost` 在 `0.0025 / 0.0030` 的小范围变化下是否会明显改变排序
+5. 如果这些结果都很接近，就收口为一个默认推荐点，不再继续扩展搜索面
+
+### 10.3 下一轮怎么跑
+
+继续使用同一个入口：
+
+```bash
+node scripts/search_strategy_grid.js
+```
+
+如果要做更细的局部搜索，就把 `scripts/search_strategy_grid.js` 里的 `searchSpace` 再收窄，只保留上面这些邻近参数，不要恢复到更大的全排列。
+
+### 10.4 下一轮怎么看结果
+
+优先看这几个文件：
+
+- `test result/strategy_search_YYYY-MM-DD.manifest.json`
+- `test result/strategy_search_YYYY-MM-DD.md`
+- `test result/strategy_search_YYYY-MM-DD.csv`
+
+判断顺序建议是：
+
+1. 先看 `modelSharpe`
+2. 再看 `averageModelReturn`
+3. 然后看 `hitRate`
+4. 最后再看 `MaxDD proxy` 和换手是否接受
+
+### 10.5 这轮的记录方式
+
+以后每次你发新的测试结果，我都会继续写回这份文档，至少记录：
+
+- 测试日期
+- 当前最优候选
+- 关键参数
+- 结果指标
+- 下一步应该怎么测
+
+### 10.6 这次结论怎么理解
+
+这次结果可以理解为：
+
+- 已经找到了当前搜索空间里的**局部最优点**
+- 还没有证明它是**全局最优**
+- 所以当前阶段不应该停在“已完成”，而应该继续做更细的邻域验证
+
+更具体地说：
+
+1. 如果后面继续扩搜索面，可能会发现新的更优区域
+2. 如果后面只做邻域微调，主要是验证当前最优点是否稳定、是否可复现
+3. 现在最稳妥的做法是先把这个点当作“当前推荐点”，再做一轮更细的局部测试确认
+
+### 10.7 最新一轮外扩测试结果
+
+为了验证当前局部最优附近是否还有其他区域更强，我把搜索面往外扩了一圈，重新测试了：
+
+- `allocationStyle = balanced / concentrated`
+- `riskPref = conservative / balanced / aggressive`
+- `maxTurnoverPerAsset = 0.20 / 0.25 / 0.30 / 0.35`
+- `smoothingAlpha = 0.35 / 0.40 / 0.45 / 0.50`
+- `turnoverCost = 0.0025 / 0.0030 / 0.0035`
+
+这轮总共跑了 `72` 个候选。当前最优仍然是：
+
+- `allocationStyle = concentrated`
+- `riskPref = aggressive`
+- `turnoverCost = 0.0025`
+- `maxTurnoverPerAsset = 0.2`
+- `smoothingAlpha = 0.35`
+- `averageModelReturn = 7.76%`
+
+和上一轮局部最优相比，这一轮在外扩区域里找到了一个更强的邻近点。  
+所以当前判断是：
+
+1. `concentrated` 这条线仍然有优势
+2. `aggressive` 在这轮外扩测试里比 `balanced` 更强
+3. `0.2 / 0.35` 这一档稳定器在外扩空间里比 `0.3 / 0.45` 更优
+4. 这还不是最终终局，但说明当前推荐点需要更新为这次的更强邻近点
+
+### 10.8 下一步怎么继续测
+
+下一步不要再回到大网格，应该围绕这次新最优点做一轮更细的局部确认：
+
+- 固定 `allocationStyle = concentrated`
+- 固定 `riskPref = aggressive`
+- 在 `maxTurnoverPerAsset = 0.15 / 0.20 / 0.25`
+- 在 `smoothingAlpha = 0.30 / 0.35 / 0.40`
+- `turnoverCost` 只保留 `0.0025 / 0.0030`
+
+这一步的目标不是再找大范围新区域，而是确认这次新最优点是否稳定，以及是否还能再抬一点。
+
+### 10.9 如何区分 P1 / P1+BL / P1-LiveFull / 搜索结果
+
+这几个东西不是同一层：
+
+- `P1` 是基础评分路径，偏“只看核心打分”
+- `P1+BL` 是在 `P1` 上叠加 BL 层，用来观察加层后是否改善
+- `P1-LiveFull` 是偏实盘执行口径的基线，目标是尽量少加额外规则，保留真实执行行为
+- 自动组合搜索结果，是在既有回测框架上做的参数候选搜索，不是单独的新策略层
+
+所以它们的关系应该这样理解：
+
+1. `P1`、`P1+BL`、`P1-LiveFull` 是三条基线
+2. 搜索结果是在这些基线之上，系统地找“哪个参数组合更优”
+3. 最后真正要落地的，不是“搜索结果本身”，而是“搜索结果里最优的那条候选路径”
+
+### 10.10 以后怎么对比
+
+以后比较时不要只看绝对数值，要统一放在同一张表里看：
+
+- `P1`
+- `P1+BL`
+- `P1-LiveFull`
+- 当前搜索最优候选
+
+对比顺序建议是：
+
+1. 先看 `Sharpe`
+2. 再看 `CAGR`
+3. 再看 `Max Drawdown`
+4. 再看 `Hit Rate`
+5. 最后看执行约束和稳定性
+
+这样就能区分出：
+
+- 哪条是基线
+- 哪条是加层
+- 哪条是搜索得到的候选
+- 哪条才适合继续往下做默认路径
+
+### 10.11 最新一轮外扩后的小结
+
+最新一轮只保留了 `concentrated / aggressive` 的 6 个候选，结果里排第一的是：
+
+- `allocationStyle = concentrated`
+- `riskPref = aggressive`
+- `turnoverCost = 0.0025`
+- `maxTurnoverPerAsset = 0.2`
+- `smoothingAlpha = 0.35`
+- `Sharpe = 0.7259898574428241`
+- `averageModelReturn = 7.760650132343386%`
+
+这说明：
+
+1. 外扩后，`concentrated / aggressive` 这条线确实成立
+2. 当前搜索的“最优”是按 `Sharpe` 优先排出来的，不是单看收益最高
+3. 如果以后出现“收益更高但 Sharpe 更低”的候选，默认还是会排在后面
+4. 所以现在的推荐点已经更新成这次的 `0.2 / 0.35`
+
+### 10.12 当前推荐点怎么用
+
+现在可以把下面这组当成当前推荐点：
+
+- `allocationStyle = concentrated`
+- `riskPref = aggressive`
+- `turnoverCost = 0.0025`
+- `maxTurnoverPerAsset = 0.2`
+- `smoothingAlpha = 0.35`
+
+它的用途是：
+
+1. 作为当前自动搜索的收口结果
+2. 作为和 `P1`、`P1+BL`、`P1-LiveFull` 对照的候选方案
+3. 作为后续实盘评估前的最强局部基线
+
+### 10.13 什么时候还值得继续测
+
+如果后面要继续测，建议只在下面几种情况下继续：
+
+1. 你想确认这个点是否会在别的样本切分里保持稳定
+2. 你想尝试把 `Sharpe` 再往上推一点
+3. 你想检查 `P1-LiveFull` 是否在某些环境下仍然更稳
+
+如果没有这些目的，就不建议再扩大搜索面了，因为现在已经基本收口到一个清楚的推荐点。
+
+### 10.14 对照表
+
+| 路径 | 定位 | 角色 | 适合做什么 |
+| --- | --- | --- | --- |
+| `P1` | 基础评分路径 | 基线 | 看核心打分是否有效 |
+| `P1+BL` | `P1` 加 BL 层 | 对照基线 | 看加层是否真的改善 |
+| `P1-LiveFull` | 更接近实盘的执行口径 | 实盘基线 | 看少规则、真实执行时的稳定表现 |
+| 当前推荐点 `concentrated / aggressive / 0.0025 / 0.2 / 0.35` | 自动搜索当前最优局部点 | 候选路径 | 作为当前最强候选、继续观察和对比 |
+
+### 10.15 下一步真正该做什么
+
+有了这张表之后，下一步就不是继续扩搜索面了，而是做“基线 vs 候选”的定性判断：
+
+1. 先把这四条放到同一张对比表里
+2. 看 `Sharpe`、`CAGR`、`Max Drawdown`、`Hit Rate`
+3. 判断当前推荐点是不是明显优于 `P1-LiveFull`
+4. 如果是，就把它作为默认候选保留
+5. 如果不是，就继续保留 `P1-LiveFull` 作为更稳的实盘基线
+6. 只有当后续出现新的样本或新的结构变化时，才再重新做搜索
+
+### 10.16 结果对照模板
+
+以后如果你发新的测试结果，我会优先按下面这张模板回填，避免来回翻：
+
+| 路径 | Sharpe | CAGR | Max Drawdown | Hit Rate | 备注 |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `P1` |  |  |  |  | 基线 |
+| `P1+BL` |  |  |  |  | 加层对照 |
+| `P1-LiveFull` |  |  |  |  | 实盘基线 |
+| 当前推荐点 | 0.7259898574428241 | 7.760650132343386% | 1.6893 | 33.33% | `concentrated / aggressive / 0.0025 / 0.2 / 0.35` |
+
+### 10.17 后续怎么填
+
+以后每次你把新结果贴给我，我会按这个顺序补：
+
+1. 先判断它属于哪一类：`P1`、`P1+BL`、`P1-LiveFull`、还是搜索候选
+2. 再把关键指标写进上面的对照模板
+3. 再更新当前推荐点是否变化
+4. 最后写一句“下一步该怎么测试”
+
+### 10.18 当前状态一句话
+
+当前最值得保留的结论是：
+
+- `P1-LiveFull` 仍然是重要基线
+- 自动组合搜索已经找到一个当前最强候选
+- 这个候选是 `concentrated / aggressive / 0.0025 / 0.2 / 0.35`
+- 后面不再盲目扩搜，主要看它能否在对照表里持续压过基线
+### 10.19 目前可确认的对比结论
+
+基于当前已经能确认的历史记录，可以先得到这三个判断：
+
+1. `P1` 的基准 Sharpe 已经明确，还没有稳定到 `0.3` 以上的可用门槛，但已经接近可讨论区间。
+2. `P1-LiveFull` 是当前更适合作为默认查看口径的基线，因为它更接近真实使用路径。
+3. 当前自动搜索最优点 `concentrated / aggressive / 0.0025 / 0.2 / 0.35` 已经比早期的 `balanced` 系列更强，说明“更集中 + 更激进”在当前样本里是有效方向。
+
+### 10.20 现在真正要做的事
+
+现在不需要继续盲目扩大搜索了，下一步应该做的是：
+
+1. 把 `P1`、`P1+BL`、`P1-LiveFull`、当前推荐点放到统一对照表
+2. 用同一批指标对比它们：`Sharpe / CAGR / Max Drawdown / Hit Rate`
+3. 确认当前推荐点是否持续优于 `P1-LiveFull`
+4. 如果是，就把当前推荐点作为“默认候选”
+5. 如果不是，就继续以 `P1-LiveFull` 作为更稳的默认基线
+
+### 10.21 这一步的输出应该长什么样
+
+以后每次做结果汇总，建议最终输出固定成这四项：
+
+- 基线结论：`P1 / P1+BL / P1-LiveFull`
+- 搜索结论：当前推荐点
+- 判断结论：谁更适合默认
+- 下一步结论：还要不要继续搜
+
+这样就不会再出现“结果很多，但不知道该拿哪条当默认路径”的情况。
+## 11. Strategy Baseline Compare
+
+### 11.1 This Is For
+- Put `P1` / `P1+BL` / `P1-LiveFull` / current search candidate into one reproducible Node-side comparison.
+- Keep baseline replay and candidate search separated, then merge them into one report for final judgment.
+
+### 11.2 Command
+```bash
+node scripts/compare_strategy_baselines.js
+```
+
+### 11.3 How To Run
+- Run from repo root.
+- Default baseline view is `riskParity / balanced`.
+- Optional overrides:
+  - `WF_BASELINE_ALLOCATION_STYLE`
+  - `WF_BASELINE_RISK_PREF`
+- The script automatically reads the latest `strategy_search_*.manifest.json` and uses the top candidate.
+- If no `strategy_search_*.manifest.json` exists yet, it will clearly warn and fall back to the default candidate config.
+
+### 11.4 Result Files
+- `test result/strategy_baseline_compare_YYYY-MM-DD.json`
+- `test result/strategy_baseline_compare_YYYY-MM-DD.md`
+- `test result/strategy_baseline_compare_YYYY-MM-DD.csv`
+
+### 11.5 Current Output
+- Baseline config: `riskParity / balanced`
+- Current candidate: `concentrated / aggressive / 0.0025 / 0.2 / 0.35`
+- Latest merged result file:
+  - `test result/strategy_baseline_compare_2026-03-24.md`
+
+### 11.6 Current Reading
+- `P1`: Sharpe `0.206`, CAGR `9.50%`, MaxDD `-17.80%`
+- `P1+BL`: Sharpe `0.163`, CAGR `3.49%`, MaxDD `-23.44%`
+- `P1-LiveFull`: Sharpe `0.178`, CAGR `8.87%`, MaxDD `-18.26%`
+- `CurrentCandidate`: Sharpe `0.726`, CAGR `7.76%`, HitRate `33.33%`
+
+### 11.7 Important Note
+- `P1` / `P1+BL` / `P1-LiveFull` come from `js/walk_forward.js`.
+- `CurrentCandidate` comes from `scripts/walk_forward_backtest.js`.
+- So this comparison is now automated and traceable, but the candidate row is still a separate candidate-engine result and should be read as candidate evidence, not as if it were silently generated by the same baseline engine.
+### 11.9 Default Upgrade Rule
+- The candidate is only worth promoting if it clearly beats `P1-LiveFull` and clears the Sharpe gate.
+- If it fails either condition, it stays a candidate and the system keeps `P1-LiveFull` as the default reference.
+- This is the practical gate we will use before writing anything back into the live system.
+
+### 11.10 UI Transparency Rule
+- `Search Best` must show all changed knobs in the Live Tuning box.
+- Visible fields: `allocationStyle`, `riskPref`, `maxTurnoverPerAsset`, `smoothingAlpha`, `turnoverCost`.
+- If a preset changes a hidden knob but the UI does not show it, treat that as a bug and do not treat the preset as fully applied.
+
+### 11.11 Search Best Is A Reversible Global Preset
+- `Search Best` is not a single-row override. It switches the whole live tuning state.
+- It changes the recommendation environment used by `generateRecommendation()` and the walk-forward/live replay path.
+- That means it affects both the reported backtest table and the actual recommended portfolio logic.
+- Before switching, the current live tuning state is saved in a snapshot.
+- You can restore the previous preset with the new UI action `恢复上一个预设`.
+- The restored fields include:
+  - `allocationStyle`
+  - `riskPref`
+  - `maxTurnoverPerAsset`
+  - `smoothingAlpha`
+  - `turnoverCost`
+- This is the correct mental model: `Search Best` is a reversible global preset switch, not just a report filter.
+
+### 11.12 Later UI / Docs Cleanup
+- This section is intentionally left for later cleanup after the internal testing phase.
+- Current priority is to validate behavior and converge on the final default preset, not to expand user-facing choices.
+- If the preset set or button wording needs to be simplified later, we will update the UI and the docs together in one consolidation pass.
+
+### 11.13 Next Step
+- Keep `Search Best` and the four light tuning presets as internal validation tools for now.
+- Focus on answering one question first: which preset family should become the final default behavior.
+- Do not expand the preset menu further until the comparison path is stable and the final default is clear.
+
+### 11.14 Default Family Decision
+- Use `node scripts/decide_default_preset_family.js` after `compare_strategy_baselines.js`.
+- This script reads the latest merged comparison report and turns it into a final family decision.
+- Result files:
+  - `test result/default_preset_decision_YYYY-MM-DD.json`
+  - `test result/default_preset_decision_YYYY-MM-DD.md`
+- Latest decision:
+  - `search_best_family`
+- Meaning:
+  - the current search-backed preset family is the default family to carry forward for now
+  - the lighter presets stay as internal validation and fallback controls
+- Latest balanced-first recheck:
+  - the search-backed family still won the default gate
+  - the balance-first candidate set did not overturn the current default decision
+
+### 11.15 User-Facing Flow Direction
+- The user-facing choice should be simplified to two paths:
+  - `收益优先`
+  - `稳健优先`
+- The system should map each choice to a pre-packed preset family internally.
+- Do not ask users to choose every low-level knob separately unless they explicitly open an advanced/internal mode.
+- The current search outputs should be used to decide which preset family fills each path.
+
+### 11.16 Current Two-Line Summary
+- `收益优先` currently points closest to `concentrated / balanced` with the best observed Sharpe in the latest search set.
+- `稳健优先` currently points closest to the stronger `balanced` variants, which are lower Sharpe but easier to defend for long-term use.
+- This is the right next-level split to test, because it matches the user’s mental model better than exposing all low-level knobs.

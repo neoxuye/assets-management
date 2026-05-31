@@ -1,0 +1,998 @@
+{
+  "version": "v16.62",
+  "timestamp": "2026-03-23T10:42:06.770804",
+  "description": "Lumi v16.62 Merged | 48 auto, 0 manual",
+  "data_updated": "2026-03-23",
+  "usage_guide": "🤖=API直接获取 | 🧮=价格推算 | 🤝=AI判断(已校�? | �?需手动调整",
+  "macro_params": {
+    "globalGrowth": {
+      "value": 3.3,
+      "label": "🌍 全球增�?(Global GDP)",
+      "range": [
+        -5,
+        8
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 3.3 (⚠️ 3.3 (Carry-forward; IMF WEO)",
+      "auto": true
+    },
+    "cnPolicy": {
+      "value": 0.2,
+      "label": "🇨🇳 中国政策力度 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 0.2 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 1.0,
+          "label": "全面强刺激 (降息降准+万亿财政)"
+        },
+        {
+          "value": 0.8,
+          "label": "强力宽松 (显著放松地产/信贷)"
+        },
+        {
+          "value": 0.5,
+          "label": "积极支持 (政治局会议定调积极)"
+        },
+        {
+          "value": 0.2,
+          "label": "温和呵护 (定向降准/MLF操作)"
+        },
+        {
+          "value": 0.0,
+          "label": "中性观�?(无重大政策变�?"
+        },
+        {
+          "value": -0.3,
+          "label": "边际收紧 (去杠�?监管加强)"
+        },
+        {
+          "value": -0.8,
+          "label": "显著紧缩 (全面加息/严控信贷)"
+        }
+      ]
+    },
+    "adoption": {
+      "value": 0.6,
+      "label": "�?从新兴到主流 (Crypto Adoption)",
+      "range": [
+        0,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 0.6 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 0.1,
+          "label": "边缘�?(仅散�?"
+        },
+        {
+          "value": 0.3,
+          "label": "早期 (FO配置)"
+        },
+        {
+          "value": 0.5,
+          "label": "中等 (对冲基金配置)"
+        },
+        {
+          "value": 0.8,
+          "label": "主流 (ETF/养老金)"
+        },
+        {
+          "value": 1.0,
+          "label": "货币�?(央行储备)"
+        }
+      ]
+    },
+    "cnPolicyTrend": {
+      "value": -0.3,
+      "label": "中国政策趋势 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: -0.3 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 1.0,
+          "label": "全面宽松周期"
+        },
+        {
+          "value": 0.5,
+          "label": "边际转松"
+        },
+        {
+          "value": 0.0,
+          "label": "观察�?
+        },
+        {
+          "value": -0.5,
+          "label": "边际收紧"
+        },
+        {
+          "value": -1.0,
+          "label": "去杠杆周�?
+        }
+      ]
+    },
+    "cnGrowthTrend": {
+      "value": -0.3,
+      "label": "🇨🇳 中国增长动能 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: -0.3 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 1.0,
+          "label": "强劲复苏 (PMI > 52)"
+        },
+        {
+          "value": 0.5,
+          "label": "温和回升 (PMI > 50)"
+        },
+        {
+          "value": 0.0,
+          "label": "企稳/磨底"
+        },
+        {
+          "value": -0.5,
+          "label": "动能减弱 (PMI < 50)"
+        },
+        {
+          "value": -1.0,
+          "label": "深度下滑 (PMI < 48)"
+        }
+      ]
+    },
+    "cnCreditImpulse": {
+      "value": 0.0,
+      "label": "🇨🇳 中国信贷脉冲 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 0.0 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 1.0,
+          "label": "信贷狂潮 (M1/M2剪刀差收�?"
+        },
+        {
+          "value": 0.5,
+          "label": "信贷扩张 (社融超预�?"
+        },
+        {
+          "value": 0.0,
+          "label": "信贷平稳"
+        },
+        {
+          "value": -0.5,
+          "label": "信贷收缩"
+        },
+        {
+          "value": -1.0,
+          "label": "紧信�?(去杠�?"
+        }
+      ]
+    },
+    "jpPolicyTrend": {
+      "value": -0.5,
+      "label": "🇯🇵 日本央行趋势 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: -0.5 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 1.0,
+          "label": "极度宽松 (负利�?YCC)"
+        },
+        {
+          "value": 0.5,
+          "label": "维持宽松 (鸽派)"
+        },
+        {
+          "value": 0.0,
+          "label": "观察�?
+        },
+        {
+          "value": -0.5,
+          "label": "货币正常�?(取消YCC)"
+        },
+        {
+          "value": -1.0,
+          "label": "鹰派紧缩 (连续加息)"
+        }
+      ]
+    },
+    "emFinancialTrend": {
+      "value": 0.0,
+      "label": "🚀 新兴市场金融条件 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 0.0 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 1.0,
+          "label": "极度宽松 (资本流入)"
+        },
+        {
+          "value": 0.5,
+          "label": "温和宽松"
+        },
+        {
+          "value": 0.0,
+          "label": "中�?
+        },
+        {
+          "value": -0.5,
+          "label": "收紧"
+        },
+        {
+          "value": -1.0,
+          "label": "流动性危�?(崩盘)"
+        }
+      ]
+    },
+    "btcCycle": {
+      "value": 0.65,
+      "label": "�?BTC减半周期 (0~1)",
+      "range": [
+        0,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 0.65 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 0.2,
+          "label": "极度恐慌 / 历史底部"
+        },
+        {
+          "value": 0.4,
+          "label": "筑底震荡�?
+        },
+        {
+          "value": 0.5,
+          "label": "减半前后 / 中�?
+        },
+        {
+          "value": 0.75,
+          "label": "减半后扩张期 (牛市主升)"
+        },
+        {
+          "value": 0.9,
+          "label": "极度狂热 / 周期顶部"
+        }
+      ]
+    },
+    "rateChangeReason": {
+      "value": 0.0,
+      "label": "💡 🇺🇸 Fed利率变化原因",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 0.0 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 0.0,
+          "label": "中�?不确�?
+        },
+        {
+          "value": 1.0,
+          "label": "预防型降�?(利好)"
+        },
+        {
+          "value": -1.0,
+          "label": "衰退型降�?(利空)"
+        },
+        {
+          "value": -0.8,
+          "label": "极速加�?
+        },
+        {
+          "value": -0.5,
+          "label": "通胀恐慌加息"
+        },
+        {
+          "value": -0.3,
+          "label": "转向预期"
+        },
+        {
+          "value": 0.5,
+          "label": "正常化加�?
+        },
+        {
+          "value": 0.7,
+          "label": "强力加息"
+        },
+        {
+          "value": 0.8,
+          "label": "历史级激进加�?
+        }
+      ]
+    },
+    "usdReason": {
+      "value": -0.7,
+      "label": "美元相对外币强弱",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: -0.7 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": -1.0,
+          "label": "美元升�?(压制外币)"
+        },
+        {
+          "value": -0.8,
+          "label": "美元強劲升�?(避险)"
+        },
+        {
+          "value": 0.0,
+          "label": "美元中�?
+        },
+        {
+          "value": 1.0,
+          "label": "美元大幅贬�?
+        }
+      ]
+    },
+    "vixReason": {
+      "value": 0.2,
+      "label": "💡 🇺🇸 VIX变化原因",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 0.2 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 0.0,
+          "label": "中�?
+        },
+        {
+          "value": -1.0,
+          "label": "系统性危�?
+        },
+        {
+          "value": -0.5,
+          "label": "事件冲击"
+        },
+        {
+          "value": 0.5,
+          "label": "技术调�?
+        }
+      ]
+    },
+    "inflationReason": {
+      "value": -0.3,
+      "label": "💡 🇺🇸 通胀变化原因",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: -0.3 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 0.0,
+          "label": "中�?
+        },
+        {
+          "value": 1.0,
+          "label": "需求拉动上�?
+        },
+        {
+          "value": -1.0,
+          "label": "供给冲击上升"
+        },
+        {
+          "value": 0.5,
+          "label": "工资螺旋"
+        },
+        {
+          "value": -0.5,
+          "label": "技术性回�?
+        }
+      ]
+    },
+    "rateTrend": {
+      "value": -0.2,
+      "label": "📉 🇺🇸 Fed利率趋势",
+      "range": [
+        -2,
+        2
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: -0.2 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 2.0,
+          "label": "Hike++ (激进加�?"
+        },
+        {
+          "value": 1.0,
+          "label": "Hike+ (温和加息)"
+        },
+        {
+          "value": 0.5,
+          "label": "Hike (鹰派维持)"
+        },
+        {
+          "value": 0.0,
+          "label": "Neutral"
+        },
+        {
+          "value": -0.2,
+          "label": "Cut- (鸽派维持)"
+        },
+        {
+          "value": -0.5,
+          "label": "Cut (预防�?"
+        },
+        {
+          "value": -1.0,
+          "label": "Cut+ (衰退�?"
+        },
+        {
+          "value": -1.5,
+          "label": "Cut++ (危机救市)"
+        }
+      ]
+    },
+    "growthMomentum": {
+      "value": 0.3,
+      "label": "🚀 增长动能 (US Growth)",
+      "range": [
+        -2,
+        2
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 0.3 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 1.0,
+          "label": "Accelerating (强劲加�?"
+        },
+        {
+          "value": 0.5,
+          "label": "Recovering (温和复苏)"
+        },
+        {
+          "value": 0.0,
+          "label": "Stable"
+        },
+        {
+          "value": -0.2,
+          "label": "Slowing (放缓)"
+        },
+        {
+          "value": -0.5,
+          "label": "Contracting (收缩)"
+        },
+        {
+          "value": -1.0,
+          "label": "Plunging (深度衰退)"
+        }
+      ]
+    },
+    "fedDotsGap": {
+      "value": 0,
+      "label": "🇺🇸 Fed预期偏离 (bp)",
+      "range": [
+        -100,
+        100
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 0 (⚠️ Dynamic (weekly update need)",
+      "auto": true
+    },
+    "usPmi": {
+      "value": 52.4,
+      "label": "🇺🇸 美国制造业PMI (ISM)",
+      "range": [
+        40,
+        60
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 52.4 (�?52.4 (ISM Official February )",
+      "auto": true
+    },
+    "cnPmi": {
+      "value": 49.3,
+      "label": "🇨🇳 中国官方制造业PMI (NBS官方)",
+      "range": [
+        45,
+        55
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 49.3 (⚠️ 49.3 (Carry-forward; please)",
+      "auto": true
+    },
+    "usCycleStage": {
+      "value": 0.5,
+      "label": "🇺🇸 美国经济周期",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 0.5 (Auto-calculated)",
+      "auto": true
+    },
+    "pmiConsecutive": {
+      "value": 0,
+      "label": "🇺🇸 美国PMI连续衰退月数 (US ISM < 50)",
+      "range": [
+        0,
+        12
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 0 (�?0 (No current consecutive co)",
+      "auto": true
+    },
+    "centralBankDemand": {
+      "value": 0.5,
+      "label": "🏦 央行购金力度 (Global CB Gold)",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 0.5 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 1.0,
+          "label": "强力购入 (去美元化)"
+        },
+        {
+          "value": 0.5,
+          "label": "温和增持"
+        },
+        {
+          "value": 0.0,
+          "label": "中�?
+        },
+        {
+          "value": -0.5,
+          "label": "净抛售"
+        }
+      ]
+    },
+    "geoRisk": {
+      "value": 0.4,
+      "label": "🌍 地缘战争风险 (Global)",
+      "range": [
+        0,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: 0.4 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 0.0,
+          "label": "和平"
+        },
+        {
+          "value": 0.2,
+          "label": "摩擦/贸易�?
+        },
+        {
+          "value": 0.4,
+          "label": "紧张/代理人战�?
+        },
+        {
+          "value": 0.6,
+          "label": "局部战�?(主要产油国卷�?"
+        },
+        {
+          "value": 0.8,
+          "label": "大规模冲�?(大国对抗)"
+        },
+        {
+          "value": 1.0,
+          "label": "世界大战风险"
+        }
+      ]
+    },
+    "sofrOisSpread": {
+      "value": 0,
+      "label": "SOFR-OIS利差 (bp)",
+      "range": [
+        0,
+        100
+      ],
+      "source": "FRED SOFR - FEDFUNDS (计算)",
+      "last_updated": "2026-03-23",
+      "status": "🤖 0bp (SOFR 3.62% - FEDFUNDS 3.64%)",
+      "auto": true
+    },
+    "fedRate": {
+      "value": 3.64,
+      "label": "🇺🇸 Fed利率 (%)",
+      "range": [
+        0,
+        10
+      ],
+      "source": "FRED FEDFUNDS",
+      "sourceUrl": "https://fred.stlouisfed.org/series/FEDFUNDS",
+      "last_updated": "2026-03-23",
+      "status": "🤖 3.64 (FRED FEDFUNDS, data as of 2026-02-01)",
+      "auto": true
+    },
+    "realYield": {
+      "value": 1.88,
+      "label": "🇺🇸 10年美债实际收益率 (%)",
+      "range": [
+        -8,
+        5
+      ],
+      "source": "FRED DFII10",
+      "sourceUrl": "https://fred.stlouisfed.org/series/DFII10",
+      "last_updated": "2026-03-23",
+      "status": "🤖 1.88 (FRED DFII10, data as of 2026-03-19)",
+      "auto": true
+    },
+    "inflation": {
+      "value": 2.63,
+      "label": "🇺🇸 通胀预期 (5Y Breakeven)",
+      "range": [
+        0,
+        12
+      ],
+      "source": "FRED T5YIE",
+      "sourceUrl": "https://fred.stlouisfed.org/series/T5YIE",
+      "last_updated": "2026-03-23",
+      "status": "🤖 2.63 (FRED T5YIE, data as of 2026-03-20)",
+      "auto": true
+    },
+    "creditSpread": {
+      "value": 3.27,
+      "label": "高收益债利�?(%)",
+      "range": [
+        2,
+        8
+      ],
+      "source": "FRED BAMLH0A0HYM2",
+      "sourceUrl": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
+      "last_updated": "2026-03-23",
+      "status": "🤖 3.27 (FRED BAMLH0A0HYM2, data as of 2026-03-19)",
+      "auto": true
+    },
+    "usUnemployment": {
+      "value": 4.4,
+      "label": "美国失业�?(%)",
+      "range": [
+        3,
+        8
+      ],
+      "source": "FRED UNRATE",
+      "sourceUrl": "https://fred.stlouisfed.org/series/UNRATE",
+      "last_updated": "2026-03-23",
+      "status": "🤖 4.4 (FRED UNRATE, data as of 2026-02-01)",
+      "auto": true
+    },
+    "usGdpGrowth": {
+      "value": 0.7,
+      "label": "美国GDP增�?(%)",
+      "range": [
+        -2,
+        5
+      ],
+      "source": "FRED A191RL1Q225SBEA",
+      "sourceUrl": "https://fred.stlouisfed.org/series/A191RL1Q225SBEA",
+      "last_updated": "2026-03-23",
+      "status": "🤖 0.7 (FRED A191RL1Q225SBEA, data as of 2025-10-01)",
+      "auto": true
+    },
+    "bondRealYieldLevel": {
+      "value": 1.88,
+      "label": "💵 实际收益�?(%)",
+      "range": [
+        -1,
+        4
+      ],
+      "source": "FRED DFII10",
+      "sourceUrl": "https://fred.stlouisfed.org/series/DFII10",
+      "last_updated": "2026-03-23",
+      "status": "🤖 1.88 (FRED DFII10, data as of 2026-03-19)",
+      "auto": true
+    },
+    "bondYieldTrend": {
+      "value": -17.0,
+      "label": "💵 利率趋势 (bp, 6月变�?",
+      "range": [
+        -100,
+        100
+      ],
+      "source": "FRED DGS10 (计算)",
+      "last_updated": "2026-03-23",
+      "status": "🤖 -17.0 (FRED DGS10 6月变�?",
+      "auto": true
+    },
+    "pmiDelta": {
+      "value": -0.2,
+      "label": "🇺🇸 PMI变化�?(US ISM MoM)",
+      "range": [
+        -5,
+        5
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: -0.2 (�?-0.2 (Calculated from offici)",
+      "auto": true
+    },
+    "vix": {
+      "value": 26.78,
+      "label": "🇺🇸 VIX恐慌指数",
+      "range": [
+        8,
+        160
+      ],
+      "source": "Yahoo Finance: ^VIX",
+      "last_updated": "2026-03-23",
+      "status": "🤖 26.78 (Yahoo ^VIX)",
+      "auto": true
+    },
+    "usd": {
+      "value": 99.67,
+      "label": "🇺🇸 美元指数 (DXY)",
+      "range": [
+        70,
+        130
+      ],
+      "source": "Yahoo Finance: DX-Y.NYB",
+      "last_updated": "2026-03-23",
+      "status": "🤖 99.67 (Yahoo DX-Y.NYB)",
+      "auto": true
+    },
+    "goldPriceMA200": {
+      "value": 1.08,
+      "label": "🥇 黄金价格/200日均�?,
+      "range": [
+        0.7,
+        1.6
+      ],
+      "source": "Yahoo Finance: GC=F (计算)",
+      "last_updated": "2026-03-23",
+      "status": "🤖 1.08 (price=4391.5, MA200=4068.4)",
+      "auto": true
+    },
+    "oilPriceMA200": {
+      "value": 1.52,
+      "label": "🛢�?原油价格/200日均�?,
+      "range": [
+        0.5,
+        2.0
+      ],
+      "source": "Yahoo Finance: CL=F (计算)",
+      "last_updated": "2026-03-23",
+      "status": "🤖 1.52 (price=98.8, MA200=64.8)",
+      "auto": true
+    },
+    "sp6mReturn": {
+      "value": 2.9,
+      "label": "📈 S&P 500 半年涨幅 (%)",
+      "range": [
+        -50,
+        50
+      ],
+      "source": "Yahoo Finance: SPY (计算)",
+      "last_updated": "2026-03-23",
+      "status": "🤖 2.9 (630.2 �?648.6)",
+      "auto": true
+    },
+    "commodity6mReturn": {
+      "value": 41.2,
+      "label": "🛢�?商品指数涨幅 (%)",
+      "range": [
+        -50,
+        50
+      ],
+      "source": "Yahoo Finance: GSG (计算)",
+      "last_updated": "2026-03-23",
+      "status": "🤖 41.2 (22.5 �?31.7)",
+      "auto": true
+    },
+    "spPE": {
+      "value": 27.5,
+      "label": "S&P 500 P/E",
+      "range": [
+        10,
+        40
+      ],
+      "source": "Yahoo SPY trailingPE=25.7, adj×1.07=27.5",
+      "last_updated": "2026-03-23",
+      "status": "🤖 27.5 (SPY PE 25.7×1.07, 参�?multpl.com)",
+      "auto": true
+    },
+    "spPercentile": {
+      "value": 89,
+      "label": "S&P 500 估值分�?,
+      "range": [
+        0,
+        100
+      ],
+      "source": "经验分位�? PE=27.5 -> 89%",
+      "last_updated": "2026-03-23",
+      "status": "🤖 89% (PE=27.5, 1880-2026历史经验分位)",
+      "auto": true
+    },
+    "momentum": {
+      "value": -0.8,
+      "label": "🇺🇸 美股动量 (SPX Momentum)",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "Yahoo SPY (SPY相对�?0�?200日均线位�?",
+      "last_updated": "2026-03-23",
+      "status": "🧮 -0.8 (自动推算: price=648.6, MA50=682.1, MA200=656.5)",
+      "auto": true
+    },
+    "goldTrend": {
+      "value": 0,
+      "label": "🥇 黄金趋势",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "Yahoo GC=F (黄金3个月价格趋势)",
+      "last_updated": "2026-03-23",
+      "status": "🧮 0 (自动推算: 3个月变化 +0.7% (4361.4�?391.5))",
+      "auto": true
+    },
+    "usdTrend": {
+      "value": 0,
+      "label": "美元趋势",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "Yahoo DX-Y.NYB (DXY 3个月趋势)",
+      "last_updated": "2026-03-23",
+      "status": "🧮 0 (自动推算: 3个月变化 +1.1% (98.6�?9.7))",
+      "auto": true
+    },
+    "commodityTrend": {
+      "value": 1,
+      "label": "🛢�?商品综指趋势",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "Yahoo GSG (GSG商品指数3个月趋势)",
+      "last_updated": "2026-03-23",
+      "status": "🧮 1 (自动推算: 3个月变化 +40.2% (22.6�?1.7))",
+      "auto": true
+    },
+    "growthTrend": {
+      "value": 0,
+      "label": "🌍 全球经济增速趋�?,
+      "range": [
+        -1,
+        1
+      ],
+      "source": "Yahoo SPY (用SPY作为全球增长代理)",
+      "last_updated": "2026-03-23",
+      "status": "🧮 0 (自动推算: 3个月变化 -3.6% (672.6�?48.6))",
+      "auto": true
+    },
+    "inflationTrend": {
+      "value": 0,
+      "label": "🇺🇸 通胀趋势",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "Yahoo TIP (TIPS ETF趋势作为通胀代理)",
+      "last_updated": "2026-03-23",
+      "status": "🧮 0 (自动推算: 3个月变化 +0.1% (110.2�?10.2))",
+      "auto": true
+    },
+    "euEcoTrend": {
+      "value": -0.5,
+      "label": "🇪🇺 欧洲经济趋势",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "Yahoo EZU (欧元区ETF趋势)",
+      "last_updated": "2026-03-23",
+      "status": "🧮 -0.5 (自动推算: 3个月变化 -5.1% (63.5�?0.2))",
+      "auto": true
+    },
+    "usDebtStability": {
+      "value": -0.2,
+      "label": "🇺🇸 美�?美元信誉 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "source": "AI判断 (导入数据模板/macro_export_v16.40_2026-03-23_FINAL.json)",
+      "last_updated": "2026-03-23",
+      "status": "🤝 AI补充: -0.2 (�?User choice)",
+      "auto": true,
+      "options": [
+        {
+          "value": 1.0,
+          "label": "绝对避险港湾"
+        },
+        {
+          "value": 0.0,
+          "label": "正常机制"
+        },
+        {
+          "value": -0.2,
+          "label": "轻微担忧 (债务上限)"
+        },
+        {
+          "value": -0.5,
+          "label": "信用降级"
+        },
+        {
+          "value": -0.8,
+          "label": "严重信任危机 (流拍)"
+        }
+      ]
+    }
+  }
+}

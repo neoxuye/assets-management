@@ -1,0 +1,73 @@
+window.DALLIO_LATEST_QUARTERLY_SNAPSHOTS = {
+  "quarterly_2026_q1": {
+    "period": "2026-Q1",
+    "description": "2.0 auto-generated latest quarterly snapshot 2026-Q1",
+    "quality": "B",
+    "macroData": {
+      "usd": 119.92,
+      "vix": 25.6,
+      "cnPolicy": 0.0,
+      "cnPolicyTrend": 0.0,
+      "momentum": 0.0,
+      "adoption": 0.7,
+      "btcCycle": 0.75,
+      "rateChangeReason": 0.0,
+      "usdReason": 0.0,
+      "vixReason": 0.0,
+      "inflationReason": 0.0,
+      "globalGrowth": 3.0,
+      "growthTrend": 0.0,
+      "inflationTrend": 0.0,
+      "usdTrend": 0.0,
+      "realYield": 1.47,
+      "fedRate": 3.64,
+      "inflation": 3.32,
+      "creditSpread": 3.19,
+      "ratePath": 0.53,
+      "vixTermStructure": 1.0,
+      "creditSpreadMomentum": 0.0
+    },
+    "actualReturns": {
+      "usStock": -0.043493,
+      "cnStock": -0.052241,
+      "hkStock": 0.121474,
+      "devStock": 0.029782,
+      "emStock": 0.052872,
+      "bonds_us": 0.005877,
+      "bonds_global": -0.020123,
+      "precious": 0.08574,
+      "energy": 0.381844,
+      "industrial": 0.0523,
+      "agriculture": 0.109142,
+      "crypto": -0.220269,
+      "bonds_china": 0.0,
+      "hedges": 0.0
+    },
+    "dataSource": "Lumi 2.0 SQLite auto snapshot",
+    "macroSources": {
+      "usd": "2.0 macro_monthly: usd_index",
+      "vix": "2.0 macro_monthly: vix",
+      "realYield": "2.0 macro_monthly: real_yield_10y",
+      "fedRate": "2.0 macro_monthly: fed_rate",
+      "inflation": "2.0 macro_monthly: cpi_yoy",
+      "creditSpread": "2.0 macro_monthly: credit_spread",
+      "ratePath": "2.0 macro_monthly: yield_curve"
+    },
+    "returnSources": {
+      "cnStock": "ETF:FXI",
+      "hkStock": "ETF:EWH",
+      "usStock": "ETF:SPY",
+      "devStock": "ETF:EFA",
+      "emStock": "ETF:EEM",
+      "bonds_us": "ETF:TLT",
+      "bonds_global": "ETF:BWX",
+      "precious": "ETF:GLD",
+      "energy": "ETF:XLE",
+      "industrial": "ETF:DBB",
+      "agriculture": "ETF:DBA",
+      "crypto": "ETF:BTC-USD",
+      "hedges": "synthetic:cash-like fallback"
+    }
+  }
+};
+

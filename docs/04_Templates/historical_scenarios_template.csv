@@ -1,0 +1,2 @@
+scenarioId,period,year,description,verifiedAt,dataSource,fedRate,inflation,usd,realYield,vix,creditSpread,globalGrowth,cnPolicy,momentum,cnStock,usStock,devStock,emStock,bonds_us,bonds_china,bonds_global,precious,energy,industrial,agriculture,crypto,forex_major,forex_safe,forex_cny,forex_commodity,hedges
+example_2020Q1,2020-Q1,2020,Example scenario,2026-02-07,FRED/Yahoo/Manual,0.25,1.2,98.5,-0.5,45,3.2,1.0,0.5,-0.8,-0.20,-0.15,-0.12,-0.22,0.05,0.01,0.02,0.08,-0.25,-0.18,-0.10,0.30,-0.05,0.04,0.00,-0.03,0.02

@@ -1,0 +1,255 @@
+[
+  {
+    "asset": "<�<� A�",
+    "pos": [
+      {
+        "diff": 20,
+        "factor": "-�?V�� (-1~1)"
+      },
+      {
+        "diff": 20,
+        "factor": "-�?V�� (-1~1)"
+      },
+      {
+        "diff": 20,
+        "factor": "-�?V�� (-1~1)"
+      }
+    ],
+    "neg": []
+  },
+  {
+    "asset": "<�<� /�/w\u0016-�",
+    "pos": [
+      {
+        "diff": 8,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      }
+    ],
+    "neg": []
+  },
+  {
+    "asset": "=� ���h",
+    "pos": [
+      {
+        "diff": 27.7,
+        "factor": "<\r h\u0003�N�\u001f�� (Global Growth Trend)"
+      },
+      {
+        "diff": 17.7,
+        "factor": "<\r h\u0003�N�\u001f�� (Global Growth Trend)"
+      },
+      {
+        "diff": 14.2,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      }
+    ],
+    "neg": []
+  },
+  {
+    "asset": "<\r Ѿ\u0002:",
+    "pos": [
+      {
+        "diff": 15.8,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": 15.8,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": 15.8,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      }
+    ],
+    "neg": []
+  },
+  {
+    "asset": "=� �t\u0002:",
+    "pos": [
+      {
+        "diff": 6,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": 1.3,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": 1.3,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      }
+    ],
+    "neg": []
+  },
+  {
+    "asset": "<�<� �:",
+    "pos": [
+      {
+        "diff": 15,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": 9,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": 1,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      }
+    ],
+    "neg": []
+  },
+  {
+    "asset": "<�<� -�:8",
+    "pos": [
+      {
+        "diff": 15,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": 15,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": 15,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      }
+    ],
+    "neg": []
+  },
+  {
+    "asset": "<\r h\u0003:8",
+    "pos": [
+      {
+        "diff": 13.1,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": 13.1,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": 13.1,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      }
+    ],
+    "neg": []
+  },
+  {
+    "asset": ">G 5�^",
+    "pos": [],
+    "neg": [
+      {
+        "diff": -175.4,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": -175.4,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": -169.4,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      }
+    ]
+  },
+  {
+    "asset": "� ��",
+    "pos": [
+      {
+        "diff": 6,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": 6,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      }
+    ],
+    "neg": []
+  },
+  {
+    "asset": "<� �\u001a�^",
+    "pos": [
+      {
+        "diff": 6,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      }
+    ],
+    "neg": []
+  },
+  {
+    "asset": "<> ���",
+    "pos": [],
+    "neg": []
+  },
+  {
+    "asset": "� ��D�",
+    "pos": [],
+    "neg": [
+      {
+        "diff": -73.6,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": -59.6,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": -55.6,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      }
+    ]
+  },
+  {
+    "asset": "=� ;A\u0016\u0001",
+    "pos": [],
+    "neg": []
+  },
+  {
+    "asset": "=�\u000f i'\u0001",
+    "pos": [
+      {
+        "diff": 4,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      }
+    ],
+    "neg": []
+  },
+  {
+    "asset": "<�<� �\u0011\u0001",
+    "pos": [],
+    "neg": []
+  },
+  {
+    "asset": "<> F�'\u0001",
+    "pos": [],
+    "neg": []
+  },
+  {
+    "asset": "=�\u000f ���w",
+    "pos": [
+      {
+        "diff": 1.9,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": 1.9,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      }
+    ],
+    "neg": [
+      {
+        "diff": -16.9,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": -16.9,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      },
+      {
+        "diff": -16.9,
+        "factor": "=� VIX\u001fPӄ (VIX3M/VIX)"
+      }
+    ]
+  }
+]

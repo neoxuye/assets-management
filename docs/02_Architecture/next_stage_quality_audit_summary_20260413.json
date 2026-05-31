@@ -1,0 +1,5890 @@
+{
+  "generatedAt": "2026-04-13T09:03:06.614Z",
+  "steps": [
+    "baseline_compare",
+    "factor_cross_validation",
+    "factor_predictive_power",
+    "wf_performance",
+    "score_logic_audit"
+  ],
+  "status": [
+    {
+      "step": "baseline_compare",
+      "ok": true,
+      "error": null
+    },
+    {
+      "step": "factor_cross_validation",
+      "ok": true,
+      "error": null
+    },
+    {
+      "step": "factor_predictive_power",
+      "ok": true,
+      "error": null
+    },
+    {
+      "step": "wf_performance",
+      "ok": true,
+      "error": null
+    },
+    {
+      "step": "score_logic_audit",
+      "ok": true,
+      "error": null
+    }
+  ],
+  "files": {
+    "baselineJson": "D:\\work\\xuye\\finance\\Assets balance\\dalio_v16.66 - codex 0317 claude 0327\\dalio_v16.66 - codex 0331 claude 0407\\test result\\strategy_baseline_compare_2026-04-13.json",
+    "factorJson": "D:\\work\\xuye\\finance\\Assets balance\\dalio_v16.66 - codex 0317 claude 0327\\dalio_v16.66 - codex 0331 claude 0407\\test result\\factor_predictive_power_2026-04-13.json",
+    "factorCvJson": "D:\\work\\xuye\\finance\\Assets balance\\dalio_v16.66 - codex 0317 claude 0327\\dalio_v16.66 - codex 0331 claude 0407\\data\\factor_cross_validation.json",
+    "wfMd": "D:\\work\\xuye\\finance\\Assets balance\\dalio_v16.66 - codex 0317 claude 0327\\dalio_v16.66 - codex 0331 claude 0407\\docs\\02_Architecture\\wf_performance_analysis_20260407.md",
+    "logicMd": "D:\\work\\xuye\\finance\\Assets balance\\dalio_v16.66 - codex 0317 claude 0327\\dalio_v16.66 - codex 0331 claude 0407\\docs\\02_Architecture\\score_logic_full_system_audit_20260409.md"
+  },
+  "quickRead": {
+    "baseline": {
+      "generatedAt": "2026-04-13T09:03:06.545Z",
+      "baselineConfig": {
+        "allocationStyle": "riskParity",
+        "riskPref": "balanced"
+      },
+      "candidateConfig": {
+        "experimentTag": "compare_015_be63f4b42529",
+        "allocationStyle": "riskParity",
+        "riskPref": "aggressive",
+        "turnoverCost": 0.002,
+        "maxTurnoverPerAsset": 0.12,
+        "smoothingAlpha": 0.25,
+        "sourceManifest": "D:\\work\\xuye\\finance\\Assets balance\\dalio_v16.66 - codex 0317 claude 0327\\dalio_v16.66 - codex 0331 claude 0407\\test result\\strategy_search_2026-03-24.manifest.json",
+        "sourceCandidateId": "015_be63f4b42529"
+      },
+      "baselineSource": "js/walk_forward.js",
+      "candidateSource": null,
+      "baselineResult": {
+        "generatedAt": "2026-04-13T09:03:06.528Z",
+        "executionProfile": {
+          "allocationStyle": "riskParity",
+          "riskPref": "balanced"
+        },
+        "config": {
+          "initialCapital": 1000000,
+          "turnoverCost": 0.003,
+          "maxTurnover": 0.25,
+          "riskFreeRate": 0.02
+        },
+        "periods": {
+          "startYear": 2000,
+          "endYear": 2025,
+          "totalYears": 26,
+          "totalScenarios": 104,
+          "totalValidPeriods": 104,
+          "blFallbackCount": 0
+        },
+        "stats": {
+          "p1": {
+            "label": "P1 纯打分",
+            "cagr": 0.15629654025685813,
+            "maxDD": -0.346998619448179,
+            "sharpe": 0.6920805848017445,
+            "finalCapital": 43631473.61142574,
+            "n": 104
+          },
+          "p1Smooth": {
+            "label": "P1-Smooth(25%)",
+            "cagr": 0.1523017026863276,
+            "maxDD": -0.3643609242952558,
+            "sharpe": 0.6710726458099342,
+            "finalCapital": 39876891.25747704,
+            "n": 104
+          },
+          "p1LiveFull": {
+            "label": "P1-LiveFull (riskParity/balanced)",
+            "cagr": 0.13736925762328767,
+            "maxDD": -0.356910387357568,
+            "sharpe": 0.6103111469742296,
+            "finalCapital": 28407866.577610515,
+            "n": 104
+          },
+          "p1BL": {
+            "label": "P1+BL 风控层",
+            "cagr": 0.0793079437560733,
+            "maxDD": -0.4860301788728354,
+            "sharpe": 0.5196006080318487,
+            "finalCapital": 7274107.433501245,
+            "n": 104
+          },
+          "equalWeight": {
+            "label": "等权基准",
+            "cagr": 0.09502819304928178,
+            "maxDD": -0.37011404743608994,
+            "sharpe": 0.4887074211832922,
+            "finalCapital": 10593947.636543056,
+            "n": 104
+          },
+          "benchmark6040": {
+            "label": "60/40 基准",
+            "cagr": 0.1021044215854392,
+            "maxDD": -0.39874234572311873,
+            "sharpe": 0.5092280095344104,
+            "finalCapital": 12525393.071744211,
+            "n": 104
+          }
+        },
+        "turnoverStats": {
+          "p1": {
+            "turnover": 15.15529784233994,
+            "periods": 103,
+            "cost": 0.034651347195084864
+          },
+          "p1s": {
+            "turnover": 13.780017157786803,
+            "periods": 103,
+            "cost": 0.03196590428325511
+          },
+          "live": {
+            "turnover": 8.704204323921736,
+            "periods": 103,
+            "cost": 0.019330593293225333
+          },
+          "p1bl": {
+            "turnover": 21.199061450000322,
+            "periods": 103,
+            "cost": 0.04292914411851083
+          }
+        },
+        "stabilityStats": {
+          "totalPreTurnover": 15.123596053699975,
+          "totalPostTurnover": 9.204204323921736,
+          "periods": 104,
+          "bypassed": 15
+        },
+        "scoreDiffStats": {
+          "liveLower": {},
+          "liveHigher": {
+            "usStock": {
+              "sum": 216.1,
+              "count": 104,
+              "max": 20,
+              "min": 0
+            },
+            "precious": {
+              "sum": 281.4,
+              "count": 104,
+              "max": 14.799999999999997,
+              "min": 0
+            },
+            "energy": {
+              "sum": 145.20000000000002,
+              "count": 104,
+              "max": 15.000000000000007,
+              "min": 0
+            },
+            "hedges": {
+              "sum": 626.6,
+              "count": 104,
+              "max": 20.000000000000004,
+              "min": 0
+            },
+            "devStock": {
+              "sum": 102.1,
+              "count": 97,
+              "max": 20,
+              "min": 0
+            },
+            "emStock": {
+              "sum": 68.80000000000001,
+              "count": 90,
+              "max": 15.900000000000006,
+              "min": 0
+            },
+            "bonds_us": {
+              "sum": 254.40000000000003,
+              "count": 89,
+              "max": 12.100000000000009,
+              "min": 0
+            },
+            "cnStock": {
+              "sum": 242.8,
+              "count": 84,
+              "max": 20,
+              "min": 0
+            },
+            "hkStock": {
+              "sum": 81,
+              "count": 84,
+              "max": 13,
+              "min": 0
+            },
+            "agriculture": {
+              "sum": 103.39999999999999,
+              "count": 76,
+              "max": 15,
+              "min": 0
+            },
+            "bonds_global": {
+              "sum": 20.699999999999996,
+              "count": 72,
+              "max": 9.600000000000001,
+              "min": 0
+            },
+            "industrial": {
+              "sum": 60,
+              "count": 62,
+              "max": 15,
+              "min": 0
+            },
+            "crypto": {
+              "sum": 39.699999999999996,
+              "count": 45,
+              "max": 15.899999999999999,
+              "min": 0
+            },
+            "bonds_china": {
+              "sum": 172.4,
+              "count": 44,
+              "max": 15.000000000000007,
+              "min": 0
+            }
+          },
+          "samplePeriods": 104,
+          "topAbsDiffs": [
+            {
+              "period": "2013-Q4",
+              "year": 2013,
+              "asset": "hedges",
+              "diff": 20.000000000000004,
+              "histScore": 25.7,
+              "liveScore": 45.7
+            },
+            {
+              "period": "2017-Q1",
+              "year": 2017,
+              "asset": "hedges",
+              "diff": 20.000000000000004,
+              "histScore": 31.2,
+              "liveScore": 51.2
+            },
+            {
+              "period": "2001-Q1",
+              "year": 2001,
+              "asset": "usStock",
+              "diff": 20,
+              "histScore": 25,
+              "liveScore": 45
+            },
+            {
+              "period": "2002-Q4",
+              "year": 2002,
+              "asset": "usStock",
+              "diff": 20,
+              "histScore": 36.9,
+              "liveScore": 56.9
+            },
+            {
+              "period": "2002-Q4",
+              "year": 2002,
+              "asset": "devStock",
+              "diff": 20,
+              "histScore": 33.4,
+              "liveScore": 53.4
+            },
+            {
+              "period": "2004-Q3",
+              "year": 2004,
+              "asset": "hedges",
+              "diff": 20,
+              "histScore": 43.8,
+              "liveScore": 63.8
+            },
+            {
+              "period": "2004-Q4",
+              "year": 2004,
+              "asset": "hedges",
+              "diff": 20,
+              "histScore": 40.3,
+              "liveScore": 60.3
+            },
+            {
+              "period": "2008-Q1",
+              "year": 2008,
+              "asset": "cnStock",
+              "diff": 20,
+              "histScore": 25,
+              "liveScore": 45
+            },
+            {
+              "period": "2009-Q1",
+              "year": 2009,
+              "asset": "cnStock",
+              "diff": 20,
+              "histScore": 25,
+              "liveScore": 45
+            },
+            {
+              "period": "2009-Q3",
+              "year": 2009,
+              "asset": "usStock",
+              "diff": 20,
+              "histScore": 25,
+              "liveScore": 45
+            },
+            {
+              "period": "2009-Q3",
+              "year": 2009,
+              "asset": "devStock",
+              "diff": 20,
+              "histScore": 25,
+              "liveScore": 45
+            },
+            {
+              "period": "2014-Q1",
+              "year": 2014,
+              "asset": "hedges",
+              "diff": 20,
+              "histScore": 29.6,
+              "liveScore": 49.6
+            }
+          ],
+          "periodSummaries": [
+            {
+              "period": "2013-Q4",
+              "year": 2013,
+              "largestAsset": "hedges",
+              "largestDiff": 20.000000000000004,
+              "top3": [
+                {
+                  "asset": "hedges",
+                  "diff": 20.000000000000004,
+                  "histScore": 25.7,
+                  "liveScore": 45.7
+                },
+                {
+                  "asset": "bonds_us",
+                  "diff": 3.5,
+                  "histScore": 83.1,
+                  "liveScore": 86.6
+                },
+                {
+                  "asset": "cnStock",
+                  "diff": 0,
+                  "histScore": 121.6,
+                  "liveScore": 121.6
+                }
+              ]
+            },
+            {
+              "period": "2017-Q1",
+              "year": 2017,
+              "largestAsset": "hedges",
+              "largestDiff": 20.000000000000004,
+              "top3": [
+                {
+                  "asset": "hedges",
+                  "diff": 20.000000000000004,
+                  "histScore": 31.2,
+                  "liveScore": 51.2
+                },
+                {
+                  "asset": "precious",
+                  "diff": 6,
+                  "histScore": 81.4,
+                  "liveScore": 87.4
+                },
+                {
+                  "asset": "cnStock",
+                  "diff": 5.400000000000006,
+                  "histScore": 95.5,
+                  "liveScore": 100.9
+                }
+              ]
+            },
+            {
+              "period": "2001-Q1",
+              "year": 2001,
+              "largestAsset": "usStock",
+              "largestDiff": 20,
+              "top3": [
+                {
+                  "asset": "usStock",
+                  "diff": 20,
+                  "histScore": 25,
+                  "liveScore": 45
+                },
+                {
+                  "asset": "hedges",
+                  "diff": 3.299999999999997,
+                  "histScore": 95.2,
+                  "liveScore": 98.5
+                },
+                {
+                  "asset": "precious",
+                  "diff": 0,
+                  "histScore": 81,
+                  "liveScore": 81
+                }
+              ]
+            },
+            {
+              "period": "2002-Q4",
+              "year": 2002,
+              "largestAsset": "usStock",
+              "largestDiff": 20,
+              "top3": [
+                {
+                  "asset": "usStock",
+                  "diff": 20,
+                  "histScore": 36.9,
+                  "liveScore": 56.9
+                },
+                {
+                  "asset": "devStock",
+                  "diff": 20,
+                  "histScore": 33.4,
+                  "liveScore": 53.4
+                },
+                {
+                  "asset": "hedges",
+                  "diff": 3.299999999999997,
+                  "histScore": 86.8,
+                  "liveScore": 90.1
+                }
+              ]
+            },
+            {
+              "period": "2004-Q3",
+              "year": 2004,
+              "largestAsset": "hedges",
+              "largestDiff": 20,
+              "top3": [
+                {
+                  "asset": "hedges",
+                  "diff": 20,
+                  "histScore": 43.8,
+                  "liveScore": 63.8
+                },
+                {
+                  "asset": "precious",
+                  "diff": 9.5,
+                  "histScore": 86.3,
+                  "liveScore": 95.8
+                },
+                {
+                  "asset": "bonds_us",
+                  "diff": 7.5,
+                  "histScore": 67.6,
+                  "liveScore": 75.1
+                }
+              ]
+            },
+            {
+              "period": "2004-Q4",
+              "year": 2004,
+              "largestAsset": "hedges",
+              "largestDiff": 20,
+              "top3": [
+                {
+                  "asset": "hedges",
+                  "diff": 20,
+                  "histScore": 40.3,
+                  "liveScore": 60.3
+                },
+                {
+                  "asset": "bonds_us",
+                  "diff": 5.600000000000001,
+                  "histScore": 51.8,
+                  "liveScore": 57.4
+                },
+                {
+                  "asset": "usStock",
+                  "diff": 0,
+                  "histScore": 55.7,
+                  "liveScore": 55.7
+                }
+              ]
+            },
+            {
+              "period": "2008-Q1",
+              "year": 2008,
+              "largestAsset": "cnStock",
+              "largestDiff": 20,
+              "top3": [
+                {
+                  "asset": "cnStock",
+                  "diff": 20,
+                  "histScore": 25,
+                  "liveScore": 45
+                },
+                {
+                  "asset": "bonds_us",
+                  "diff": 9.300000000000004,
+                  "histScore": 58.6,
+                  "liveScore": 67.9
+                },
+                {
+                  "asset": "usStock",
+                  "diff": 8.600000000000001,
+                  "histScore": 25,
+                  "liveScore": 33.6
+                }
+              ]
+            },
+            {
+              "period": "2009-Q1",
+              "year": 2009,
+              "largestAsset": "cnStock",
+              "largestDiff": 20,
+              "top3": [
+                {
+                  "asset": "cnStock",
+                  "diff": 20,
+                  "histScore": 25,
+                  "liveScore": 45
+                },
+                {
+                  "asset": "hkStock",
+                  "diff": 13,
+                  "histScore": 40.6,
+                  "liveScore": 53.6
+                },
+                {
+                  "asset": "agriculture",
+                  "diff": 5,
+                  "histScore": 27,
+                  "liveScore": 32
+                }
+              ]
+            },
+            {
+              "period": "2009-Q3",
+              "year": 2009,
+              "largestAsset": "usStock",
+              "largestDiff": 20,
+              "top3": [
+                {
+                  "asset": "usStock",
+                  "diff": 20,
+                  "histScore": 25,
+                  "liveScore": 45
+                },
+                {
+                  "asset": "devStock",
+                  "diff": 20,
+                  "histScore": 25,
+                  "liveScore": 45
+                },
+                {
+                  "asset": "cnStock",
+                  "diff": 19.999999999999993,
+                  "histScore": 51.6,
+                  "liveScore": 71.6
+                }
+              ]
+            },
+            {
+              "period": "2014-Q1",
+              "year": 2014,
+              "largestAsset": "hedges",
+              "largestDiff": 20,
+              "top3": [
+                {
+                  "asset": "hedges",
+                  "diff": 20,
+                  "histScore": 29.6,
+                  "liveScore": 49.6
+                },
+                {
+                  "asset": "devStock",
+                  "diff": 6.800000000000011,
+                  "histScore": 73.1,
+                  "liveScore": 79.9
+                },
+                {
+                  "asset": "bonds_us",
+                  "diff": 4.200000000000003,
+                  "histScore": 87.6,
+                  "liveScore": 91.8
+                }
+              ]
+            }
+          ]
+        },
+        "periodReviewStats": [
+          {
+            "key": "2020-03-covid",
+            "label": "2020-03 COVID",
+            "period": "2020-Q1",
+            "year": 2020,
+            "macroSnapshot": {
+              "fedRate": 0.05,
+              "vix": 53.54,
+              "inflation": 0.78,
+              "realYield": -0.46,
+              "creditSpread": 9.43,
+              "globalGrowth": 3,
+              "cnPolicy": 0.8
+            },
+            "topScoreDiffs": [
+              {
+                "asset": "cnStock",
+                "histScore": 25,
+                "liveScore": 25,
+                "diff": 0
+              },
+              {
+                "asset": "hkStock",
+                "histScore": 25,
+                "liveScore": 25,
+                "diff": 0
+              },
+              {
+                "asset": "usStock",
+                "histScore": 25,
+                "liveScore": 25,
+                "diff": 0
+              }
+            ],
+            "topWeightDiffs": [
+              {
+                "asset": "cnStock",
+                "p1Weight": 0.02,
+                "liveWeight": 0.02,
+                "diff": 0
+              },
+              {
+                "asset": "hkStock",
+                "p1Weight": 0.02,
+                "liveWeight": 0.02,
+                "diff": 0
+              },
+              {
+                "asset": "usStock",
+                "p1Weight": 0.02,
+                "liveWeight": 0.02,
+                "diff": 0
+              }
+            ],
+            "actualReturns": [
+              {
+                "asset": "cnStock",
+                "actualReturn": -0.1256
+              },
+              {
+                "asset": "hkStock",
+                "actualReturn": -0.1338
+              },
+              {
+                "asset": "usStock",
+                "actualReturn": -0.2286
+              }
+            ],
+            "p1Return": -0.06066991998278774,
+            "liveReturn": -0.0604658242521811,
+            "portfolioReturnGap": 0.00020409573060664599,
+            "verdict": "这是执行层放大/缩小后的结果"
+          },
+          {
+            "key": "2020-q2",
+            "label": "2020-Q2",
+            "period": "2020-Q2",
+            "year": 2020,
+            "macroSnapshot": {
+              "fedRate": 0.09,
+              "vix": 30.43,
+              "inflation": 1.21,
+              "realYield": -0.73,
+              "creditSpread": 6.17,
+              "globalGrowth": 3,
+              "cnPolicy": 0.6
+            },
+            "topScoreDiffs": [
+              {
+                "asset": "cnStock",
+                "histScore": 86,
+                "liveScore": 86,
+                "diff": 0
+              },
+              {
+                "asset": "hkStock",
+                "histScore": 130,
+                "liveScore": 130,
+                "diff": 0
+              },
+              {
+                "asset": "usStock",
+                "histScore": 98.4,
+                "liveScore": 98.4,
+                "diff": 0
+              }
+            ],
+            "topWeightDiffs": [
+              {
+                "asset": "cnStock",
+                "p1Weight": 0.019353710948095553,
+                "liveWeight": 0.019353710948095553,
+                "diff": 0
+              },
+              {
+                "asset": "hkStock",
+                "p1Weight": 0.019353710948095553,
+                "liveWeight": 0.019353710948095553,
+                "diff": 0
+              },
+              {
+                "asset": "usStock",
+                "p1Weight": 0.019353710948095553,
+                "liveWeight": 0.019353710948095553,
+                "diff": 0
+              }
+            ],
+            "actualReturns": [
+              {
+                "asset": "cnStock",
+                "actualReturn": 0.1611
+              },
+              {
+                "asset": "hkStock",
+                "actualReturn": 0.1727
+              },
+              {
+                "asset": "usStock",
+                "actualReturn": 0.184
+              }
+            ],
+            "p1Return": 0.13545239588257182,
+            "liveReturn": 0.13545239588257182,
+            "portfolioReturnGap": 0,
+            "verdict": "这是执行层放大/缩小后的结果"
+          },
+          {
+            "key": "2024-q4",
+            "label": "2024-Q4",
+            "period": "2024-Q4",
+            "year": 2024,
+            "macroSnapshot": {
+              "fedRate": 4.33,
+              "vix": 17.35,
+              "inflation": 2.4,
+              "realYield": 2.26,
+              "creditSpread": 2.81,
+              "globalGrowth": 3,
+              "cnPolicy": 0
+            },
+            "topScoreDiffs": [
+              {
+                "asset": "bonds_china",
+                "histScore": 39.8,
+                "liveScore": 51.5,
+                "diff": 11.700000000000003
+              },
+              {
+                "asset": "cnStock",
+                "histScore": 65.7,
+                "liveScore": 74.5,
+                "diff": 8.799999999999997
+              },
+              {
+                "asset": "hkStock",
+                "histScore": 65.9,
+                "liveScore": 73.9,
+                "diff": 8
+              }
+            ],
+            "topWeightDiffs": [
+              {
+                "asset": "emStock",
+                "p1Weight": 0.11472067213812431,
+                "liveWeight": 0.08439769217847609,
+                "diff": -0.030322979959648222
+              },
+              {
+                "asset": "crypto",
+                "p1Weight": 0.1022179270676918,
+                "liveWeight": 0.12767066703439703,
+                "diff": 0.025452739966705232
+              },
+              {
+                "asset": "devStock",
+                "p1Weight": 0.1297956619066032,
+                "liveWeight": 0.10647548409577245,
+                "diff": -0.023320177810830733
+              }
+            ],
+            "actualReturns": [
+              {
+                "asset": "emStock",
+                "actualReturn": -0.0875
+              },
+              {
+                "asset": "crypto",
+                "actualReturn": 0.5651
+              },
+              {
+                "asset": "devStock",
+                "actualReturn": -0.0707
+              }
+            ],
+            "p1Return": 0.0052140042636516495,
+            "liveReturn": 0.02604285532816789,
+            "portfolioReturnGap": 0.02082885106451624,
+            "verdict": "这是执行层放大/缩小后的结果"
+          },
+          {
+            "key": "2023-03-svb",
+            "label": "2023-03 硅谷银行危机",
+            "period": "2023-Q1",
+            "year": 2023,
+            "macroSnapshot": {
+              "fedRate": 4.83,
+              "vix": 18.7,
+              "inflation": 2.39,
+              "realYield": 1.14,
+              "creditSpread": 4.58,
+              "globalGrowth": 3,
+              "cnPolicy": 0
+            },
+            "topScoreDiffs": [
+              {
+                "asset": "cnStock",
+                "histScore": 78.1,
+                "liveScore": 87.5,
+                "diff": 9.400000000000006
+              },
+              {
+                "asset": "usStock",
+                "histScore": 93.9,
+                "liveScore": 103,
+                "diff": 9.099999999999994
+              },
+              {
+                "asset": "hkStock",
+                "histScore": 80.3,
+                "liveScore": 88.3,
+                "diff": 8
+              }
+            ],
+            "topWeightDiffs": [
+              {
+                "asset": "crypto",
+                "p1Weight": 0.1166272996072671,
+                "liveWeight": 0.08397421136700087,
+                "diff": -0.032653088240266234
+              },
+              {
+                "asset": "bonds_us",
+                "p1Weight": 0.024569643546265934,
+                "liveWeight": 0.045807766829600735,
+                "diff": 0.0212381232833348
+              },
+              {
+                "asset": "devStock",
+                "p1Weight": 0.12003834395122034,
+                "liveWeight": 0.09929616899455299,
+                "diff": -0.02074217495666736
+              }
+            ],
+            "actualReturns": [
+              {
+                "asset": "crypto",
+                "actualReturn": 0.6622
+              },
+              {
+                "asset": "bonds_us",
+                "actualReturn": 0.0221
+              },
+              {
+                "asset": "devStock",
+                "actualReturn": 0.0509
+              }
+            ],
+            "p1Return": 0.09211022236744962,
+            "liveReturn": 0.07259339195846695,
+            "portfolioReturnGap": -0.019516830408982666,
+            "verdict": "这是执行层放大/缩小后的结果"
+          },
+          {
+            "key": "2010-q1",
+            "label": "2010-Q1",
+            "period": "2010-Q1",
+            "year": 2010,
+            "macroSnapshot": {
+              "fedRate": 0.2,
+              "vix": 17.59,
+              "inflation": 1.86,
+              "realYield": 1.69,
+              "creditSpread": 5.82,
+              "globalGrowth": 3,
+              "cnPolicy": 0
+            },
+            "topScoreDiffs": [
+              {
+                "asset": "hedges",
+                "histScore": 43,
+                "liveScore": 55.3,
+                "diff": 12.299999999999997
+              },
+              {
+                "asset": "cnStock",
+                "histScore": 96.9,
+                "liveScore": 96.9,
+                "diff": 0
+              },
+              {
+                "asset": "hkStock",
+                "histScore": 107.9,
+                "liveScore": 107.9,
+                "diff": 0
+              }
+            ],
+            "topWeightDiffs": [
+              {
+                "asset": "agriculture",
+                "p1Weight": 0.11840796019900497,
+                "liveWeight": 0.14420127289432846,
+                "diff": 0.025793312695323492
+              },
+              {
+                "asset": "precious",
+                "p1Weight": 0.1601027397260274,
+                "liveWeight": 0.18464420406652837,
+                "diff": 0.024541464340500974
+              },
+              {
+                "asset": "energy",
+                "p1Weight": 0.13159203980099501,
+                "liveWeight": 0.15391121333409608,
+                "diff": 0.02231917353310106
+              }
+            ],
+            "actualReturns": [
+              {
+                "asset": "agriculture",
+                "actualReturn": -0.0926
+              },
+              {
+                "asset": "precious",
+                "actualReturn": -0.0056
+              },
+              {
+                "asset": "energy",
+                "actualReturn": -0.0035
+              }
+            ],
+            "p1Return": -0.015122004478362804,
+            "liveReturn": -0.017315767873616803,
+            "portfolioReturnGap": -0.0021937633952539993,
+            "verdict": "这是执行层放大/缩小后的结果"
+          }
+        ],
+        "weightAvgStats": {
+          "p1": {
+            "usStock": 10.137001784003226,
+            "precious": 12.017707267015886,
+            "hedges": 7.620638048463575,
+            "energy": 15.940632630910812,
+            "devStock": 8.021256773397159,
+            "emStock": 7.459807476619892,
+            "bonds_us": 6.5025129437449705,
+            "cnStock": 4.245250782217813,
+            "hkStock": 4.652785784692419,
+            "agriculture": 7.229351045930589,
+            "bonds_global": 6.075443838623816,
+            "industrial": 6.016899604285366,
+            "crypto": 6.065918357598755,
+            "bonds_china": 2.0147936624956952
+          },
+          "live": {
+            "usStock": 10.192113587018225,
+            "precious": 11.70560735122063,
+            "hedges": 8.110932133867415,
+            "energy": 16.197106244609454,
+            "devStock": 7.9286890203524605,
+            "emStock": 7.262361750590208,
+            "bonds_us": 6.678186125207886,
+            "cnStock": 4.23153565152559,
+            "hkStock": 4.520411723324477,
+            "agriculture": 7.156601405124235,
+            "bonds_global": 6.118716679331066,
+            "industrial": 6.193635259884489,
+            "crypto": 5.484036718181765,
+            "bonds_china": 2.2200663497621016
+          },
+          "periods": 104
+        },
+        "curves": {
+          "p1": [
+            {
+              "period": "起始",
+              "capital": 1000000,
+              "ret": 0
+            },
+            {
+              "period": "2000-Q1",
+              "capital": 1046641.1487179488,
+              "ret": 0.046641148717948715
+            },
+            {
+              "period": "2000-Q2",
+              "capital": 1035702.1701765368,
+              "ret": -0.010451508193435228
+            },
+            {
+              "period": "2000-Q3",
+              "capital": 1066932.0256301009,
+              "ret": 0.03015331661247824
+            },
+            {
+              "period": "2000-Q4",
+              "capital": 1010404.055852079,
+              "ret": -0.05298179117328307
+            },
+            {
+              "period": "2001-Q1",
+              "capital": 928617.4834015816,
+              "ret": -0.08094442216141574
+            },
+            {
+              "period": "2001-Q2",
+              "capital": 943128.4312048734,
+              "ret": 0.015626399526893615
+            },
+            {
+              "period": "2001-Q3",
+              "capital": 829523.5261698036,
+              "ret": -0.12045539215686273
+            },
+            {
+              "period": "2001-Q4",
+              "capital": 828323.3745511813,
+              "ret": -0.0014467963605128407
+            },
+            {
+              "period": "2002-Q1",
+              "capital": 845978.6112179804,
+              "ret": 0.02131442527064435
+            },
+            {
+              "period": "2002-Q2",
+              "capital": 820864.1558716675,
+              "ret": -0.029686867981395974
+            },
+            {
+              "period": "2002-Q3",
+              "capital": 731565.6269724064,
+              "ret": -0.10878600102161347
+            },
+            {
+              "period": "2002-Q4",
+              "capital": 762219.5814082662,
+              "ret": 0.04190185173505431
+            },
+            {
+              "period": "2003-Q1",
+              "capital": 696708.0856914067,
+              "ret": -0.08594832422937936
+            },
+            {
+              "period": "2003-Q2",
+              "capital": 770554.2837206298,
+              "ret": 0.10599302569588921
+            },
+            {
+              "period": "2003-Q3",
+              "capital": 837050.4134684011,
+              "ret": 0.08629648962133338
+            },
+            {
+              "period": "2003-Q4",
+              "capital": 957510.1658327411,
+              "ret": 0.14390979375448015
+            },
+            {
+              "period": "2004-Q1",
+              "capital": 983405.6497031986,
+              "ret": 0.027044604636585153
+            },
+            {
+              "period": "2004-Q2",
+              "capital": 976378.4152480813,
+              "ret": -0.007145814605842674
+            },
+            {
+              "period": "2004-Q3",
+              "capital": 1078306.212652118,
+              "ret": 0.10439374305313631
+            },
+            {
+              "period": "2004-Q4",
+              "capital": 1117340.2637022706,
+              "ret": 0.036199412181951156
+            },
+            {
+              "period": "2005-Q1",
+              "capital": 1222202.2138446174,
+              "ret": 0.09384961193011183
+            },
+            {
+              "period": "2005-Q2",
+              "capital": 1277656.9274250632,
+              "ret": 0.04537278115869622
+            },
+            {
+              "period": "2005-Q3",
+              "capital": 1388366.1916810176,
+              "ret": 0.08665022814776521
+            },
+            {
+              "period": "2005-Q4",
+              "capital": 1536485.5786420763,
+              "ret": 0.10668610907452127
+            },
+            {
+              "period": "2006-Q1",
+              "capital": 1664702.1573807525,
+              "ret": 0.08344795455352874
+            },
+            {
+              "period": "2006-Q2",
+              "capital": 1658409.7038749645,
+              "ret": -0.003779927525106684
+            },
+            {
+              "period": "2006-Q3",
+              "capital": 1662855.8407957582,
+              "ret": 0.002680964125092218
+            },
+            {
+              "period": "2006-Q4",
+              "capital": 1832360.249773613,
+              "ret": 0.10193572095626673
+            },
+            {
+              "period": "2007-Q1",
+              "capital": 1932573.9690716092,
+              "ret": 0.05469105723635819
+            },
+            {
+              "period": "2007-Q2",
+              "capital": 2108495.9578496423,
+              "ret": 0.09102988635542089
+            },
+            {
+              "period": "2007-Q3",
+              "capital": 2358479.8386376933,
+              "ret": 0.11856028457507602
+            },
+            {
+              "period": "2007-Q4",
+              "capital": 2403202.1669527786,
+              "ret": 0.01896235345429874
+            },
+            {
+              "period": "2008-Q1",
+              "capital": 2470139.8646779023,
+              "ret": 0.027853544177683584
+            },
+            {
+              "period": "2008-Q2",
+              "capital": 2476357.0033164895,
+              "ret": 0.0025169176561578343
+            },
+            {
+              "period": "2008-Q3",
+              "capital": 2155764.357701221,
+              "ret": -0.12946140043051588
+            },
+            {
+              "period": "2008-Q4",
+              "capital": 2182157.152844554,
+              "ret": 0.012242894289001377
+            },
+            {
+              "period": "2009-Q1",
+              "capital": 2120876.6603298844,
+              "ret": -0.028082529452467416
+            },
+            {
+              "period": "2009-Q2",
+              "capital": 2274195.1818161816,
+              "ret": 0.07229016394685085
+            },
+            {
+              "period": "2009-Q3",
+              "capital": 2463332.411155037,
+              "ret": 0.0831666652234351
+            },
+            {
+              "period": "2009-Q4",
+              "capital": 2595365.796065406,
+              "ret": 0.05359949973152808
+            },
+            {
+              "period": "2010-Q1",
+              "capital": 2556118.6628743154,
+              "ret": -0.015122004478362804
+            },
+            {
+              "period": "2010-Q2",
+              "capital": 2521516.8207903947,
+              "ret": -0.013536868450782962
+            },
+            {
+              "period": "2010-Q3",
+              "capital": 2954148.657157755,
+              "ret": 0.17157602630298832
+            },
+            {
+              "period": "2010-Q4",
+              "capital": 3197690.4802076076,
+              "ret": 0.08244061193730498
+            },
+            {
+              "period": "2011-Q1",
+              "capital": 3435668.814139153,
+              "ret": 0.07442194152452644
+            },
+            {
+              "period": "2011-Q2",
+              "capital": 3374481.082671529,
+              "ret": -0.017809554639204927
+            },
+            {
+              "period": "2011-Q3",
+              "capital": 3173861.851291495,
+              "ret": -0.05945187614482246
+            },
+            {
+              "period": "2011-Q4",
+              "capital": 3307219.93962556,
+              "ret": 0.04201760964479267
+            },
+            {
+              "period": "2012-Q1",
+              "capital": 3353450.8180995206,
+              "ret": 0.013978773507030562
+            },
+            {
+              "period": "2012-Q2",
+              "capital": 3273338.631869058,
+              "ret": -0.02388947701217931
+            },
+            {
+              "period": "2012-Q3",
+              "capital": 3536434.2596777757,
+              "ret": 0.08037531627410366
+            },
+            {
+              "period": "2012-Q4",
+              "capital": 3548776.8983698916,
+              "ret": 0.003490136613833349
+            },
+            {
+              "period": "2013-Q1",
+              "capital": 3405292.7177660977,
+              "ret": -0.04043200931275849
+            },
+            {
+              "period": "2013-Q2",
+              "capital": 3105690.23364043,
+              "ret": -0.0879814186200737
+            },
+            {
+              "period": "2013-Q3",
+              "capital": 3290260.4674044037,
+              "ret": 0.05942969835327856
+            },
+            {
+              "period": "2013-Q4",
+              "capital": 3300145.89886543,
+              "ret": 0.003004452552908338
+            },
+            {
+              "period": "2014-Q1",
+              "capital": 3393715.0739771114,
+              "ret": 0.02835304195000898
+            },
+            {
+              "period": "2014-Q2",
+              "capital": 3642134.277084103,
+              "ret": 0.0731997818590787
+            },
+            {
+              "period": "2014-Q3",
+              "capital": 3453198.613453844,
+              "ret": -0.05187498572444746
+            },
+            {
+              "period": "2014-Q4",
+              "capital": 3435053.8204765515,
+              "ret": -0.0052544886664206165
+            },
+            {
+              "period": "2015-Q1",
+              "capital": 3496177.902390686,
+              "ret": 0.017794213747036523
+            },
+            {
+              "period": "2015-Q2",
+              "capital": 3450208.2521309666,
+              "ret": -0.013148544365630026
+            },
+            {
+              "period": "2015-Q3",
+              "capital": 3178854.454747525,
+              "ret": -0.07864852714784511
+            },
+            {
+              "period": "2015-Q4",
+              "capital": 3140155.053750211,
+              "ret": -0.012174008451226171
+            },
+            {
+              "period": "2016-Q1",
+              "capital": 3240442.537559073,
+              "ret": 0.03193711205091338
+            },
+            {
+              "period": "2016-Q2",
+              "capital": 3491625.0296041747,
+              "ret": 0.07751487308715241
+            },
+            {
+              "period": "2016-Q3",
+              "capital": 3590599.931442894,
+              "ret": 0.028346371961349967
+            },
+            {
+              "period": "2016-Q4",
+              "capital": 4068703.358596416,
+              "ret": 0.13315419046459878
+            },
+            {
+              "period": "2017-Q1",
+              "capital": 4363825.55529675,
+              "ret": 0.07253470471785443
+            },
+            {
+              "period": "2017-Q2",
+              "capital": 5374015.267029393,
+              "ret": 0.2314917722837223
+            },
+            {
+              "period": "2017-Q3",
+              "capital": 6428503.594183944,
+              "ret": 0.1962198234947409
+            },
+            {
+              "period": "2017-Q4",
+              "capital": 9855687.941843776,
+              "ret": 0.5331231907158774
+            },
+            {
+              "period": "2018-Q1",
+              "capital": 9099675.649533005,
+              "ret": -0.07670822136129214
+            },
+            {
+              "period": "2018-Q2",
+              "capital": 8908095.791126728,
+              "ret": -0.021053482100332834
+            },
+            {
+              "period": "2018-Q3",
+              "capital": 8673859.223465396,
+              "ret": -0.026294796683108454
+            },
+            {
+              "period": "2018-Q4",
+              "capital": 8293633.965183366,
+              "ret": -0.04383576542877322
+            },
+            {
+              "period": "2019-Q1",
+              "capital": 9584149.811575346,
+              "ret": 0.15560318333429696
+            },
+            {
+              "period": "2019-Q2",
+              "capital": 10984924.143839637,
+              "ret": 0.14615530431009044
+            },
+            {
+              "period": "2019-Q3",
+              "capital": 10376988.04961343,
+              "ret": -0.05534276671060473
+            },
+            {
+              "period": "2019-Q4",
+              "capital": 11218795.276192678,
+              "ret": 0.0811225013033149
+            },
+            {
+              "period": "2020-Q1",
+              "capital": 10538151.864482792,
+              "ret": -0.06066991998278774
+            },
+            {
+              "period": "2020-Q2",
+              "capital": 11965569.782701377,
+              "ret": 0.13545239588257182
+            },
+            {
+              "period": "2020-Q3",
+              "capital": 12428705.597944288,
+              "ret": 0.03870570508998783
+            },
+            {
+              "period": "2020-Q4",
+              "capital": 18117661.978292927,
+              "ret": 0.45772718128343104
+            },
+            {
+              "period": "2021-Q1",
+              "capital": 20473203.08079581,
+              "ret": 0.1300135252178288
+            },
+            {
+              "period": "2021-Q2",
+              "capital": 19365598.04387767,
+              "ret": -0.0541002320226625
+            },
+            {
+              "period": "2021-Q3",
+              "capital": 21261661.346228857,
+              "ret": 0.09790884319994522
+            },
+            {
+              "period": "2021-Q4",
+              "capital": 20929618.38686103,
+              "ret": -0.015616980910417912
+            },
+            {
+              "period": "2022-Q1",
+              "capital": 21405709.62277314,
+              "ret": 0.0227472487606838
+            },
+            {
+              "period": "2022-Q2",
+              "capital": 19287785.29941809,
+              "ret": -0.09894202811673339
+            },
+            {
+              "period": "2022-Q3",
+              "capital": 19104370.755964622,
+              "ret": -0.00950936256320751
+            },
+            {
+              "period": "2022-Q4",
+              "capital": 20279731.63895593,
+              "ret": 0.061523140332918
+            },
+            {
+              "period": "2023-Q1",
+              "capital": 22147702.229772363,
+              "ret": 0.09211022236744962
+            },
+            {
+              "period": "2023-Q2",
+              "capital": 22601735.834617373,
+              "ret": 0.0205002577754846
+            },
+            {
+              "period": "2023-Q3",
+              "capital": 21862988.596433826,
+              "ret": -0.032685420429171774
+            },
+            {
+              "period": "2023-Q4",
+              "capital": 25875936.94305025,
+              "ret": 0.18354985316467645
+            },
+            {
+              "period": "2024-Q1",
+              "capital": 31325070.4767448,
+              "ret": 0.21058690727556728
+            },
+            {
+              "period": "2024-Q2",
+              "capital": 30423588.74145174,
+              "ret": -0.0287782827483918
+            },
+            {
+              "period": "2024-Q3",
+              "capital": 33177062.088536747,
+              "ret": 0.09050455455747854
+            },
+            {
+              "period": "2024-Q4",
+              "capital": 33350047.431721814,
+              "ret": 0.0052140042636516495
+            },
+            {
+              "period": "2025-Q1",
+              "capital": 33310078.76146348,
+              "ret": -0.0011984591728142115
+            },
+            {
+              "period": "2025-Q2",
+              "capital": 38572307.92888663,
+              "ret": 0.15797708570749583
+            },
+            {
+              "period": "2025-Q3",
+              "capital": 42902242.931323886,
+              "ret": 0.11225501492988414
+            },
+            {
+              "period": "2025-Q4",
+              "capital": 43631473.61142574,
+              "ret": 0.01699749547521752
+            }
+          ],
+          "p1s": [
+            {
+              "period": "起始",
+              "capital": 1000000,
+              "ret": 0
+            },
+            {
+              "period": "2000-Q1",
+              "capital": 1046641.1487179488,
+              "ret": 0.046641148717948715
+            },
+            {
+              "period": "2000-Q2",
+              "capital": 1035702.1701765368,
+              "ret": -0.010451508193435228
+            },
+            {
+              "period": "2000-Q3",
+              "capital": 1066932.0256301009,
+              "ret": 0.03015331661247824
+            },
+            {
+              "period": "2000-Q4",
+              "capital": 1010404.055852079,
+              "ret": -0.05298179117328307
+            },
+            {
+              "period": "2001-Q1",
+              "capital": 928617.4834015816,
+              "ret": -0.08094442216141574
+            },
+            {
+              "period": "2001-Q2",
+              "capital": 943128.4312048734,
+              "ret": 0.015626399526893615
+            },
+            {
+              "period": "2001-Q3",
+              "capital": 829523.5261698036,
+              "ret": -0.12045539215686273
+            },
+            {
+              "period": "2001-Q4",
+              "capital": 809938.5181036559,
+              "ret": -0.023609948902327586
+            },
+            {
+              "period": "2002-Q1",
+              "capital": 827088.1267395066,
+              "ret": 0.02117396352009996
+            },
+            {
+              "period": "2002-Q2",
+              "capital": 799111.0606595163,
+              "ret": -0.03382597957279325
+            },
+            {
+              "period": "2002-Q3",
+              "capital": 712114.419349531,
+              "ret": -0.1088667715826457
+            },
+            {
+              "period": "2002-Q4",
+              "capital": 741953.3321675092,
+              "ret": 0.04190185173505431
+            },
+            {
+              "period": "2003-Q1",
+              "capital": 678183.6866113078,
+              "ret": -0.08594832422937936
+            },
+            {
+              "period": "2003-Q2",
+              "capital": 745214.5859691093,
+              "ret": 0.09883885543271612
+            },
+            {
+              "period": "2003-Q3",
+              "capital": 809564.1775120262,
+              "ret": 0.08635041873104743
+            },
+            {
+              "period": "2003-Q4",
+              "capital": 926068.3913287972,
+              "ret": 0.14390979375448015
+            },
+            {
+              "period": "2004-Q1",
+              "capital": 951113.5448387229,
+              "ret": 0.027044604636585153
+            },
+            {
+              "period": "2004-Q2",
+              "capital": 944317.0637781996,
+              "ret": -0.007145814605842674
+            },
+            {
+              "period": "2004-Q3",
+              "capital": 1042897.8566949532,
+              "ret": 0.10439374305313631
+            },
+            {
+              "period": "2004-Q4",
+              "capital": 1080650.1460731272,
+              "ret": 0.036199412181951156
+            },
+            {
+              "period": "2005-Q1",
+              "capital": 1184267.372086658,
+              "ret": 0.09588415491364694
+            },
+            {
+              "period": "2005-Q2",
+              "capital": 1237942.3890319043,
+              "ret": 0.045323394201659026
+            },
+            {
+              "period": "2005-Q3",
+              "capital": 1345210.3794753083,
+              "ret": 0.08665022814776521
+            },
+            {
+              "period": "2005-Q4",
+              "capital": 1488725.6407481893,
+              "ret": 0.10668610907452127
+            },
+            {
+              "period": "2006-Q1",
+              "capital": 1612956.7503600172,
+              "ret": 0.08344795455352874
+            },
+            {
+              "period": "2006-Q2",
+              "capital": 1606859.8907425248,
+              "ret": -0.003779927525106684
+            },
+            {
+              "period": "2006-Q3",
+              "capital": 1611167.824463655,
+              "ret": 0.002680964125092218
+            },
+            {
+              "period": "2006-Q4",
+              "capital": 1775403.3782318975,
+              "ret": 0.10193572095626673
+            },
+            {
+              "period": "2007-Q1",
+              "capital": 1872502.0660084018,
+              "ret": 0.05469105723635819
+            },
+            {
+              "period": "2007-Q2",
+              "capital": 2042955.7162774373,
+              "ret": 0.09102988635542089
+            },
+            {
+              "period": "2007-Q3",
+              "capital": 2285169.1273735682,
+              "ret": 0.11856028457507602
+            },
+            {
+              "period": "2007-Q4",
+              "capital": 2328501.312069677,
+              "ret": 0.01896235345429874
+            },
+            {
+              "period": "2008-Q1",
+              "capital": 2385069.255194544,
+              "ret": 0.02429371322732325
+            },
+            {
+              "period": "2008-Q2",
+              "capital": 2391079.0472572614,
+              "ret": 0.002519755788905708
+            },
+            {
+              "period": "2008-Q3",
+              "capital": 2081526.6052592725,
+              "ret": -0.12946140043051588
+            },
+            {
+              "period": "2008-Q4",
+              "capital": 2107010.515447206,
+              "ret": 0.012242894289001377
+            },
+            {
+              "period": "2009-Q1",
+              "capital": 2047840.3305905012,
+              "ret": -0.028082529452467416
+            },
+            {
+              "period": "2009-Q2",
+              "capital": 2195879.043825862,
+              "ret": 0.07229016394685085
+            },
+            {
+              "period": "2009-Q3",
+              "capital": 2378502.981134884,
+              "ret": 0.0831666652234351
+            },
+            {
+              "period": "2009-Q4",
+              "capital": 2505989.551033662,
+              "ret": 0.05359949973152808
+            },
+            {
+              "period": "2010-Q1",
+              "capital": 2468093.9658202007,
+              "ret": -0.015122004478362804
+            },
+            {
+              "period": "2010-Q2",
+              "capital": 2434683.7024807213,
+              "ret": -0.013536868450782962
+            },
+            {
+              "period": "2010-Q3",
+              "capital": 2852417.0574570107,
+              "ret": 0.17157602630298832
+            },
+            {
+              "period": "2010-Q4",
+              "capital": 3087572.065174173,
+              "ret": 0.08244061193730498
+            },
+            {
+              "period": "2011-Q1",
+              "capital": 3317355.1728613265,
+              "ret": 0.07442194152452644
+            },
+            {
+              "period": "2011-Q2",
+              "capital": 3266975.712607313,
+              "ret": -0.015186634420745419
+            },
+            {
+              "period": "2011-Q3",
+              "capital": 3072925.0388201093,
+              "ret": -0.05939764811790877
+            },
+            {
+              "period": "2011-Q4",
+              "capital": 3202042.0035689618,
+              "ret": 0.04201760964479267
+            },
+            {
+              "period": "2012-Q1",
+              "capital": 3246802.6234968505,
+              "ret": 0.013978773507030562
+            },
+            {
+              "period": "2012-Q2",
+              "capital": 3169238.206859739,
+              "ret": -0.02388947701217931
+            },
+            {
+              "period": "2012-Q3",
+              "capital": 3423966.7300840635,
+              "ret": 0.08037531627410366
+            },
+            {
+              "period": "2012-Q4",
+              "capital": 3435916.8417332773,
+              "ret": 0.003490136613833349
+            },
+            {
+              "period": "2013-Q1",
+              "capital": 3296995.819990454,
+              "ret": -0.04043200931275849
+            },
+            {
+              "period": "2013-Q2",
+              "capital": 3006921.4505632403,
+              "ret": -0.0879814186200737
+            },
+            {
+              "period": "2013-Q3",
+              "capital": 3185621.885342216,
+              "ret": 0.05942969835327856
+            },
+            {
+              "period": "2013-Q4",
+              "capital": 3184310.97849789,
+              "ret": -0.0004115073575926582
+            },
+            {
+              "period": "2014-Q1",
+              "capital": 3274714.777277967,
+              "ret": 0.028390380019580393
+            },
+            {
+              "period": "2014-Q2",
+              "capital": 3514423.184625415,
+              "ret": 0.0731997818590787
+            },
+            {
+              "period": "2014-Q3",
+              "capital": 3332112.5320933047,
+              "ret": -0.05187498572444746
+            },
+            {
+              "period": "2014-Q4",
+              "capital": 3314704.14242879,
+              "ret": -0.0052244302966497624
+            },
+            {
+              "period": "2015-Q1",
+              "capital": 3375878.711304832,
+              "ret": 0.01845551405116271
+            },
+            {
+              "period": "2015-Q2",
+              "capital": 3332068.4559478136,
+              "ret": -0.012977437610631746
+            },
+            {
+              "period": "2015-Q3",
+              "capital": 3070006.1795317237,
+              "ret": -0.07864852714784511
+            },
+            {
+              "period": "2015-Q4",
+              "capital": 3032631.898356788,
+              "ret": -0.012174008451226171
+            },
+            {
+              "period": "2016-Q1",
+              "capital": 3129485.403103783,
+              "ret": 0.03193711205091338
+            },
+            {
+              "period": "2016-Q2",
+              "capital": 3372067.0669534686,
+              "ret": 0.07751487308715241
+            },
+            {
+              "period": "2016-Q3",
+              "capital": 3467652.93431195,
+              "ret": 0.028346371961349967
+            },
+            {
+              "period": "2016-Q4",
+              "capital": 3929385.4535924485,
+              "ret": 0.13315419046459878
+            },
+            {
+              "period": "2017-Q1",
+              "capital": 4214402.267191409,
+              "ret": 0.07253470471785443
+            },
+            {
+              "period": "2017-Q2",
+              "capital": 5190001.717140086,
+              "ret": 0.2314917722837223
+            },
+            {
+              "period": "2017-Q3",
+              "capital": 6208382.938014716,
+              "ret": 0.1962198234947409
+            },
+            {
+              "period": "2017-Q4",
+              "capital": 9518215.859115135,
+              "ret": 0.5331231907158774
+            },
+            {
+              "period": "2018-Q1",
+              "capital": 8775568.014272604,
+              "ret": -0.0780238498301477
+            },
+            {
+              "period": "2018-Q2",
+              "capital": 8590963.338627484,
+              "ret": -0.02103620817990129
+            },
+            {
+              "period": "2018-Q3",
+              "capital": 8365065.704326236,
+              "ret": -0.026294796683108454
+            },
+            {
+              "period": "2018-Q4",
+              "capital": 7878331.229560172,
+              "ret": -0.05818656923571269
+            },
+            {
+              "period": "2019-Q1",
+              "capital": 8975369.337007247,
+              "ret": 0.13924752279148833
+            },
+            {
+              "period": "2019-Q2",
+              "capital": 10285028.835261783,
+              "ret": 0.14591705912920458
+            },
+            {
+              "period": "2019-Q3",
+              "capital": 9715826.883820046,
+              "ret": -0.05534276671060473
+            },
+            {
+              "period": "2019-Q4",
+              "capital": 10503999.06286552,
+              "ret": 0.0811225013033149
+            },
+            {
+              "period": "2020-Q1",
+              "capital": 9866722.280222192,
+              "ret": -0.06066991998278774
+            },
+            {
+              "period": "2020-Q2",
+              "capital": 11203193.45258624,
+              "ret": 0.13545239588257182
+            },
+            {
+              "period": "2020-Q3",
+              "capital": 11636820.954428125,
+              "ret": 0.03870570508998783
+            },
+            {
+              "period": "2020-Q4",
+              "capital": 16963310.20899848,
+              "ret": 0.45772718128343104
+            },
+            {
+              "period": "2021-Q1",
+              "capital": 19168769.968633953,
+              "ret": 0.1300135252178288
+            },
+            {
+              "period": "2021-Q2",
+              "capital": 18156192.148240574,
+              "ret": -0.052824350339133484
+            },
+            {
+              "period": "2021-Q3",
+              "capital": 19917008.282486685,
+              "ret": 0.09698157630573122
+            },
+            {
+              "period": "2021-Q4",
+              "capital": 19605939.061702333,
+              "ret": -0.015618270393444494
+            },
+            {
+              "period": "2022-Q1",
+              "capital": 20051920.234725688,
+              "ret": 0.0227472487606838
+            },
+            {
+              "period": "2022-Q2",
+              "capital": 18067942.579066966,
+              "ret": -0.09894202811673339
+            },
+            {
+              "period": "2022-Q3",
+              "capital": 17896127.962311402,
+              "ret": -0.00950936256320751
+            },
+            {
+              "period": "2022-Q4",
+              "capital": 18836615.56435299,
+              "ret": 0.05255257472578531
+            },
+            {
+              "period": "2023-Q1",
+              "capital": 20567295.050048243,
+              "ret": 0.09187847359216929
+            },
+            {
+              "period": "2023-Q2",
+              "capital": 20988929.900318682,
+              "ret": 0.0205002577754846
+            },
+            {
+              "period": "2023-Q3",
+              "capital": 20302897.902168352,
+              "ret": -0.032685420429171774
+            },
+            {
+              "period": "2023-Q4",
+              "capital": 24015059.026485294,
+              "ret": 0.1828389790563093
+            },
+            {
+              "period": "2024-Q1",
+              "capital": 29072284.414012548,
+              "ret": 0.21058559056423018
+            },
+            {
+              "period": "2024-Q2",
+              "capital": 28235633.99300443,
+              "ret": -0.0287782827483918
+            },
+            {
+              "period": "2024-Q3",
+              "capital": 30791087.470189296,
+              "ret": 0.09050455455747854
+            },
+            {
+              "period": "2024-Q4",
+              "capital": 30951632.331541337,
+              "ret": 0.0052140042636516495
+            },
+            {
+              "period": "2025-Q1",
+              "capital": 30462458.16594935,
+              "ret": -0.015804470677092335
+            },
+            {
+              "period": "2025-Q2",
+              "capital": 35253419.08136794,
+              "ret": 0.15727427147602557
+            },
+            {
+              "period": "2025-Q3",
+              "capital": 39210412.44928884,
+              "ret": 0.1122442438501585
+            },
+            {
+              "period": "2025-Q4",
+              "capital": 39876891.25747704,
+              "ret": 0.01699749547521752
+            }
+          ],
+          "live": [
+            {
+              "period": "起始",
+              "capital": 1000000,
+              "ret": 0
+            },
+            {
+              "period": "2000-Q1",
+              "capital": 1043042.5475786697,
+              "ret": 0.04304254757866968
+            },
+            {
+              "period": "2000-Q2",
+              "capital": 1030652.8997274422,
+              "ret": -0.011878372440308387
+            },
+            {
+              "period": "2000-Q3",
+              "capital": 1057457.1023675315,
+              "ret": 0.026007012299851754
+            },
+            {
+              "period": "2000-Q4",
+              "capital": 993641.7634574776,
+              "ret": -0.060347922168358686
+            },
+            {
+              "period": "2001-Q1",
+              "capital": 908063.6241055685,
+              "ret": -0.08612574722516816
+            },
+            {
+              "period": "2001-Q2",
+              "capital": 922471.4455775038,
+              "ret": 0.015866533015378402
+            },
+            {
+              "period": "2001-Q3",
+              "capital": 811399.8282509707,
+              "ret": -0.1204065641912611
+            },
+            {
+              "period": "2001-Q4",
+              "capital": 812482.8465087995,
+              "ret": 0.0013347528802950355
+            },
+            {
+              "period": "2002-Q1",
+              "capital": 835765.8510447367,
+              "ret": 0.02865661058074421
+            },
+            {
+              "period": "2002-Q2",
+              "capital": 802543.6787331629,
+              "ret": -0.039750574003526135
+            },
+            {
+              "period": "2002-Q3",
+              "capital": 715074.1008036396,
+              "ret": -0.10899042662400181
+            },
+            {
+              "period": "2002-Q4",
+              "capital": 743919.7897936798,
+              "ret": 0.04033944028684844
+            },
+            {
+              "period": "2003-Q1",
+              "capital": 680039.6783475244,
+              "ret": -0.0858696224009205
+            },
+            {
+              "period": "2003-Q2",
+              "capital": 736945.9692743637,
+              "ret": 0.0836808391315046
+            },
+            {
+              "period": "2003-Q3",
+              "capital": 795861.1808997749,
+              "ret": 0.07994508971047389
+            },
+            {
+              "period": "2003-Q4",
+              "capital": 908294.1476319993,
+              "ret": 0.1412720829091217
+            },
+            {
+              "period": "2004-Q1",
+              "capital": 928831.7556084241,
+              "ret": 0.022611186067826135
+            },
+            {
+              "period": "2004-Q2",
+              "capital": 930614.3204728022,
+              "ret": 0.0019191472014331258
+            },
+            {
+              "period": "2004-Q3",
+              "capital": 1031381.9728070031,
+              "ret": 0.10828078841834882
+            },
+            {
+              "period": "2004-Q4",
+              "capital": 1075745.5357569184,
+              "ret": 0.043013707937104746
+            },
+            {
+              "period": "2005-Q1",
+              "capital": 1178398.3732554824,
+              "ret": 0.09542483244081999
+            },
+            {
+              "period": "2005-Q2",
+              "capital": 1232177.9419957886,
+              "ret": 0.045637850459461164
+            },
+            {
+              "period": "2005-Q3",
+              "capital": 1338200.8084063048,
+              "ret": 0.08604509364839662
+            },
+            {
+              "period": "2005-Q4",
+              "capital": 1482483.8972091353,
+              "ret": 0.10781871292893686
+            },
+            {
+              "period": "2006-Q1",
+              "capital": 1603714.0056935826,
+              "ret": 0.08177499176393757
+            },
+            {
+              "period": "2006-Q2",
+              "capital": 1595137.8903484002,
+              "ret": -0.005347658818676533
+            },
+            {
+              "period": "2006-Q3",
+              "capital": 1596596.1593413823,
+              "ret": 0.0009141961969592957
+            },
+            {
+              "period": "2006-Q4",
+              "capital": 1759461.3199307162,
+              "ret": 0.10200773666931387
+            },
+            {
+              "period": "2007-Q1",
+              "capital": 1863946.39171487,
+              "ret": 0.059384693826783456
+            },
+            {
+              "period": "2007-Q2",
+              "capital": 2039606.5126351612,
+              "ret": 0.09424097264872527
+            },
+            {
+              "period": "2007-Q3",
+              "capital": 2268337.122451722,
+              "ret": 0.11214447904514772
+            },
+            {
+              "period": "2007-Q4",
+              "capital": 2286135.3272748203,
+              "ret": 0.007846366682859159
+            },
+            {
+              "period": "2008-Q1",
+              "capital": 2310031.8695479026,
+              "ret": 0.01045281177714362
+            },
+            {
+              "period": "2008-Q2",
+              "capital": 2302875.9202705133,
+              "ret": -0.0030977708020926828
+            },
+            {
+              "period": "2008-Q3",
+              "capital": 2004530.7865300588,
+              "ret": -0.1295532821001526
+            },
+            {
+              "period": "2008-Q4",
+              "capital": 2028403.0420967827,
+              "ret": 0.01190914887770202
+            },
+            {
+              "period": "2009-Q1",
+              "capital": 1971766.0748161834,
+              "ret": -0.027921949486948632
+            },
+            {
+              "period": "2009-Q2",
+              "capital": 2114288.153097711,
+              "ret": 0.07228143343262156
+            },
+            {
+              "period": "2009-Q3",
+              "capital": 2291282.534148328,
+              "ret": 0.08371346204219941
+            },
+            {
+              "period": "2009-Q4",
+              "capital": 2410458.3876555576,
+              "ret": 0.052012727252567996
+            },
+            {
+              "period": "2010-Q1",
+              "capital": 2368719.4497459014,
+              "ret": -0.017315767873616803
+            },
+            {
+              "period": "2010-Q2",
+              "capital": 2336895.132016374,
+              "ret": -0.01343524144783871
+            },
+            {
+              "period": "2010-Q3",
+              "capital": 2737267.598759343,
+              "ret": 0.1713266724114874
+            },
+            {
+              "period": "2010-Q4",
+              "capital": 2955706.140396479,
+              "ret": 0.07980167585227803
+            },
+            {
+              "period": "2011-Q1",
+              "capital": 3168729.0380161842,
+              "ret": 0.07207174444991676
+            },
+            {
+              "period": "2011-Q2",
+              "capital": 3121589.929455476,
+              "ret": -0.014876345687866178
+            },
+            {
+              "period": "2011-Q3",
+              "capital": 2936204.3880537106,
+              "ret": -0.05938817897010052
+            },
+            {
+              "period": "2011-Q4",
+              "capital": 3059576.6778682787,
+              "ret": 0.04201760964479267
+            },
+            {
+              "period": "2012-Q1",
+              "capital": 3102583.7264401256,
+              "ret": 0.0140565356256445
+            },
+            {
+              "period": "2012-Q2",
+              "capital": 3025016.639878923,
+              "ret": -0.02500080365283237
+            },
+            {
+              "period": "2012-Q3",
+              "capital": 3258700.9045713996,
+              "ret": 0.07725057165365862
+            },
+            {
+              "period": "2012-Q4",
+              "capital": 3277870.1395781855,
+              "ret": 0.005882477578686226
+            },
+            {
+              "period": "2013-Q1",
+              "capital": 3143339.8235181007,
+              "ret": -0.04104199078411227
+            },
+            {
+              "period": "2013-Q2",
+              "capital": 2873047.820172003,
+              "ret": -0.0859887948874648
+            },
+            {
+              "period": "2013-Q3",
+              "capital": 3043306.601648744,
+              "ret": 0.05926068486620176
+            },
+            {
+              "period": "2013-Q4",
+              "capital": 3038622.190882537,
+              "ret": -0.00153925035475201
+            },
+            {
+              "period": "2014-Q1",
+              "capital": 3136757.200785919,
+              "ret": 0.03229589061708243
+            },
+            {
+              "period": "2014-Q2",
+              "capital": 3350930.076371222,
+              "ret": 0.06827843593748405
+            },
+            {
+              "period": "2014-Q3",
+              "capital": 3152401.736279034,
+              "ret": -0.059245742396146224
+            },
+            {
+              "period": "2014-Q4",
+              "capital": 3119132.810042703,
+              "ret": -0.010553517292374059
+            },
+            {
+              "period": "2015-Q1",
+              "capital": 3184682.005137272,
+              "ret": 0.021015198481936958
+            },
+            {
+              "period": "2015-Q2",
+              "capital": 3141790.894540504,
+              "ret": -0.013467941391818578
+            },
+            {
+              "period": "2015-Q3",
+              "capital": 2863835.2446962995,
+              "ret": -0.08847044859898487
+            },
+            {
+              "period": "2015-Q4",
+              "capital": 2847161.8151995908,
+              "ret": -0.005822063097933904
+            },
+            {
+              "period": "2016-Q1",
+              "capital": 2947607.9240201265,
+              "ret": 0.0352793818336224
+            },
+            {
+              "period": "2016-Q2",
+              "capital": 3162139.2390350653,
+              "ret": 0.07278149623181489
+            },
+            {
+              "period": "2016-Q3",
+              "capital": 3259917.8463538336,
+              "ret": 0.03092166407846293
+            },
+            {
+              "period": "2016-Q4",
+              "capital": 3650958.8565382985,
+              "ret": 0.11995425302568229
+            },
+            {
+              "period": "2017-Q1",
+              "capital": 3873548.171195694,
+              "ret": 0.060967357728168484
+            },
+            {
+              "period": "2017-Q2",
+              "capital": 4610325.017746896,
+              "ret": 0.19020722448477315
+            },
+            {
+              "period": "2017-Q3",
+              "capital": 5436251.503153268,
+              "ret": 0.1791471278547753
+            },
+            {
+              "period": "2017-Q4",
+              "capital": 8221725.501939779,
+              "ret": 0.5123887291032823
+            },
+            {
+              "period": "2018-Q1",
+              "capital": 7429961.962274703,
+              "ret": -0.09630138338701204
+            },
+            {
+              "period": "2018-Q2",
+              "capital": 7271767.375606251,
+              "ret": -0.021291439642851198
+            },
+            {
+              "period": "2018-Q3",
+              "capital": 7079302.361605411,
+              "ret": -0.026467432751834098
+            },
+            {
+              "period": "2018-Q4",
+              "capital": 6545436.578796296,
+              "ret": -0.07541220243742318
+            },
+            {
+              "period": "2019-Q1",
+              "capital": 7439014.969819182,
+              "ret": 0.1365192955833688
+            },
+            {
+              "period": "2019-Q2",
+              "capital": 8419635.644320281,
+              "ret": 0.13182130678316617
+            },
+            {
+              "period": "2019-Q3",
+              "capital": 7892202.201700333,
+              "ret": -0.06264326211975041
+            },
+            {
+              "period": "2019-Q4",
+              "capital": 8509029.050210107,
+              "ret": 0.07815649330130961
+            },
+            {
+              "period": "2020-Q1",
+              "capital": 7994523.5951034,
+              "ret": -0.0604658242521811
+            },
+            {
+              "period": "2020-Q2",
+              "capital": 9077400.969999906,
+              "ret": 0.13545239588257182
+            },
+            {
+              "period": "2020-Q3",
+              "capital": 9428161.261107862,
+              "ret": 0.038641048496942075
+            },
+            {
+              "period": "2020-Q4",
+              "capital": 13749516.312167948,
+              "ret": 0.45834547494283123
+            },
+            {
+              "period": "2021-Q1",
+              "capital": 15395248.608974902,
+              "ret": 0.11969383209142606
+            },
+            {
+              "period": "2021-Q2",
+              "capital": 14738493.796944706,
+              "ret": -0.04265957820566342
+            },
+            {
+              "period": "2021-Q3",
+              "capital": 16025698.270156102,
+              "ret": 0.08733622926097345
+            },
+            {
+              "period": "2021-Q4",
+              "capital": 15783777.600855822,
+              "ret": -0.015095795841283026
+            },
+            {
+              "period": "2022-Q1",
+              "capital": 16408195.554650005,
+              "ret": 0.039560742021626405
+            },
+            {
+              "period": "2022-Q2",
+              "capital": 14248209.171734923,
+              "ret": -0.13164070209432335
+            },
+            {
+              "period": "2022-Q3",
+              "capital": 14071657.364125747,
+              "ret": -0.01239115775752454
+            },
+            {
+              "period": "2022-Q4",
+              "capital": 14878226.328251017,
+              "ret": 0.05731868984967862
+            },
+            {
+              "period": "2023-Q1",
+              "capital": 15958287.243744526,
+              "ret": 0.07259339195846695
+            },
+            {
+              "period": "2023-Q2",
+              "capital": 16040520.448833399,
+              "ret": 0.00515300945727154
+            },
+            {
+              "period": "2023-Q3",
+              "capital": 15598355.192042148,
+              "ret": -0.027565518101590587
+            },
+            {
+              "period": "2023-Q4",
+              "capital": 17646027.767741717,
+              "ret": 0.13127490369909225
+            },
+            {
+              "period": "2024-Q1",
+              "capital": 20621283.063406892,
+              "ret": 0.168607651241724
+            },
+            {
+              "period": "2024-Q2",
+              "capital": 20272419.958060116,
+              "ret": -0.016917623616051546
+            },
+            {
+              "period": "2024-Q3",
+              "capital": 21946800.087700393,
+              "ret": 0.08259399386478089
+            },
+            {
+              "period": "2024-Q4",
+              "capital": 22518357.4273006,
+              "ret": 0.02604285532816789
+            },
+            {
+              "period": "2025-Q1",
+              "capital": 21577120.742461503,
+              "ret": -0.04179863863862336
+            },
+            {
+              "period": "2025-Q2",
+              "capital": 25451007.052615765,
+              "ret": 0.17953675823534987
+            },
+            {
+              "period": "2025-Q3",
+              "capital": 28278864.79298659,
+              "ret": 0.11110985645969511
+            },
+            {
+              "period": "2025-Q4",
+              "capital": 28407866.577610515,
+              "ret": 0.0045617738041564245
+            }
+          ],
+          "p1bl": [
+            {
+              "period": "起始",
+              "capital": 1000000,
+              "ret": 0
+            },
+            {
+              "period": "2000-Q1",
+              "capital": 1079947.025809679,
+              "ret": 0.079947025809679
+            },
+            {
+              "period": "2000-Q2",
+              "capital": 1069475.9794137478,
+              "ret": -0.009695888914625831
+            },
+            {
+              "period": "2000-Q3",
+              "capital": 1082283.8743119645,
+              "ret": 0.011975860276205334
+            },
+            {
+              "period": "2000-Q4",
+              "capital": 952381.0951913523,
+              "ret": -0.12002653111984572
+            },
+            {
+              "period": "2001-Q1",
+              "capital": 819367.2795556199,
+              "ret": -0.13966448547470084
+            },
+            {
+              "period": "2001-Q2",
+              "capital": 817067.0177744143,
+              "ret": -0.002807363484728277
+            },
+            {
+              "period": "2001-Q3",
+              "capital": 701593.5141169826,
+              "ret": -0.14132684485535446
+            },
+            {
+              "period": "2001-Q4",
+              "capital": 666414.1147210494,
+              "ret": -0.05014213884261676
+            },
+            {
+              "period": "2002-Q1",
+              "capital": 672044.7827153937,
+              "ret": 0.00844920278542005
+            },
+            {
+              "period": "2002-Q2",
+              "capital": 657023.6422064808,
+              "ret": -0.022351398143766545
+            },
+            {
+              "period": "2002-Q3",
+              "capital": 590263.0912580995,
+              "ret": -0.1016105763320473
+            },
+            {
+              "period": "2002-Q4",
+              "capital": 631632.4478645967,
+              "ret": 0.07008630087021307
+            },
+            {
+              "period": "2003-Q1",
+              "capital": 556261.2492889351,
+              "ret": -0.11932762294032581
+            },
+            {
+              "period": "2003-Q2",
+              "capital": 632061.7002699454,
+              "ret": 0.13626771787160366
+            },
+            {
+              "period": "2003-Q3",
+              "capital": 685929.6609706049,
+              "ret": 0.08522579469322857
+            },
+            {
+              "period": "2003-Q4",
+              "capital": 772357.7484757615,
+              "ret": 0.12600138530656202
+            },
+            {
+              "period": "2004-Q1",
+              "capital": 766499.6729301324,
+              "ret": -0.007584665988254778
+            },
+            {
+              "period": "2004-Q2",
+              "capital": 745342.589003067,
+              "ret": -0.02760220868221277
+            },
+            {
+              "period": "2004-Q3",
+              "capital": 806432.0647911337,
+              "ret": 0.08196160623234595
+            },
+            {
+              "period": "2004-Q4",
+              "capital": 817528.8375748179,
+              "ret": 0.013760331797518847
+            },
+            {
+              "period": "2005-Q1",
+              "capital": 858747.3202809306,
+              "ret": 0.050418383806969454
+            },
+            {
+              "period": "2005-Q2",
+              "capital": 879852.3683364775,
+              "ret": 0.024576551864689017
+            },
+            {
+              "period": "2005-Q3",
+              "capital": 935780.9660891665,
+              "ret": 0.06356588873930319
+            },
+            {
+              "period": "2005-Q4",
+              "capital": 1026246.2202549446,
+              "ret": 0.09667353520114041
+            },
+            {
+              "period": "2006-Q1",
+              "capital": 1101592.6927549513,
+              "ret": 0.07341948843552262
+            },
+            {
+              "period": "2006-Q2",
+              "capital": 1079488.138886803,
+              "ret": -0.020065995366097933
+            },
+            {
+              "period": "2006-Q3",
+              "capital": 1135208.7331587968,
+              "ret": 0.051617606775609726
+            },
+            {
+              "period": "2006-Q4",
+              "capital": 1226418.0117066863,
+              "ret": 0.08034582177155522
+            },
+            {
+              "period": "2007-Q1",
+              "capital": 1287522.7683672966,
+              "ret": 0.04982375998830678
+            },
+            {
+              "period": "2007-Q2",
+              "capital": 1359544.58934393,
+              "ret": 0.055938289206305766
+            },
+            {
+              "period": "2007-Q3",
+              "capital": 1515955.4146001025,
+              "ret": 0.11504648430225546
+            },
+            {
+              "period": "2007-Q4",
+              "capital": 1559606.0437073724,
+              "ret": 0.028794137800408022
+            },
+            {
+              "period": "2008-Q1",
+              "capital": 1605995.4413100919,
+              "ret": 0.029744304845373888
+            },
+            {
+              "period": "2008-Q2",
+              "capital": 1587896.6174245705,
+              "ret": -0.011269536276365281
+            },
+            {
+              "period": "2008-Q3",
+              "capital": 1468809.8854803166,
+              "ret": -0.07499652725339402
+            },
+            {
+              "period": "2008-Q4",
+              "capital": 1464142.6256776392,
+              "ret": -0.003177579242089012
+            },
+            {
+              "period": "2009-Q1",
+              "capital": 1407865.1209176972,
+              "ret": -0.03843717392893705
+            },
+            {
+              "period": "2009-Q2",
+              "capital": 1523016.4306727673,
+              "ret": 0.08179143587278473
+            },
+            {
+              "period": "2009-Q3",
+              "capital": 1660831.652614299,
+              "ret": 0.09048833562527889
+            },
+            {
+              "period": "2009-Q4",
+              "capital": 1734446.7566013827,
+              "ret": 0.04432424193698804
+            },
+            {
+              "period": "2010-Q1",
+              "capital": 1720707.552339312,
+              "ret": -0.00792137562584664
+            },
+            {
+              "period": "2010-Q2",
+              "capital": 1678819.3186797188,
+              "ret": -0.024343610047300443
+            },
+            {
+              "period": "2010-Q3",
+              "capital": 1860945.1265238798,
+              "ret": 0.10848446036908321
+            },
+            {
+              "period": "2010-Q4",
+              "capital": 1949805.1157145351,
+              "ret": 0.04774992444653098
+            },
+            {
+              "period": "2011-Q1",
+              "capital": 2068407.7723876426,
+              "ret": 0.06082795440283987
+            },
+            {
+              "period": "2011-Q2",
+              "capital": 2088680.6296351105,
+              "ret": 0.00980118984182017
+            },
+            {
+              "period": "2011-Q3",
+              "capital": 1976448.0241735347,
+              "ret": -0.05373373213174416
+            },
+            {
+              "period": "2011-Q4",
+              "capital": 2026817.4609484447,
+              "ret": 0.025484827406970355
+            },
+            {
+              "period": "2012-Q1",
+              "capital": 2110522.938996632,
+              "ret": 0.04129897223651203
+            },
+            {
+              "period": "2012-Q2",
+              "capital": 2098510.4541180646,
+              "ret": -0.005691710171261409
+            },
+            {
+              "period": "2012-Q3",
+              "capital": 2234722.322175931,
+              "ret": 0.06490883464057465
+            },
+            {
+              "period": "2012-Q4",
+              "capital": 2242461.2495527794,
+              "ret": 0.0034630375774440483
+            },
+            {
+              "period": "2013-Q1",
+              "capital": 2203377.984703729,
+              "ret": -0.017428735884218623
+            },
+            {
+              "period": "2013-Q2",
+              "capital": 2091372.125648268,
+              "ret": -0.050833701631325605
+            },
+            {
+              "period": "2013-Q3",
+              "capital": 2199644.6441804282,
+              "ret": 0.051771044093168676
+            },
+            {
+              "period": "2013-Q4",
+              "capital": 2213014.801155795,
+              "ret": 0.006078325883564724
+            },
+            {
+              "period": "2014-Q1",
+              "capital": 2277124.317042345,
+              "ret": 0.028969311842409657
+            },
+            {
+              "period": "2014-Q2",
+              "capital": 2361777.6273797457,
+              "ret": 0.037175533063277214
+            },
+            {
+              "period": "2014-Q3",
+              "capital": 2346841.8184265117,
+              "ret": -0.00632396919171619
+            },
+            {
+              "period": "2014-Q4",
+              "capital": 2398088.714354115,
+              "ret": 0.021836536031202423
+            },
+            {
+              "period": "2015-Q1",
+              "capital": 2452358.20629162,
+              "ret": 0.022630310385377706
+            },
+            {
+              "period": "2015-Q2",
+              "capital": 2439384.922267316,
+              "ret": -0.005290126047255661
+            },
+            {
+              "period": "2015-Q3",
+              "capital": 2415133.803086766,
+              "ret": -0.009941489331666886
+            },
+            {
+              "period": "2015-Q4",
+              "capital": 2416930.266492466,
+              "ret": 0.0007438359743893237
+            },
+            {
+              "period": "2016-Q1",
+              "capital": 2476004.2731609805,
+              "ret": 0.024441750549238937
+            },
+            {
+              "period": "2016-Q2",
+              "capital": 2541450.6238324614,
+              "ret": 0.026432244637417095
+            },
+            {
+              "period": "2016-Q3",
+              "capital": 2599423.985110858,
+              "ret": 0.022811130279200068
+            },
+            {
+              "period": "2016-Q4",
+              "capital": 2651719.953655203,
+              "ret": 0.020118291145995806
+            },
+            {
+              "period": "2017-Q1",
+              "capital": 2731670.8041497804,
+              "ret": 0.030150563367135105
+            },
+            {
+              "period": "2017-Q2",
+              "capital": 2870999.6426774045,
+              "ret": 0.05100498871092532
+            },
+            {
+              "period": "2017-Q3",
+              "capital": 3048778.3041698067,
+              "ret": 0.06192221651640864
+            },
+            {
+              "period": "2017-Q4",
+              "capital": 3363194.806935258,
+              "ret": 0.10312868677116498
+            },
+            {
+              "period": "2018-Q1",
+              "capital": 3311069.95859304,
+              "ret": -0.015498611092860807
+            },
+            {
+              "period": "2018-Q2",
+              "capital": 3289349.510596211,
+              "ret": -0.0065599483757384095
+            },
+            {
+              "period": "2018-Q3",
+              "capital": 3248276.8545427606,
+              "ret": -0.012486558792594148
+            },
+            {
+              "period": "2018-Q4",
+              "capital": 3230102.9725350924,
+              "ret": -0.005594930118795735
+            },
+            {
+              "period": "2019-Q1",
+              "capital": 3585305.4807901937,
+              "ret": 0.109966311066649
+            },
+            {
+              "period": "2019-Q2",
+              "capital": 3679424.9690095834,
+              "ret": 0.026251455761210497
+            },
+            {
+              "period": "2019-Q3",
+              "capital": 3681284.3380009206,
+              "ret": 0.0005053422768497431
+            },
+            {
+              "period": "2019-Q4",
+              "capital": 3929854.411146246,
+              "ret": 0.06752264979355235
+            },
+            {
+              "period": "2020-Q1",
+              "capital": 3528453.740521406,
+              "ret": -0.10214135910133136
+            },
+            {
+              "period": "2020-Q2",
+              "capital": 3795650.962362604,
+              "ret": 0.07572643471916787
+            },
+            {
+              "period": "2020-Q3",
+              "capital": 3876675.83394323,
+              "ret": 0.02134676564943989
+            },
+            {
+              "period": "2020-Q4",
+              "capital": 4249188.840119289,
+              "ret": 0.09609083197373013
+            },
+            {
+              "period": "2021-Q1",
+              "capital": 4394366.089195677,
+              "ret": 0.03416587366173917
+            },
+            {
+              "period": "2021-Q2",
+              "capital": 4535563.321011307,
+              "ret": 0.03213142213225892
+            },
+            {
+              "period": "2021-Q3",
+              "capital": 4543612.047383979,
+              "ret": 0.001774581414261272
+            },
+            {
+              "period": "2021-Q4",
+              "capital": 4624704.212143236,
+              "ret": 0.01784751072793429
+            },
+            {
+              "period": "2022-Q1",
+              "capital": 4549718.291801253,
+              "ret": -0.016214208931479204
+            },
+            {
+              "period": "2022-Q2",
+              "capital": 4256807.457832899,
+              "ret": -0.06437999348139632
+            },
+            {
+              "period": "2022-Q3",
+              "capital": 4147555.025321468,
+              "ret": -0.025665345119238864
+            },
+            {
+              "period": "2022-Q4",
+              "capital": 4316114.247923532,
+              "ret": 0.04064062358979782
+            },
+            {
+              "period": "2023-Q1",
+              "capital": 4495529.106586898,
+              "ret": 0.04156860739951035
+            },
+            {
+              "period": "2023-Q2",
+              "capital": 4631028.290442098,
+              "ret": 0.030140875666151465
+            },
+            {
+              "period": "2023-Q3",
+              "capital": 4513780.687060636,
+              "ret": -0.025317833541083797
+            },
+            {
+              "period": "2023-Q4",
+              "capital": 4874597.236194648,
+              "ret": 0.07993665934376079
+            },
+            {
+              "period": "2024-Q1",
+              "capital": 5264394.742898235,
+              "ret": 0.07996506948497802
+            },
+            {
+              "period": "2024-Q2",
+              "capital": 5478129.267901198,
+              "ret": 0.040600018699451554
+            },
+            {
+              "period": "2024-Q3",
+              "capital": 6017126.050319165,
+              "ret": 0.09839066514479476
+            },
+            {
+              "period": "2024-Q4",
+              "capital": 5979728.00955174,
+              "ret": -0.006215266300668829
+            },
+            {
+              "period": "2025-Q1",
+              "capital": 5883977.666162537,
+              "ret": -0.01601249141035428
+            },
+            {
+              "period": "2025-Q2",
+              "capital": 6673465.415626535,
+              "ret": 0.13417585760125633
+            },
+            {
+              "period": "2025-Q3",
+              "capital": 7205293.153995488,
+              "ret": 0.07969288896345039
+            },
+            {
+              "period": "2025-Q4",
+              "capital": 7274107.433501245,
+              "ret": 0.009550517659035026
+            }
+          ],
+          "eq": [
+            {
+              "period": "起始",
+              "capital": 1000000,
+              "ret": 0
+            },
+            {
+              "period": "2000-Q1",
+              "capital": 1023775.0000000001,
+              "ret": 0.023775
+            },
+            {
+              "period": "2000-Q2",
+              "capital": 1009211.800625,
+              "ret": -0.014225000000000002
+            },
+            {
+              "period": "2000-Q3",
+              "capital": 1003812.5174916564,
+              "ret": -0.005350000000000006
+            },
+            {
+              "period": "2000-Q4",
+              "capital": 954525.322882816,
+              "ret": -0.0491
+            },
+            {
+              "period": "2001-Q1",
+              "capital": 877542.8555923168,
+              "ret": -0.08065
+            },
+            {
+              "period": "2001-Q2",
+              "capital": 885089.7241504107,
+              "ret": 0.0086
+            },
+            {
+              "period": "2001-Q3",
+              "capital": 782043.1530161991,
+              "ret": -0.116425
+            },
+            {
+              "period": "2001-Q4",
+              "capital": 763821.5475509217,
+              "ret": -0.023299999999999994
+            },
+            {
+              "period": "2002-Q1",
+              "capital": 802623.6821665085,
+              "ret": 0.050800000000000005
+            },
+            {
+              "period": "2002-Q2",
+              "capital": 772589.5039798378,
+              "ret": -0.03742
+            },
+            {
+              "period": "2002-Q3",
+              "capital": 667084.681316351,
+              "ret": -0.13656000000000001
+            },
+            {
+              "period": "2002-Q4",
+              "capital": 701332.8088551324,
+              "ret": 0.05133999999999999
+            },
+            {
+              "period": "2003-Q1",
+              "capital": 644861.4910861171,
+              "ret": -0.08052000000000001
+            },
+            {
+              "period": "2003-Q2",
+              "capital": 694116.0117752746,
+              "ret": 0.07638
+            },
+            {
+              "period": "2003-Q3",
+              "capital": 756274.1006297505,
+              "ret": 0.08954999999999999
+            },
+            {
+              "period": "2003-Q4",
+              "capital": 848712.4035581525,
+              "ret": 0.12222857142857141
+            },
+            {
+              "period": "2004-Q1",
+              "capital": 860024.5274512918,
+              "ret": 0.01332857142857143
+            },
+            {
+              "period": "2004-Q2",
+              "capital": 880296.5341697865,
+              "ret": 0.023571428571428577
+            },
+            {
+              "period": "2004-Q3",
+              "capital": 986384.8422020196,
+              "ret": 0.12051428571428571
+            },
+            {
+              "period": "2004-Q4",
+              "capital": 1057700.4662932258,
+              "ret": 0.0723
+            },
+            {
+              "period": "2005-Q1",
+              "capital": 1129941.408141053,
+              "ret": 0.06829999999999999
+            },
+            {
+              "period": "2005-Q2",
+              "capital": 1178629.3279273976,
+              "ret": 0.043088888888888885
+            },
+            {
+              "period": "2005-Q3",
+              "capital": 1268532.5538854152,
+              "ret": 0.07627777777777778
+            },
+            {
+              "period": "2005-Q4",
+              "capital": 1398317.5289540472,
+              "ret": 0.1023111111111111
+            },
+            {
+              "period": "2006-Q1",
+              "capital": 1517392.034975201,
+              "ret": 0.08515555555555554
+            },
+            {
+              "period": "2006-Q2",
+              "capital": 1507680.7259513596,
+              "ret": -0.006399999999999994
+            },
+            {
+              "period": "2006-Q3",
+              "capital": 1531451.8253971927,
+              "ret": 0.01576666666666667
+            },
+            {
+              "period": "2006-Q4",
+              "capital": 1706888.1400621377,
+              "ret": 0.11455555555555554
+            },
+            {
+              "period": "2007-Q1",
+              "capital": 1785268.443453791,
+              "ret": 0.04592
+            },
+            {
+              "period": "2007-Q2",
+              "capital": 1944175.1876056131,
+              "ret": 0.08901000000000002
+            },
+            {
+              "period": "2007-Q3",
+              "capital": 2190579.9508827487,
+              "ret": 0.12674
+            },
+            {
+              "period": "2007-Q4",
+              "capital": 2188827.4869220424,
+              "ret": -0.0007999999999999984
+            },
+            {
+              "period": "2008-Q1",
+              "capital": 2184529.4256749954,
+              "ret": -0.0019636363636363653
+            },
+            {
+              "period": "2008-Q2",
+              "capital": 2120363.838635396,
+              "ret": -0.029372727272727273
+            },
+            {
+              "period": "2008-Q3",
+              "capital": 1761366.9647195272,
+              "ret": -0.1693090909090909
+            },
+            {
+              "period": "2008-Q4",
+              "capital": 1751983.6825256576,
+              "ret": -0.005327272727272729
+            },
+            {
+              "period": "2009-Q1",
+              "capital": 1684771.2176142186,
+              "ret": -0.038363636363636364
+            },
+            {
+              "period": "2009-Q2",
+              "capital": 1850843.7113650455,
+              "ret": 0.09857272727272727
+            },
+            {
+              "period": "2009-Q3",
+              "capital": 2030442.8547751408,
+              "ret": 0.09703636363636363
+            },
+            {
+              "period": "2009-Q4",
+              "capital": 2140437.4817897324,
+              "ret": 0.054172727272727275
+            },
+            {
+              "period": "2010-Q1",
+              "capital": 2122068.636491464,
+              "ret": -0.00858181818181818
+            },
+            {
+              "period": "2010-Q2",
+              "capital": 1983709.7613922204,
+              "ret": -0.0652
+            },
+            {
+              "period": "2010-Q3",
+              "capital": 2279927.2215121137,
+              "ret": 0.14932499999999999
+            },
+            {
+              "period": "2010-Q4",
+              "capital": 2417235.8384276805,
+              "ret": 0.06022500000000001
+            },
+            {
+              "period": "2011-Q1",
+              "capital": 2557636.9533763546,
+              "ret": 0.058083333333333334
+            },
+            {
+              "period": "2011-Q2",
+              "capital": 2524686.0639603557,
+              "ret": -0.012883333333333333
+            },
+            {
+              "period": "2011-Q3",
+              "capital": 2161678.2860639226,
+              "ret": -0.14378333333333332
+            },
+            {
+              "period": "2011-Q4",
+              "capital": 2285254.22808391,
+              "ret": 0.05716666666666667
+            },
+            {
+              "period": "2012-Q1",
+              "capital": 2377749.8929656064,
+              "ret": 0.04047499999999999
+            },
+            {
+              "period": "2012-Q2",
+              "capital": 2308101.635684156,
+              "ret": -0.029291666666666657
+            },
+            {
+              "period": "2012-Q3",
+              "capital": 2469149.4273140174,
+              "ret": 0.06977499999999999
+            },
+            {
+              "period": "2012-Q4",
+              "capital": 2562812.4955901294,
+              "ret": 0.03793333333333333
+            },
+            {
+              "period": "2013-Q1",
+              "capital": 2454533.6676514465,
+              "ret": -0.04225
+            },
+            {
+              "period": "2013-Q2",
+              "capital": 2303191.212593504,
+              "ret": -0.061658333333333336
+            },
+            {
+              "period": "2013-Q3",
+              "capital": 2485258.477949021,
+              "ret": 0.07905
+            },
+            {
+              "period": "2013-Q4",
+              "capital": 2490477.520752714,
+              "ret": 0.0020999999999999986
+            },
+            {
+              "period": "2014-Q1",
+              "capital": 2553756.403759172,
+              "ret": 0.02540833333333333
+            },
+            {
+              "period": "2014-Q2",
+              "capital": 2682742.383452375,
+              "ret": 0.050508333333333336
+            },
+            {
+              "period": "2014-Q3",
+              "capital": 2571922.7668292634,
+              "ret": -0.04130833333333333
+            },
+            {
+              "period": "2014-Q4",
+              "capital": 2560349.1143785315,
+              "ret": -0.004500000000000005
+            },
+            {
+              "period": "2015-Q1",
+              "capital": 2617042.559054056,
+              "ret": 0.02214285714285714
+            },
+            {
+              "period": "2015-Q2",
+              "capital": 2591283.38300851,
+              "ret": -0.009842857142857145
+            },
+            {
+              "period": "2015-Q3",
+              "capital": 2392457.9108636715,
+              "ret": -0.07672857142857141
+            },
+            {
+              "period": "2015-Q4",
+              "capital": 2427199.8175264276,
+              "ret": 0.014521428571428574
+            },
+            {
+              "period": "2016-Q1",
+              "capital": 2509655.262756111,
+              "ret": 0.03397142857142856
+            },
+            {
+              "period": "2016-Q2",
+              "capital": 2698954.9740040004,
+              "ret": 0.07542857142857141
+            },
+            {
+              "period": "2016-Q3",
+              "capital": 2761859.9031481077,
+              "ret": 0.023307142857142853
+            },
+            {
+              "period": "2016-Q4",
+              "capital": 2947811.984912922,
+              "ret": 0.06732857142857142
+            },
+            {
+              "period": "2017-Q1",
+              "capital": 3081032.0308310944,
+              "ret": 0.045192857142857146
+            },
+            {
+              "period": "2017-Q2",
+              "capital": 3392106.2290867907,
+              "ret": 0.1009642857142857
+            },
+            {
+              "period": "2017-Q3",
+              "capital": 3776722.6168048168,
+              "ret": 0.11338571428571427
+            },
+            {
+              "period": "2017-Q4",
+              "capital": 4765927.199916359,
+              "ret": 0.2619214285714286
+            },
+            {
+              "period": "2018-Q1",
+              "capital": 4471937.576355804,
+              "ret": -0.06168571428571429
+            },
+            {
+              "period": "2018-Q2",
+              "capital": 4359819.712834312,
+              "ret": -0.025071428571428567
+            },
+            {
+              "period": "2018-Q3",
+              "capital": 4246775.815994393,
+              "ret": -0.025928571428571426
+            },
+            {
+              "period": "2018-Q4",
+              "capital": 3957509.7146992325,
+              "ret": -0.0681142857142857
+            },
+            {
+              "period": "2019-Q1",
+              "capital": 4426983.438568696,
+              "ret": 0.11862857142857144
+            },
+            {
+              "period": "2019-Q2",
+              "capital": 4746105.7018689485,
+              "ret": 0.07208571428571428
+            },
+            {
+              "period": "2019-Q3",
+              "capital": 4526428.809382443,
+              "ret": -0.046285714285714284
+            },
+            {
+              "period": "2019-Q4",
+              "capital": 4828212.284430841,
+              "ret": 0.06667142857142859
+            },
+            {
+              "period": "2020-Q1",
+              "capital": 4071700.3939217343,
+              "ret": -0.15668571428571426
+            },
+            {
+              "period": "2020-Q2",
+              "capital": 4639150.010963212,
+              "ret": 0.1393642857142857
+            },
+            {
+              "period": "2020-Q3",
+              "capital": 4796450.333120657,
+              "ret": 0.03390714285714285
+            },
+            {
+              "period": "2020-Q4",
+              "capital": 6226649.04137867,
+              "ret": 0.2981785714285714
+            },
+            {
+              "period": "2021-Q1",
+              "capital": 6646992.327736312,
+              "ret": 0.06750714285714285
+            },
+            {
+              "period": "2021-Q2",
+              "capital": 6610576.305483642,
+              "ret": -0.005478571428571428
+            },
+            {
+              "period": "2021-Q3",
+              "capital": 6749067.879083524,
+              "ret": 0.02095
+            },
+            {
+              "period": "2021-Q4",
+              "capital": 6791249.553327797,
+              "ret": 0.006250000000000002
+            },
+            {
+              "period": "2022-Q1",
+              "capital": 6924212.51779688,
+              "ret": 0.019578571428571428
+            },
+            {
+              "period": "2022-Q2",
+              "capital": 6129758.04870137,
+              "ret": -0.11473571428571427
+            },
+            {
+              "period": "2022-Q3",
+              "capital": 5992101.196521962,
+              "ret": -0.02245714285714285
+            },
+            {
+              "period": "2022-Q4",
+              "capital": 6324234.805700608,
+              "ret": 0.05542857142857143
+            },
+            {
+              "period": "2023-Q1",
+              "capital": 6717195.65266339,
+              "ret": 0.06213571428571427
+            },
+            {
+              "period": "2023-Q2",
+              "capital": 6671854.582007912,
+              "ret": -0.006749999999999999
+            },
+            {
+              "period": "2023-Q3",
+              "capital": 6518783.175454987,
+              "ret": -0.022942857142857147
+            },
+            {
+              "period": "2023-Q4",
+              "capital": 7000614.377595047,
+              "ret": 0.07391428571428571
+            },
+            {
+              "period": "2024-Q1",
+              "capital": 7791033.745213939,
+              "ret": 0.11290714285714286
+            },
+            {
+              "period": "2024-Q2",
+              "capital": 7825425.594174955,
+              "ret": 0.004414285714285714
+            },
+            {
+              "period": "2024-Q3",
+              "capital": 8525354.017676804,
+              "ret": 0.08944285714285713
+            },
+            {
+              "period": "2024-Q4",
+              "capital": 8455507.010117695,
+              "ret": -0.008192857142857135
+            },
+            {
+              "period": "2025-Q1",
+              "capital": 8236026.206726496,
+              "ret": -0.025957142857142852
+            },
+            {
+              "period": "2025-Q2",
+              "capital": 9374245.028496098,
+              "ret": 0.13820000000000002
+            },
+            {
+              "period": "2025-Q3",
+              "capital": 10304036.217536788,
+              "ret": 0.09918571428571428
+            },
+            {
+              "period": "2025-Q4",
+              "capital": 10593947.636543056,
+              "ret": 0.02813571428571428
+            }
+          ],
+          "bm6040": [
+            {
+              "period": "起始",
+              "capital": 1000000,
+              "ret": 0
+            },
+            {
+              "period": "2000-Q1",
+              "capital": 1047020.0000000001,
+              "ret": 0.04702
+            },
+            {
+              "period": "2000-Q2",
+              "capital": 1019064.5660000002,
+              "ret": -0.0267
+            },
+            {
+              "period": "2000-Q3",
+              "capital": 990897.6213957602,
+              "ret": -0.027640000000000005
+            },
+            {
+              "period": "2000-Q4",
+              "capital": 921138.4288494986,
+              "ret": -0.0704
+            },
+            {
+              "period": "2001-Q1",
+              "capital": 829374.6185675116,
+              "ret": -0.09961999999999999
+            },
+            {
+              "period": "2001-Q2",
+              "capital": 860608.8667027641,
+              "ret": 0.03765999999999999
+            },
+            {
+              "period": "2001-Q3",
+              "capital": 764633.7658880719,
+              "ret": -0.11152
+            },
+            {
+              "period": "2001-Q4",
+              "capital": 762607.4864084685,
+              "ret": -0.0026500000000000065
+            },
+            {
+              "period": "2002-Q1",
+              "capital": 788055.698229919,
+              "ret": 0.033370000000000004
+            },
+            {
+              "period": "2002-Q2",
+              "capital": 757644.6288352264,
+              "ret": -0.03858999999999999
+            },
+            {
+              "period": "2002-Q3",
+              "capital": 651528.9221205645,
+              "ret": -0.14006000000000002
+            },
+            {
+              "period": "2002-Q4",
+              "capital": 691311.2781052461,
+              "ret": 0.06105999999999998
+            },
+            {
+              "period": "2003-Q1",
+              "capital": 629528.7891809803,
+              "ret": -0.08937
+            },
+            {
+              "period": "2003-Q2",
+              "capital": 686740.3655417479,
+              "ret": 0.09088000000000002
+            },
+            {
+              "period": "2003-Q3",
+              "capital": 755579.2197836526,
+              "ret": 0.10024
+            },
+            {
+              "period": "2003-Q4",
+              "capital": 850933.3173203494,
+              "ret": 0.12619999999999998
+            },
+            {
+              "period": "2004-Q1",
+              "capital": 861944.3944464746,
+              "ret": 0.012939999999999998
+            },
+            {
+              "period": "2004-Q2",
+              "capital": 862978.7277198104,
+              "ret": 0.0011999999999999997
+            },
+            {
+              "period": "2004-Q3",
+              "capital": 955001.026052333,
+              "ret": 0.10663333333333333
+            },
+            {
+              "period": "2004-Q4",
+              "capital": 1038690.9493020523,
+              "ret": 0.08763333333333333
+            },
+            {
+              "period": "2005-Q1",
+              "capital": 1090244.6434190776,
+              "ret": 0.04963333333333332
+            },
+            {
+              "period": "2005-Q2",
+              "capital": 1133730.8680962531,
+              "ret": 0.03988666666666667
+            },
+            {
+              "period": "2005-Q3",
+              "capital": 1219097.779181586,
+              "ret": 0.07529733333333333
+            },
+            {
+              "period": "2005-Q4",
+              "capital": 1346690.1782144364,
+              "ret": 0.10466133333333333
+            },
+            {
+              "period": "2006-Q1",
+              "capital": 1464809.271539077,
+              "ret": 0.08771066666666666
+            },
+            {
+              "period": "2006-Q2",
+              "capital": 1452670.8853755898,
+              "ret": -0.008286666666666666
+            },
+            {
+              "period": "2006-Q3",
+              "capital": 1490180.7845305013,
+              "ret": 0.025821333333333335
+            },
+            {
+              "period": "2006-Q4",
+              "capital": 1664875.6713548684,
+              "ret": 0.11723066666666665
+            },
+            {
+              "period": "2007-Q1",
+              "capital": 1734416.418230247,
+              "ret": 0.041769333333333325
+            },
+            {
+              "period": "2007-Q2",
+              "capital": 1880729.4747169265,
+              "ret": 0.08435866666666668
+            },
+            {
+              "period": "2007-Q3",
+              "capital": 2144708.6637881943,
+              "ret": 0.14036
+            },
+            {
+              "period": "2007-Q4",
+              "capital": 2079789.7623411014,
+              "ret": -0.03026933333333334
+            },
+            {
+              "period": "2008-Q1",
+              "capital": 2040290.3951747192,
+              "ret": -0.018992000000000002
+            },
+            {
+              "period": "2008-Q2",
+              "capital": 1914469.7670850845,
+              "ret": -0.061668
+            },
+            {
+              "period": "2008-Q3",
+              "capital": 1640409.5909873205,
+              "ret": -0.143152
+            },
+            {
+              "period": "2008-Q4",
+              "capital": 1628414.9160580214,
+              "ret": -0.007311999999999999
+            },
+            {
+              "period": "2009-Q1",
+              "capital": 1582969.112580674,
+              "ret": -0.027908
+            },
+            {
+              "period": "2009-Q2",
+              "capital": 1776214.8159062974,
+              "ret": 0.12207799999999999
+            },
+            {
+              "period": "2009-Q3",
+              "capital": 1957399.3844176352,
+              "ret": 0.102006
+            },
+            {
+              "period": "2009-Q4",
+              "capital": 2055425.9455892702,
+              "ret": 0.05008
+            },
+            {
+              "period": "2010-Q1",
+              "capital": 2056840.0786398356,
+              "ret": 0.0006879999999999999
+            },
+            {
+              "period": "2010-Q2",
+              "capital": 1920956.9956845734,
+              "ret": -0.066064
+            },
+            {
+              "period": "2010-Q3",
+              "capital": 2139373.648007901,
+              "ret": 0.113702
+            },
+            {
+              "period": "2010-Q4",
+              "capital": 2179931.8936268347,
+              "ret": 0.018958
+            },
+            {
+              "period": "2011-Q1",
+              "capital": 2266898.096591184,
+              "ret": 0.039894
+            },
+            {
+              "period": "2011-Q2",
+              "capital": 2261258.0541268648,
+              "ret": -0.002487999999999998
+            },
+            {
+              "period": "2011-Q3",
+              "capital": 1967959.3169582856,
+              "ret": -0.12970600000000002
+            },
+            {
+              "period": "2011-Q4",
+              "capital": 2074748.6613337102,
+              "ret": 0.05426400000000001
+            },
+            {
+              "period": "2012-Q1",
+              "capital": 2194233.436739919,
+              "ret": 0.05759
+            },
+            {
+              "period": "2012-Q2",
+              "capital": 2137473.006198331,
+              "ret": -0.025868000000000002
+            },
+            {
+              "period": "2012-Q3",
+              "capital": 2272834.896734859,
+              "ret": 0.06332800000000001
+            },
+            {
+              "period": "2012-Q4",
+              "capital": 2389504.0576540525,
+              "ret": 0.051332
+            },
+            {
+              "period": "2013-Q1",
+              "capital": 2306129.4820743874,
+              "ret": -0.034892
+            },
+            {
+              "period": "2013-Q2",
+              "capital": 2182460.9824686665,
+              "ret": -0.05362600000000001
+            },
+            {
+              "period": "2013-Q3",
+              "capital": 2371558.1318336814,
+              "ret": 0.086644
+            },
+            {
+              "period": "2013-Q4",
+              "capital": 2384976.407743596,
+              "ret": 0.005657999999999999
+            },
+            {
+              "period": "2014-Q1",
+              "capital": 2411716.7632272174,
+              "ret": 0.011212000000000001
+            },
+            {
+              "period": "2014-Q2",
+              "capital": 2509371.9984038137,
+              "ret": 0.040492
+            },
+            {
+              "period": "2014-Q3",
+              "capital": 2478597.0602153894,
+              "ret": -0.012263999999999997
+            },
+            {
+              "period": "2014-Q4",
+              "capital": 2548171.2796956357,
+              "ret": 0.028069999999999998
+            },
+            {
+              "period": "2015-Q1",
+              "capital": 2652126.475222099,
+              "ret": 0.04079599999999999
+            },
+            {
+              "period": "2015-Q2",
+              "capital": 2633259.2474773694,
+              "ret": -0.007114
+            },
+            {
+              "period": "2015-Q3",
+              "capital": 2473746.9353021802,
+              "ret": -0.06057599999999999
+            },
+            {
+              "period": "2015-Q4",
+              "capital": 2615824.116784326,
+              "ret": 0.05743399999999999
+            },
+            {
+              "period": "2016-Q1",
+              "capital": 2658979.9830630333,
+              "ret": 0.016498
+            },
+            {
+              "period": "2016-Q2",
+              "capital": 2841386.0099011576,
+              "ret": 0.0686
+            },
+            {
+              "period": "2016-Q3",
+              "capital": 2922075.6898103305,
+              "ret": 0.028397999999999993
+            },
+            {
+              "period": "2016-Q4",
+              "capital": 3077980.1161644706,
+              "ret": 0.053353999999999985
+            },
+            {
+              "period": "2017-Q1",
+              "capital": 3278904.5021874546,
+              "ret": 0.065278
+            },
+            {
+              "period": "2017-Q2",
+              "capital": 3781960.588722058,
+              "ret": 0.15342199999999998
+            },
+            {
+              "period": "2017-Q3",
+              "capital": 4268608.149436458,
+              "ret": 0.128676
+            },
+            {
+              "period": "2017-Q4",
+              "capital": 5746835.688802603,
+              "ret": 0.346302
+            },
+            {
+              "period": "2018-Q1",
+              "capital": 5331086.607731868,
+              "ret": -0.072344
+            },
+            {
+              "period": "2018-Q2",
+              "capital": 5159553.565041487,
+              "ret": -0.03217599999999999
+            },
+            {
+              "period": "2018-Q3",
+              "capital": 5032969.077876759,
+              "ret": -0.024534000000000004
+            },
+            {
+              "period": "2018-Q4",
+              "capital": 4709359.232107439,
+              "ret": -0.06429800000000001
+            },
+            {
+              "period": "2019-Q1",
+              "capital": 5310056.839599671,
+              "ret": 0.127554
+            },
+            {
+              "period": "2019-Q2",
+              "capital": 5925322.5054904055,
+              "ret": 0.115868
+            },
+            {
+              "period": "2019-Q3",
+              "capital": 5718955.373269185,
+              "ret": -0.034828
+            },
+            {
+              "period": "2019-Q4",
+              "capital": 6033589.422084963,
+              "ret": 0.055016
+            },
+            {
+              "period": "2020-Q1",
+              "capital": 5371692.595303399,
+              "ret": -0.109702
+            },
+            {
+              "period": "2020-Q2",
+              "capital": 6033291.742111347,
+              "ret": 0.123164
+            },
+            {
+              "period": "2020-Q3",
+              "capital": 6289585.975316237,
+              "ret": 0.04248
+            },
+            {
+              "period": "2020-Q4",
+              "capital": 8238602.877347232,
+              "ret": 0.30988
+            },
+            {
+              "period": "2021-Q1",
+              "capital": 8718023.655985823,
+              "ret": 0.05819199999999998
+            },
+            {
+              "period": "2021-Q2",
+              "capital": 8470693.324865505,
+              "ret": -0.028369999999999992
+            },
+            {
+              "period": "2021-Q3",
+              "capital": 8644173.124158751,
+              "ret": 0.020479999999999998
+            },
+            {
+              "period": "2021-Q4",
+              "capital": 8528064.590755051,
+              "ret": -0.013431999999999994
+            },
+            {
+              "period": "2022-Q1",
+              "capital": 8235279.077225248,
+              "ret": -0.03433200000000001
+            },
+            {
+              "period": "2022-Q2",
+              "capital": 7388313.56524894,
+              "ret": -0.102846
+            },
+            {
+              "period": "2022-Q3",
+              "capital": 6957397.564869361,
+              "ret": -0.058323999999999994
+            },
+            {
+              "period": "2022-Q4",
+              "capital": 7278230.996175746,
+              "ret": 0.04611400000000001
+            },
+            {
+              "period": "2023-Q1",
+              "capital": 7860940.72619157,
+              "ret": 0.08006200000000001
+            },
+            {
+              "period": "2023-Q2",
+              "capital": 7818507.368151587,
+              "ret": -0.005398000000000001
+            },
+            {
+              "period": "2023-Q3",
+              "capital": 7555570.965360649,
+              "ret": -0.03362999999999999
+            },
+            {
+              "period": "2023-Q4",
+              "capital": 8251695.940683186,
+              "ret": 0.092134
+            },
+            {
+              "period": "2024-Q1",
+              "capital": 9039287.311437633,
+              "ret": 0.095446
+            },
+            {
+              "period": "2024-Q2",
+              "capital": 9109703.359593732,
+              "ret": 0.007790000000000001
+            },
+            {
+              "period": "2024-Q3",
+              "capital": 10131830.295946868,
+              "ret": 0.11220199999999998
+            },
+            {
+              "period": "2024-Q4",
+              "capital": 10164110.307269754,
+              "ret": 0.003185999999999997
+            },
+            {
+              "period": "2025-Q1",
+              "capital": 10029639.127904575,
+              "ret": -0.013229999999999999
+            },
+            {
+              "period": "2025-Q2",
+              "capital": 11405665.497696573,
+              "ret": 0.13719600000000004
+            },
+            {
+              "period": "2025-Q3",
+              "capital": 12491416.419084301,
+              "ret": 0.09519399999999997
+            },
+            {
+              "period": "2025-Q4",
+              "capital": 12525393.071744211,
+              "ret": 0.002720000000000001
+            }
+          ]
+        },
+        "returns": {
+          "p1": [
+            0.046641148717948715,
+            -0.010451508193435228,
+            0.03015331661247824,
+            -0.05298179117328307,
+            -0.08094442216141574,
+            0.015626399526893615,
+            -0.12045539215686273,
+            -0.0014467963605128407,
+            0.02131442527064435,
+            -0.029686867981395974,
+            -0.10878600102161347,
+            0.04190185173505431,
+            -0.08594832422937936,
+            0.10599302569588921,
+            0.08629648962133338,
+            0.14390979375448015,
+            0.027044604636585153,
+            -0.007145814605842674,
+            0.10439374305313631,
+            0.036199412181951156,
+            0.09384961193011183,
+            0.04537278115869622,
+            0.08665022814776521,
+            0.10668610907452127,
+            0.08344795455352874,
+            -0.003779927525106684,
+            0.002680964125092218,
+            0.10193572095626673,
+            0.05469105723635819,
+            0.09102988635542089,
+            0.11856028457507602,
+            0.01896235345429874,
+            0.027853544177683584,
+            0.0025169176561578343,
+            -0.12946140043051588,
+            0.012242894289001377,
+            -0.028082529452467416,
+            0.07229016394685085,
+            0.0831666652234351,
+            0.05359949973152808,
+            -0.015122004478362804,
+            -0.013536868450782962,
+            0.17157602630298832,
+            0.08244061193730498,
+            0.07442194152452644,
+            -0.017809554639204927,
+            -0.05945187614482246,
+            0.04201760964479267,
+            0.013978773507030562,
+            -0.02388947701217931,
+            0.08037531627410366,
+            0.003490136613833349,
+            -0.04043200931275849,
+            -0.0879814186200737,
+            0.05942969835327856,
+            0.003004452552908338,
+            0.02835304195000898,
+            0.0731997818590787,
+            -0.05187498572444746,
+            -0.0052544886664206165,
+            0.017794213747036523,
+            -0.013148544365630026,
+            -0.07864852714784511,
+            -0.012174008451226171,
+            0.03193711205091338,
+            0.07751487308715241,
+            0.028346371961349967,
+            0.13315419046459878,
+            0.07253470471785443,
+            0.2314917722837223,
+            0.1962198234947409,
+            0.5331231907158774,
+            -0.07670822136129214,
+            -0.021053482100332834,
+            -0.026294796683108454,
+            -0.04383576542877322,
+            0.15560318333429696,
+            0.14615530431009044,
+            -0.05534276671060473,
+            0.0811225013033149,
+            -0.06066991998278774,
+            0.13545239588257182,
+            0.03870570508998783,
+            0.45772718128343104,
+            0.1300135252178288,
+            -0.0541002320226625,
+            0.09790884319994522,
+            -0.015616980910417912,
+            0.0227472487606838,
+            -0.09894202811673339,
+            -0.00950936256320751,
+            0.061523140332918,
+            0.09211022236744962,
+            0.0205002577754846,
+            -0.032685420429171774,
+            0.18354985316467645,
+            0.21058690727556728,
+            -0.0287782827483918,
+            0.09050455455747854,
+            0.0052140042636516495,
+            -0.0011984591728142115,
+            0.15797708570749583,
+            0.11225501492988414,
+            0.01699749547521752
+          ],
+          "p1s": [
+            0.046641148717948715,
+            -0.010451508193435228,
+            0.03015331661247824,
+            -0.05298179117328307,
+            -0.08094442216141574,
+            0.015626399526893615,
+            -0.12045539215686273,
+            -0.023609948902327586,
+            0.02117396352009996,
+            -0.03382597957279325,
+            -0.1088667715826457,
+            0.04190185173505431,
+            -0.08594832422937936,
+            0.09883885543271612,
+            0.08635041873104743,
+            0.14390979375448015,
+            0.027044604636585153,
+            -0.007145814605842674,
+            0.10439374305313631,
+            0.036199412181951156,
+            0.09588415491364694,
+            0.045323394201659026,
+            0.08665022814776521,
+            0.10668610907452127,
+            0.08344795455352874,
+            -0.003779927525106684,
+            0.002680964125092218,
+            0.10193572095626673,
+            0.05469105723635819,
+            0.09102988635542089,
+            0.11856028457507602,
+            0.01896235345429874,
+            0.02429371322732325,
+            0.002519755788905708,
+            -0.12946140043051588,
+            0.012242894289001377,
+            -0.028082529452467416,
+            0.07229016394685085,
+            0.0831666652234351,
+            0.05359949973152808,
+            -0.015122004478362804,
+            -0.013536868450782962,
+            0.17157602630298832,
+            0.08244061193730498,
+            0.07442194152452644,
+            -0.015186634420745419,
+            -0.05939764811790877,
+            0.04201760964479267,
+            0.013978773507030562,
+            -0.02388947701217931,
+            0.08037531627410366,
+            0.003490136613833349,
+            -0.04043200931275849,
+            -0.0879814186200737,
+            0.05942969835327856,
+            -0.0004115073575926582,
+            0.028390380019580393,
+            0.0731997818590787,
+            -0.05187498572444746,
+            -0.0052244302966497624,
+            0.01845551405116271,
+            -0.012977437610631746,
+            -0.07864852714784511,
+            -0.012174008451226171,
+            0.03193711205091338,
+            0.07751487308715241,
+            0.028346371961349967,
+            0.13315419046459878,
+            0.07253470471785443,
+            0.2314917722837223,
+            0.1962198234947409,
+            0.5331231907158774,
+            -0.0780238498301477,
+            -0.02103620817990129,
+            -0.026294796683108454,
+            -0.05818656923571269,
+            0.13924752279148833,
+            0.14591705912920458,
+            -0.05534276671060473,
+            0.0811225013033149,
+            -0.06066991998278774,
+            0.13545239588257182,
+            0.03870570508998783,
+            0.45772718128343104,
+            0.1300135252178288,
+            -0.052824350339133484,
+            0.09698157630573122,
+            -0.015618270393444494,
+            0.0227472487606838,
+            -0.09894202811673339,
+            -0.00950936256320751,
+            0.05255257472578531,
+            0.09187847359216929,
+            0.0205002577754846,
+            -0.032685420429171774,
+            0.1828389790563093,
+            0.21058559056423018,
+            -0.0287782827483918,
+            0.09050455455747854,
+            0.0052140042636516495,
+            -0.015804470677092335,
+            0.15727427147602557,
+            0.1122442438501585,
+            0.01699749547521752
+          ],
+          "live": [
+            0.04304254757866968,
+            -0.011878372440308387,
+            0.026007012299851754,
+            -0.060347922168358686,
+            -0.08612574722516816,
+            0.015866533015378402,
+            -0.1204065641912611,
+            0.0013347528802950355,
+            0.02865661058074421,
+            -0.039750574003526135,
+            -0.10899042662400181,
+            0.04033944028684844,
+            -0.0858696224009205,
+            0.0836808391315046,
+            0.07994508971047389,
+            0.1412720829091217,
+            0.022611186067826135,
+            0.0019191472014331258,
+            0.10828078841834882,
+            0.043013707937104746,
+            0.09542483244081999,
+            0.045637850459461164,
+            0.08604509364839662,
+            0.10781871292893686,
+            0.08177499176393757,
+            -0.005347658818676533,
+            0.0009141961969592957,
+            0.10200773666931387,
+            0.059384693826783456,
+            0.09424097264872527,
+            0.11214447904514772,
+            0.007846366682859159,
+            0.01045281177714362,
+            -0.0030977708020926828,
+            -0.1295532821001526,
+            0.01190914887770202,
+            -0.027921949486948632,
+            0.07228143343262156,
+            0.08371346204219941,
+            0.052012727252567996,
+            -0.017315767873616803,
+            -0.01343524144783871,
+            0.1713266724114874,
+            0.07980167585227803,
+            0.07207174444991676,
+            -0.014876345687866178,
+            -0.05938817897010052,
+            0.04201760964479267,
+            0.0140565356256445,
+            -0.02500080365283237,
+            0.07725057165365862,
+            0.005882477578686226,
+            -0.04104199078411227,
+            -0.0859887948874648,
+            0.05926068486620176,
+            -0.00153925035475201,
+            0.03229589061708243,
+            0.06827843593748405,
+            -0.059245742396146224,
+            -0.010553517292374059,
+            0.021015198481936958,
+            -0.013467941391818578,
+            -0.08847044859898487,
+            -0.005822063097933904,
+            0.0352793818336224,
+            0.07278149623181489,
+            0.03092166407846293,
+            0.11995425302568229,
+            0.060967357728168484,
+            0.19020722448477315,
+            0.1791471278547753,
+            0.5123887291032823,
+            -0.09630138338701204,
+            -0.021291439642851198,
+            -0.026467432751834098,
+            -0.07541220243742318,
+            0.1365192955833688,
+            0.13182130678316617,
+            -0.06264326211975041,
+            0.07815649330130961,
+            -0.0604658242521811,
+            0.13545239588257182,
+            0.038641048496942075,
+            0.45834547494283123,
+            0.11969383209142606,
+            -0.04265957820566342,
+            0.08733622926097345,
+            -0.015095795841283026,
+            0.039560742021626405,
+            -0.13164070209432335,
+            -0.01239115775752454,
+            0.05731868984967862,
+            0.07259339195846695,
+            0.00515300945727154,
+            -0.027565518101590587,
+            0.13127490369909225,
+            0.168607651241724,
+            -0.016917623616051546,
+            0.08259399386478089,
+            0.02604285532816789,
+            -0.04179863863862336,
+            0.17953675823534987,
+            0.11110985645969511,
+            0.0045617738041564245
+          ],
+          "p1bl": [
+            0.079947025809679,
+            -0.009695888914625831,
+            0.011975860276205334,
+            -0.12002653111984572,
+            -0.13966448547470084,
+            -0.002807363484728277,
+            -0.14132684485535446,
+            -0.05014213884261676,
+            0.00844920278542005,
+            -0.022351398143766545,
+            -0.1016105763320473,
+            0.07008630087021307,
+            -0.11932762294032581,
+            0.13626771787160366,
+            0.08522579469322857,
+            0.12600138530656202,
+            -0.007584665988254778,
+            -0.02760220868221277,
+            0.08196160623234595,
+            0.013760331797518847,
+            0.050418383806969454,
+            0.024576551864689017,
+            0.06356588873930319,
+            0.09667353520114041,
+            0.07341948843552262,
+            -0.020065995366097933,
+            0.051617606775609726,
+            0.08034582177155522,
+            0.04982375998830678,
+            0.055938289206305766,
+            0.11504648430225546,
+            0.028794137800408022,
+            0.029744304845373888,
+            -0.011269536276365281,
+            -0.07499652725339402,
+            -0.003177579242089012,
+            -0.03843717392893705,
+            0.08179143587278473,
+            0.09048833562527889,
+            0.04432424193698804,
+            -0.00792137562584664,
+            -0.024343610047300443,
+            0.10848446036908321,
+            0.04774992444653098,
+            0.06082795440283987,
+            0.00980118984182017,
+            -0.05373373213174416,
+            0.025484827406970355,
+            0.04129897223651203,
+            -0.005691710171261409,
+            0.06490883464057465,
+            0.0034630375774440483,
+            -0.017428735884218623,
+            -0.050833701631325605,
+            0.051771044093168676,
+            0.006078325883564724,
+            0.028969311842409657,
+            0.037175533063277214,
+            -0.00632396919171619,
+            0.021836536031202423,
+            0.022630310385377706,
+            -0.005290126047255661,
+            -0.009941489331666886,
+            0.0007438359743893237,
+            0.024441750549238937,
+            0.026432244637417095,
+            0.022811130279200068,
+            0.020118291145995806,
+            0.030150563367135105,
+            0.05100498871092532,
+            0.06192221651640864,
+            0.10312868677116498,
+            -0.015498611092860807,
+            -0.0065599483757384095,
+            -0.012486558792594148,
+            -0.005594930118795735,
+            0.109966311066649,
+            0.026251455761210497,
+            0.0005053422768497431,
+            0.06752264979355235,
+            -0.10214135910133136,
+            0.07572643471916787,
+            0.02134676564943989,
+            0.09609083197373013,
+            0.03416587366173917,
+            0.03213142213225892,
+            0.001774581414261272,
+            0.01784751072793429,
+            -0.016214208931479204,
+            -0.06437999348139632,
+            -0.025665345119238864,
+            0.04064062358979782,
+            0.04156860739951035,
+            0.030140875666151465,
+            -0.025317833541083797,
+            0.07993665934376079,
+            0.07996506948497802,
+            0.040600018699451554,
+            0.09839066514479476,
+            -0.006215266300668829,
+            -0.01601249141035428,
+            0.13417585760125633,
+            0.07969288896345039,
+            0.009550517659035026
+          ],
+          "eq": [
+            0.023775,
+            -0.014225000000000002,
+            -0.005350000000000006,
+            -0.0491,
+            -0.08065,
+            0.0086,
+            -0.116425,
+            -0.023299999999999994,
+            0.050800000000000005,
+            -0.03742,
+            -0.13656000000000001,
+            0.05133999999999999,
+            -0.08052000000000001,
+            0.07638,
+            0.08954999999999999,
+            0.12222857142857141,
+            0.01332857142857143,
+            0.023571428571428577,
+            0.12051428571428571,
+            0.0723,
+            0.06829999999999999,
+            0.043088888888888885,
+            0.07627777777777778,
+            0.1023111111111111,
+            0.08515555555555554,
+            -0.006399999999999994,
+            0.01576666666666667,
+            0.11455555555555554,
+            0.04592,
+            0.08901000000000002,
+            0.12674,
+            -0.0007999999999999984,
+            -0.0019636363636363653,
+            -0.029372727272727273,
+            -0.1693090909090909,
+            -0.005327272727272729,
+            -0.038363636363636364,
+            0.09857272727272727,
+            0.09703636363636363,
+            0.054172727272727275,
+            -0.00858181818181818,
+            -0.0652,
+            0.14932499999999999,
+            0.06022500000000001,
+            0.058083333333333334,
+            -0.012883333333333333,
+            -0.14378333333333332,
+            0.05716666666666667,
+            0.04047499999999999,
+            -0.029291666666666657,
+            0.06977499999999999,
+            0.03793333333333333,
+            -0.04225,
+            -0.061658333333333336,
+            0.07905,
+            0.0020999999999999986,
+            0.02540833333333333,
+            0.050508333333333336,
+            -0.04130833333333333,
+            -0.004500000000000005,
+            0.02214285714285714,
+            -0.009842857142857145,
+            -0.07672857142857141,
+            0.014521428571428574,
+            0.03397142857142856,
+            0.07542857142857141,
+            0.023307142857142853,
+            0.06732857142857142,
+            0.045192857142857146,
+            0.1009642857142857,
+            0.11338571428571427,
+            0.2619214285714286,
+            -0.06168571428571429,
+            -0.025071428571428567,
+            -0.025928571428571426,
+            -0.0681142857142857,
+            0.11862857142857144,
+            0.07208571428571428,
+            -0.046285714285714284,
+            0.06667142857142859,
+            -0.15668571428571426,
+            0.1393642857142857,
+            0.03390714285714285,
+            0.2981785714285714,
+            0.06750714285714285,
+            -0.005478571428571428,
+            0.02095,
+            0.006250000000000002,
+            0.019578571428571428,
+            -0.11473571428571427,
+            -0.02245714285714285,
+            0.05542857142857143,
+            0.06213571428571427,
+            -0.006749999999999999,
+            -0.022942857142857147,
+            0.07391428571428571,
+            0.11290714285714286,
+            0.004414285714285714,
+            0.08944285714285713,
+            -0.008192857142857135,
+            -0.025957142857142852,
+            0.13820000000000002,
+            0.09918571428571428,
+            0.02813571428571428
+          ],
+          "bm6040": [
+            0.04702,
+            -0.0267,
+            -0.027640000000000005,
+            -0.0704,
+            -0.09961999999999999,
+            0.03765999999999999,
+            -0.11152,
+            -0.0026500000000000065,
+            0.033370000000000004,
+            -0.03858999999999999,
+            -0.14006000000000002,
+            0.06105999999999998,
+            -0.08937,
+            0.09088000000000002,
+            0.10024,
+            0.12619999999999998,
+            0.012939999999999998,
+            0.0011999999999999997,
+            0.10663333333333333,
+            0.08763333333333333,
+            0.04963333333333332,
+            0.03988666666666667,
+            0.07529733333333333,
+            0.10466133333333333,
+            0.08771066666666666,
+            -0.008286666666666666,
+            0.025821333333333335,
+            0.11723066666666665,
+            0.041769333333333325,
+            0.08435866666666668,
+            0.14036,
+            -0.03026933333333334,
+            -0.018992000000000002,
+            -0.061668,
+            -0.143152,
+            -0.007311999999999999,
+            -0.027908,
+            0.12207799999999999,
+            0.102006,
+            0.05008,
+            0.0006879999999999999,
+            -0.066064,
+            0.113702,
+            0.018958,
+            0.039894,
+            -0.002487999999999998,
+            -0.12970600000000002,
+            0.05426400000000001,
+            0.05759,
+            -0.025868000000000002,
+            0.06332800000000001,
+            0.051332,
+            -0.034892,
+            -0.05362600000000001,
+            0.086644,
+            0.005657999999999999,
+            0.011212000000000001,
+            0.040492,
+            -0.012263999999999997,
+            0.028069999999999998,
+            0.04079599999999999,
+            -0.007114,
+            -0.06057599999999999,
+            0.05743399999999999,
+            0.016498,
+            0.0686,
+            0.028397999999999993,
+            0.053353999999999985,
+            0.065278,
+            0.15342199999999998,
+            0.128676,
+            0.346302,
+            -0.072344,
+            -0.03217599999999999,
+            -0.024534000000000004,
+            -0.06429800000000001,
+            0.127554,
+            0.115868,
+            -0.034828,
+            0.055016,
+            -0.109702,
+            0.123164,
+            0.04248,
+            0.30988,
+            0.05819199999999998,
+            -0.028369999999999992,
+            0.020479999999999998,
+            -0.013431999999999994,
+            -0.03433200000000001,
+            -0.102846,
+            -0.058323999999999994,
+            0.04611400000000001,
+            0.08006200000000001,
+            -0.005398000000000001,
+            -0.03362999999999999,
+            0.092134,
+            0.095446,
+            0.007790000000000001,
+            0.11220199999999998,
+            0.003185999999999997,
+            -0.013229999999999999,
+            0.13719600000000004,
+            0.09519399999999997,
+            0.002720000000000001
+          ]
+        },
+        "bestActive": {
+          "label": "P1 纯打分",
+          "cagr": 0.15629654025685813,
+          "maxDD": -0.346998619448179,
+          "sharpe": 0.6920805848017445,
+          "finalCapital": 43631473.61142574,
+          "n": 104
+        },
+        "outperformEq": [
+          "P1 纯打分",
+          "P1-Smooth(25%)",
+          "P1-LiveFull (riskParity/balanced)"
+        ],
+        "outperform6040": [
+          "P1 纯打分",
+          "P1-Smooth(25%)",
+          "P1-LiveFull (riskParity/balanced)"
+        ]
+      },
+      "candidateSummary": null,
+      "rows": [
+        {
+          "key": "P1",
+          "label": "P1 纯打分",
+          "cagr": 0.15629654025685813,
+          "maxDD": -0.346998619448179,
+          "sharpe": 0.6920805848017445,
+          "finalCapital": 43631473.61142574,
+          "source": "walk_forward.js"
+        },
+        {
+          "key": "P1+BL",
+          "label": "P1+BL 风控层",
+          "cagr": 0.0793079437560733,
+          "maxDD": -0.4860301788728354,
+          "sharpe": 0.5196006080318487,
+          "finalCapital": 7274107.433501245,
+          "source": "walk_forward.js"
+        },
+        {
+          "key": "P1-LiveFull",
+          "label": "P1-LiveFull (riskParity/balanced)",
+          "cagr": 0.13736925762328767,
+          "maxDD": -0.356910387357568,
+          "sharpe": 0.6103111469742296,
+          "finalCapital": 28407866.577610515,
+          "source": "walk_forward.js"
+        }
+      ],
+      "verdict": {
+        "sharpeTarget": 0.3,
+        "checks": [
+          {
+            "key": "better_than_p1_livefull",
+            "label": "Is it better than P1-LiveFull?",
+            "status": "unknown",
+            "baselineSharpe": 0.6103111469742296,
+            "candidateSharpe": null
+          },
+          {
+            "key": "closer_to_target",
+            "label": "Is it closer to the Sharpe target?",
+            "status": "unknown",
+            "targetSharpe": 0.3,
+            "candidateSharpe": null
+          },
+          {
+            "key": "fits_candidate_engine",
+            "label": "Is it internally consistent with the candidate engine?",
+            "status": "unknown",
+            "candidateModelSharpe": null,
+            "candidateHitRate": null,
+            "note": "This check only confirms the candidate engine produced a stable report; it does not prove live execution parity."
+          },
+          {
+            "key": "eligible_as_default",
+            "label": "Should it become the new default?",
+            "status": "unknown",
+            "note": "Only pass if the candidate beats the live baseline and clears the target gate."
+          }
+        ]
+      },
+      "promoteNow": false
+    },
+    "factor": {
+      "generatedAt": "2026-04-13T09:03:06.583Z",
+      "rowCount": 104,
+      "factors": 14,
+      "targetAssets": [
+        "bonds_us",
+        "usStock",
+        "cnStock",
+        "hkStock",
+        "crypto",
+        "industrial",
+        "energy",
+        "precious",
+        "emStock"
+      ],
+      "topOverall": [
+        {
+          "factor": "momentum",
+          "asset": "usStock",
+          "samples": 104,
+          "corr": 0.9311132288939912,
+          "signAcc": 0.9134615384615384,
+          "lowAvg": -0.044297872340425516,
+          "highAvg": 0.07859298245614034,
+          "spread": 0.12289085479656586
+        },
+        {
+          "factor": "momentum",
+          "asset": "emStock",
+          "samples": 90,
+          "corr": 0.6347466378757297,
+          "signAcc": 0.7333333333333333,
+          "lowAvg": -0.033305263157894734,
+          "highAvg": 0.07005961538461537,
+          "spread": 0.10336487854251011
+        },
+        {
+          "factor": "vix",
+          "asset": "usStock",
+          "samples": 104,
+          "corr": -0.5740985942024641,
+          "signAcc": 0.7019230769230769,
+          "lowAvg": 0.05438518518518518,
+          "highAvg": -0.03465769230769231,
+          "spread": -0.0890428774928775
+        },
+        {
+          "factor": "momentum",
+          "asset": "industrial",
+          "samples": 62,
+          "corr": 0.5660971124533178,
+          "signAcc": 0.6451612903225806,
+          "lowAvg": -0.07563636363636364,
+          "highAvg": 0.2093529411764706,
+          "spread": 0.28498930481283424
+        },
+        {
+          "factor": "momentum",
+          "asset": "energy",
+          "samples": 104,
+          "corr": 0.509214193774743,
+          "signAcc": 0.7403846153846154,
+          "lowAvg": -0.01689148936170213,
+          "highAvg": 0.060549122807017554,
+          "spread": 0.07744061216871968
+        },
+        {
+          "factor": "vix",
+          "asset": "energy",
+          "samples": 104,
+          "corr": -0.4868781487227229,
+          "signAcc": 0.6442307692307693,
+          "lowAvg": 0.04901851851851851,
+          "highAvg": -0.053730769230769235,
+          "spread": -0.10274928774928774
+        },
+        {
+          "factor": "creditSpread",
+          "asset": "usStock",
+          "samples": 104,
+          "corr": -0.4579573313546548,
+          "signAcc": 0.7019230769230769,
+          "lowAvg": 0.0536111111111111,
+          "highAvg": -0.03153703703703704,
+          "spread": -0.08514814814814814
+        },
+        {
+          "factor": "inflation",
+          "asset": "energy",
+          "samples": 93,
+          "corr": 0.45209119675825216,
+          "signAcc": 0.6774193548387096,
+          "lowAvg": -0.057770833333333334,
+          "highAvg": 0.07875833333333333,
+          "spread": 0.13652916666666667
+        },
+        {
+          "factor": "vix",
+          "asset": "emStock",
+          "samples": 90,
+          "corr": -0.4418312644727924,
+          "signAcc": 0.6,
+          "lowAvg": 0.06281304347826087,
+          "highAvg": -0.013830434782608701,
+          "spread": -0.07664347826086958
+        },
+        {
+          "factor": "momentum",
+          "asset": "crypto",
+          "samples": 45,
+          "corr": 0.4190557396913426,
+          "signAcc": 0.6666666666666666,
+          "lowAvg": -0.049356250000000004,
+          "highAvg": 0.418003448275862,
+          "spread": 0.467359698275862
+        },
+        {
+          "factor": "momentum",
+          "asset": "cnStock",
+          "samples": 84,
+          "corr": 0.41099435680757024,
+          "signAcc": 0.7023809523809523,
+          "lowAvg": -0.024339999999999997,
+          "highAvg": 0.0651938775510204,
+          "spread": 0.0895338775510204
+        },
+        {
+          "factor": "momentum",
+          "asset": "hkStock",
+          "samples": 84,
+          "corr": 0.40511213793592465,
+          "signAcc": 0.6309523809523809,
+          "lowAvg": -0.02426571428571429,
+          "highAvg": 0.06280000000000002,
+          "spread": 0.08706571428571432
+        },
+        {
+          "factor": "creditSpread",
+          "asset": "energy",
+          "samples": 104,
+          "corr": -0.40306202024940296,
+          "signAcc": 0.6442307692307693,
+          "lowAvg": 0.07791851851851851,
+          "highAvg": -0.044144444444444444,
+          "spread": -0.12206296296296296
+        },
+        {
+          "factor": "inflation",
+          "asset": "bonds_us",
+          "samples": 89,
+          "corr": -0.3848306432324116,
+          "signAcc": 0.6629213483146067,
+          "lowAvg": 0.018534782608695653,
+          "highAvg": -0.0013000000000000002,
+          "spread": -0.01983478260869565
+        },
+        {
+          "factor": "vix",
+          "asset": "hkStock",
+          "samples": 84,
+          "corr": -0.34366401976300065,
+          "signAcc": 0.5357142857142857,
+          "lowAvg": 0.07174545454545454,
+          "highAvg": -0.03421428571428572,
+          "spread": -0.10595974025974025
+        },
+        {
+          "factor": "creditSpread",
+          "asset": "industrial",
+          "samples": 62,
+          "corr": -0.3271923720024397,
+          "signAcc": 0.5483870967741935,
+          "lowAvg": 0.12373125,
+          "highAvg": -0.0013375000000000036,
+          "spread": -0.12506875
+        },
+        {
+          "factor": "vix",
+          "asset": "cnStock",
+          "samples": 84,
+          "corr": -0.2915175028834228,
+          "signAcc": 0.5833333333333334,
+          "lowAvg": 0.056122727272727276,
+          "highAvg": -0.027980952380952377,
+          "spread": -0.08410367965367965
+        },
+        {
+          "factor": "cnPolicy",
+          "asset": "cnStock",
+          "samples": 84,
+          "corr": 0.2900750996161049,
+          "signAcc": 0.6428571428571429,
+          "lowAvg": 0.019058571428571428,
+          "highAvg": 0.04172399999999999,
+          "spread": 0.022665428571428562
+        },
+        {
+          "factor": "creditSpread",
+          "asset": "emStock",
+          "samples": 90,
+          "corr": -0.2869692922459361,
+          "signAcc": 0.6,
+          "lowAvg": 0.04799130434782609,
+          "highAvg": -0.014082608695652176,
+          "spread": -0.06207391304347827
+        },
+        {
+          "factor": "vix",
+          "asset": "industrial",
+          "samples": 62,
+          "corr": -0.2822086320214842,
+          "signAcc": 0.5483870967741935,
+          "lowAvg": 0.067425,
+          "highAvg": 0.03721875,
+          "spread": -0.030206249999999997
+        }
+      ],
+      "topHoldoutDrift": [
+        {
+          "factor": "realYield",
+          "asset": "precious",
+          "holdoutYear": 2017,
+          "trainSamples": 100,
+          "testSamples": 4,
+          "trainCorr": 0.0876799552809404,
+          "testCorr": -0.9899718668448318,
+          "trainAcc": 0.6,
+          "testAcc": 0.75,
+          "drift": -1.0776518221257723
+        },
+        {
+          "factor": "fedRate",
+          "asset": "crypto",
+          "holdoutYear": 2017,
+          "trainSamples": 41,
+          "testSamples": 4,
+          "trainCorr": -0.03384886316467204,
+          "testCorr": 0.9310491852298305,
+          "trainAcc": 0.5121951219512195,
+          "testAcc": 1,
+          "drift": 0.9648980483945025
+        },
+        {
+          "factor": "momentum",
+          "asset": "bonds_us",
+          "holdoutYear": 2017,
+          "trainSamples": 85,
+          "testSamples": 4,
+          "trainCorr": -0.06624927159407747,
+          "testCorr": -0.9932060621928848,
+          "trainAcc": 0.611764705882353,
+          "testAcc": 1,
+          "drift": -0.9269567905988073
+        },
+        {
+          "factor": "fedRate",
+          "asset": "usStock",
+          "holdoutYear": 2017,
+          "trainSamples": 100,
+          "testSamples": 4,
+          "trainCorr": -0.029160129004320613,
+          "testCorr": 0.8162709924454825,
+          "trainAcc": 0.69,
+          "testAcc": 1,
+          "drift": 0.8454311214498031
+        },
+        {
+          "factor": "realYield",
+          "asset": "emStock",
+          "holdoutYear": 2017,
+          "trainSamples": 86,
+          "testSamples": 4,
+          "trainCorr": 0.1466786620941908,
+          "testCorr": -0.6906291310212513,
+          "trainAcc": 0.5465116279069767,
+          "testAcc": 1,
+          "drift": -0.8373077931154421
+        },
+        {
+          "factor": "fedRate",
+          "asset": "bonds_us",
+          "holdoutYear": 2017,
+          "trainSamples": 85,
+          "testSamples": 4,
+          "trainCorr": 0.07128800541160629,
+          "testCorr": -0.7539254672406732,
+          "trainAcc": 0.6588235294117647,
+          "testAcc": 1,
+          "drift": -0.8252134726522795
+        },
+        {
+          "factor": "inflation",
+          "asset": "crypto",
+          "holdoutYear": 2017,
+          "trainSamples": 41,
+          "testSamples": 4,
+          "trainCorr": -0.020816504918085364,
+          "testCorr": 0.8040185279774388,
+          "trainAcc": 0.5121951219512195,
+          "testAcc": 1,
+          "drift": 0.8248350328955242
+        },
+        {
+          "factor": "momentum",
+          "asset": "hkStock",
+          "holdoutYear": 2017,
+          "trainSamples": 80,
+          "testSamples": 4,
+          "trainCorr": 0.3936351440098122,
+          "testCorr": -0.39184540878796104,
+          "trainAcc": 0.6125,
+          "testAcc": 1,
+          "drift": -0.7854805527977733
+        },
+        {
+          "factor": "usd",
+          "asset": "energy",
+          "holdoutYear": 2017,
+          "trainSamples": 100,
+          "testSamples": 4,
+          "trainCorr": -0.12390379482463597,
+          "testCorr": -0.8438300863117028,
+          "trainAcc": 0.65,
+          "testAcc": 0.5,
+          "drift": -0.7199262914870668
+        },
+        {
+          "factor": "usd",
+          "asset": "cnStock",
+          "holdoutYear": 2017,
+          "trainSamples": 80,
+          "testSamples": 4,
+          "trainCorr": -0.09114557142235058,
+          "testCorr": -0.8052639272535915,
+          "trainAcc": 0.5625,
+          "testAcc": 1,
+          "drift": -0.714118355831241
+        },
+        {
+          "factor": "fedRate",
+          "asset": "energy",
+          "holdoutYear": 2017,
+          "trainSamples": 100,
+          "testSamples": 4,
+          "trainCorr": 0.030965936381414455,
+          "testCorr": 0.7442909128413733,
+          "trainAcc": 0.65,
+          "testAcc": 0.5,
+          "drift": 0.7133249764599588
+        },
+        {
+          "factor": "usd",
+          "asset": "usStock",
+          "holdoutYear": 2017,
+          "trainSamples": 100,
+          "testSamples": 4,
+          "trainCorr": -0.12334912491903337,
+          "testCorr": -0.8216172431003184,
+          "trainAcc": 0.69,
+          "testAcc": 1,
+          "drift": -0.698268118181285
+        },
+        {
+          "factor": "vix",
+          "asset": "cnStock",
+          "holdoutYear": 2017,
+          "trainSamples": 80,
+          "testSamples": 4,
+          "trainCorr": -0.2806949443878037,
+          "testCorr": -0.9780090181314304,
+          "trainAcc": 0.5625,
+          "testAcc": 1,
+          "drift": -0.6973140737436268
+        },
+        {
+          "factor": "usd",
+          "asset": "bonds_us",
+          "holdoutYear": 2017,
+          "trainSamples": 85,
+          "testSamples": 4,
+          "trainCorr": -0.1900451370334214,
+          "testCorr": 0.47883496466095266,
+          "trainAcc": 0.6588235294117647,
+          "testAcc": 1,
+          "drift": 0.6688801016943741
+        },
+        {
+          "factor": "creditSpread",
+          "asset": "crypto",
+          "holdoutYear": 2017,
+          "trainSamples": 41,
+          "testSamples": 4,
+          "trainCorr": -0.10052206640728913,
+          "testCorr": -0.7121177717450826,
+          "trainAcc": 0.5121951219512195,
+          "testAcc": 1,
+          "drift": -0.6115957053377935
+        },
+        {
+          "factor": "creditSpread",
+          "asset": "cnStock",
+          "holdoutYear": 2017,
+          "trainSamples": 80,
+          "testSamples": 4,
+          "trainCorr": -0.1942357662381147,
+          "testCorr": -0.8029219885875526,
+          "trainAcc": 0.5625,
+          "testAcc": 1,
+          "drift": -0.6086862223494379
+        },
+        {
+          "factor": "momentum",
+          "asset": "emStock",
+          "holdoutYear": 2017,
+          "trainSamples": 86,
+          "testSamples": 4,
+          "trainCorr": 0.6292046518182817,
+          "testCorr": 0.0277563245593786,
+          "trainAcc": 0.7209302325581395,
+          "testAcc": 1,
+          "drift": -0.6014483272589031
+        },
+        {
+          "factor": "usd",
+          "asset": "crypto",
+          "holdoutYear": 2017,
+          "trainSamples": 41,
+          "testSamples": 4,
+          "trainCorr": -0.09960021904373208,
+          "testCorr": -0.6970949852833557,
+          "trainAcc": 0.5121951219512195,
+          "testAcc": 1,
+          "drift": -0.5974947662396236
+        },
+        {
+          "factor": "inflation",
+          "asset": "bonds_us",
+          "holdoutYear": 2017,
+          "trainSamples": 85,
+          "testSamples": 4,
+          "trainCorr": -0.38554112363137133,
+          "testCorr": -0.9765242890497181,
+          "trainAcc": 0.6470588235294118,
+          "testAcc": 1,
+          "drift": -0.5909831654183468
+        },
+        {
+          "factor": "inflation",
+          "asset": "usStock",
+          "holdoutYear": 2017,
+          "trainSamples": 89,
+          "testSamples": 4,
+          "trainCorr": 0.1434094877079752,
+          "testCorr": 0.7298651740484473,
+          "trainAcc": 0.7528089887640449,
+          "testAcc": 1,
+          "drift": 0.5864556863404721
+        }
+      ],
+      "factorByFactor": [
+        {
+          "factor": "fedRate",
+          "bestByAbsCorr": {
+            "factor": "fedRate",
+            "asset": "hkStock",
+            "samples": 84,
+            "corr": 0.19620809294981434,
+            "signAcc": 0.5357142857142857,
+            "lowAvg": 0.005056521739130434,
+            "highAvg": 0.08305714285714286,
+            "spread": 0.07800062111801243
+          },
+          "bestBySpread": {
+            "factor": "fedRate",
+            "asset": "hkStock",
+            "samples": 84,
+            "corr": 0.19620809294981434,
+            "signAcc": 0.5357142857142857,
+            "lowAvg": 0.005056521739130434,
+            "highAvg": 0.08305714285714286,
+            "spread": 0.07800062111801243
+          }
+        },
+        {
+          "factor": "inflation",
+          "bestByAbsCorr": {
+            "factor": "inflation",
+            "asset": "energy",
+            "samples": 93,
+            "corr": 0.45209119675825216,
+            "signAcc": 0.6774193548387096,
+            "lowAvg": -0.057770833333333334,
+            "highAvg": 0.07875833333333333,
+            "spread": 0.13652916666666667
+          },
+          "bestBySpread": {
+            "factor": "inflation",
+            "asset": "energy",
+            "samples": 93,
+            "corr": 0.45209119675825216,
+            "signAcc": 0.6774193548387096,
+            "lowAvg": -0.057770833333333334,
+            "highAvg": 0.07875833333333333,
+            "spread": 0.13652916666666667
+          }
+        },
+        {
+          "factor": "usd",
+          "bestByAbsCorr": {
+            "factor": "usd",
+            "asset": "crypto",
+            "samples": 45,
+            "corr": -0.22388978102379342,
+            "signAcc": 0.5555555555555556,
+            "lowAvg": 0.4910999999999999,
+            "highAvg": 0.1616666666666667,
+            "spread": -0.32943333333333324
+          },
+          "bestBySpread": {
+            "factor": "usd",
+            "asset": "crypto",
+            "samples": 45,
+            "corr": -0.22388978102379342,
+            "signAcc": 0.5555555555555556,
+            "lowAvg": 0.4910999999999999,
+            "highAvg": 0.1616666666666667,
+            "spread": -0.32943333333333324
+          }
+        },
+        {
+          "factor": "realYield",
+          "bestByAbsCorr": {
+            "factor": "realYield",
+            "asset": "hkStock",
+            "samples": 84,
+            "corr": 0.15533265074092875,
+            "signAcc": 0.5238095238095238,
+            "lowAvg": 0.009781818181818178,
+            "highAvg": 0.08009047619047618,
+            "spread": 0.070308658008658
+          },
+          "bestBySpread": {
+            "factor": "realYield",
+            "asset": "crypto",
+            "samples": 45,
+            "corr": -0.12412479564955962,
+            "signAcc": 0.4888888888888889,
+            "lowAvg": 0.2566230769230769,
+            "highAvg": 0.12569166666666667,
+            "spread": -0.13093141025641022
+          }
+        },
+        {
+          "factor": "vix",
+          "bestByAbsCorr": {
+            "factor": "vix",
+            "asset": "usStock",
+            "samples": 104,
+            "corr": -0.5740985942024641,
+            "signAcc": 0.7019230769230769,
+            "lowAvg": 0.05438518518518518,
+            "highAvg": -0.03465769230769231,
+            "spread": -0.0890428774928775
+          },
+          "bestBySpread": {
+            "factor": "vix",
+            "asset": "crypto",
+            "samples": 45,
+            "corr": -0.2343638398880885,
+            "signAcc": 0.5555555555555556,
+            "lowAvg": 0.5155583333333333,
+            "highAvg": 0.13549999999999998,
+            "spread": -0.3800583333333334
+          }
+        },
+        {
+          "factor": "creditSpread",
+          "bestByAbsCorr": {
+            "factor": "creditSpread",
+            "asset": "usStock",
+            "samples": 104,
+            "corr": -0.4579573313546548,
+            "signAcc": 0.7019230769230769,
+            "lowAvg": 0.0536111111111111,
+            "highAvg": -0.03153703703703704,
+            "spread": -0.08514814814814814
+          },
+          "bestBySpread": {
+            "factor": "creditSpread",
+            "asset": "industrial",
+            "samples": 62,
+            "corr": -0.3271923720024397,
+            "signAcc": 0.5483870967741935,
+            "lowAvg": 0.12373125,
+            "highAvg": -0.0013375000000000036,
+            "spread": -0.12506875
+          }
+        },
+        {
+          "factor": "globalGrowth",
+          "bestByAbsCorr": {
+            "factor": "globalGrowth",
+            "asset": "bonds_us",
+            "samples": 89,
+            "corr": 0,
+            "signAcc": 0.6741573033707865,
+            "lowAvg": 0.008076404494382024,
+            "highAvg": 0.008076404494382024,
+            "spread": 0
+          },
+          "bestBySpread": {
+            "factor": "globalGrowth",
+            "asset": "bonds_us",
+            "samples": 89,
+            "corr": 0,
+            "signAcc": 0.6741573033707865,
+            "lowAvg": 0.008076404494382024,
+            "highAvg": 0.008076404494382024,
+            "spread": 0
+          }
+        },
+        {
+          "factor": "cnPolicy",
+          "bestByAbsCorr": {
+            "factor": "cnPolicy",
+            "asset": "cnStock",
+            "samples": 84,
+            "corr": 0.2900750996161049,
+            "signAcc": 0.6428571428571429,
+            "lowAvg": 0.019058571428571428,
+            "highAvg": 0.04172399999999999,
+            "spread": 0.022665428571428562
+          },
+          "bestBySpread": {
+            "factor": "cnPolicy",
+            "asset": "cnStock",
+            "samples": 84,
+            "corr": 0.2900750996161049,
+            "signAcc": 0.6428571428571429,
+            "lowAvg": 0.019058571428571428,
+            "highAvg": 0.04172399999999999,
+            "spread": 0.022665428571428562
+          }
+        },
+        {
+          "factor": "momentum",
+          "bestByAbsCorr": {
+            "factor": "momentum",
+            "asset": "usStock",
+            "samples": 104,
+            "corr": 0.9311132288939912,
+            "signAcc": 0.9134615384615384,
+            "lowAvg": -0.044297872340425516,
+            "highAvg": 0.07859298245614034,
+            "spread": 0.12289085479656586
+          },
+          "bestBySpread": {
+            "factor": "momentum",
+            "asset": "crypto",
+            "samples": 45,
+            "corr": 0.4190557396913426,
+            "signAcc": 0.6666666666666666,
+            "lowAvg": -0.049356250000000004,
+            "highAvg": 0.418003448275862,
+            "spread": 0.467359698275862
+          }
+        },
+        {
+          "factor": "adoption",
+          "bestByAbsCorr": {
+            "factor": "adoption",
+            "asset": "usStock",
+            "samples": 104,
+            "corr": 0.17532723487958599,
+            "signAcc": 0.7019230769230769,
+            "lowAvg": 0.004147500000000001,
+            "highAvg": 0.0372861111111111,
+            "spread": 0.033138611111111105
+          },
+          "bestBySpread": {
+            "factor": "adoption",
+            "asset": "crypto",
+            "samples": 45,
+            "corr": -0.0635046229769381,
+            "signAcc": 0.5555555555555556,
+            "lowAvg": 0.36730399999999996,
+            "highAvg": 0.10749000000000002,
+            "spread": -0.25981399999999993
+          }
+        },
+        {
+          "factor": "rateChangeReason",
+          "bestByAbsCorr": {
+            "factor": "rateChangeReason",
+            "asset": "bonds_us",
+            "samples": 89,
+            "corr": 0,
+            "signAcc": 0.6741573033707865,
+            "lowAvg": 0.008076404494382024,
+            "highAvg": 0.008076404494382024,
+            "spread": 0
+          },
+          "bestBySpread": {
+            "factor": "rateChangeReason",
+            "asset": "bonds_us",
+            "samples": 89,
+            "corr": 0,
+            "signAcc": 0.6741573033707865,
+            "lowAvg": 0.008076404494382024,
+            "highAvg": 0.008076404494382024,
+            "spread": 0
+          }
+        },
+        {
+          "factor": "usdReason",
+          "bestByAbsCorr": {
+            "factor": "usdReason",
+            "asset": "bonds_us",
+            "samples": 89,
+            "corr": 0,
+            "signAcc": 0.6741573033707865,
+            "lowAvg": 0.008076404494382024,
+            "highAvg": 0.008076404494382024,
+            "spread": 0
+          },
+          "bestBySpread": {
+            "factor": "usdReason",
+            "asset": "bonds_us",
+            "samples": 89,
+            "corr": 0,
+            "signAcc": 0.6741573033707865,
+            "lowAvg": 0.008076404494382024,
+            "highAvg": 0.008076404494382024,
+            "spread": 0
+          }
+        },
+        {
+          "factor": "vixReason",
+          "bestByAbsCorr": {
+            "factor": "vixReason",
+            "asset": "bonds_us",
+            "samples": 89,
+            "corr": 0,
+            "signAcc": 0.6741573033707865,
+            "lowAvg": 0.008076404494382024,
+            "highAvg": 0.008076404494382024,
+            "spread": 0
+          },
+          "bestBySpread": {
+            "factor": "vixReason",
+            "asset": "bonds_us",
+            "samples": 89,
+            "corr": 0,
+            "signAcc": 0.6741573033707865,
+            "lowAvg": 0.008076404494382024,
+            "highAvg": 0.008076404494382024,
+            "spread": 0
+          }
+        },
+        {
+          "factor": "inflationReason",
+          "bestByAbsCorr": {
+            "factor": "inflationReason",
+            "asset": "bonds_us",
+            "samples": 89,
+            "corr": 0,
+            "signAcc": 0.6741573033707865,
+            "lowAvg": 0.008076404494382024,
+            "highAvg": 0.008076404494382024,
+            "spread": 0
+          },
+          "bestBySpread": {
+            "factor": "inflationReason",
+            "asset": "bonds_us",
+            "samples": 89,
+            "corr": 0,
+            "signAcc": 0.6741573033707865,
+            "lowAvg": 0.008076404494382024,
+            "highAvg": 0.008076404494382024,
+            "spread": 0
+          }
+        }
+      ]
+    },
+    "factorCv": {
+      "fedRate": {
+        "avg_corr": -0.009,
+        "std_corr": null,
+        "drift": 0.503,
+        "sign_changes": 2,
+        "verdict": "DEGRADE",
+        "windows": [
+          {
+            "window": "2013-2018",
+            "corr": 0.076,
+            "n": 24
+          },
+          {
+            "window": "2015-2020",
+            "corr": -0.234,
+            "n": 24
+          },
+          {
+            "window": "2017-2022",
+            "corr": -0.146,
+            "n": 24
+          },
+          {
+            "window": "2019-2024",
+            "corr": -0.009,
+            "n": 24
+          },
+          {
+            "window": "2021-2025",
+            "corr": 0.268,
+            "n": 19
+          }
+        ]
+      },
+      "realYield": {
+        "avg_corr": 0.012,
+        "std_corr": null,
+        "drift": 0.533,
+        "sign_changes": 2,
+        "verdict": "DEGRADE",
+        "windows": [
+          {
+            "window": "2013-2018",
+            "corr": 0.043,
+            "n": 24
+          },
+          {
+            "window": "2015-2020",
+            "corr": -0.198,
+            "n": 24
+          },
+          {
+            "window": "2017-2022",
+            "corr": -0.066,
+            "n": 24
+          },
+          {
+            "window": "2019-2024",
+            "corr": -0.054,
+            "n": 24
+          },
+          {
+            "window": "2021-2025",
+            "corr": 0.335,
+            "n": 19
+          }
+        ]
+      },
+      "usd": {
+        "avg_corr": 0.089,
+        "std_corr": null,
+        "drift": 0.27,
+        "sign_changes": 2,
+        "verdict": "WATCH",
+        "windows": [
+          {
+            "window": "2013-2018",
+            "corr": 0.248,
+            "n": 24
+          },
+          {
+            "window": "2015-2020",
+            "corr": 0.075,
+            "n": 24
+          },
+          {
+            "window": "2017-2022",
+            "corr": 0.087,
+            "n": 24
+          },
+          {
+            "window": "2019-2024",
+            "corr": -0.022,
+            "n": 24
+          },
+          {
+            "window": "2021-2025",
+            "corr": 0.056,
+            "n": 19
+          }
+        ]
+      },
+      "vix": {
+        "avg_corr": 0.044,
+        "std_corr": null,
+        "drift": 0.332,
+        "sign_changes": 2,
+        "verdict": "WATCH",
+        "windows": [
+          {
+            "window": "2013-2018",
+            "corr": -0.055,
+            "n": 24
+          },
+          {
+            "window": "2015-2020",
+            "corr": 0.103,
+            "n": 24
+          },
+          {
+            "window": "2017-2022",
+            "corr": 0.188,
+            "n": 24
+          },
+          {
+            "window": "2019-2024",
+            "corr": 0.13,
+            "n": 24
+          },
+          {
+            "window": "2021-2025",
+            "corr": -0.144,
+            "n": 19
+          }
+        ]
+      },
+      "creditSpread": {
+        "avg_corr": 0.287,
+        "std_corr": null,
+        "drift": 0.422,
+        "sign_changes": 0,
+        "verdict": "WATCH",
+        "windows": [
+          {
+            "window": "2013-2018",
+            "corr": 0.268,
+            "n": 24
+          },
+          {
+            "window": "2015-2020",
+            "corr": 0.32,
+            "n": 24
+          },
+          {
+            "window": "2017-2022",
+            "corr": 0.463,
+            "n": 24
+          },
+          {
+            "window": "2019-2024",
+            "corr": 0.341,
+            "n": 24
+          },
+          {
+            "window": "2021-2025",
+            "corr": 0.041,
+            "n": 19
+          }
+        ]
+      },
+      "inflation": {
+        "avg_corr": -0.397,
+        "std_corr": null,
+        "drift": 0.205,
+        "sign_changes": 0,
+        "verdict": "KEEP",
+        "windows": [
+          {
+            "window": "2013-2018",
+            "corr": -0.407,
+            "n": 24
+          },
+          {
+            "window": "2015-2020",
+            "corr": -0.31,
+            "n": 24
+          },
+          {
+            "window": "2017-2022",
+            "corr": -0.515,
+            "n": 24
+          },
+          {
+            "window": "2019-2024",
+            "corr": -0.411,
+            "n": 24
+          },
+          {
+            "window": "2021-2025",
+            "corr": -0.342,
+            "n": 19
+          }
+        ]
+      }
+    }
+  }
+}

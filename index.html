@@ -1,0 +1,777 @@
+<!--
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║   ??????????  禁止直接修改此文件！！！  ??????????              ║
+║                                                                           ║
+║   任何修改必须遵循以下流程：                                             ║
+║                                                                           ║
+║   1. 复制此文件 → lumi_Alpha 1.0.html                                    ║
+║   2. 在新版本(Alpha 1.0)上进行所有修改                                     ║
+║   3. 保留此文件(pre-Alpha backup)作为备份                                         ║
+║   4. 更新 .gemini/project_config.md 中的版本号                          ║
+║                                                                           ║
+║   ? 直接修改此文件 = 严重违反版本管理规范                               ║
+║   ? 创建新版本再修改 = 正确流程                                         ║
+║                                                                           ║
+║   AI必读：每次准备修改HTML文件时，请先大声朗读三遍：                   ║
+║   "我必须先创建新版本！我必须先创建新版本！我必须先创建新版本！"       ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumi Asset Allocation Alpha 1.0</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>?? 达里奥投资系统 Alpha 1.0
+                <span class="version-badge">?? 统一面板版</span>
+                <span id="trendBadge" class="version-badge"
+                    style="background:#0891b2; display:none; margin-left:8px; border:1px solid #ddd;">?? 趋势因子生效</span>
+            </h1>
+            <p>宏观驱动 | 风险管理 | 历史回测 | 公式明确</p>
+        </div>
+
+        <div class="status-bar">
+            <div><span>?? 总投资额：</span><strong id="totalDisplay">100万元</strong></div>
+            <div><span>?? 已选资产：</span><strong id="selectedDisplay">0个</strong></div>
+            <div><span>?? 组合波动率：</span><strong id="volDisplay">-</strong></div>
+            <div><span>?? 已保存：</span><strong id="savedCountDisplay">0</strong>个模板</div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab(0)">?? 资产选择</button>
+            <button class="tab-btn" onclick="switchTab(1)">?? AI推荐</button>
+            <button class="tab-btn" onclick="switchTab(2)">?? 评分拆解</button>
+            <button class="tab-btn" onclick="switchTab(3)">?? 风险分析</button>
+            <button class="tab-btn" onclick="switchTab(4)">?? 持仓对比</button>
+            <button class="tab-btn" onclick="switchTab(5)">?? 模板库</button>
+            <button class="tab-btn" onclick="switchTab(6)">?? 回测验证</button>
+            <button class="tab-btn" onclick="switchTab(7)">?? 宏观研判</button>
+            <button class="tab-btn" onclick="switchTab(8)">?? 多情景</button>
+            <button class="tab-btn" onclick="switchTab(9)">?? 导出</button>
+        </div>
+
+        <!-- TAB 0: 资产选择 -->
+        <div class="tab-content active" id="tab-0">
+            <div class="card">
+                <div class="card-title">?? 投资参数设置</div>
+                <div class="grid-2">
+                    <div>
+                        <div class="input-group">
+                            <label class="input-label">总投资额 (万元)</label>
+                            <input type="number" id="totalAmount" value="100" step="10" min="10"
+                                onchange="updateDisplay()" style="width:100%;">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="input-group">
+                            <label class="input-label">风险偏好</label>
+                            <select id="riskPref" style="width:100%;">
+                                <option value="conservative">?? 保守型</option>
+                                <option value="balanced" selected>?? 平衡型</option>
+                                <option value="aggressive">?? 激进型</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-2" style="margin-top:8px;">
+                    <div class="input-group">
+                        <label class="input-label">大类配置风格 (v11.5新增)</label>
+                        <select id="allocationStyle" style="width:100%;"
+                            onchange="if(this.value==='concentrated'){alert('?? 高度集中模式警告\n\n此模式将剔除所有防御资产（债券、黄金、现金等），仅配置最高评分的3-5个资产。\n\n风险提示：\n? 组合波动率可能超过20%\n? VIX升至35时回撤可能超过15-20%\n? 违背全天候多资产对冲原则\n\n此模式仅适合极端进攻情景测试，不建议普通用户使用。')}">
+                            <option value="riskParity" selected>?? 风险平价（达里奥全天候）</option>
+                            <option value="balanced">?? 平衡集中（60/30/10原则）</option>
+                            <option value="concentrated">?? 高度集中（Top3-5高分资产）??</option>
+                        </select>
+                        <div style="font-size:9px;color:#666;margin-top:4px;">
+                            风险平价=分散所有大类 | 平衡集中=强化高分资产 | 高度集中=仅配置最高分
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">细分配额模式</label>
+                        <select id="allocationMode" style="width:100%;">
+                            <option value="equal" selected>?? 均分</option>
+                            <option value="riskParity">?? 风险平价</option>
+                            <option value="marketCap">?? 市值加权</option>
+                        </select>
+                        <div style="font-size:9px;color:#666;margin-top:4px;">均分=等金额 | 风险平价=按1/波动率 | 市值=按市值比例</div>
+                    </div>
+                </div>
+                <div style="font-size:10px;color:#666;padding:8px;background:#fef3c7;border-radius:4px;margin-top:8px;">
+                    ?? <strong>配置风格</strong>=控制大类之间比例 | <strong>配额模式</strong>=控制大类内部子资产分配
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>?? 宏观指标（可编辑）</span>
+                    <div style="display:flex; gap:4px;">
+                        <input type="file" id="macroFileImport" style="display:none" accept=".json"
+                            onchange="importMacroFromFile(this)">
+                        <button class="btn-secondary" onclick="document.getElementById('macroFileImport').click()"
+                            style="padding:2px 8px; font-size:10px; background:#059669;">选择文件</button>
+                        <button class="btn-secondary" onclick="importMacroParams()"
+                            style="padding:2px 8px; font-size:10px; background:#10b981;">粘贴文本</button>
+                        <button class="btn-secondary" onclick="exportMacroParams()"
+                            style="padding:2px 8px; font-size:10px; background:#3b82f6;">导出参数</button>
+                    </div>
+                </div>
+                <div id="macroDisplay"></div>
+            </div>
+
+            <!-- v16.38: 估值指标合并到Tab 0 -->
+            <!-- v16.39: 估值指标已迁移至 Tab 7 (US 宏观核心 / 资产特定因子) -->
+
+            <div class="card">
+                <div class="card-title">?? 资产大类选择 (8个)</div>
+                <div class="category-grid" id="majorCategoryGrid"></div>
+            </div>
+
+            <div class="card" id="subCategoryCard" style="display:none;">
+                <div class="card-title">?? 细分类别</div>
+                <div class="category-grid" id="subCategoryGrid"></div>
+            </div>
+
+            <div class="card" id="assetCard" style="display:none;">
+                <div class="card-title">?? 具体标的</div>
+                <div style="max-height: 400px; overflow-y: auto;" id="assetGrid"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">? 已选资产清单</div>
+                <div id="selectedAssetsList"
+                    style="min-height: 60px; max-height: 200px; overflow-y: auto; padding: 10px; background: #f9fafb; border-radius: 6px; border: 1px solid #ddd; font-size: 11px; line-height: 1.8; margin-bottom: 12px;">
+                    <span style="color: #999;">尚未选择资产</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+                    <button class="btn-secondary" onclick="saveAssetTemplate()">?? 保存模板</button>
+                    <button class="btn-secondary" onclick="clearAssets()" style="background:#999;">??? 清空选择</button>
+                                    </div>
+                <div style="padding: 8px; background: #e5e7eb; border-radius: 6px; font-size: 11px; color: #666;">
+                    ?? 已选：<strong id="selectedCountDisplay">0</strong>个标的 | ?? 涉及<strong
+                        id="categoryCountDisplay">0</strong>大类
+                </div>
+            </div>
+
+            <div class="card">
+                <button class="btn-primary" onclick="resetStateAndRecommend()"
+                    style="font-size: 13px; padding: 12px; background: #10b981;">?? 一键AI推荐 (Alpha 1.0)</button>
+            </div>
+        </div>
+
+        <!-- TAB 1: AI推荐 -->
+        <div class="tab-content" id="tab-1">
+            <div class="info-box" style="background:#e0f2fe;border-left:4px solid #0284c7;margin-bottom:16px;">
+                ?? <strong>双重推荐对比</strong>：左侧为系统全局最优（自动选择最佳资产），右侧为基于您选择的资产优化
+            </div>
+
+            <div class="info-box"
+                style="background:#fff7ed; border-left:4px solid #f97316; margin-bottom:16px; font-size:11px;">
+                ?? <strong>算法逻辑说明：为什么低分资产比例可能更高？</strong><br />
+                系统采用 <strong>All Weather (全天候) 分层配额机制</strong>：<br />
+                1. <strong>资产分层</strong>：资产被分为“风险”、“避险”、“交叉”三个预算池。<br />
+                2. <strong>层间配额</strong>：由 VIX 恐慌指数驱动。低 VIX(乐观)时，“风险”池配额高达 55%，而“避险”池仅 20%。<br />
+                3. <strong>层内分配</strong>：在层级配额内，按评分进行归一化分配。<br />
+                <span style="color:#c2410c;">结论：即使中国股票评分较低，但由于它处于占比 55% 的“风险”池中，其获得的最终比例仍可能高于处于“避险”池（仅占
+                    20%）的高评分债券。</span>
+            </div>
+
+            <div id="v3RoleShadowPanel"></div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:16px;">
+                <!-- 左侧：全局最优 -->
+                <div class="card" style="margin:0; background:#f0f9ff; border:2px solid #0284c7;">
+                    <div class="card-title" style="color:#0c4a6e;">?? 全局最优推荐</div>
+                    <div id="globalOptimalContainer"></div>
+                </div>
+
+                <!-- 右侧：用户选择 -->
+                <div class="card" style="margin:0; background:#f0fdf4; border:2px solid #10b981;">
+                    <div class="card-title" style="color:#065f46;">
+                        ? 您的选择推荐
+                        <span id="userRecStatusBadges" style="font-size:10px;font-weight:400;margin-left:8px;"></span>
+                        <div style="float:right; display:flex; gap:4px;">
+                            <button class="btn-secondary" onclick="copyDiagnosticData()"
+                                style="padding:2px 6px; font-size:10px; background:#3b82f6;">?? 复制</button>
+                            <button class="btn-secondary" onclick="downloadDiagnosticData()"
+                                style="padding:2px 6px; font-size:10px; background:#7c3aed;">?? 下载报告</button>
+                        </div>
+                    </div>
+                    <div id="riskPrefWarningBox"
+                        style="display:none;padding:8px;background:#fef3c7;border-radius:6px;margin-bottom:10px;border-left:3px solid #f59e0b;">
+                    </div>
+                    <div style="padding:10px 12px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;margin-bottom:10px;">
+                        <div style="font-size:12px;font-weight:700;color:#334155;margin-bottom:4px;">Live 调参预设</div>
+                        <div id="liveTuningInfo" style="font-size:11px;color:#64748b;margin-bottom:10px;">当前预设：exp_mild | riskPref=balanced | stability=0.18/0.38 | turnoverCost=0.0020</div>
+
+                        <div style="font-size:10px;color:#94a3b8;margin-bottom:4px;">?? 日常使用（balanced 风险上限55%）</div>
+                        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
+                            <button type="button" onclick="window.applyLiveTuningPreset && window.applyLiveTuningPreset('exp_mild')" style="padding:6px 12px;border:2px solid #16a34a;background:#ecfdf5;border-radius:6px;font-size:12px;cursor:pointer;font-weight:700;" title="turnover=0.18 alpha=0.38 | Sharpe 0.626">&#x2705; 稳健（默认）</button>
+                            <button type="button" onclick="window.applyLiveTuningPreset && window.applyLiveTuningPreset('exp_moderate')" style="padding:6px 12px;border:1px solid #3b82f6;background:#eff6ff;border-radius:6px;font-size:12px;cursor:pointer;" title="turnover=0.15 alpha=0.35 | Sharpe 0.199">&#x26A1; 适中</button>
+                            <button type="button" onclick="window.applyLiveTuningPreset && window.applyLiveTuningPreset('exp_responsive')" style="padding:6px 12px;border:1px solid #f97316;background:#fff7ed;border-radius:6px;font-size:12px;cursor:pointer;" title="turnover=0.20 alpha=0.45 | Sharpe 0.194">&#x1F525; 快速响应</button>
+                        </div>
+
+                        <div style="font-size:10px;color:#94a3b8;margin-bottom:4px;">?? 进阶模式（aggressive 风险上限75%）</div>
+                        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
+                            <button type="button" onclick="window.applyLiveTuningPreset && window.applyLiveTuningPreset('aggressive')" style="padding:6px 12px;border:1px solid #a7f3d0;background:#f0fdf4;border-radius:6px;font-size:12px;cursor:pointer;" title="riskPref=aggressive + 0.25/0.40">激进型</button>
+                            <button type="button" onclick="window.applyLiveTuningPreset && window.applyLiveTuningPreset('aggressive_relaxed')" style="padding:6px 12px;border:1px solid #fbcfe8;background:#fdf2f8;border-radius:6px;font-size:12px;cursor:pointer;" title="riskPref=aggressive + 0.30/0.50">极限测试</button>
+                            <button type="button" onclick="window.applySearchBestPreset && window.applySearchBestPreset()" style="padding:6px 12px;border:1px solid #22c55e;background:#f0fdf4;border-radius:6px;font-size:12px;cursor:pointer;font-weight:700;" title="concentrated + aggressive + 0.20/0.35">集中持仓</button>
+                        </div>
+
+                        <div style="font-size:10px;color:#94a3b8;margin-bottom:4px;">?? 工具</div>
+                        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                            <button type="button" onclick="window.compareLiveTuningPresets && window.compareLiveTuningPresets('exp_mild','exp_responsive')" style="padding:6px 12px;border:1px solid #8b5cf6;background:#f5f3ff;border-radius:6px;font-size:12px;cursor:pointer;">&#x1F4CA; 稳健 vs 快速 对照</button>
+                            <button type="button" onclick="window.restorePreviousLiveTuningPreset && window.restorePreviousLiveTuningPreset()" style="padding:6px 12px;border:1px solid #94a3b8;background:#f8fafc;border-radius:6px;font-size:12px;cursor:pointer;">&#x21A9; 恢复上一个</button>
+                        </div>
+
+                        <div id="liveTuningCompareResult" style="margin-top:10px;padding:10px;border:1px dashed #cbd5e1;border-radius:8px;background:#fff;min-height:36px;font-size:12px;color:#475569;">
+                            点击"对照"后显示对比结果。
+                        </div>
+                    </div>
+                    <div id="userSelectedContainer"></div>
+                </div>
+            </div>
+
+            <!-- v16.42.1: BL 独立视角面板 -->
+            <div id="blPanelWrapper" class="card"
+                style="margin:0 0 16px 0; background:linear-gradient(135deg, #fefce8 0%, #fef3c7 100%); border:2px solid #d97706; display:none;">
+                <div class="card-title"
+                    style="color:#92400e; display:flex; justify-content:space-between; align-items:center;">
+                    <span>?? Black-Litterman 视角 <span
+                            style="font-size:10px;font-weight:400;color:#b45309;">(实验只读，不用于实盘推荐)</span></span>
+                    <div style="display:flex; gap:4px; align-items:center;">
+                        <span id="blCovStatus" style="font-size:9px;color:#78716c;"></span>
+                        <input type="file" id="blCovFileImport" style="display:none" accept=".json"
+                            onchange="window.handleBLCovImport && window.handleBLCovImport(this)">
+                        <button class="btn-secondary" onclick="document.getElementById('blCovFileImport').click()"
+                            style="padding:2px 6px; font-size:9px; background:#d97706;">?? 导入协方差</button>
+                        <button class="btn-secondary" onclick="window.handleBLCovExport && window.handleBLCovExport()"
+                            style="padding:2px 6px; font-size:9px; background:#b45309;">?? 导出</button>
+                    </div>
+                </div>
+
+                <!-- BL 推荐权重 -->
+                <div id="blRecommendationContainer"></div>
+
+                <!-- BL 诊断面板 (折叠) -->
+                <details style="margin-top:8px;">
+                    <summary style="cursor:pointer; font-size:11px; color:#92400e; font-weight:600;">?? BL
+                        诊断详情（均衡→观点→后验）</summary>
+                    <div id="blDiagnosticsContainer" style="margin-top:8px; font-size:10px;"></div>
+                </details>
+
+                <!-- BL is kept for diagnostics only in Alpha 1.0. -->
+                <div style="margin-top:10px; padding-top:8px; border-top:1px solid #fde68a;">
+                    <button class="btn-secondary" type="button" disabled
+                        style="width:100%; background:#d6d3d1; color:#57534e; font-size:12px; cursor:not-allowed;">
+                        ?? BL 仅作诊断参考
+                    </button>
+                    <div style="font-size:9px; color:#92400e; margin-top:4px; text-align:center;">
+                        P1-LiveFull 是实盘路径；BL 当前 Sharpe 0.441，暂不参与资产选择
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <button class="btn-primary" onclick="applyGlobalRecommendation()"
+                    style="width:100%;margin-bottom:8px;">?? 采用全局推荐</button>
+                <button class="btn-secondary" onclick="saveFullSnapshot()">?? 保存为快照</button>
+            </div>
+        </div>
+
+        <!-- TAB 2: 评分拆解 -->
+        <div class="tab-content" id="tab-2">
+            <div class="card">
+                <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>?? 详细评分拆解（中文解读）</span>
+                    <button class="btn-secondary" onclick="exportScoreBreakdown()"
+                        style="padding:4px 8px; font-size:11px; background:#8b5cf6; color:white;">??
+                        导出评分明细Excel</button>
+                </div>
+                <div id="scoreDetailsPanel"></div>
+            </div>
+        </div>
+
+        <!-- TAB 3: 风险分析 -->
+        <div class="tab-content" id="tab-3">
+            <div class="card">
+                <div class="card-title">?? 风险计算公式（完全透明）</div>
+                <div class="formula-box">
+                    <div class="formula-title">?? 风险贡献计算步骤 (v16.58 矩阵化)</div>
+                    <div class="formula-item">
+                        <strong>第一步：</strong> 计算组合方差（协方差矩阵二次型）<br />
+                        <strong>公式：</strong> σ2<sub>p</sub> = w<sup>T</sup> × Σ × w （即 ∑∑
+                        w<sub>i</sub>w<sub>j</sub>σ<sub>ij</sub>）
+                    </div>
+                    <div class="formula-item">
+                        <strong>第二步：</strong> 计算每个资产的边际风险贡献 (Euler 分解)<br />
+                        <strong>公式：</strong> RC<sub>i</sub> = w<sub>i</sub> × (Σ·w)<sub>i</sub> / σ2<sub>p</sub>
+                    </div>
+                    <div class="formula-item">
+                        <strong>第三步：</strong> 归一化为百分比<br />
+                        <strong>公式：</strong> ∑RC<sub>i</sub> = 100%（齐次函数定理保证精确分拆）
+                    </div>
+                    <div
+                        style="margin-top: 10px; padding: 8px; background: #e0f7f4; border-left: 3px solid #10b981; border-radius: 4px; font-size: 10px; color: #065f46;">
+                        <strong>? 优势：</strong> 此方法使用 120 个月历史数据构建的 18×18 协方差矩阵，精确捕捉资产间的相关性与对冲效应。
+                    </div>
+                </div>
+                <div id="riskCalculationExample"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">?? 组合风险指标</div>
+                <div class="risk-dashboard" id="riskDashboard"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">?? 资产风险贡献分析</div>
+                <div id="riskContributionPanel"></div>
+            </div>
+
+            <!-- v16.58: 情景压力测试 -->
+            <div class="card">
+                <div class="card-title">?? 情景压力测试 (回溯过去)</div>
+                <div style="font-size:10px;color:#666;margin-bottom:12px;">??
+                    核心定位：检验尾部风险承受力。将3个历史极端场景的真实资产回报率映射到您的当前持仓，模拟极端冲击下的净值回撤。
+                </div>
+                <div id="stressTestPanel"></div>
+            </div>
+
+            <!-- v16.58: 相关性热力图 -->
+            <div class="card">
+                <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>??? 资产相关性热力图 (18×18)</span>
+                    <button onclick="exportCorrelationHeatmap()"
+                        style="padding:4px 8px; font-size:11px; background:#0891b2; color:white; border:none; cursor:pointer; border-radius:4px;">??
+                        导出CSV</button>
+                </div>
+                <div style="font-size:10px;color:#666;margin-bottom:12px;">?? 基于 120 个月历史数据计算的 Pearson 相关系数。<span
+                        style="color:#ef4444;">红色</span>=高正相关（同涨同跌）、<span style="color:#3b82f6;">蓝色</span>=负相关（对冲效应）。
+                </div>
+                <div style="display:flex; justify-content:center; width:100%; overflow-x:auto;">
+                    <div id="correlationHeatmap"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: 持仓对比 -->
+        <div class="tab-content" id="tab-4">
+            <!-- v16.62 F4: 权重迁移路径对比 -->
+            <div class="card">
+                <div class="card-title">?? 权重迁移路径（上期 → 本期）</div>
+                <div class="info-box">?? 对比上一次生成推荐时的权重与本期推荐的变化，含操作建议。首次使用时无上期数据。</div>
+                <div id="weightMigrationPanel">
+                    <div style="color:#999; text-align:center; padding:20px;">请先生成AI推荐</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">?? 当前持仓输入（紧凑表格格式）</div>
+                <div class="info-box">?? 在下表中输入当前持仓金额，系统自动计算比例。默认按AI推荐预填</div>
+                <table class="holding-table" id="holdingTable"></table>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px;">
+                    <button class="btn-primary" onclick="saveCurrentHoldings()"
+                        style="background: #10b981; padding: 10px;">?? 保存持仓配置</button>
+                    <button class="btn-secondary" onclick="resetHoldingInputs()"
+                        style="width:100%; background:#7c3aed;">?? 恢复推荐值</button>
+                </div>
+
+                <!-- v13.4: 多持仓配置管理 -->
+                <div style="margin-top: 16px; padding-top: 12px; border-top: 1px dashed #ddd;">
+                    <div style="font-weight:600; font-size:12px; margin-bottom:8px; color:#4b5563;">?? 多持仓配置管理 (v13.4)
+                    </div>
+                    <div class="input-group" style="margin-bottom:8px;">
+                        <div style="display:flex; gap:8px;">
+                            <input type="text" id="newSlotName" placeholder="输入配置名称 (e.g. 150万-激进版)" style="flex:1;">
+                            <button class="btn-secondary"
+                                onclick="savePortfolioSlot(document.getElementById('newSlotName').value)"
+                                style="background:#3b82f6; color:white;">?? 另存为新配置</button>
+                        </div>
+                    </div>
+                    <div id="portfolioSlotsContainer"
+                        style="border:1px solid #e5e7eb; border-radius:6px; background:#f9fafb;"></div>
+                </div>
+                <div id="holdingStatus" style="margin-top: 12px;"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">?? 再平衡成本分析</div>
+                <div id="rebalanceCostPanel">
+                    <div style="color:#999; text-align:center; padding:20px;">请先生成AI推荐并输入当前持仓</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">?? 持仓对比分析</div>
+                <div class="info-box">?? 当前持仓与AI推荐对比</div>
+                <table id="comparisonTable"></table>
+            </div>
+
+            <div class="card">
+                <div class="card-title">?? 再平衡成本分析</div>
+                <div style="margin-bottom: 16px;">
+                    <div class="input-group">
+                        <label class="input-label">再平衡阈值</label>
+                        <select id="rebalanceThreshold" onchange="analyzeRebalancingCost()" style="width:100%;">
+                            <option value="0">激进（无门槛，每次都交易）</option>
+                            <option value="0.05" selected>标准（>5%偏差才交易）</option>
+                            <option value="0.10">保守（>10%偏差才交易）</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="rebalancingAnalysis"></div>
+            </div>
+            <div class="card">
+                <div class="card-title">?? 执行后验记录</div>
+                <div class="info-box">?? 保存持仓或快照后，会在这里留下最近的执行记录，方便回头检查实际做了什么。</div>
+                <div id="executionJournalPanel"></div>
+            </div>
+        </div>
+
+        <!-- TAB 5: 模板库 (原Tab 6) -->
+        <div class="tab-content" id="tab-5">
+            <div class="card">
+                <div class="card-title">?? 我的资产模板</div>
+                <div class="info-box">?? 快速加载之前保存的资产组合，宏观数据可重新调整</div>
+                <div id="assetTemplatesPanel"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">?? 宏观场景模板</div>
+                <div class="info-box">?? 保存不同的宏观环境假设（如：高通胀、衰退等）</div>
+                <div id="macroTemplatesPanel"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">?? 我的完整快照</div>
+                <div class="info-box">?? 恢复之前的完整配置（包括宏观指标、推荐权重等）</div>
+                <div id="fullSnapshotsPanel"></div>
+            </div>
+        </div>
+
+        <!-- TAB 6: 回测验证 (原Tab 7) -->
+        <div class="tab-content" id="tab-6">
+            <div class="card">
+                <div class="card-title">?? 历史全景回测 (1987-2025)</div>
+
+                <!-- Unified History Grid -->
+                <div
+                    style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); padding:12px; margin:0 0 15px 0; border-radius:6px; border:1px solid #3b82f6;">
+                    <div style="font-weight:700; font-size:13px; color:#1e40af; margin-bottom:8px;">
+                        ?? 穿越牛熊：38年宏观周期验证
+                    </div>
+                    <div style="font-size:11px; color:#1e3a8a; margin-bottom:12px;">
+                        ?? 点击年份按钮，加载当时真实宏观数据，验证系统推荐是否命中当年的Top3资产。
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-bottom: 12px;">
+                        <!-- 1980s-2000s -->
+                        <button class="snapshot-btn" onclick="loadSnapshot('blackMonday1987')">??
+                            1987<br />黑色周一</button>
+                        <button class="snapshot-btn" onclick="loadSnapshot('asianCrisis1997')">??
+                            1997<br />亚洲危机</button>
+                        <button class="snapshot-btn" onclick="loadSnapshot('dotcom2000')">?? 2000<br />科网泡沫</button>
+                        <button class="snapshot-btn" onclick="loadSnapshot('crisis2008')">?? 2008<br />金融危机</button>
+                        <button class="snapshot-btn" onclick="loadSnapshot('euroDebt2011')">???? 2011<br />欧债危机</button>
+                        <button class="snapshot-btn" onclick="loadSnapshot('stimulus2012')">?? 2012<br />QE3启动</button>
+
+                        <!-- 2010s -->
+                        <button class="snapshot-btn" onclick="loadSnapshot('chinacrash2015')">????
+                            2015<br />中国股灾</button>
+                        <button class="snapshot-btn" onclick="loadSnapshot('period2016')">???? 2016<br />政治黑鹅</button>
+                        <button class="snapshot-btn" onclick="loadSnapshot('period2017')">?? 2017<br />完美复苏</button>
+                        <button class="snapshot-btn" onclick="loadSnapshot('tradeWar2018')">?? 2018<br />贸易战</button>
+                        <button class="snapshot-btn" onclick="loadSnapshot('period2019')">??? 2019<br />联储转向</button>
+                        <button class="snapshot-btn" onclick="loadSnapshot('covid2020')">?? 2020<br />新冠疫情</button>
+
+                        <!-- 2020s -->
+                        <button class="snapshot-btn" onclick="loadSnapshot('period2021')">?? 2021<br />通胀抬头</button>
+                        <button class="snapshot-btn" onclick="loadSnapshot('rateHike2022')">?? 2022<br />激进加息</button>
+                        <button class="snapshot-btn" onclick="loadSnapshot('bankCrisis2023')">?? 2023<br />银行危机</button>
+                        <button class="snapshot-btn" onclick="loadSnapshot('period2024')">?? 2024<br />软着陆</button>
+                        <button class="snapshot-btn" onclick="loadSnapshot('period2025')"
+                            style="background:#fef3c7; border-color:#f59e0b; grid-column: span 2;">??
+                            2025<br />黄金狂潮(NOW)</button>
+                    </div>
+
+                    <button class="btn-primary" onclick="runBatchVerification()"
+                        style="width:100%; background: #2563eb; font-weight:bold; margin-top:8px;">
+                        ?? 一键运行 38年全历史盲测验证 (Batch Verification)
+                    </button>
+                    <div style="margin-top: 12px; margin-bottom: 8px; font-size: 13px; color: #475569; display: flex; align-items: center; justify-content: space-between;">
+                        <span><b style="color:#1e293b">回测参数(LiveFull)</b>:</span>
+                        <div style="display: flex; gap: 4px;">
+                            <select id="wfLiveTuningPreset" onchange="window.applyLiveTuningPreset && window.applyLiveTuningPreset(this.value)" style="padding: 4px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 12px; background: #fff; cursor: pointer;" title="LiveFull Stability Preset">
+                                <option value="exp_mild">稳定器: 稳健 0.18/0.38</option>
+                                <option value="exp_moderate">稳定器: 适中 0.15/0.35</option>
+                                <option value="growth_moderate">稳定器: 温和增长 0.15/0.35</option>
+                                <option value="exp_responsive">稳定器: 快速 0.20/0.45</option>
+                            </select>
+                            <select id="wfAllocationStyle" style="padding: 4px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 12px; background: #fff; cursor: pointer;" title="Allocation Style">
+                                <option value="riskParity">Risk Parity</option>
+                                <option value="scoreWeighted">Score Weighted</option>
+                                <option value="balanced">Balanced</option>
+                                <option value="concentrated">Concentrated</option>
+                                <option value="concentratedCapped">Growth Candidate: Concentrated Capped</option>
+                                <option value="concentratedCappedSticky">Experiment: Capped Sticky</option>
+                            </select>
+                            <select id="wfRiskPref" style="padding: 4px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 12px; background: #fff; cursor: pointer;" title="Risk Preference">
+                                <option value="balanced">Pref: Balanced</option>
+                                <option value="aggressive">Pref: Aggressive</option>
+                                <option value="conservative">Pref: Conservative</option>
+                            </select>
+                            <button type="button" onclick="(function(){var p=document.getElementById('wfLiveTuningPreset');var a=document.getElementById('wfAllocationStyle');var r=document.getElementById('wfRiskPref');if(p){p.value='exp_mild';window.applyLiveTuningPreset&&window.applyLiveTuningPreset('exp_mild');}if(a)a.value='concentratedCapped';if(r)r.value='balanced';})()" style="padding:4px 8px;border:1px solid #16a34a;background:#ecfdf5;color:#166534;border-radius:4px;font-size:12px;cursor:pointer;font-weight:700;" title="exp_mild + Concentrated Capped + Pref: Balanced">增长候选</button>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" onclick="runWalkForwardSimulation()"
+                        style="width:100%; background: linear-gradient(135deg, #059669, #0d9488); font-weight:bold; margin-top:8px; border:none; color:white; padding:12px; border-radius:6px; cursor:pointer; font-size:14px;">
+                        ?? Walk-Forward 时序复利回测 (100万→38年复合收益)
+                    </button>
+                    <button onclick="window.exportWalkForwardReport && window.exportWalkForwardReport()"
+                        style="width:100%; background: #1e293b; border:1px solid #475569; color:#94a3b8; font-weight:600; margin-top:6px; padding:9px 12px; border-radius:6px; cursor:pointer; font-size:13px;"
+                        title="将回测结果导出为 JSON 文件，可直接发给 AI 分析">
+                        ?? 导出回测报告 (JSON)
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Result Card -->
+            <div class="card">
+                <div class="card-title">?? 验证结果与记录</div>
+                <!-- 10-Year Blind Test Result -->
+                <div id="backtestResult_Tab7"></div>
+
+                <!-- Manual Test Area -->
+                <div class="info-box" style="margin-top:15px;">
+                    <button onclick="runBatchHistoricalTest()"
+                        style="width:100%; padding:10px; background:#7c3aed; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer; margin-bottom:10px;">
+                        ?? 运行所有历史场景批量回测 (Batch Test)
+                    </button>
+                    <div>点击上方场景可查看详情及单场景回测结果</div>
+                </div>
+
+                <div id="historyPanel"></div>
+                <!-- Individual Scenario Result -->
+                <div id="backtestResult" style="margin-top: 15px;"></div>
+            </div>
+        </div>
+
+        <!-- TAB 7: 宏观研判 (原Tab 8) -->
+        <div class="tab-content" id="tab-7">
+            <!-- D3 宏观预测面板 v1.0 -->
+            <div id="d3-prediction-panel"></div>
+
+            <div class="card"
+                style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f7fa 100%); border: 2px solid #0891b2;">
+                <div class="card-title">?? 宏观环境总结</div>
+                <div id="macroSummaryPanel"></div>
+            </div>
+
+            <div class="card"
+                style="background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%); border: 2px solid #6366f1;">
+                <div class="card-title">?? 宏观方向判断</div>
+                <div class="info-box">基于当前宏观输入，直接给出偏强/偏弱方向和主要原因，方便快速看盘。</div>
+                <div id="macroDirectionPanel"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">?? 全局宏观画像</div>
+                <div class="info-box">?? 基于当前宏观环境，系统评估各地区和资产类别的配置价值</div>
+                <div id="macroAssetBreakdownPanel"></div>
+            </div>
+
+            <!-- Removed Constraint Selector & Comparison Tables for v11.9 Cleanup -->
+        </div>
+
+        <!-- TAB 8: 多情景分析 (原Tab 9) -->
+        <div class="tab-content" id="tab-8">
+            <div class="card"
+                style="background: linear-gradient(135deg, #fdf4ff 0%, #f3e8ff 100%); border: 2px solid #a855f7;">
+                <div class="card-title">?? 多情景概率配置 (展望未来)</div>
+                <div class="info-box" style="background:#f3e8ff;">
+                    ?? 核心定位：前瞻配置与应对不确定性。设置您对未来不同经济情景的预测概率，系统将执行综合考量推导最优防御配比。
+                </div>
+
+                <!-- 利率情景 -->
+                <div
+                    style="margin-bottom:18px;padding:12px;background:#fff;border-radius:6px;border:1px solid #e5e7eb;">
+                    <h4 style="margin:0 0 12px 0;font-size:13px;color:#7c3aed;">?? 利率情景（总和需100%）</h4>
+                    <div class="grid-4">
+                        <div class="input-group">
+                            <label class="input-label">衰退型降息</label>
+                            <input type="range" id="prob_recession" min="0" max="100" value="20"
+                                oninput="updateScenarioProb('rateScenario', 'recession', this.value)"
+                                style="width:100%;">
+                            <div style="text-align:center;font-weight:600;color:#dc2626;"
+                                id="prob_recession_rate_label">20%
+                            </div>
+                            <div style="font-size:9px;color:#666;">被迫降息→避险</div>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">预防型降息</label>
+                            <input type="range" id="prob_prevention" min="0" max="100" value="20"
+                                oninput="updateScenarioProb('rateScenario', 'prevention', this.value)"
+                                style="width:100%;">
+                            <div style="text-align:center;font-weight:600;color:#16a34a;"
+                                id="prob_prevention_rate_label">
+                                20%</div>
+                            <div style="font-size:9px;color:#666;">主动降息→股票</div>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">加息/收紧</label>
+                            <input type="range" id="prob_tightening" min="0" max="100" value="20"
+                                oninput="updateScenarioProb('rateScenario', 'tightening', this.value)"
+                                style="width:100%;">
+                            <div style="text-align:center;font-weight:600;color:#7c3aed;"
+                                id="prob_tightening_rate_label">
+                                20%</div>
+                            <div style="font-size:9px;color:#666;">应对过热→利空债</div>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">中性</label>
+                            <input type="range" id="prob_neutral_rate" min="0" max="100" value="40"
+                                oninput="updateScenarioProb('rateScenario', 'neutral', this.value)" style="width:100%;">
+                            <div style="text-align:center;font-weight:600;color:#6b7280;" id="prob_neutral_rate_label">
+                                40%</div>
+                            <div style="font-size:9px;color:#666;">方向不明</div>
+                        </div>
+                    </div>
+                    <div id="rateScenarioValidation" style="text-align:center;margin-top:8px;font-size:11px;"></div>
+                </div>
+
+                <!-- 增长情景 -->
+                <div
+                    style="margin-bottom:18px;padding:12px;background:#fff;border-radius:6px;border:1px solid #e5e7eb;">
+                    <h4 style="margin:0 0 12px 0;font-size:13px;color:#0891b2;">?? 增长情景（总和需100%）</h4>
+                    <div class="grid-3">
+                        <div class="input-group">
+                            <label class="input-label">软着陆</label>
+                            <input type="range" id="prob_softLanding" min="0" max="100" value="50"
+                                oninput="updateScenarioProb('growthScenario', 'softLanding', this.value)"
+                                style="width:100%;">
+                            <div style="text-align:center;font-weight:600;color:#f59e0b;" id="prob_softLanding_label">
+                                50%</div>
+                            <div style="font-size:9px;color:#666;">放缓但不衰退</div>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">硬着陆</label>
+                            <input type="range" id="prob_hardLanding" min="0" max="100" value="20"
+                                oninput="updateScenarioProb('growthScenario', 'hardLanding', this.value)"
+                                style="width:100%;">
+                            <div style="text-align:center;font-weight:600;color:#dc2626;" id="prob_hardLanding_label">
+                                20%</div>
+                            <div style="font-size:9px;color:#666;">经济衰退</div>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">再加速</label>
+                            <input type="range" id="prob_reacceleration" min="0" max="100" value="30"
+                                oninput="updateScenarioProb('growthScenario', 'reacceleration', this.value)"
+                                style="width:100%;">
+                            <div style="text-align:center;font-weight:600;color:#16a34a;"
+                                id="prob_reacceleration_label">30%
+                            </div>
+                            <div style="font-size:9px;color:#666;">增长重新加速</div>
+                        </div>
+                    </div>
+                    <div id="growthScenarioValidation" style="text-align:center;margin-top:8px;font-size:11px;"></div>
+                </div>
+
+                <button class="btn-primary" onclick="runAndDisplayMultiScenarioAnalysis()"
+                    style="width:100%;background:linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);padding:12px;font-size:14px;">
+                    ?? 计算多情景对冲配置
+                </button>
+            </div>
+
+            <!-- 多情景结果展示 -->
+            <div class="card" style="margin-top:16px;">
+                <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>?? 多情景对冲推荐</span>
+                    <div id="multiScenarioActions" style="display:none;">
+                        <button class="btn-primary" onclick="applyHedgedToSystem()"
+                            style="padding:4px 8px; font-size:10px; background:#7c3aed;">?? 应用到主配置</button>
+                        <button class="btn-primary" onclick="exportHedgedResults()"
+                            style="padding:4px 8px; font-size:10px; background:#0891b2; margin-left:4px;">??
+                            导出此结果</button>
+                    </div>
+                </div>
+                <div id="multiScenarioResult">
+                    <div style="text-align:center;color:#999;padding:20px;">
+                        请先设置情景概率，然后点击"计算多情景对冲配置"
+                    </div>
+                </div>
+            </div>
+
+            <!-- 情景对比表 -->
+            <div class="card" style="margin-top:16px;">
+                <div class="card-title">?? 各情景权重对比</div>
+                <div id="scenarioComparisonTable">
+                    <div style="text-align:center;color:#999;padding:20px;">
+                        计算后显示各情景下的资产权重对比
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 9: 导出 (原Tab 10) -->
+        <div class="tab-content" id="tab-9">
+            <div class="card">
+                <div class="card-title">?? 导出报告</div>
+
+                <!-- v14.3 New Feature -->
+                <div
+                    style="background:#f0fdf4; border:1px solid #10b981; border-radius:6px; padding:12px; margin-bottom:15px;">
+                    <h4 style="margin:0 0 8px 0; font-size:13px; color:#166534;">?? 全资产评分导出 (v14.3 Alpha)</h4>
+                    <p style="font-size:11px; color:#15803d; margin-bottom:10px; line-height:1.4;">
+                        导出包含所有大类资产(Beta)及子资产(Alpha)的详细评分报表。<br />
+                        <span style="font-weight:bold;">包含：</span> 基础分、Alpha超额收益、驱动因子、推荐理由。
+                    </p>
+                    <button class="btn-primary" onclick="window.exportExcelAllScores()"
+                        style="background:#16a34a; width:100%;">?? 导出全资产评分 (Excel/CSV)</button>
+                </div>
+
+                <div class="grid-4">
+                    <button class="btn-primary" onclick="exportCSV()" style="background: #059669;">?? 导出CSV</button>
+                    <button class="btn-primary" onclick="exportExcel()" style="background: #0891b2;">?? 导出Excel</button>
+                    <button class="btn-primary" onclick="exportJSON()" style="background: #7c3aed;">?? 导出JSON</button>
+
+                    <button class="btn-primary" onclick="exportTXT()" style="background: #db2777;">?? 导出TXT</button>
+                    <button class="btn-primary" onclick="exportScoreBreakdown()" style="background: #8b5cf6;">??
+                        导出评分拆解</button>
+                </div>
+                <div id="exportStatus" style="margin-top: 12px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- v16.48: cnStock/hkStock Split -->
+    <script src="js/data.js?v=16.69"></script>
+    <script src="js/state.js?v=16.69"></script>
+    <script src="js/bl_covariance.js?v=16.69"></script>
+    <script src="js/bl_engine.js?v=16.69"></script>
+    <script src="js/core_v16.18.js?v=16.69"></script>
+    <script src="js/algo_v16.19.js?v=16.69"></script>
+    <script src="js/ui_v16.js?v=16.69"></script>
+    <script src="js/walk_forward.js?v=16.69"></script>
+    <script src="data/quarterly_snapshots_latest.js?v=20260509"></script>
+    <script src="js/historical_snapshots_bridge.js?v=1.0"></script>
+    <script src="js/d3_prediction.js?v=2.0"></script>
+    <script src="2.0/exports/v3_role_shadow_allocation.js?v=20260509"></script>
+    <script src="js/v3_shadow_widget.js?v=20260509"></script>
+    <!-- <script src="js/app_all.js?v=15.1"></script> -->
+</body>
+
+</html>
+
+
+

@@ -1,0 +1,59 @@
+# Live 预设同口径对照
+
+## 目的
+
+在**同一页面状态**下，直接比较两档 Live 调参预设对推荐结果的影响，避免把批量搜索结果和页面当前推荐结果混在一起看。
+
+## 当前对照对象
+
+- `reality_default`
+- `yield_enhancement`
+
+## 当前默认
+
+- 页面启动时默认会先应用 `yield_enhancement`
+- `reality_default` 保留为收益增强/偏进攻备选
+
+## 页面入口
+
+在 `Live 调参预设` 区域点击：
+
+- `两档对照`
+
+## 对照方式
+
+1. 先保存当前页面状态
+2. 依次应用两档预设
+3. 每档都触发一次 `一键AI推荐`
+4. 记录当前推荐结果和顶部权重
+5. 自动恢复到对照前的页面状态
+
+## 前置条件
+
+- 需要先选中资产。
+- 如果当前没有已选资产，`generateRecommendation()` 可能会产出空推荐，导致对照结果为空。
+- 当前页面宏观状态、风险偏好和已选资产都会影响结果，所以对照前应保持同一页面环境。
+
+## 页面结果
+
+- 对照结果会直接显示在 `Live 调参预设` 区域下方的结果框里。
+- 同时也会继续写入 `window.__LIVE_TUNING_COMPARE_LAST` 和 `localStorage.dallio_live_tuning_compare_last`。
+
+## 结果查看
+
+对照完成后，结果会写入：
+
+- `window.__LIVE_TUNING_COMPARE_LAST`
+
+也会尝试持久化到：
+
+- `localStorage.dallio_live_tuning_compare_last`
+
+## 说明
+
+- 这个对照只比较**当前 live 推荐链路**下的表现。
+- 它不等同于 `scripts/search_strategy_grid.js` 的批量搜索结果。
+- 适合用来确认：
+  - 两档预设在正式推荐里是否真的有差异
+  - 哪一档更适合作为默认现实方案
+  - 哪一档更适合作为收益增强方案

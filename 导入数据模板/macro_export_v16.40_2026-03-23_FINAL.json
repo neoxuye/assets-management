@@ -1,0 +1,1249 @@
+{
+  "version": "v16.40",
+  "timestamp": "2026-03-23T15:37:00.000Z",
+  "description": "Lumi v16.40 Macro Parameters - 2026-03-23 FINAL | PMI verified from official ISM Manufacturing PMI report via fetch_url; fields not refreshed today are carried forward from the prior file",
+  "data_updated": "2026-03-23",
+  "usage_guide": "For 'options' based parameters, select a value from the provided list that best matches current conditions.",
+  "changelog": [
+    "v16.37: Added pePercentile valuation factor, integrated goldPriceMA200/oilPriceMA200, 2008 credit crisis bond boost",
+    "v16.37-FINAL: ALL objective data corrected with Feb 2026 latest values",
+    "v16.39: Standardized all data sources to 100% match Data_Sources_Reference.md",
+    "2026-03-03: Full FRED refresh; usGdpGrowth Q4=1.4; usd=98.533 screenshot; vix=21.44 user-observed",
+    "2026-03-05: ISM Feb PMI official fetch = 50.3; BAMLH0A0HYM2=3.08; vix=21.15 user; usd=98.935 user; SOFR-OIS=6bp",
+    "2026-03-18: Updated VIX=22.37, DXY=99.588, usPmi=52.4 (ISM official), pmiDelta=-0.2, pmiConsecutive=0, fedRate=3.64, usUnemployment=4.4",
+    "2026-03-19: PMI verified from official ISM report (Feb 2026=52.4); pmiDelta=-0.2; pmiConsecutive=0; fedRate=3.64; today file generated with carry-forward for non-refreshed fields",
+    "2026-03-23: Generated today file; PMI re-verified from official ISM report (Feb 2026=52.4); pmiDelta=-0.2; pmiConsecutive=0; non-refreshed fields carry-forward from prior file"
+  ],
+  "macro_params": {
+    "fedRate": {
+      "value": 3.64,
+      "label": "🇺🇸 Fed利率 (%)",
+      "range": [
+        0,
+        10
+      ],
+      "guide": "Current market rate or Fed target",
+      "source": "FRED FEDFUNDS",
+      "sourceUrl": "https://fred.stlouisfed.org/series/FEDFUNDS",
+      "last_updated": "2026-03-19",
+      "status": "�?3.64 (FRED FEDFUNDS, Feb 2026; Updated Mar 2, 2026; fetch_url verified on 2026-03-19)"
+    },
+    "realYield": {
+      "value": 1.77,
+      "label": "🇺🇸 10年美债实际收益率 (%)",
+      "range": [
+        -8,
+        5
+      ],
+      "guide": "Nominal Yield - Breakeven Inflation",
+      "source": "FRED DFII10",
+      "sourceUrl": "https://fred.stlouisfed.org/series/DFII10",
+      "last_updated": "2026-03-05",
+      "status": "�?1.77 (FRED DFII10, 2026-03-04; fetch_url verified 2026-03-05)"
+    },
+    "usd": {
+      "value": 99.588,
+      "label": "🇺🇸 美元指数 (DXY)",
+      "range": [
+        70,
+        130
+      ],
+      "guide": "Neutral ~100",
+      "source": "TradingView: TVC-DXY",
+      "sourceUrl": "https://www.tradingview.com/symbols/TVC-DXY/",
+      "last_updated": "2026-03-18",
+      "status": "�?99.588 (User provided, TradingView TVC-DXY, 2026-03-18)"
+    },
+    "vix": {
+      "value": 22.37,
+      "label": "🇺🇸 VIX恐慌指数 (SPX Vol)",
+      "range": [
+        8,
+        160
+      ],
+      "guide": "Neutral ~18",
+      "source": "CBOE Official VIX",
+      "sourceUrl": "https://www.cboe.com/tradable_products/vix/",
+      "last_updated": "2026-03-18",
+      "status": "�?22.37 (User provided, CBOE VIX, 2026-03-18)"
+    },
+    "creditSpread": {
+      "value": 3.08,
+      "label": "🇺🇸 高收益债利�?(US HY Spread)",
+      "range": [
+        2,
+        8
+      ],
+      "guide": "HY Option-Adjusted Spread. >4.0 = Credit Crisis",
+      "source": "FRED BAMLH0A0HYM2",
+      "sourceUrl": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
+      "last_updated": "2026-03-05",
+      "status": "�?3.08 (FRED BAMLH0A0HYM2, 2026-03-03; fetch_url verified 2026-03-05)"
+    },
+    "inflation": {
+      "value": 2.46,
+      "label": "🇺🇸 通胀预期 (US 5Y Breakeven)",
+      "range": [
+        0,
+        12
+      ],
+      "guide": "5y Breakeven Inflation",
+      "source": "FRED T5YIE",
+      "sourceUrl": "https://fred.stlouisfed.org/series/T5YIE",
+      "last_updated": "2026-03-05",
+      "status": "�?2.46 (FRED T5YIE, 2026-03-04; fetch_url verified 2026-03-05)"
+    },
+    "globalGrowth": {
+      "value": 3.3,
+      "label": "🌍 全球增�?(Global GDP)",
+      "range": [
+        -5,
+        8
+      ],
+      "guide": "IMF/WorldBank Forecast (~3.0 is Neutral)",
+      "source": "IMF WEO",
+      "sourceUrl": "https://www.imf.org/en/Publications/WEO",
+      "last_updated": "2026-03-05",
+      "status": "⚠️ 3.3 (Carry-forward; IMF WEO next update April 2026)"
+    },
+    "usPmi": {
+      "value": 52.4,
+      "label": "🇺🇸 美国制造业PMI (ISM)",
+      "range": [
+        40,
+        60
+      ],
+      "guide": ">50 Expansion, <50 Contraction",
+      "source": "ISM Official",
+      "sourceUrl": "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/pmi/february/",
+      "last_updated": "2026-03-23",
+      "status": "�?52.4 (ISM Official February 2026 Manufacturing PMI Report; fetch_url verified on 2026-03-23)"
+    },
+    "usUnemployment": {
+      "value": 4.4,
+      "label": "🇺🇸 美国失业�?(%)",
+      "range": [
+        3,
+        8
+      ],
+      "guide": "Latest BLS data",
+      "source": "FRED UNRATE",
+      "sourceUrl": "https://fred.stlouisfed.org/series/UNRATE",
+      "last_updated": "2026-03-18",
+      "status": "�?4.4 (FRED UNRATE, Feb 2026; Updated Mar 6, 2026; search verified)"
+    },
+    "cnPmi": {
+      "value": 49.3,
+      "label": "🇨🇳 中国官方制造业PMI (NBS官方)",
+      "range": [
+        45,
+        55
+      ],
+      "guide": "Use NBS Official Data (Not Caixin)",
+      "source": "NBS Official (via TradingEconomics)",
+      "sourceUrl": "https://tradingeconomics.com/china/manufacturing-pmi",
+      "last_updated": "2026-03-05",
+      "status": "⚠️ 49.3 (Carry-forward; please verify Feb 2026 NBS PMI on sourceUrl)"
+    },
+    "usGdpGrowth": {
+      "value": 1.4,
+      "label": "🇺🇸 美国GDP增�?(%)",
+      "range": [
+        -2,
+        5
+      ],
+      "guide": "Real GDP QoQ Annualized (Q4 2025 Advance Estimate)",
+      "source": "FRED A191RL1Q225SBEA",
+      "sourceUrl": "https://fred.stlouisfed.org/series/A191RL1Q225SBEA",
+      "last_updated": "2026-03-05",
+      "status": "�?1.4 (FRED A191RL1Q225SBEA, Q4 2025 Advance; BEA released Feb 20, 2026; next revision Mar 13, 2026)",
+      "verification_note": "Q4 2025 slowdown: 4.4�?.4 driven by 43-day government shutdown, lower exports & government spending"
+    },
+    "sofrOisSpread": {
+      "value": 6,
+      "label": "🇺🇸 SOFR-OIS利差 (bp)",
+      "range": [
+        0,
+        100
+      ],
+      "guide": "Normal 0-10bp. >20bp indicates bank stress.",
+      "source": "FRED SOFR",
+      "sourceUrl": "https://fred.stlouisfed.org/series/SOFR",
+      "calculation": "SOFR 3.70 (2026-03-03) - FEDFUNDS 3.64 (Feb 2026) = 6bp",
+      "last_updated": "2026-03-05",
+      "status": "�?6bp (Calculated per Guild §3.4: SOFR 3.70 - FEDFUNDS 3.64 = 6bp; normal range 0-10bp, no banking stress)"
+    },
+    "pmiDelta": {
+      "value": -0.2,
+      "label": "🇺🇸 PMI变化�?(US ISM MoM)",
+      "range": [
+        -5,
+        5
+      ],
+      "guide": "Change from last month. +2 accelerating, -2 slowing fast.",
+      "calculation": "Feb 2026 (52.4) - Jan 2026 (52.6) = -0.2",
+      "source": "ISM (calculated)",
+      "last_updated": "2026-03-23",
+      "status": "�?-0.2 (Calculated from official ISM February 2026 PMI and January 2026 PMI)"
+    },
+    "fedDotsGap": {
+      "value": 0,
+      "label": "🇺🇸 Fed预期偏离 (bp)",
+      "range": [
+        -100,
+        100
+      ],
+      "guide": "+Value = Market is Hawkish than Fed, -Value = Market is Dovish",
+      "source": "CME FedWatch",
+      "sourceUrl": "https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html",
+      "last_updated": "2026-03-05",
+      "status": "⚠️ Dynamic (weekly update needed)"
+    },
+    "pmiConsecutive": {
+      "value": 0,
+      "label": "🇺🇸 美国PMI连续衰退月数 (US ISM < 50)",
+      "range": [
+        0,
+        12
+      ],
+      "guide": "Count months < 50. >3 months is recessionary.",
+      "historical_note": "Mar 2025-Dec 2025: 10 consecutive months below 50; Jan 2026 broke the streak at 52.6; Feb 2026 remained above 50 at 52.4",
+      "source": "ISM Historical Data",
+      "last_updated": "2026-03-23",
+      "status": "�?0 (No current consecutive contraction streak because Jan and Feb 2026 were both above 50)"
+    },
+    "cnPolicy": {
+      "value": 0.2,
+      "label": "🇨🇳 中国政策力度 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "全面强刺激 (降息降准+万亿财政)"
+        },
+        {
+          "value": 0.8,
+          "label": "强力宽松 (显著放松地产/信贷)"
+        },
+        {
+          "value": 0.5,
+          "label": "积极支持 (政治局会议定调积极)"
+        },
+        {
+          "value": 0.2,
+          "label": "温和呵护 (定向降准/MLF操作)"
+        },
+        {
+          "value": 0.0,
+          "label": "中性观�?(无重大政策变�?"
+        },
+        {
+          "value": -0.3,
+          "label": "边际收紧 (去杠�?监管加强)"
+        },
+        {
+          "value": -0.8,
+          "label": "显著紧缩 (全面加息/严控信贷)"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "momentum": {
+      "value": 0.5,
+      "label": "🇺🇸 美股动量 (SPX Momentum)",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "强劲牛市 (SPX > 50MA > 200MA)"
+        },
+        {
+          "value": 0.5,
+          "label": "温和上涨 (SPX > 200MA)"
+        },
+        {
+          "value": 0.0,
+          "label": "震荡/无方�?
+        },
+        {
+          "value": -0.5,
+          "label": "弱势调整 (SPX < 50MA)"
+        },
+        {
+          "value": -0.8,
+          "label": "技术破�?(SPX < 200MA)"
+        },
+        {
+          "value": -1.0,
+          "label": "崩盘/熊市"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "geoRisk": {
+      "value": 0.4,
+      "label": "🌍 地缘战争风险 (Global)",
+      "range": [
+        0,
+        1
+      ],
+      "options": [
+        {
+          "value": 0.0,
+          "label": "和平"
+        },
+        {
+          "value": 0.2,
+          "label": "摩擦/贸易�?
+        },
+        {
+          "value": 0.4,
+          "label": "紧张/代理人战�?
+        },
+        {
+          "value": 0.6,
+          "label": "局部战�?(主要产油国卷�?"
+        },
+        {
+          "value": 0.8,
+          "label": "大规模冲�?(大国对抗)"
+        },
+        {
+          "value": 1.0,
+          "label": "世界大战风险"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "centralBankDemand": {
+      "value": 0.5,
+      "label": "🏦 央行购金力度 (Global CB Gold)",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "强力购入 (去美元化)"
+        },
+        {
+          "value": 0.5,
+          "label": "温和增持"
+        },
+        {
+          "value": 0.0,
+          "label": "中�?
+        },
+        {
+          "value": -0.5,
+          "label": "净抛售"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "usDebtStability": {
+      "value": -0.2,
+      "label": "🇺🇸 美�?美元信誉 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "绝对避险港湾"
+        },
+        {
+          "value": 0.0,
+          "label": "正常机制"
+        },
+        {
+          "value": -0.2,
+          "label": "轻微担忧 (债务上限)"
+        },
+        {
+          "value": -0.5,
+          "label": "信用降级"
+        },
+        {
+          "value": -0.8,
+          "label": "严重信任危机 (流拍)"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "adoption": {
+      "value": 0.6,
+      "label": "�?从新兴到主流 (Crypto Adoption)",
+      "range": [
+        0,
+        1
+      ],
+      "options": [
+        {
+          "value": 0.1,
+          "label": "边缘�?(仅散�?"
+        },
+        {
+          "value": 0.3,
+          "label": "早期 (FO配置)"
+        },
+        {
+          "value": 0.5,
+          "label": "中等 (对冲基金配置)"
+        },
+        {
+          "value": 0.8,
+          "label": "主流 (ETF/养老金)"
+        },
+        {
+          "value": 1.0,
+          "label": "货币�?(央行储备)"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "usCycleStage": {
+      "value": 0.5,
+      "label": "🇺🇸 美国经济周期",
+      "range": [
+        -1,
+        1
+      ],
+      "guide": "Auto-calc from PMI/Unemployment",
+      "status": "Auto-calculated"
+    },
+    "cnGrowthTrend": {
+      "value": -0.3,
+      "label": "🇨🇳 中国增长动能 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "强劲复苏 (PMI > 52)"
+        },
+        {
+          "value": 0.5,
+          "label": "温和回升 (PMI > 50)"
+        },
+        {
+          "value": 0.0,
+          "label": "企稳/磨底"
+        },
+        {
+          "value": -0.5,
+          "label": "动能减弱 (PMI < 50)"
+        },
+        {
+          "value": -1.0,
+          "label": "深度下滑 (PMI < 48)"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "cnCreditImpulse": {
+      "value": 0.0,
+      "label": "🇨🇳 中国信贷脉冲 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "信贷狂潮 (M1/M2剪刀差收�?"
+        },
+        {
+          "value": 0.5,
+          "label": "信贷扩张 (社融超预�?"
+        },
+        {
+          "value": 0.0,
+          "label": "信贷平稳"
+        },
+        {
+          "value": -0.5,
+          "label": "信贷收缩"
+        },
+        {
+          "value": -1.0,
+          "label": "紧信�?(去杠�?"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "euEcoTrend": {
+      "value": -0.2,
+      "label": "🇪🇺 欧洲经济趋势 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "强劲复苏 (PMI>55)"
+        },
+        {
+          "value": 0.5,
+          "label": "温和改善 (PMI>50)"
+        },
+        {
+          "value": 0.0,
+          "label": "停滞/震荡"
+        },
+        {
+          "value": -0.5,
+          "label": "放缓 (PMI<50)"
+        },
+        {
+          "value": -1.0,
+          "label": "深度衰退"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "jpPolicyTrend": {
+      "value": -0.5,
+      "label": "🇯🇵 日本央行趋势 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "极度宽松 (负利�?YCC)"
+        },
+        {
+          "value": 0.5,
+          "label": "维持宽松 (鸽派)"
+        },
+        {
+          "value": 0.0,
+          "label": "观察�?
+        },
+        {
+          "value": -0.5,
+          "label": "货币正常�?(取消YCC)"
+        },
+        {
+          "value": -1.0,
+          "label": "鹰派紧缩 (连续加息)"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "emFinancialTrend": {
+      "value": 0.0,
+      "label": "🚀 新兴市场金融条件 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "极度宽松 (资本流入)"
+        },
+        {
+          "value": 0.5,
+          "label": "温和宽松"
+        },
+        {
+          "value": 0.0,
+          "label": "中�?
+        },
+        {
+          "value": -0.5,
+          "label": "收紧"
+        },
+        {
+          "value": -1.0,
+          "label": "流动性危�?(崩盘)"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "commodityTrend": {
+      "value": -0.3,
+      "label": "🛢�?商品综指趋势 (CRB/GSCI)",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "超级牛市 (通胀交易)"
+        },
+        {
+          "value": 0.5,
+          "label": "温和上涨"
+        },
+        {
+          "value": 0.0,
+          "label": "震荡"
+        },
+        {
+          "value": -0.5,
+          "label": "承压下跌"
+        },
+        {
+          "value": -1.0,
+          "label": "崩盘 (通缩交易)"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "goldTrend": {
+      "value": 0.6,
+      "label": "🥇 黄金趋势 (Gold Trend)",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "主升�?(新高)"
+        },
+        {
+          "value": 0.5,
+          "label": "上升趋势"
+        },
+        {
+          "value": 0.0,
+          "label": "高位震荡"
+        },
+        {
+          "value": -0.5,
+          "label": "回调"
+        },
+        {
+          "value": -1.0,
+          "label": "熊市开�?
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "btcCycle": {
+      "value": 0.65,
+      "label": "�?BTC减半周期 (0~1)",
+      "range": [
+        0,
+        1
+      ],
+      "options": [
+        {
+          "value": 0.2,
+          "label": "极度恐慌 / 历史底部"
+        },
+        {
+          "value": 0.4,
+          "label": "筑底震荡�?
+        },
+        {
+          "value": 0.5,
+          "label": "减半前后 / 中�?
+        },
+        {
+          "value": 0.75,
+          "label": "减半后扩张期 (牛市主升)"
+        },
+        {
+          "value": 0.9,
+          "label": "极度狂热 / 周期顶部"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "growthTrend": {
+      "value": 0.3,
+      "label": "🌍 全球经济增速趋�?(Global Growth)",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "强劲复苏 (>55)"
+        },
+        {
+          "value": 0.5,
+          "label": "温和扩张"
+        },
+        {
+          "value": 0.0,
+          "label": "稳定"
+        },
+        {
+          "value": -0.5,
+          "label": "放缓/软着�?
+        },
+        {
+          "value": -1.0,
+          "label": "衰退/硬着�?
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "inflationTrend": {
+      "value": -0.2,
+      "label": "🇺🇸 通胀趋势 (US Inflation Trend)",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "通胀失控/加�?
+        },
+        {
+          "value": 0.5,
+          "label": "温和上升"
+        },
+        {
+          "value": 0.0,
+          "label": "稳定"
+        },
+        {
+          "value": -0.5,
+          "label": "回落/去通胀"
+        },
+        {
+          "value": -1.0,
+          "label": "通缩螺旋"
+        }
+      ],
+      "status": "�?User choice"
+    }
+  },
+  "reason_params": {
+    "rateChangeReason": {
+      "value": 0.0,
+      "label": "💡 🇺🇸 Fed利率变化原因",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 0.0,
+          "label": "中�?不确�?
+        },
+        {
+          "value": 1.0,
+          "label": "预防型降�?(利好)"
+        },
+        {
+          "value": -1.0,
+          "label": "衰退型降�?(利空)"
+        },
+        {
+          "value": -0.8,
+          "label": "极速加�?
+        },
+        {
+          "value": -0.5,
+          "label": "通胀恐慌加息"
+        },
+        {
+          "value": -0.3,
+          "label": "转向预期"
+        },
+        {
+          "value": 0.5,
+          "label": "正常化加�?
+        },
+        {
+          "value": 0.7,
+          "label": "强力加息"
+        },
+        {
+          "value": 0.8,
+          "label": "历史级激进加�?
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "rateTrend": {
+      "value": -0.2,
+      "label": "📉 🇺🇸 Fed利率趋势",
+      "range": [
+        -2,
+        2
+      ],
+      "options": [
+        {
+          "value": 2.0,
+          "label": "Hike++ (激进加�?"
+        },
+        {
+          "value": 1.0,
+          "label": "Hike+ (温和加息)"
+        },
+        {
+          "value": 0.5,
+          "label": "Hike (鹰派维持)"
+        },
+        {
+          "value": 0.0,
+          "label": "Neutral"
+        },
+        {
+          "value": -0.2,
+          "label": "Cut- (鸽派维持)"
+        },
+        {
+          "value": -0.5,
+          "label": "Cut (预防�?"
+        },
+        {
+          "value": -1.0,
+          "label": "Cut+ (衰退�?"
+        },
+        {
+          "value": -1.5,
+          "label": "Cut++ (危机救市)"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "growthMomentum": {
+      "value": 0.3,
+      "label": "🚀 增长动能 (US Growth)",
+      "range": [
+        -2,
+        2
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "Accelerating (强劲加�?"
+        },
+        {
+          "value": 0.5,
+          "label": "Recovering (温和复苏)"
+        },
+        {
+          "value": 0.0,
+          "label": "Stable"
+        },
+        {
+          "value": -0.2,
+          "label": "Slowing (放缓)"
+        },
+        {
+          "value": -0.5,
+          "label": "Contracting (收缩)"
+        },
+        {
+          "value": -1.0,
+          "label": "Plunging (深度衰退)"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "usdReason": {
+      "value": -0.7,
+      "label": "美元相对外币强弱",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": -1.0,
+          "label": "美元升�?(压制外币)"
+        },
+        {
+          "value": -0.8,
+          "label": "美元強劲升�?(避险)"
+        },
+        {
+          "value": 0.0,
+          "label": "美元中�?
+        },
+        {
+          "value": 1.0,
+          "label": "美元大幅贬�?
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "vixReason": {
+      "value": 0.2,
+      "label": "💡 🇺🇸 VIX变化原因",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 0.0,
+          "label": "中�?
+        },
+        {
+          "value": -1.0,
+          "label": "系统性危�?
+        },
+        {
+          "value": -0.5,
+          "label": "事件冲击"
+        },
+        {
+          "value": 0.5,
+          "label": "技术调�?
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "inflationReason": {
+      "value": -0.3,
+      "label": "💡 🇺🇸 通胀变化原因",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 0.0,
+          "label": "中�?
+        },
+        {
+          "value": 1.0,
+          "label": "需求拉动上�?
+        },
+        {
+          "value": -1.0,
+          "label": "供给冲击上升"
+        },
+        {
+          "value": 0.5,
+          "label": "工资螺旋"
+        },
+        {
+          "value": -0.5,
+          "label": "技术性回�?
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "usdTrend": {
+      "value": -0.7,
+      "label": "美元趋势 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "强劲上涨 (站稳均线)"
+        },
+        {
+          "value": 0.5,
+          "label": "温和反弹"
+        },
+        {
+          "value": 0.0,
+          "label": "震荡"
+        },
+        {
+          "value": -0.5,
+          "label": "承压回落"
+        },
+        {
+          "value": -1.0,
+          "label": "破位下跌"
+        }
+      ],
+      "status": "�?User choice"
+    },
+    "cnPolicyTrend": {
+      "value": -0.3,
+      "label": "中国政策趋势 (-1~1)",
+      "range": [
+        -1,
+        1
+      ],
+      "options": [
+        {
+          "value": 1.0,
+          "label": "全面宽松周期"
+        },
+        {
+          "value": 0.5,
+          "label": "边际转松"
+        },
+        {
+          "value": 0.0,
+          "label": "观察�?
+        },
+        {
+          "value": -0.5,
+          "label": "边际收紧"
+        },
+        {
+          "value": -1.0,
+          "label": "去杠杆周�?
+        }
+      ],
+      "status": "�?User choice"
+    }
+  },
+  "valuation_params": {
+    "spPE": {
+      "value": 28.0,
+      "label": "🇺🇸 S&P 500 P/E",
+      "range": [
+        10,
+        40
+      ],
+      "guide": "泡沫>28, 底部<12",
+      "source": "Multpl",
+      "sourceUrl": "https://www.multpl.com/s-p-500-pe-ratio",
+      "last_updated": "2026-02-05",
+      "status": "⚠️ 28.0 (Carry-forward; JS-rendered)"
+    },
+    "spPercentile": {
+      "value": 90,
+      "label": "🇺🇸 S&P 500 价格分位 (0-100)",
+      "range": [
+        0,
+        100
+      ],
+      "guide": "超涨>85, 超跌<15",
+      "source": "CurrentMarketValuation",
+      "sourceUrl": "https://www.currentmarketvaluation.com/models/price-earnings.php",
+      "last_updated": "2026-02-05",
+      "status": "⚠️ 90 (Carry-forward)"
+    },
+    "sp6mReturn": {
+      "value": 15.0,
+      "label": "🇺🇸 S&P 500 半年涨跌�?(%)",
+      "range": [
+        -50,
+        50
+      ],
+      "guide": "过热>30, 恐慌<-20",
+      "source": "Yahoo Finance",
+      "sourceUrl": "https://finance.yahoo.com/quote/SPY/",
+      "last_updated": "2026-02-05",
+      "status": "⚠️ 15.0 (Carry-forward)"
+    },
+    "bondYieldTrend": {
+      "value": 25,
+      "label": "💵 利率趋势 (bp, 6月变�?",
+      "range": [
+        -100,
+        100
+      ],
+      "guide": "+�?升息�? >50急升, <-50急降",
+      "source": "FRED DGS10",
+      "sourceUrl": "https://fred.stlouisfed.org/series/DGS10",
+      "last_updated": "2026-02-05",
+      "status": "⚠️ 25 (Carry-forward)"
+    },
+    "bondRealYieldLevel": {
+      "value": 1.77,
+      "label": "💵 实际收益�?(%)",
+      "range": [
+        -1,
+        4
+      ],
+      "guide": "高吸引力>2.5%, 低吸引力<0",
+      "source": "FRED DFII10",
+      "sourceUrl": "https://fred.stlouisfed.org/series/DFII10",
+      "last_updated": "2026-03-05",
+      "status": "�?1.77 (Synced with realYield DFII10 2026-03-04)"
+    },
+    "goldPriceMA200": {
+      "value": 1.47,
+      "label": "🥇 黄金价格/200日均�?,
+      "range": [
+        0.7,
+        1.6
+      ],
+      "guide": "超买>1.15, 超卖<0.85",
+      "source": "TradingView XAUUSD",
+      "sourceUrl": "https://www.tradingview.com/symbols/XAUUSD/",
+      "last_updated": "2026-02-05",
+      "status": "⚠️ 1.47 (Carry-forward; JS-rendered)"
+    },
+    "oilPriceMA200": {
+      "value": 1.1,
+      "label": "🛢�?原油价格/200日均�?,
+      "range": [
+        0.5,
+        2.0
+      ],
+      "guide": "超买>1.3, 超卖<0.7",
+      "source": "TradingView CL1!",
+      "sourceUrl": "https://www.tradingview.com/symbols/NYMEX-CL1!/",
+      "last_updated": "2026-02-05",
+      "status": "⚠️ 1.1 (Carry-forward; JS-rendered)"
+    },
+    "commodity6mReturn": {
+      "value": 5.0,
+      "label": "🛢�?商品指数涨幅 (%)",
+      "range": [
+        -50,
+        50
+      ],
+      "guide": "动量过热>30%",
+      "source": "TradingView: CRB Index",
+      "sourceUrl": "https://www.tradingview.com/symbols/CRB/",
+      "last_updated": "2026-02-07",
+      "status": "⚠️ 5.0 (Carry-forward; JS-rendered)"
+    }
+  },
+  "error_log": {
+    "total_errors_fixed": 9,
+    "all_corrected": true,
+    "audit_date": "2026-02-04",
+    "audit_status": "�?COMPLETE",
+    "error_details": [
+      {
+        "error": 1,
+        "param": "pmiDelta",
+        "original": 0,
+        "fixed": 4.7,
+        "status": "�?Fixed"
+      },
+      {
+        "error": 2,
+        "param": "globalGrowth",
+        "original": 2.9,
+        "fixed": 3.3,
+        "status": "�?Fixed"
+      },
+      {
+        "error": 3,
+        "param": "usGdpGrowth",
+        "original": 2.8,
+        "intermediate_wrong": 2.4,
+        "final_fixed": 4.4,
+        "status": "�?Fixed �?further updated to 1.4 (Q4 2025)"
+      },
+      {
+        "error": 4,
+        "param": "realYield",
+        "original": 2.05,
+        "fixed": 1.94,
+        "status": "�?Fixed"
+      },
+      {
+        "error": 5,
+        "param": "inflation",
+        "original": 2.3,
+        "fixed": 2.53,
+        "status": "�?Fixed"
+      },
+      {
+        "error": 6,
+        "param": "usd",
+        "original": 103.5,
+        "fixed": 97.4,
+        "status": "�?Fixed"
+      },
+      {
+        "error": 7,
+        "param": "vix",
+        "original": 14.5,
+        "fixed": 18.01,
+        "status": "�?Fixed"
+      },
+      {
+        "error": 8,
+        "param": "JSON structure",
+        "issue": "Comment lines mixed in",
+        "fixed": "Removed all comment entries",
+        "status": "�?Fixed"
+      },
+      {
+        "error": 9,
+        "param": "PMI background",
+        "issue": "Wrong historical context",
+        "fixed": "Added complete 13-month PMI history",
+        "status": "�?Fixed"
+      }
+    ]
+  },
+  "data_sources": {
+    "fed_rate": "https://fred.stlouisfed.org/series/FEDFUNDS",
+    "real_yield": "https://fred.stlouisfed.org/series/DFII10",
+    "usd_dxy": "https://www.tradingview.com/symbols/TVC-DXY/",
+    "vix": "https://www.cboe.com/tradable_products/vix/",
+    "credit_spread": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
+    "inflation": "https://fred.stlouisfed.org/series/T5YIE",
+    "global_growth": "https://www.imf.org/en/Publications/WEO",
+    "us_pmi": "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/",
+    "us_unemployment": "https://fred.stlouisfed.org/series/UNRATE",
+    "cn_pmi": "https://tradingeconomics.com/china/manufacturing-pmi",
+    "us_gdp": "https://fred.stlouisfed.org/series/A191RL1Q225SBEA",
+    "shiller_pe": "https://www.multpl.com/shiller-pe"
+  },
+  "metadata": {
+    "version_history": [
+      {
+        "version": "v16.28",
+        "date": "2026-02-04",
+        "note": "Initial audit and 9-error correction"
+      },
+      {
+        "version": "v16.37",
+        "date": "2026-02-04",
+        "note": "Added valuation parameters"
+      },
+      {
+        "version": "v16.40-2026-03-03",
+        "date": "2026-03-03",
+        "note": "Full FRED series refresh; usGdpGrowth=1.4 Q4; usd=98.533 screenshot; vix=21.44 user"
+      },
+      {
+        "version": "v16.40-2026-03-05",
+        "date": "2026-03-05",
+        "note": "ISM Feb PMI official=50.3; BAMLH0A0HYM2=3.08; SOFR-OIS=6bp; vix=21.15 user; usd=98.935 user"
+      },
+      {
+        "version": "v16.40-2026-03-18",
+        "date": "2026-03-18",
+        "note": "Updated VIX=22.37, DXY=99.588, usPmi=52.4, pmiDelta=-0.2, pmiConsecutive=0, fedRate=3.64, usUnemployment=4.4"
+      },
+      {
+        "version": "v16.40-2026-03-19",
+        "date": "2026-03-19",
+        "note": "Generated 2026-03-19 file; PMI official=52.4; pmiDelta=-0.2; pmiConsecutive=0; fedRate=3.64; non-refreshed fields carry-forward"
+      },
+      {
+        "version": "v16.40-2026-03-23",
+        "date": "2026-03-23",
+        "note": "Generated 2026-03-23 file; PMI official=52.4; pmiDelta=-0.2; pmiConsecutive=0; non-refreshed fields carry-forward"
+      }
+    ],
+    "version": "v16.40",
+    "total_params": 48,
+    "objective_params": 11,
+    "subjective_params": 15,
+    "reason_params": 6,
+    "valuation_params": 15,
+    "quality_score": "�?ISM PMI官网直取 | �?BAMLH0A0HYM2 fetched | �?VIX/DXY user | ⚠️ FEDFUNDS/T5YIE/UNRATE carry-forward",
+    "data_freshness": "2026-03-23 10:37 CST",
+    "validation_status": "�?2026-03-23 file generated; PMI verified via official ISM fetch_url; remaining fields carry-forward from prior file where not refreshed today",
+    "base_file_used": "macro_export_v16.40_2026-03-19_FINAL.json"
+  }
+}
